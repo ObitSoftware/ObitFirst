@@ -1,0 +1,79 @@
+Información para el Desarrollador Frontend - [Fecha]
+
+[Fecha]: 09 de Noviembre de 2023
+
+Detalles de Implementación:
+
+1. Las funciones relacionadas con ventas, proveedores, usuarios y productos están correctamente implementadas en el backend.
+2. Se han definido endpoints para la creación, eliminación, consulta y actualización de ventas, proveedores, usuarios y productos.
+3. Se ha implementado la lógica para verificar los vencimientos y la reposición de stock de los productos.
+4. El modelo de la entidad "Proveedor" incluye los campos: id, nombre y teléfono.
+5. El modelo de la entidad "Venta" incluye los campos: id, productoId, cantidad y total.
+6. El modelo de la entidad "Usuario" incluye los campos: id, nombre, email, contraseña y rol.
+7. El modelo de la entidad "Producto" incluye los campos: id, nombre, precio, stock y cantidad.
+
+
+Endpoints Disponibles:
+
+1. Crear Venta: POST /venta
+2. Eliminar Venta: DELETE /venta/:ventaId
+3. Consultar Todas las Ventas: GET /venta
+4. Consultar una Venta en Particular: GET /venta/:ventaId
+5. Actualizar una Venta en Particular: PUT /venta/:ventaId
+6. Crear Proveedor: POST /proveedores
+7. Eliminar Proveedor: DELETE /proveedores/:proveedorId
+8. Consultar Todos los Proveedores: GET /proveedores
+9. Consultar un Proveedor en Particular: GET /proveedores/:proveedorId
+10. Actualizar un Proveedor en Particular: PUT /proveedores/:proveedorId
+11. Crear Usuario: POST /usuarios
+12. Eliminar Usuario: DELETE /usuarios/:userId
+13. Consultar Todos los Usuarios: GET /usuarios
+14. Consultar un Usuario en Particular: GET /usuarios/:userId
+15. Actualizar un Usuario en Particular: PUT /usuarios/:userId
+16. Obtener Todos los Productos: GET /productos
+17. Obtener un Producto en Particular: GET /productos/:productId
+18. Crear un Producto: POST /productos
+19. Actualizar un Producto en Particular: PUT /productos/:productId
+20. Eliminar un Producto: DELETE /productos/:productId
+21. Verificar Reposición de Stock: GET /productos/chequeoStock
+
+Nota: Asegúrate de manejar adecuadamente las respuestas del servidor y de implementar la lógica necesaria en el frontend para interactuar con estos endpoints.
+Detalles de Implementación para Diseño:
+
+1. Gestión de Ventas:
+   - Interfaz de Creación de Ventas: Utiliza un formulario emergente (pop-up) para permitir a los usuarios ingresar los detalles de la venta de manera rápida y sencilla.
+   - Lista de Ventas: Implementa una tabla interactiva que muestra un resumen de las ventas, con opciones de edición y eliminación accesibles mediante iconos en cada fila.
+   - Detalles de Venta: Utiliza una vista detallada de la venta seleccionada con la opción de volver a la lista de ventas mediante breadcrumbs.
+
+2. Gestión de Proveedores:
+   - Formulario de Creación de Proveedores: Diseña un formulario claro y conciso para agregar proveedores con campos fáciles de completar y un botón de envío llamativo.
+   - Lista de Proveedores: Crea una lista con tarjetas descriptivas para cada proveedor, mostrando su nombre y número de contacto, con opciones de edición y eliminación accesibles.
+   - Detalles del Proveedor: Muestra una página detallada del proveedor seleccionado, con información ampliada y opciones de edición, y proporciona breadcrumbs para facilitar la navegación.
+
+3. Gestión de Usuarios:
+   - Formulario de Creación de Usuarios: Diseña un formulario de registro amigable que guíe a los usuarios a través del proceso de creación de cuentas, con validación en tiempo real para garantizar la introducción de datos correctos.
+   - Lista de Usuarios: Presenta una lista clara de usuarios con opciones de edición y eliminación, y utiliza breadcrumbs para indicar la ubicación y permitir una navegación fluida.
+   - Detalles del Usuario: Proporciona una vista detallada de la información de un usuario específico, con opciones de edición y eliminación claramente visibles y accesibles.
+
+4. Gestión de Productos:
+   - Formulario de Creación de Productos: Utiliza un formulario intuitivo con campos claros para ingresar información sobre nuevos productos, y considera el uso de mensajes de ayuda emergentes para orientar a los usuarios.
+   - Lista de Productos: Diseña una cuadrícula ordenada de productos con tarjetas descriptivas que muestren detalles importantes, y agrega opciones de edición y eliminación para una gestión eficiente.
+   - Detalles del Producto: Muestra una página detallada de un producto seleccionado con información ampliada y opciones claras para edición y eliminación, y utiliza breadcrumbs para facilitar la navegación.
+   
+Representación Gráfica:
+
+1. Crear Venta: Icono de carrito de compras.
+2. Eliminar Venta: Icono de papelera o de eliminar.
+3. Consultar Ventas: Icono de lista o de historial.
+4. Consultar Detalles de Venta: Icono de búsqueda o de detalles.
+5. Actualizar Venta: Icono de lápiz o de edición.
+
+6. Gestionar Proveedor: Icono de añadir, papelera, búsqueda o edición.
+
+7. Gestionar Usuarios: Icono de añadir, papelera, lista o edición.
+
+8. Gestionar Productos: Icono de lista, detalles, añadir, edición o papelera.
+9. Verificar Stock: Icono de verificación o actualización.
+
+Amigo te dejo las implementaciones, y los endpoints a implementar. Vamos a tener que ver como hacemos con el diseno de Geo y las librerias que vos conoces. vemosss.
+Dale hermano se vienen cosas copadas!

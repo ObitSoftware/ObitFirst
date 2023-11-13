@@ -3,6 +3,8 @@ import { useState } from 'react'
 import axios from "axios"
 import { useEffect } from 'react'
 import './App.css'
+import TableList from './components/Table/TableList'
+import NavBar from './components/NavBar/NavBar'
 
 function App() {
  
@@ -20,7 +22,8 @@ function App() {
 
   return (
     <div>
-      <h3 className='text-red-600 font-bold text-xl underline'>Obit</h3>
+      <NavBar/>
+      <TableList/>
     </div>
   )
 }

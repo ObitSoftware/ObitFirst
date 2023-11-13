@@ -1,31 +1,31 @@
-import  express from 'express';
-import  mongoose from 'mongoose';
+import express from "express"
+import bodyParser from "body-parser"
+import cors from "cors"
 import  productRoutes from './routes/productRoutes';
 import  ventaRoutes from './routes/ventaRoutes';
-import userRoutes from './routes/userRoutes';
-import proveedorRoutes from './routes/proveedorRoutes';
+import  userRoutes from './routes/userRoutes';
+import  proveedorRoutes from './routes/proveedorRoutes';
+import  connectDataBase from './database/connectdb.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
 
-// Conexión a la base de datos
-mongoose.connect('mongodb://localhost:27017/productDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Conexión exitosa a la base de datos'))
-  .catch((err) => console.error('Error de conexión a la base de datos', err));
+app.use(express.json())
+app.use(express.text())
+app.use(cors())
 
-// Rutas
 app.use('/productos', productRoutes);
 app.use('/venta', ventaRoutes);
 app.use('/usuario', userRoutes);
 app.use('/proveedores', proveedorRoutes);
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+
+app.get('/', (req, res) => {
+  res.send('OBIT SOFTWARE API IS CORRECTRY UPLOAD')
+})
+
+app.listen(port, () => {
+  console.log(`El servidor de OB-IT SOSFTWARE esta funcionando correctamente en el puerto ${port} ✔✔`)
+  connectDataBase()  
+})

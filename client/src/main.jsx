@@ -8,7 +8,7 @@ import {NextUIProvider} from '@nextui-org/react'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <NextUIProvider disableBaseline="true">
+    <NextUIProvider >
     <App />
     </NextUIProvider>
   </React.StrictMode>,

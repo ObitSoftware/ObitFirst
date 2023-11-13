@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div>
-      <h3 className='text-red-600 text-xl underline'>Obit</h3>
+      <h3 className='text-red-600 font-bold text-xl underline'>Obit</h3>
     </div>
   )
 }

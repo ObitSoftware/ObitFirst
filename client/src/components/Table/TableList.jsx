@@ -201,9 +201,18 @@ export default function App() {
         </div>
 
         <div className="flex gap-16 items-center ">
-        <Input isClearable classNames={{ base: "w-full sm:max-w-[40%]", inputWrapper: "border-1", }}
-            placeholder="Buscador" size="xxs" startContent={<SearchIcon className="text-default-300" />}
-            value={filterValue} variant="bordered" onClear={() => setFilterValue("")} onValueChange={onSearchChange}/>
+        <Input
+            className="border border-none"
+            border={false}
+            isClearable
+            classNames={{ base: "w-full sm:max-w-[40%]" }}
+            placeholder="Buscador"
+            size="xxs"
+            startContent={<SearchIcon className="text-default-300 border border-none" disableFocusRing />}
+            value={filterValue}
+            onClear={() => setFilterValue("")}
+            onValueChange={onSearchChange}
+          />
           <small className="text-xs">Editar</small>
           <small className="text-xs">Eliminar</small>
           <small className="text-xs">Deshacer Cambio</small>

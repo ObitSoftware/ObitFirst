@@ -1,31 +1,23 @@
-import React from 'react'
-import { useState } from 'react'
-import axios from "axios"
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
-import TableList from './components/Table/TableList'
-import NavBar from './components/NavBar/NavBar'
+import {Routes, Route} from "react-router-dom"
+import Main from './pages/Main'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 function App() {
  
 
-  useEffect(() => { 
-    axios.get("http://localhost:4000/getAllProducts")
-         .then((res) => { 
-          console.log(res.data)
-         })
-         .catch((err) => { 
-          console.log(err)
-         })
-  })
-
-
   return (
     <div>
-      <NavBar/>
-      <TableList/>
+       <Routes>
+          <Route path="/main" element={<Main/>}></Route>
+          <Route path="/" element={<Login/>}></Route>
+          <Route path="/register" element={<Register/>}></Route>
+       </Routes>
     </div>
   )
 }
 
 export default App
+

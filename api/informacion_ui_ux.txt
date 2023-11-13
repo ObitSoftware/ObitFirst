@@ -1,0 +1,27 @@
+Información para el Diseñador UI/UX - 
+ 09 de Noviembre de 2023
+
+Detalles de Implementación para Diseño:
+
+1. Gestión de Ventas:
+   - Interfaz de Creación de Ventas: Utiliza un formulario emergente (pop-up) para permitir a los usuarios ingresar los detalles de la venta de manera rápida y sencilla.
+   - Lista de Ventas: Implementa una tabla interactiva que muestra un resumen de las ventas, con opciones de edición y eliminación accesibles mediante iconos en cada fila.
+   - Detalles de Venta: Utiliza una vista detallada de la venta seleccionada con la opción de volver a la lista de ventas mediante breadcrumbs.
+
+2. Gestión de Proveedores:
+   - Formulario de Creación de Proveedores: Diseña un formulario claro y conciso para agregar proveedores con campos fáciles de completar y un botón de envío llamativo.
+   - Lista de Proveedores: Crea una lista con tarjetas descriptivas para cada proveedor, mostrando su nombre y número de contacto, con opciones de edición y eliminación accesibles.
+   - Detalles del Proveedor: Muestra una página detallada del proveedor seleccionado, con información ampliada y opciones de edición, y proporciona breadcrumbs para facilitar la navegación.
+
+3. Gestión de Usuarios:
+   - Formulario de Creación de Usuarios: Diseña un formulario de registro amigable que guíe a los usuarios a través del proceso de creación de cuentas, con validación en tiempo real para garantizar la introducción de datos correctos.
+   - Lista de Usuarios: Presenta una lista clara de usuarios con opciones de edición y eliminación, y utiliza breadcrumbs para indicar la ubicación y permitir una navegación fluida.
+   - Detalles del Usuario: Proporciona una vista detallada de la información de un usuario específico, con opciones de edición y eliminación claramente visibles y accesibles.
+
+4. Gestión de Productos:
+   - Formulario de Creación de Productos: Utiliza un formulario intuitivo con campos claros para ingresar información sobre nuevos productos, y considera el uso de mensajes de ayuda emergentes para orientar a los usuarios.
+   - Lista de Productos: Diseña una cuadrícula ordenada de productos con tarjetas descriptivas que muestren detalles importantes, y agrega opciones de edición y eliminación para una gestión eficiente.
+   - Detalles del Producto: Muestra una página detallada de un producto seleccionado con información ampliada y opciones claras para edición y eliminación, y utiliza breadcrumbs para facilitar la navegación.
+
+Espero que estos ejemplos sirvan como guía para el diseño de una interfaz de usuario efectiva y amigable en la aplicación, aunque sentite free para aplicar lo que desees, estos son solo ejemplos para facilitarte y/o ayudarte! 
+Gracias Geo!! Se vienen cosas copadas!

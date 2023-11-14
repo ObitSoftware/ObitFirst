@@ -1,12 +1,23 @@
 import React from 'react'
 import Navbar from '../components/NavBar/NavBar'
 import TableList from "../components/Table/TableList"
+import TabsComponent from '../components/Tabs/TabsComponent'
+import { useEffect, useState } from 'react'
 
-const Main = () => {
+const Main = () => { 
+
+  const [usersTableList, setUsersTableList] = useState(true)
+
+  const showUsersTable = () => { 
+    console.log("ii")
+  }
+
+
   return (
     <div>
         <Navbar/>
-        <TableList/>
+        <TabsComponent showUsers={showUsersTable}/>
+         {usersTableList ?  <TableList />  : null}
     </div>
   )
 }

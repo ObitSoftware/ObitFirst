@@ -1,22 +1,5 @@
 import React from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Input,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Chip,
-  User,
-  Pagination,
-} from "@nextui-org/react";
-import {PlusIcon} from "./PlusIcon";
+import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell,Input,Button,DropdownTrigger,Dropdown,DropdownMenu,DropdownItem,Chip,User,Pagination} from "@nextui-org/react";
 import {VerticalDotsIcon} from "./VerticalDotsIcon";
 import {SearchIcon} from "./SearchIcon";
 import {ChevronDownIcon} from "./ChevronDownIcon";
@@ -26,11 +9,7 @@ import FilterIcon from "../../img/filterIcon.png"
 import AddProductModal from "../Modals/AddProductModal";
 import TabsComponent from "../Tabs/TabsComponent"
 
-const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
+const statusColorMap = { active: "success",paused: "danger", vacation: "warning"};
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions", "email", "id", "age", "team"];
 
@@ -40,16 +19,14 @@ export default function App() {
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: "age",
-    direction: "ascending",
-  });
+  const [sortDescriptor, setSortDescriptor] = React.useState({ column: "age", direction: "ascending", });
   const [page, setPage] = React.useState(1);
 
   const pages = Math.ceil(users.length / rowsPerPage);
 
   const hasSearchFilter = Boolean(filterValue);
 
+  {/*Columnas de la Tabla */}
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
 
@@ -73,12 +50,16 @@ export default function App() {
     return filteredUsers;
   }, [users, filterValue, statusFilter]);
 
+
+
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
+
+
 
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a, b) => {
@@ -90,9 +71,10 @@ export default function App() {
     });
   }, [sortDescriptor, items]);
 
+
+
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
-
     switch (columnKey) {
       case "name":
         return (
@@ -147,6 +129,8 @@ export default function App() {
     }
   }, []);
 
+
+
   const onRowsPerPageChange = React.useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
@@ -163,11 +147,11 @@ export default function App() {
   }, []);
 
   
-
+ {/*Parte de Arriba de la Tabla */}
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div><TabsComponent/></div>
+      
         <div className="flex justify-between border h-12 items-center" style={{backgroundColor:"#E6EFFF"}}>   
 
            <div className="flex items-start justify-start">
@@ -253,6 +237,7 @@ export default function App() {
     hasSearchFilter,
   ]);
 
+  {/*Paginacion */}
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-center items-center">
@@ -268,6 +253,7 @@ export default function App() {
       </div>
     );
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+
 
   const classNames = React.useMemo(
     () => ({
@@ -295,11 +281,7 @@ export default function App() {
       aria-label="Example table with custom cells, pagination and sorting"
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
-      checkboxesProps={{
-        classNames: {
-          wrapper: "after:bg-foreground after:text-background text-background",
-        },
-      }}
+      checkboxesProps={{ classNames: { wrapper: "after:bg-foreground after:text-background text-background"}, }}
       classNames={classNames}
       selectedKeys={selectedKeys}
       selectionMode="multiple"

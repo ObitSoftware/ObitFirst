@@ -24,6 +24,7 @@ import {columns, users, statusOptions} from "./data";
 import {capitalize} from "./utils";
 import FilterIcon from "../../img/filterIcon.png"
 import AddProductModal from "../Modals/AddProductModal";
+import TabsComponent from "../Tabs/TabsComponent"
 
 const statusColorMap = {
   active: "success",
@@ -166,6 +167,7 @@ export default function App() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        <div><TabsComponent/></div>
         <div className="flex justify-between border h-12 items-center" style={{backgroundColor:"#E6EFFF"}}>   
 
            <div className="flex items-start justify-start">

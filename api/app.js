@@ -16,6 +16,10 @@ app.use(express.json())
 app.use(express.text())
 app.use(cors())
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({type:"/"}))
+app.use(express.urlencoded({extended:true}))
+
 app.use('/productos', productRoutes);
 app.use('/venta', ventaRoutes);
 app.use('/usuario', userRoutes);
@@ -26,7 +30,7 @@ app.get('/', (req, res) => {
   res.send('OBIT SOFTWARE API IS CORRECTRY UPLOAD')
 })
 
-app.listen(port, () => {
-  console.log(`El servidor de OB-IT SOSFTWARE esta funcionando correctamente en el puerto ${port} ✔✔`)
+app.listen(PORT, () => {
+  console.log(`El servidor de OB-IT SOSFTWARE esta funcionando correctamente en el puerto ${PORT} ✔✔`)
   connectDataBase()  
 })

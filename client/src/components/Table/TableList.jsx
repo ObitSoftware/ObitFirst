@@ -23,6 +23,7 @@ import {ChevronDownIcon} from "./ChevronDownIcon";
 import {columns, users, statusOptions} from "./data";
 import {capitalize} from "./utils";
 import FilterIcon from "../../img/filterIcon.png"
+import AddProductModal from "../Modals/AddProductModal";
 
 const statusColorMap = {
   active: "success",
@@ -196,13 +197,17 @@ export default function App() {
            </div>
 
            <div className="flex items-end justify-end m-6">
-              <Button className="bg-foreground text-background font-bold" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR PRODUCTO </Button>
+            <AddProductModal/>
            </div>
+
+          
         </div>
 
-        <div className="flex gap-16 items-center ">
+  
+
+        <div className="flex gap-16 items-center "> 
         <Input
-            className="border border-none"
+            className="border border-none focus:border-none"
             border={false}
             isClearable
             classNames={{ base: "w-full sm:max-w-[40%]" }}
@@ -216,8 +221,25 @@ export default function App() {
           <small className="text-xs">Editar</small>
           <small className="text-xs">Eliminar</small>
           <small className="text-xs">Deshacer Cambio</small>
+          
+      
+         
+          <label className="flex items-center text-default-400 text-small">
+            Mostrar
+            <select
+              className="bg-transparent border border-none hover:border-none outline-none text-default-400 text-small ml-2"
+              onChange={onRowsPerPageChange}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </label>
+       
         </div>
       </div>
+
     );
   }, [
     filterValue,
@@ -234,8 +256,7 @@ export default function App() {
       <div className="py-2 px-2 flex justify-center items-center">
           <Pagination
             showControls
-            classNames={{cursor: "bg-foreground text-background",}}
-            color="danger"
+            color="#60BCFF"
             isDisabled={hasSearchFilter}
             page={page}
             total={pages}
@@ -300,7 +321,7 @@ export default function App() {
       </TableHeader>
       <TableBody emptyContent={"No users found"} items={sortedItems}>
         {(item) => (
-          <TableRow key={item.id}>
+          <TableRow key={item.id} >
             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
           </TableRow>
         )}

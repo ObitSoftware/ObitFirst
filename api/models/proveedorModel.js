@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const proveedorSchema = new mongoose.Schema({
   proveedorId: {
@@ -15,4 +15,7 @@ const proveedorSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Proveedor', proveedorSchema);
+const Proveedor = mongoose.model('Proveedor', proveedorSchema);
+
+
+export default Proveedor;

@@ -1,8 +1,8 @@
-import Venta from '../models/ventaModel';
-import Product from '../models/productModel';
-import { decrementarStock, incrementarStock } from '../helpers/ventaHelp';
+import Venta from '../models/ventaModel.js';
+import Product from '../models/productModel.js';
+import { decrementarStock, incrementarStock } from '../helpers/ventaHelp.js';
 
-const crearVenta = async (req, res) => {
+export const crearVenta = async (req, res) => {
   const { productoId, cantidad } = req.body;
 
   try {
@@ -29,7 +29,7 @@ const crearVenta = async (req, res) => {
   }
 };
 
-const eliminarVenta = async (req, res) => {
+export const eliminarVenta = async (req, res) => {
   const { ventaId } = req.params;
 
   try {
@@ -50,16 +50,16 @@ const eliminarVenta = async (req, res) => {
   }
 };
 
-const consultarTodasVentas = async (req, res) => {
+export const consultarTodasVentas = async (req, res) => {
     try {
       const ventas = await Venta.find();
       res.status(200).json(ventas);
     } catch (error) {
       res.status(500).json({ error: 'Error interno del servidor' });
     }
-  };
+};
   
-  const consultarVenta = async (req, res) => {
+export const consultarVenta = async (req, res) => {
     const { ventaId } = req.params;
   
     try {
@@ -73,9 +73,9 @@ const consultarTodasVentas = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: 'Error interno del servidor' });
     }
-  };
+};
   
-  const actualizarVenta = async (req, res) => {
+export const actualizarVenta = async (req, res) => {
     const { ventaId } = req.params;
     const { productoId, cantidad } = req.body;
   
@@ -94,16 +94,5 @@ const consultarTodasVentas = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: 'Error interno del servidor' });
     }
-  };
+};
 
-
-
-
-
-module.exports = { 
-    crearVenta, 
-    eliminarVenta, 
-    consultarTodasVentas,
-    consultarVenta,
-    actualizarVenta
- };

@@ -1,5 +1,5 @@
 import express from 'express';
-const router = express.Router();
+const ventaRoutes = express.Router();
 
 import { 
     crearVenta, 
@@ -7,13 +7,13 @@ import {
     consultarTodasVentas, 
     consultarVenta, 
     actualizarVenta
- } from '../controllers/ventaController';
+ } from '../controllers/ventaController.js';
 
-router.post('/', crearVenta);
-router.delete('/:ventaId', eliminarVenta);
-router.get('/', consultarTodasVentas);
-router.get('/:ventaId', consultarVenta);
-router.put('/:ventaId', actualizarVenta);
+ventaRoutes.post('/', crearVenta);
+ventaRoutes.delete('/:ventaId', eliminarVenta);
+ventaRoutes.get('/', consultarTodasVentas);
+ventaRoutes.get('/:ventaId', consultarVenta);
+ventaRoutes.put('/:ventaId', actualizarVenta);
 
 
-export default router;
+export default ventaRoutes;

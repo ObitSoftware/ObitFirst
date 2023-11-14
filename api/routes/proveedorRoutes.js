@@ -1,17 +1,17 @@
 import express from 'express';
-const router = express.Router();
+const proveedorRoutes = express.Router();
 import {
   crearProveedor,
   eliminarProveedor,
   consultarTodosProveedores,
   consultarProveedor,
   actualizarProveedor
-} from '../controllers/proveedorController';
+} from '../controllers/proveedorController.js';
 
-router.post('/', crearProveedor);
-router.delete('/:proveedorId', eliminarProveedor);
-router.get('/', consultarTodosProveedores);
-router.get('/:proveedorId', consultarProveedor);
-router.put('/:proveedorId', actualizarProveedor);
+proveedorRoutes.post('/', crearProveedor);
+proveedorRoutes.delete('/:proveedorId', eliminarProveedor);
+proveedorRoutes.get('/', consultarTodosProveedores);
+proveedorRoutes.get('/:proveedorId', consultarProveedor);
+proveedorRoutes.put('/:proveedorId', actualizarProveedor);
 
-export default router;
+export default proveedorRoutes;

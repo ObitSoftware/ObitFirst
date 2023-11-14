@@ -1,22 +1,31 @@
 import React from "react";
-import {Tabs, Tab} from "@nextui-org/react"; 
+import {Tabs, Tab, Card, CardBody, CardHeader} from "@nextui-org/react";
+import TableListUsers from "../UsersTable/TableListUsers"
+import TableListProducts from "../ProductsTable/TableListProducts"
+import TableListSell from "../SellTable/TableListSell"
+import TablaDePrueba from "../prueba/TablaDePrueba"
 
-export default function TabsComponent({showUsers}) {
-  const variants = [
-    "solid"
-  ];
 
-  console.log(showUsers)
-
+export default function TabsComponent() {
   return (
-    <div className="flex flex-wrap gap-4">
-      {variants.map((variant) => (
-        <Tabs key={variant} variant={variant} aria-label="Tabs variants">
-          <Tab key="Productos" title="Productos" onSelectionChange={() => showUsers()}/>
-          <Tab key="Ventas" title="Ventas"/>
-          <Tab key="Proveedores" title="Proveedores"/>
-        </Tabs>
-      ))}
-    </div>
+    <div className="flex w-full flex-col">
+      <Tabs  aria-label="Disabled Options">
+        <Tab key="Productos" title="Productos">
+         
+             <TablaDePrueba/>
+        
+        </Tab>
+        <Tab key="Proveedores" title="Proveedores">
+         
+             <TablaDePrueba/>
+            
+        </Tab>
+        <Tab key="Ventas" title="Ventas">
+       
+            <TablaDePrueba/>
+        
+        </Tab>
+      </Tabs>
+    </div>  
   );
 }

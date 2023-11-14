@@ -3,11 +3,11 @@ import { Button } from '@nextui-org/react'
 import { PlusIcon } from '../UsersTable/PlusIcon'
 
 
-const AddProductModal = () => {
+const DeleteProductModal = () => {
   return (
     <div>
-      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR PRODUCTO </Button>
-        <dialog id="my_modal_3" className="modal">
+      <small onClick={()=>document.getElementById('my_modal_2').showModal()} className="bg-white text-background font-bold" style={{color:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> Eliminar </small>
+        <dialog id="my_modal_2" className="modal">
         <div className="modal-box">
             <form method="dialog">
            
@@ -21,4 +21,4 @@ const AddProductModal = () => {
   )
 }
 
-export default AddProductModal
+export default DeleteProductModal

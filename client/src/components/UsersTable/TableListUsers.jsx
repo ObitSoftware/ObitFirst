@@ -13,7 +13,7 @@ const statusColorMap = { active: "success",paused: "danger", vacation: "warning"
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions", "email", "id", "age", "team"];
 
-export default function App() {
+export default function TableListUsers() {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
@@ -191,19 +191,19 @@ export default function App() {
 
   
 
-        <div className="flex gap-16 items-center "> 
+        <div className="flex gap-16 items-center"> 
         <Input
-            className="border border-none focus:border-none"
-            border={false}
             isClearable
             classNames={{ base: "w-full sm:max-w-[40%]" }}
+            style={{border:"none"}}
             placeholder="Buscador"
             size="xxs"
-            startContent={<SearchIcon className="text-default-300 border border-none" disableFocusRing />}
+            startContent={<SearchIcon className="text-default-300 " disableFocusRing />}
             value={filterValue}
             onClear={() => setFilterValue("")}
             onValueChange={onSearchChange}
           />
+          
           <small className="text-xs">Editar</small>
           <small className="text-xs">Eliminar</small>
           <small className="text-xs">Deshacer Cambio</small>

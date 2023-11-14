@@ -1,7 +1,7 @@
-import Product from '../models/productModel';
+import Product from '../models/productModel.js';
 
 // Obtener todos los productos
-async function getAllProducts(req, res) {
+export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).json(products);
@@ -11,7 +11,7 @@ async function getAllProducts(req, res) {
 }
 
 // Obtener un producto por su ID
-async function getProductById(req, res) {
+export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {
@@ -24,7 +24,7 @@ async function getProductById(req, res) {
 }
 
 // Crear un nuevo producto
-async function createProduct(req, res) {
+export const createProduct = async (req, res) => {
   try {
     const newProduct = new Product(req.body);
     const savedProduct = await newProduct.save();
@@ -35,7 +35,7 @@ async function createProduct(req, res) {
 }
 
 // Actualizar un producto existente
-async function updateProduct(req, res) {
+export const updateProduct = async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -50,7 +50,7 @@ async function updateProduct(req, res) {
 }
 
 // Eliminar un producto
-async function deleteProduct(req, res) {
+export const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.findByIdAndRemove(req.params.id);
     if (!deletedProduct) {
@@ -63,21 +63,4 @@ async function deleteProduct(req, res) {
 }
 
 
-const chequearReposicionStock = async () => {
-  try {
-    const productosBajoStock = await Product.find({ cantidad: { $lt: 10 } });
 
-    return { productosBajoStock };
-  } catch (error) {
-    throw new Error('Error al verificar la reposición de stock: ' + error);
-  }
-};
-
-module.exports = {
-  getAllProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  chequearReposicionStock
-};

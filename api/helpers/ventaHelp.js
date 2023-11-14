@@ -1,16 +1,23 @@
-import Product from '../models/productModel';
+import Product from '../models/productModel.js';
 
-const decrementarStock = async (productoId, cantidad) => {
+export const decrementarStock = async (productoId, cantidad) => {
   const product = await Product.findById(productoId);
   product.stock -= cantidad;
   await product.save();
 };
-const incrementarStock = async (productoId, cantidad) => {
+export const incrementarStock = async (productoId, cantidad) => {
     const product = await Product.findById(productoId);
     product.stock += cantidad;
     await product.save();
   };
 
+export const chequearReposicionStock = async () => {
+    try {
+      const productosBajoStock = await Product.find({ cantidad: { $lt: 10 } });
   
-
-module.exports = { decrementarStock , incrementarStock};
+      return { productosBajoStock };
+    } catch (error) {
+      throw new Error('Error al verificar la reposición de stock: ' + error);
+    }
+  };
+  

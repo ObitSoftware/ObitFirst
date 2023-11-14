@@ -1,6 +1,6 @@
-import Proveedor from '../models/proveedorModel';
+import Proveedor from '../models/proveedorModel.js';
 
-const crearProveedor = async (req, res) => {
+export const crearProveedor = async (req, res) => {
   const { nombre, telefono } = req.body;
 
   try {
@@ -13,7 +13,7 @@ const crearProveedor = async (req, res) => {
   }
 };
 
-const eliminarProveedor = async (req, res) => {
+export const eliminarProveedor = async (req, res) => {
   const { proveedorId } = req.params;
 
   try {
@@ -31,7 +31,7 @@ const eliminarProveedor = async (req, res) => {
   }
 };
 
-const consultarTodosProveedores = async (req, res) => {
+export const consultarTodosProveedores = async (req, res) => {
   try {
     const proveedores = await Proveedor.find();
     res.status(200).json(proveedores);
@@ -40,7 +40,7 @@ const consultarTodosProveedores = async (req, res) => {
   }
 };
 
-const consultarProveedor = async (req, res) => {
+export const consultarProveedor = async (req, res) => {
   const { proveedorId } = req.params;
 
   try {
@@ -56,7 +56,7 @@ const consultarProveedor = async (req, res) => {
   }
 };
 
-const actualizarProveedor = async (req, res) => {
+export const actualizarProveedor = async (req, res) => {
   const { proveedorId } = req.params;
   const { nombre, telefono } = req.body;
 
@@ -77,10 +77,3 @@ const actualizarProveedor = async (req, res) => {
   }
 };
 
-export {
-  crearProveedor,
-  eliminarProveedor,
-  consultarTodosProveedores,
-  consultarProveedor,
-  actualizarProveedor
-};

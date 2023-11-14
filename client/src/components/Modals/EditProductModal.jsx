@@ -6,7 +6,7 @@ import { PlusIcon } from '../UsersTable/PlusIcon'
 const EditProducModal = () => {
   return (
     <div>
-      <small onClick={()=>document.getElementById('my_modal_1').showModal()} className="bg-white text-background font-bold" style={{color:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> Editar </small>
+      <small onClick={()=>document.getElementById('my_modal_1').showModal()} className="bg-white text-background font-bold cursor-pointer" style={{color:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> Editar </small>
         <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
             <form method="dialog">

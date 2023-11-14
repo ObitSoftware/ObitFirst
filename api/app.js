@@ -8,6 +8,7 @@ import  proveedorRoutes from './routes/proveedorRoutes.js';
 import  connectDataBase from './database/connectdb.js';
 
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -34,4 +35,5 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`El servidor de OB-IT SOSFTWARE esta funcionando correctamente en el puerto ${PORT} ✔✔`)
   connectDataBase()  
+ 
 })

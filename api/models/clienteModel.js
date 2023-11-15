@@ -7,15 +7,15 @@ const clienteSchema = new mongoose.Schema({
     },
     nombre: {
         type: String,
-        ref: 'Product',
+        unique: true,
       },
     telefono: {
       type: Number,
-      ref: 'Product',
+      unique: true,
     },
     direccion: {
       type: String,
-      ref: 'Product',
+      unique: true,
     },
     email: {
       type: String,

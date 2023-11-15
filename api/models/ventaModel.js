@@ -10,12 +10,12 @@ const ventaSchema = new mongoose.Schema({
       require: true,
     },
     clienteId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Client',
+      type: String,
+      unique: true
     },
     precio: {
       type: Number,
-      ref: 'Product',
+      unique: true
     },
     cantidad: {
       type: Number,

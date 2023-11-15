@@ -15,7 +15,7 @@ const ventaSchema = new mongoose.Schema({
     },
     precio: {
       type: Number,
-      ref: 'Product',
+      unique: true
     },
     cantidad: {
       type: Number,

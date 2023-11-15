@@ -11,11 +11,11 @@ const ventaSchema = new mongoose.Schema({
     },
     clienteId: {
       type: String,
-      unique: true
+      required: true
     },
     precio: {
       type: Number,
-      unique: true
+      required: true
     },
     cantidad: {
       type: Number,

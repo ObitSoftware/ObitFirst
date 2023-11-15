@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const ventaSchema = new mongoose.Schema({
-    productoId: {
+    nombreProducto: {
       type: String,
       require: true,
     },
-    clienteId: {
+    nombreCliente: {
       type: String,
       required: true
     },

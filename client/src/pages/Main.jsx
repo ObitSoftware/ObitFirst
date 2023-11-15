@@ -3,6 +3,7 @@ import Navbar from '../components/NavBar/NavBar'
 import TabsComponent from '../components/Tabs/TabsComponent'
 import { useEffect, useState } from 'react'
 import TablaDePrueba from '../components/ProductsTableList/TablaDePrueba'
+import TablaGenerica from "./TablaGenerica"
 
 const Main = () => { 
 
@@ -11,10 +12,10 @@ const Main = () => {
         <Navbar/> 
 
         <div className='flex flex-col mt-36'>
-          <TabsComponent/>
+          <TablaGenerica/>
         </div>
 
-       
+      
          
     </div>
   )

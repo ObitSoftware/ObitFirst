@@ -7,7 +7,7 @@ import { useRef } from "react";
 import Loading from "../components/LoadingComponent/Loading";
 import FiltersModal from "../components/Modals/FiltersModal";
 import AddProductModal from "../components/Modals/AddProductModal";
-import { SearchIcon } from "../components/UsersTable/SearchIcon";
+import { SearchIcon } from "../components/icons/SearchIcon";
 import DeleteProductModal from "../components/Modals/DeleteProductModal";
 import EditProducModal from "../components/Modals/EditProductModal";
 
@@ -25,6 +25,7 @@ const Tabla = () => {
       axios.get(`http://localhost:3000/${activeTab}`)
         .then((res) => {
           setData(res.data);
+          console.log(res.data)
             const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id');
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
@@ -37,11 +38,66 @@ const Tabla = () => {
             cellRenderer: (cell) => <DeleteProductModal producto={cell.row.original} />
           });
       
-          columnObjects.push({
-            key: 'Editar',
-            label: 'Editar',
-            cellRenderer: (cell) => <EditProducModal producto={cell.row.original} />
-          });
+         {activeTab === "productos" ?    
+                columnObjects.push({
+                    key: 'Editar',
+                    label: 'Editar',
+                    cellRenderer: (cell) => { 
+
+                        const filaActual = cell.row;
+                        const name = filaActual.original.nombre;
+                        const description = filaActual.original.descripcion;
+                        const price = filaActual.original.precio;
+                        const quantity = filaActual.original.cantidad;
+                        const category = filaActual.original.categoria;
+                        const stock = filaActual.original.stock;
+                        const id = filaActual.original._id;
+                        
+                        const producto = {
+                        nombre: name,
+                        descripcion: description,
+                        precio: price,
+                        cantidad: quantity,
+                        categoria: category,
+                        stock: stock,
+                        productId: id
+                        };
+                        
+                        return (
+                        <EditProducModal producto={producto} type={"productos"} />
+                        );
+                    },
+                }) :
+            null}
+
+            {activeTab === "proveedores" ?    
+                columnObjects.push({
+                    key: 'Editar',
+                    label: 'Editar',
+                    cellRenderer: (cell) => { 
+
+                        const filaActual = cell.row;
+                        const proveedorId = filaActual.original.proveedorId;
+                        const nombre = filaActual.original.nombre;
+                        const telefono = filaActual.original.telefono;
+                        const id = filaActual.original._id;
+                        
+                        const producto = {
+                        proveedorId: proveedorId,
+                        nombre: nombre,
+                        telefono: telefono,
+                        proveedorIdUnique: id
+                        };
+                        
+                        return (
+                         <EditProducModal producto={producto} type={"proveedores"} />
+                        );
+                    },
+                }) :
+            null}
+
+
+
           
           setColumns(columnObjects);
 
@@ -87,7 +143,7 @@ const Tabla = () => {
                 </div>      
             </div>
             <div className="flex items-start m-2">
-                <Input style={{border: "none", backgroundColor:"#E6EFFF"}}
+                <Input style={{border: "none"}}
                     classNames={{ base: "w-full sm:max-w-[40%]" }} 
                     disableFilled={true}
                     startContent={<SearchIcon className="text-default-300 " disableFocusRing />}  

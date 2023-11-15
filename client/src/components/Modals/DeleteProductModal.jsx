@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@nextui-org/react'
-import { PlusIcon } from '../UsersTable/PlusIcon'
+import { PlusIcon } from '../icons/PlusIcon'
 import alertLogo from "../../img/alertLogo.png"
 
 

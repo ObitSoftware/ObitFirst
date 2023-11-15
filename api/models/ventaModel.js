@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
 const ventaSchema = new mongoose.Schema({
-    ventaId: {
-        type: String,
-        unique: true
-    },
     productoId: {
       type: String,
       require: true,

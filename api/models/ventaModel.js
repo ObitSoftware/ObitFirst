@@ -6,8 +6,12 @@ const ventaSchema = new mongoose.Schema({
         unique: true
     },
     productoId: {
+      type: String,
+      require: true,
+    },
+    clienteId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
+      ref: 'Client',
     },
     precio: {
       type: Number,
@@ -21,6 +25,10 @@ const ventaSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
+    fechaCreacion: {
+      type: Number,
+      default: Date.now()
+    }
   });
 
 const Venta = mongoose.model('Venta', ventaSchema);

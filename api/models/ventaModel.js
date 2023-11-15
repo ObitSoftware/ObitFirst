@@ -6,8 +6,8 @@ const ventaSchema = new mongoose.Schema({
         unique: true
     },
     productoId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
+      type: String,
+      require: true,
     },
     clienteId: {
       type: mongoose.Schema.Types.ObjectId,

@@ -24,3 +24,4 @@ const ventaSchema = new mongoose.Schema({
 const Venta = mongoose.model('Venta', ventaSchema);
 
 export default Venta;
+

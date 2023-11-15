@@ -8,6 +8,7 @@ import DeleteProductModal from "../Modals/DeleteProductModal"
 import {SearchIcon} from "../UsersTable/SearchIcon";
 import Loading from "../LoadingComponent/Loading";
 import AddProductModal from "../Modals/AddProductModal";
+import FiltersModal from "../Modals/FiltersModal";
 
 
 
@@ -75,6 +76,8 @@ export default function ProvidersTableList() {
     );
   });
  
+  const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
+
 
   return (
     <>
@@ -84,9 +87,16 @@ export default function ProvidersTableList() {
     </div>    
        :
       <div className="mt-6">
-        <div className="flex justify-between items-start m-4">
-            <Input
-                style={{ border: "none", outline: "none", ":focus": {  border: "none", },  ":active": {  border: "none"}}}             
+        <div className="flex justify-between items-start m-4" style={{backgroundColor:"#E6EFFF"}}>
+           <div className="flex justify-start items-center m-4">
+              <FiltersModal />
+            </div>    
+            <div className="flex justify-end items-center m-4">
+              <AddProductModal text={"PROVEEDOR"}/>
+            </div>      
+        </div>
+        <div className="flex items-start m-2">
+            <Input style={{border: "none",  outline: "none", ":focus": { border: "none", }, ":active": { border: "none" },}}
                 classNames={{ base: "w-full sm:max-w-[40%]" }} 
                 disableFilled={true}
                 startContent={<SearchIcon className="text-default-300 " disableFocusRing />}  
@@ -95,9 +105,8 @@ export default function ProvidersTableList() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
              />
-             <AddProductModal text={"PROVEEDOR"}/>
         </div>
-        <Table aria-label="Example table with dynamic content"   className="w-[1195px] h-[676px]">
+        <Table  aria-label="Selection behavior table example with dynamic content" selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-[1195px] h-[676px]">
           <TableHeader columns={columns}>
             {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
           </TableHeader>
@@ -117,4 +126,26 @@ export default function ProvidersTableList() {
   );
 }
 
+{/* 
+  <div className="mt-6">
+        <div className="flex justify-between w-full " style={{backgroundColor:"#E6EFFF"}}>
+            <div className="flex justify-start items-center m-4">
+              <FiltersModal />
+            </div>    
+            <div className="flex justify-end items-center m-4">
+              <AddProductModal text={"PRODUCTO"}/>
+            </div>      
+        </div>
+        <div className="flex items-start m-2">
+            <Input style={{border: "none",  outline: "none", ":focus": { border: "none", }, ":active": { border: "none" },}}
+                classNames={{ base: "w-full sm:max-w-[40%]" }} 
+                disableFilled={true}
+                startContent={<SearchIcon className="text-default-300 " disableFocusRing />}  
+                placeholder="Buscador"
+                size="xxs"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+             />
+        </div>
+*/}
 

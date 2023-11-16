@@ -3,10 +3,10 @@ import { Button } from '@nextui-org/react'
 import { PlusIcon } from '../icons/PlusIcon'
 
 
-const AddProductModal = () => {
+const AddProviderModal = ({}) => {
   return (
     <div>
-      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR PRODUCTO </Button>
+      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR PROVEEDOR </Button>
         <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
             <form method="dialog">        
@@ -14,7 +14,7 @@ const AddProductModal = () => {
             </form>
             <div className='flex flex-col'>
                 <div className='flex justify-start items-start '>
-                  <small className='font-bold text-lg' style={{color:"#5C77A9"}}>Crear Nuevo Producto</small>
+                  <small className='font-bold text-lg' style={{color:"#5C77A9"}}>Crear Nuevo Proveedor</small>
                 </div>
                 <div className='border border-gray-200 mt-2'></div>
                 <div className='flex flex-col mt-4'>
@@ -80,4 +80,4 @@ const AddProductModal = () => {
   )
 }
 
-export default AddProductModal
+export default AddProviderModal

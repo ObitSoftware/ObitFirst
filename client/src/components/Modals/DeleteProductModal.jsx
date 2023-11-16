@@ -1,30 +1,106 @@
-import React from 'react'
-import { Button } from '@nextui-org/react'
-import { PlusIcon } from '../icons/PlusIcon'
+import React, { useState, useEffect } from "react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import alertLogo from "../../img/alertLogo.png"
+import axios from "axios";
+
+export default function DeleteProductModal ({type, producto})  {
+
+  const {isOpen, onOpen, onOpenChange} = useDisclosure("");
+  const [productId, setProductId] = useState("")
+  const [succesMessage, setSuccesMessage] = useState(false)
+  const [proveedorId, setProveedorId] = useState("")
+  const [ventaId, setVentaId] = useState("")
+
+  const deleteProduct = () => { 
+    axios.delete(`http://localhost:3000/productos/${productId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+  
+  const deleteProvider = () => { 
+    axios.delete(`http://localhost:3000/proveedores/${proveedorId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
+  const deleteSell = () => { 
+    axios.delete(`http://localhost:3000/venta/${ventaId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
 
 
-const DeleteProductModal = () => {
+
+  useEffect(() => { 
+    if(type === "productos") { 
+      setProductId(producto.productId)
+    } else if (type === "proveedores") { 
+      setProveedorId(producto.proveedorId)
+    } else if(type === "venta") { 
+      setVentaId(producto.ventaId)
+    }
+    
+  }, [producto])
+
   return (
-    <div>
-      <small onClick={()=>document.getElementById('my_modal_2').showModal()} className="bg-white text-background font-bold cursor-pointer" style={{color:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> Eliminar </small>
-        <dialog id="my_modal_2" className="modal">
-        <div className="modal-box">
-            <form method="dialog">     
-               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-           <div className='flex flex-col items-center justify-center'>
-                 <img src={alertLogo} className='w-12 h-12'/>
-                 <small className='text-lg mt-3'>¿Está seguro de Lorem Ipsum dolor sit amet consectetur adipiscing?</small>
-                 <div className='flex items-center justify-center mt-6 gap-6'>
-                    <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex' style={{backgroundColor:"#728EC3"}}>Si, estoy seguro</button>
-                    <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}}>No, cancelar</button>
-                 </div> 
-           </div>
-        </div>
-        </dialog>
-    </div>
-  )
-}
+    <>
+     <small onClick={onOpen} className="bg-white text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+             {type === "productos" ?  <ModalHeader className="flex flex-col items-center justify-center text-center gap-1">Eliminar Producto</ModalHeader> : null}
+              <ModalBody>
+                <div className='flex flex-col text-center items-center justify-center'>
+                  <img src={alertLogo} className='w-12 h-12'/>
+                  {type === "productos" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el producto?</small> : null}
+                  {type === "proveedores" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el proveedor?</small> : null}
+                  {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta?</small> : null}
+                  <div className='flex items-center justify-center mt-6 gap-6'>
 
-export default DeleteProductModal
+                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'
+                       style={{backgroundColor:"#728EC3"}} 
+                        onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "venta" ? deleteSell() : null}}>                              
+                          Si, estoy seguro
+                       </button>
+                      <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button>
+
+                  </div> 
+                 {succesMessage ? 
+                   <div className="flex flex-col items-center text-center justify-center mt-6">
+                        <p style={{color:"#728EC3"}} className="text-sm font-bold">Eliminado correctamente</p>
+                    </div> 
+                  : null}
+                </div>
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}

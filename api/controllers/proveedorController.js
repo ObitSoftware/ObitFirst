@@ -15,21 +15,25 @@ export const crearProveedor = async (req, res) => {
 
 export const eliminarProveedor = async (req, res) => {
   const { proveedorId } = req.params;
+  console.log(proveedorId)
 
   try {
-    const proveedor = await Proveedor.findById(proveedorId);
+    const proveedor = await Proveedor.findByIdAndDelete({_id: proveedorId});
 
-    if (!proveedor) {
-      return res.status(404).json({ error: 'Proveedor no encontrado' });
+    if (proveedor) {
+      res.status(200).json({ message: 'Proveedor eliminado correctamente', deleted: proveedor});
+    } else {
+      res.status(404).json({ message: 'Proveedor no encontrado' });
     }
 
-    await Proveedor.findByIdAndRemove(proveedorId);
-
-    res.status(200).json({ message: 'Proveedor eliminado con éxito' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
+
+
+
 
 export const consultarTodosProveedores = async (req, res) => {
   try {

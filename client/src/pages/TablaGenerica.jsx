@@ -9,7 +9,7 @@ import FiltersModal from "../components/Modals/FiltersModal";
 import AddProductModal from "../components/Modals/AddProductModal";
 import { SearchIcon } from "../components/icons/SearchIcon";
 import DeleteProductModal from "../components/Modals/DeleteProductModal";
-import EditProducModal from "../components/Modals/EditProductModal";
+import EditModal from "../components/Modals/EditModal";
 
 
 const Tabla = () => {
@@ -64,7 +64,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                        <EditProducModal producto={producto} type={"productos"} />
+                        <EditModal producto={producto} type={"productos"} />
                         );
                     },
                 }) :
@@ -90,7 +90,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                         <EditProducModal producto={producto} type={"proveedores"} />
+                         <EditModal producto={producto} type={"proveedores"} />
                         );
                     },
                 }) :
@@ -122,7 +122,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                         <EditProducModal producto={producto} type={"venta"} />
+                         <EditModal producto={producto} type={"venta"} />
                         );
                     },
                 }) :

@@ -3,17 +3,26 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import { useState, useEffect } from "react";
 import axios from "axios"
 
-export default function EditProducModal({type, producto}) {
+export default function EditModal({type, producto}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
+  const [succesMessaggeProductEdited, setSuccesMessaggeProductEdited] = useState(true)
+
   const [productId, setProductId] = useState("")
+  const [providerUniqueId, setProviderUniqueId] = useState("")
+  const [sellId, setSellId] = useState("")
+
   const [newProductName, setNewProductName] = useState("")
   const [newProductDescription, setNewProductDescription] = useState("")
   const [newPrice, setNewPrice] = useState("")
   const [newProductCantidad, setNewProductCantidad] = useState("")
   const [newProductCategoria, setNewProductCategoria] = useState("")
 
-  const sendMyEditData = () => { 
+ 
+  const [newProviderName, setNewProviderName] = useState("")
+  const [newProviderPhone, setNewProviderPhone] = useState("")
+
+  const editProduct = () => { 
     const newDataForProduct = ({ 
       productName: newProductName,
       productDescription: newProductDescription,
@@ -24,16 +33,50 @@ export default function EditProducModal({type, producto}) {
     axios.put(`http://localhost:3000/productos/${productId}`, newDataForProduct)
          .then((res) => { 
           console.log(res.data)
+          setSuccesMessaggeProductEdited(false)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
          })
          .catch((err) => { 
           console.log(err)
          })
   }
 
+  const editProvider = () => { 
+   const newDataForProvider = ( { 
+    nombre: newProviderName,
+    telefono: newProviderPhone
+   })
+   axios.put(`http://localhost:3000/proveedores/${providerUniqueId}`, newDataForProvider)
+        .then((res) => { 
+          console.log(res.data)
+          setSuccesMessaggeProductEdited(false)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+        })
+        .catch((err) => { 
+          console.log(err)
+         })
+  }
+
+  const editSell = () => { 
+    console.log("Funcion editar Venta")
+        
+  }
+
 
 
   useEffect(() => { 
-    setProductId(producto.productId)
+    if(type === "productos") { 
+      setProductId(producto.productId)
+    } else if (type === "proveedores") { 
+      setProviderUniqueId(producto.proveedorIdUnique)
+    } else if(type === "venta") { 
+      setSellId(producto.id)
+    }
+    
   }, [producto])
  
 
@@ -60,9 +103,8 @@ export default function EditProducModal({type, producto}) {
 
                      {type === "proveedores" ?    
                           <div className="flex flex-col items-center justify-center">
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.proveedorId}`}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.nombre}`}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.telefono}`}/>                              
+                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.nombre}`} onChange={(e) => setNewProviderName(e.target.value)}/>
+                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.telefono}`} onChange={(e) => setNewProviderPhone(e.target.value)}/>                              
                           </div> 
                      : null }
 
@@ -80,13 +122,18 @@ export default function EditProducModal({type, producto}) {
 
 
                   <div className="flex flex-col items-center justify-center">
-                    <Button className="font-bold" style={{backgroundColor:"#60BCFF", color:"white"}} onClick={() => sendMyEditData()}>Guardar Cambios</Button>
+
+                      {succesMessaggeProductEdited  ? 
+                          <Button className="font-bold" style={{backgroundColor:"#60BCFF", color:"white"}} 
+                            onClick={() =>{type === "productos" ?  editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() : null}}>
+                            Guardar Cambios
+                          </Button> 
+                                                  : 
+                        <p style={{color:"#60BCFF"}} className="font-bold text-md mb-6">Cambio Actualizado con Exito</p>
+                      }
+
                   </div>
 
-                  <div>
-                       {producto.productId}
-                       {producto.proveedorIdUnique}
-                  </div>
               </ModalBody>
               
             </>

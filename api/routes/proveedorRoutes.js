@@ -12,6 +12,6 @@ proveedorRoutes.post('/', crearProveedor);
 proveedorRoutes.delete('/:proveedorId', eliminarProveedor);
 proveedorRoutes.get('/', consultarTodosProveedores);
 proveedorRoutes.get('/:proveedorId', consultarProveedor);
-proveedorRoutes.put('/:proveedorId', actualizarProveedor);
+proveedorRoutes.put('/:providerUniqueId', actualizarProveedor);
 
 export default proveedorRoutes;

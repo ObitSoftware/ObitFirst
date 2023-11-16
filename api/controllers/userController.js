@@ -36,10 +36,14 @@ export const getUserById = async (req, res) => {
 
 // Actualizar un usuario existente
 export const updateUser = async (req, res) => {
+  const { userId } = req.params;
+  const {username, password, role} = req.body
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedUser = await User.findByIdAndUpdate({_id: userId }, 
+      {username, password, role}, 
+      {
       new: true,
-    });
+      });
     if (!updatedUser) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }

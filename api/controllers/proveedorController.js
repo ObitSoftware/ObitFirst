@@ -57,13 +57,20 @@ export const consultarProveedor = async (req, res) => {
 };
 
 export const actualizarProveedor = async (req, res) => {
-  const { proveedorId } = req.params;
-  const { nombre, telefono } = req.body;
+  const { proveedorId2 } = req.params;
+  const { 
+    proveedorId,
+    nombre,
+    categoria,
+    telefono } = req.body;
 
   try {
     const proveedor = await Proveedor.findByIdAndUpdate(
-      proveedorId,
-      { nombre, telefono },
+      proveedorId2,
+      { proveedorId,
+        nombre,
+        categoria,
+        telefono },
       { new: true }
     );
 

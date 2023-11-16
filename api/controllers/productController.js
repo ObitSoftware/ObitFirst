@@ -34,21 +34,33 @@ export const createProduct = async (req, res) => {
   }
 }
 
-// Actualizar un producto existente
-export const updateProduct = async (req, res) => {
 
-  const {productId}  = req.params
-  console.log(productId)
- try {
-     const searchProduct = await Product.findByIdAndUpdate({_id: productId})
-     if (!searchProduct) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
-    }
-    res.status(200).json(searchProduct);
- } catch (error) {
-    console.log(error)
- }
-}
+
+export const updateProduct = async (req, res) => {
+  const { productId } = req.params;
+  const {productName, productDescription, productPrice, productQuantity, productCategory} = req.body
+
+
+  try {
+        Product.findByIdAndUpdate({ _id: productId }, { 
+              nombre: productName,
+              descripcion: productDescription,
+              precio: productPrice,
+              cantidad: productQuantity,
+              categoria: productCategory
+          })
+          .then((newProduct) => {                                      
+          res.json({message:"The Publication was removed of Favorites", newProduct})
+          })
+          .catch((err) => { 
+          console.log(err)
+          })
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
 
 // Eliminar un producto
 export const deleteProduct = async (req, res) => {
@@ -62,6 +74,5 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar el producto' });
   }
 }
-
 
 

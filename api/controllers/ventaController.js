@@ -1,9 +1,19 @@
 import Venta from '../models/ventaModel.js';
 import Product from '../models/productModel.js';
-import { decrementarStock, incrementarStock } from '../helpers/ventaHelp.js';
+
+
+
+
 
 export const crearVenta = async (req, res) => {
-  const { productoId, cantidad } = req.body;
+  const { idProducto,
+    idCliente,
+    nombreProducto,
+    nombreCliente,
+    precio,
+    cantidad,
+    total,
+    fechaCreacion  } = req.body;
 
   try {
     const product = await Product.findById(productoId);
@@ -18,7 +28,14 @@ export const crearVenta = async (req, res) => {
 
     const total = product.precio * cantidad;
 
-    const newSale = new Venta({ productoId, cantidad, total });
+    const newSale = new Venta({ idProducto,
+      idCliente,
+      nombreProducto,
+      nombreCliente,
+      precio,
+      cantidad,
+      total,
+      fechaCreacion  });
     await newSale.save();
 
     await decrementarStock(productoId, cantidad);
@@ -77,12 +94,26 @@ export const consultarVenta = async (req, res) => {
   
 export const actualizarVenta = async (req, res) => {
     const { ventaId } = req.params;
-    const { productoId, cantidad } = req.body;
+    const { idProducto,
+      idCliente,
+      nombreProducto,
+      nombreCliente,
+      precio,
+      cantidad,
+      total,
+      fechaCreacion } = req.body;
   
     try {
       const venta = await Venta.findByIdAndUpdate(
         ventaId,
-        { productoId, cantidad },
+        { idProducto,
+          idCliente,
+          nombreProducto,
+          nombreCliente,
+          precio,
+          cantidad,
+          total,
+          fechaCreacion },
         { new: true }
       );
   

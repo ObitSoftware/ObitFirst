@@ -1,16 +1,5 @@
 import Product from '../models/productModel.js';
 
-export const decrementarStock = async (productoId, cantidad) => {
-  const product = await Product.findById(productoId);
-  product.stock -= cantidad;
-  await product.save();
-};
-export const incrementarStock = async (productoId, cantidad) => {
-    const product = await Product.findById(productoId);
-    product.stock += cantidad;
-    await product.save();
-  };
-
 export const chequearReposicionStock = async () => {
     try {
       const productosBajoStock = await Product.find({ cantidad: { $lt: 10 } });
@@ -21,3 +10,16 @@ export const chequearReposicionStock = async () => {
     }
   };
   
+  export const sortProductsByStock = async () => {
+    try {
+      const products = await Product.find();
+  
+      // Ordena los productos por cantidad en stock de menor a mayor
+      const sortedProducts = products.sort((a, b) => a.stock - b.stock);
+  
+      return {sortedProducts};
+    } catch (error) {
+      throw new Error('Error al ordenar los productos por stock:' + error);
+
+    }
+  };

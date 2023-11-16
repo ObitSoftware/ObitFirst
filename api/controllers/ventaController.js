@@ -94,36 +94,35 @@ export const consultarVenta = async (req, res) => {
   
 export const actualizarVenta = async (req, res) => {
     const { ventaId } = req.params;
-    const { idProducto,
-      idCliente,
+    const {
       nombreProducto,
       nombreCliente,
       precio,
       cantidad,
       total,
       fechaCreacion } = req.body;
-  
-    try {
-      const venta = await Venta.findByIdAndUpdate(
-        ventaId,
-        { idProducto,
-          idCliente,
-          nombreProducto,
-          nombreCliente,
-          precio,
-          cantidad,
-          total,
-          fechaCreacion },
-        { new: true }
-      );
-  
-      if (!venta) {
-        return res.status(404).json({ error: 'Venta no encontrada' });
-      }
-  
-      res.status(200).json(venta);
-    } catch (error) {
-      res.status(500).json({ error: 'Error interno del servidor' });
-    }
+
+      try {
+        Venta.findByIdAndUpdate({_id: ventaId}, { 
+          nombreProducto: nombreProducto,
+          nombreCliente: nombreCliente,
+          precio: precio,
+          cantidad: cantidad,
+          total: total,
+          fechaCreacion: fechaCreacion
+
+        })
+        .then((sellEdited) => {                                      
+               res.status(200).json(sellEdited);
+             })
+             .catch((err) => { 
+               res.status(500).json({ error: 'Error al editar venta' });
+               console.log(err)
+             })
+           } catch (error) {
+             console.log(error)
+             res.status(500).json({ error: 'Error interno del servidor' });
+           }
+    
 };
 

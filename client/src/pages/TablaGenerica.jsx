@@ -9,7 +9,8 @@ import FiltersModal from "../components/Modals/FiltersModal";
 import AddProductModal from "../components/Modals/AddProductModal";
 import { SearchIcon } from "../components/icons/SearchIcon";
 import DeleteProductModal from "../components/Modals/DeleteProductModal";
-import EditProducModal from "../components/Modals/EditProductModal";
+import EditModal from "../components/Modals/EditModal";
+import AddProviderModal from "../components/Modals/AddProviderModal";
 
 
 const Tabla = () => {
@@ -32,11 +33,61 @@ const Tabla = () => {
                 label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
           }));
 
-          columnObjects.push({
-            key: 'Eliminar',
-            label: 'Eliminar',
-            cellRenderer: (cell) => <DeleteProductModal producto={cell.row.original} />
-          });
+            {activeTab === "productos" ?    
+            columnObjects.push({
+                  key: 'Eliminar',
+                  label: 'Eliminar',
+                  cellRenderer: (cell) => { 
+                    const filaActual = cell.row;
+                    const name = filaActual.original.nombre;
+                    const id = filaActual.original._id;
+                    const producto = {
+                    nombre: name,
+                    productId: id
+                    };
+                    return (
+                      <DeleteProductModal producto={producto} type={"productos"} />
+                      );
+                },
+                  }) :
+              null}
+
+            {activeTab === "proveedores" ?    
+              columnObjects.push({
+                    key: 'Eliminar',
+                    label: 'Eliminar',
+                    cellRenderer: (cell) => { 
+                      const filaActual = cell.row;
+                      const nombre = filaActual.original.nombre;
+                      const id = filaActual.original._id;
+                      const producto = {
+                      nombre: nombre,
+                      proveedorId: id
+                      };
+                      return (
+                        <DeleteProductModal producto={producto} type={"proveedores"} />
+                        );
+                  },
+                    }) :
+                null}
+
+                {activeTab === "venta" ?    
+                columnObjects.push({
+                      key: 'Eliminar',
+                      label: 'Eliminar',
+                      cellRenderer: (cell) => { 
+                        const filaActual = cell.row;
+                        const id = filaActual.original._id
+                        const producto = {
+                        ventaId: id
+                        };
+                        return (
+                          <DeleteProductModal producto={producto} type={"venta"} />
+                          );
+                    },
+                      }) :
+                  null}
+
       
          {activeTab === "productos" ?    
                 columnObjects.push({
@@ -64,7 +115,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                        <EditProducModal producto={producto} type={"productos"} />
+                        <EditModal producto={producto} type={"productos"} />
                         );
                     },
                 }) :
@@ -90,7 +141,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                         <EditProducModal producto={producto} type={"proveedores"} />
+                         <EditModal producto={producto} type={"proveedores"} />
                         );
                     },
                 }) :
@@ -122,7 +173,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                         <EditProducModal producto={producto} type={"venta"} />
+                         <EditModal producto={producto} type={"venta"} />
                         );
                     },
                 }) :
@@ -175,7 +226,7 @@ const Tabla = () => {
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
-                  <AddProductModal text={activeTab === "productos" ? "PRODUCTO" : activeTab === "proveedores" ? "PROVEEDOR" : activeTab === "venta" ? "NUEVA VENTA" : null}/>
+                  {activeTab === "productos" ? <AddProductModal /> : activeTab === "proveedores" ? <AddProviderModal/> : activeTab === "venta" ? <AddProviderModal/> : null}
                 </div>      
             </div>
             <div className="flex items-start m-2">

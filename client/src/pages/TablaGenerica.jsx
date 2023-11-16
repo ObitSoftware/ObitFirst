@@ -11,6 +11,7 @@ import { SearchIcon } from "../components/icons/SearchIcon";
 import DeleteProductModal from "../components/Modals/DeleteProductModal";
 import EditModal from "../components/Modals/EditModal";
 import AddProviderModal from "../components/Modals/AddProviderModal";
+import AddSellModal from "../components/Modals/AddSellModal";
 
 
 const Tabla = () => {
@@ -226,7 +227,7 @@ const Tabla = () => {
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
-                  {activeTab === "productos" ? <AddProductModal /> : activeTab === "proveedores" ? <AddProviderModal/> : activeTab === "venta" ? <AddProviderModal/> : null}
+                  {activeTab === "productos" ? <AddProductModal /> : activeTab === "proveedores" ? <AddProviderModal/> : activeTab === "venta" ? <AddSellModal/> : null}
                 </div>      
             </div>
             <div className="flex items-start m-2">

@@ -1,10 +1,10 @@
 import Proveedor from '../models/proveedorModel.js';
 
 export const crearProveedor = async (req, res) => {
-  const { nombre, telefono } = req.body;
+  const { nombre, telefono, proveedorId } = req.body;
 
   try {
-    const newProveedor = new Proveedor({ nombre, telefono });
+    const newProveedor = new Proveedor({ nombre, telefono, proveedorId });
     await newProveedor.save();
 
     res.status(201).json({ message: 'Proveedor creado con éxito', proveedor: newProveedor });

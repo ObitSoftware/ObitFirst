@@ -9,10 +9,6 @@ const proveedorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  categoria: {
-    type: String,
-    required: true,
-  },
   telefono: {
     type: String,
     required: true,

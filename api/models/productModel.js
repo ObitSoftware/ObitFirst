@@ -20,12 +20,10 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   stock: {
-    type: Number,
-    required: true,
+    type: Number
   },
   fechaCreacion: {
-    type: Date,
-    default: Date.now,
+    type: String
   },
   categoria: {
     type: Number,

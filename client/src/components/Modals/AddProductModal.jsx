@@ -1,12 +1,57 @@
 import React from 'react'
 import { Button } from '@nextui-org/react'
 import { PlusIcon } from '../icons/PlusIcon'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import obtenerFechaActual from "../../functions/actualDate.js"
+
+
+/* productId, nombre, descripcion, precio, cantidad, stock, fechacreacion, categoria, proveedor  */
 
 
 const AddProductModal = () => {
+
+  const actualDate = obtenerFechaActual()
+  const [allProviders, setAllProviders] = useState([])
+
+  useEffect(() => { 
+    axios.get("http://localhost:3000/proveedores")
+         .then((res) => {
+           setAllProviders(res.data)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }, [])
+
+  const addProduct = () => { 
+    const newProductToBeAdd = ({ 
+      productId,
+      nombre,
+      descripcion,
+      precio,
+      cantidad,
+      stock,
+      fechaCreacion: actualDate,
+      categoria,
+      proveedor
+    })
+    axios.post("http://localhost:4000/productos", newProductToBeAdd)
+          .then((res) => {
+            setAllProviders(res.data)
+          })
+          .catch((err) => { 
+          console.log(err)
+          })
+  }
+
+ 
+  
+
   return (
     <div>
-      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR PRODUCTO </Button>
+      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm">    AÑADIR PRODUCTO 
+      </Button>
         <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
             <form method="dialog">        
@@ -27,13 +72,8 @@ const AddProductModal = () => {
                        <div className='flex items-center gap-2'>
                           <small>Cantidad</small>
                           <select className="h-9 rounded-lg border border-none w-12 text-sm" style={{backgroundColor:"#E6EEFF"}}>
+
                               <option disabled selected>1</option>
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                              <option>6</option>
                       </select>
                        </div>
                    </div>
@@ -54,16 +94,24 @@ const AddProductModal = () => {
                        </div>
                    </div>
 
-                   <div className='flex justify-end gap-2 w-full items-center mt-4'>
-                      <small>Fecha de Ingreso</small>
-                      <select className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center" style={{backgroundColor:"#E6EEFF"}}>
-                             <option>05/11/2023</option>
-                            <option>..</option>
-                            <option>..</option>
-                      </select>
+                   <div className='flex justify-between gap-2 w-full items-center mt-4'>
+                        <div className='flex text-center items-center'>
+                            <small>Fecha de Ingreso</small>
+                              <select className="h-9 rounded-lg border border-none w-24 text-sm text-center justify-center" style={{backgroundColor:"#E6EEFF"}}>
+                                    <option>{actualDate}</option>
+                              </select>
+                        </div>
+                        <div className='flex text-center items-center'>
+                           <small>Proveedor</small>
+                           <select className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center" style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => console.log(e.target.value)}>
+                            {allProviders.map((provider) => (
+                              <option key={provider.nombre}>{provider.nombre}</option>
+                            ))}
+                          </select>
+                        </div>   
                    </div>
 
-                   <div className='flex flex-col  items-start justify-start w-full'>
+                   <div className='flex flex-col  items-start justify-start w-full mt-6'>
                         <small>Descripcion</small>
                         <textarea type="text" className='w-full rounded-lg border border-none mt-2'  style={{backgroundColor:"#E6EEFF"}}></textarea>
                    </div>

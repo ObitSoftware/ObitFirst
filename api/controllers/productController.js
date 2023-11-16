@@ -36,17 +36,18 @@ export const createProduct = async (req, res) => {
 
 // Actualizar un producto existente
 export const updateProduct = async (req, res) => {
-  try {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!updatedProduct) {
+
+  const {productId}  = req.params
+  console.log(productId)
+ try {
+     const searchProduct = await Product.findByIdAndUpdate({_id: productId})
+     if (!searchProduct) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
-    res.status(200).json(updatedProduct);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar el producto' });
-  }
+    res.status(200).json(searchProduct);
+ } catch (error) {
+    console.log(error)
+ }
 }
 
 // Eliminar un producto

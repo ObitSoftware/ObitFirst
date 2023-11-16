@@ -30,8 +30,7 @@ const ventaSchema = new mongoose.Schema({
     required: true,
   },
   fechaCreacion: {
-    type: Number,
-    default: Date.now()
+    type: String,
   }
 });
 

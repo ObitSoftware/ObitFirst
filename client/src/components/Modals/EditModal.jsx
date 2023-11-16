@@ -10,17 +10,33 @@ export default function EditModal({type, producto}) {
 
   const [productId, setProductId] = useState("")
   const [providerUniqueId, setProviderUniqueId] = useState("")
-  const [sellId, setSellId] = useState("")
-
+  const [ventaId, setVentaId] = useState("")
   const [newProductName, setNewProductName] = useState("")
   const [newProductDescription, setNewProductDescription] = useState("")
   const [newPrice, setNewPrice] = useState("")
   const [newProductCantidad, setNewProductCantidad] = useState("")
   const [newProductCategoria, setNewProductCategoria] = useState("")
-
- 
   const [newProviderName, setNewProviderName] = useState("")
   const [newProviderPhone, setNewProviderPhone] = useState("")
+  const [sellNewProductId, setSellNewProductId] = useState("")
+  const [sellNewIdCliente, setSellNewIdCliente] = useState("")
+  const [sellNewProductName, setSellNewProductName] = useState("")
+  const [sellNewClientName, setSellNewClientName] = useState("")
+  const [sellNewPrice, setSellNewPrice] = useState("")
+  const [sellNewQuantity, setSellNewQuantity] = useState("")
+  const [sellNewTotal, setSellNewTotal] = useState("")
+
+  function obtenerFechaActual() {
+    const fecha = new Date();
+    const dia = fecha.getDate();
+    const mes = fecha.getMonth() + 1; 
+    const año = fecha.getFullYear();
+    const diaFormateado = dia < 10 ? `0${dia}` : dia;
+    const mesFormateado = mes < 10 ? `0${mes}` : mes;
+    return `${diaFormateado}/${mesFormateado}/${año}`;
+  }
+  
+  const fechaActual = obtenerFechaActual();
 
   const editProduct = () => { 
     const newDataForProduct = ({ 
@@ -62,11 +78,27 @@ export default function EditModal({type, producto}) {
   }
 
   const editSell = () => { 
-    console.log("Funcion editar Venta")
+    const newDataForSell = ({ 
+      nombreProducto: sellNewProductName,
+      nombreCliente: sellNewClientName,
+      precio: sellNewPrice,
+      cantidad: sellNewQuantity,
+      total:sellNewTotal,
+      fechaCreacion:fechaActual,
+    })
+    axios.put(`http://localhost:3000/venta/${ventaId}`, newDataForSell)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessaggeProductEdited(false)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
         
   }
-
-
 
   useEffect(() => { 
     if(type === "productos") { 
@@ -74,7 +106,7 @@ export default function EditModal({type, producto}) {
     } else if (type === "proveedores") { 
       setProviderUniqueId(producto.proveedorIdUnique)
     } else if(type === "venta") { 
-      setSellId(producto.id)
+      setVentaId(producto.id)
     }
     
   }, [producto])
@@ -110,13 +142,24 @@ export default function EditModal({type, producto}) {
 
                       {type === "venta" ?    
                           <div className="flex flex-col items-center justify-center">
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.nombreProducto}`}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.nombreCliente}`}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.precio}`}/>     
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.cantidad}`}/> 
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.total}`}/> 
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" placeholder={`${producto.fechaCreacion}`}/>    
-                             <p>{producto.id}  </p>                           
+                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
+                               placeholder={`${producto.nombreProducto}`} onChange={(e) => setSellNewProductName(e.target.value)}/>
+
+                              <input type="text"  className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
+                              placeholder={`${producto.nombreCliente}`} onChange={(e) => setSellNewClientName(e.target.value)}/>
+
+                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
+                              placeholder={`${producto.precio}`} onChange={(e) => setSellNewPrice(e.target.value)}/>     
+
+                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
+                              placeholder={`${producto.cantidad}`} onChange={(e) => setSellNewQuantity(e.target.value)}/> 
+
+                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
+                              placeholder={`${producto.total}`} onChange={(e) => setSellNewTotal(e.target.value)}/> 
+
+                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
+                              placeholder={`${producto.fechaCreacion}`} value={fechaActual}/>    
+                    
                           </div> 
                      : null }
 

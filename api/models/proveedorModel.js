@@ -23,4 +23,3 @@ const Proveedor = mongoose.model('Proveedor', proveedorSchema);
 
 
 export default Proveedor;
-

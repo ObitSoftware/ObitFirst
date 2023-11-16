@@ -8,13 +8,9 @@ const Main = () => {
   return (
     <div>
         <Navbar/> 
-
         <div className='flex flex-col mt-36'>
           <TablaGenerica/>
-        </div>
-
-      
-         
+        </div>         
     </div>
   )
 }

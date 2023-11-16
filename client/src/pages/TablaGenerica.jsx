@@ -24,8 +24,8 @@ const Tabla = () => {
     useEffect(() => {
       axios.get(`http://localhost:3000/${activeTab}`)
         .then((res) => {
-          setData(res.data);
-          console.log(res.data)
+            setData(res.data);
+            console.log(res.data)
             const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id');
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
@@ -96,6 +96,38 @@ const Tabla = () => {
                 }) :
             null}
 
+            {activeTab === "venta" ?    
+                columnObjects.push({
+                    key: 'Editar',
+                    label: 'Editar',
+                    cellRenderer: (cell) => { 
+
+                        const filaActual = cell.row;
+                        const nombreProducto = filaActual.original.nombreProducto;
+                        const nombreCliente = filaActual.original.nombreCliente;
+                        const precio = filaActual.original.precio;
+                        const cantidad = filaActual.original.cantidad;
+                        const total = filaActual.original.total;
+                        const fechaCreacion = filaActual.original.fechaCreacion;
+                        const id = filaActual.original._id
+                        
+                        const producto = {
+                        nombreProducto: nombreProducto,
+                        nombreCliente: nombreCliente,
+                        precio: precio,
+                        cantidad: cantidad,
+                        total: total,
+                        fechaCreacion: fechaCreacion,
+                        id: id
+                        };
+                        
+                        return (
+                         <EditProducModal producto={producto} type={"venta"} />
+                        );
+                    },
+                }) :
+            null}
+
 
 
           
@@ -119,13 +151,17 @@ const Tabla = () => {
           value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
+
+      useEffect(() => { 
+        console.log(filteredData)
+      }, [filteredData])
   
     return (
         <>
      
      {load ? (
             <div className="flex items-center justify-center mt-44">
-                <Loading text={activeTab === "productos" ? "Cargando Productos.." : "Cargando Proveedores.."} />
+                <Loading text={activeTab === "productos" ? "Cargando Productos.." : activeTab === "proveedores" ? "Cargando Proveedores.." : activeTab === "venta" ? "Cargando Ventas": null} />
             </div>
             )  :
             <div className="mt-6">
@@ -135,11 +171,11 @@ const Tabla = () => {
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
                             <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("productos")}>Productos</a>
                             <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("proveedores")}>Proveedores</a>
-                            <a className="tab bg-white text-black hover:text-gray-400">Ventas</a>
+                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("venta")}>Ventas</a>
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
-                  <AddProductModal text={activeTab === "productos" ? "PRODUCTO" : "PROVEEDOR"}/>
+                  <AddProductModal text={activeTab === "productos" ? "PRODUCTO" : activeTab === "proveedores" ? "PROVEEDOR" : activeTab === "venta" ? "NUEVA VENTA" : null}/>
                 </div>      
             </div>
             <div className="flex items-start m-2">
@@ -167,7 +203,7 @@ const Tabla = () => {
               </TableHeader>
               <TableBody items={filteredData}>
                     {(item) => (
-                        <TableRow key={item.nombre}>
+                        <TableRow key={item._id}>
                         {columns.map((column) => (
                             <TableCell key={column.key}>
                             {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}

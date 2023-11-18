@@ -17,10 +17,6 @@ const prodCompraSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
-    fechaCompra: {
-      type: String,
-      required: true,
-    },
     fechaPago: {
       type: String,
       required: true,

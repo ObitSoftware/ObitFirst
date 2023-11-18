@@ -3,7 +3,7 @@ import ProdCompra from '../models/prodCompraModel.js';
 // Crear un nuevo compra
 export const createProdCompra = async (req, res) => {
  
-  const {prodCompraId, proveedorId, productoId, precioProducto, fechaCompra, fechaPago, observacionesCompra, cantidad, total} = req.body
+  const {prodCompraId, proveedorId, productoId, precioProducto, fechaPago, observacionesCompra, cantidad, total} = req.body
   console.log(req.body)
 
   try {

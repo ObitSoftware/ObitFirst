@@ -28,7 +28,7 @@ export const getCompraById = async (req, res) => {
 // Crear un nuevo compra
 export const createCompra = async (req, res) => {
  
-  const {compraId, productosComprados, total} = req.body
+  const {compraId, productosComprados, fechaCompra, total} = req.body
   console.log(req.body)
 
   try {

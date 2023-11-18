@@ -7,8 +7,12 @@ const compraSchema = new mongoose.Schema ({
         required: true,
     },
     productosComprados : {
-            type:Array,
-            required: true
+        type:Array,
+        required: true
+    },
+    fechaCompra: {
+        type:String,
+        required: true,
     },
     total: {
         type:Number,

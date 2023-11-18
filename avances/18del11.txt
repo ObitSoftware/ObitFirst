@@ -6,10 +6,12 @@ campos/atributos:
 
 -compraId  (String), 
 -productosComprados (Array), 
+-fechaCompra (String) ,
 -total (number)
 
 *compraId -> ID de la compra, 
 *productosComprados ->array para meter los productos de la compra, es decir, llega cada uno de los prodCompra que se agregarán a la compra
+*fecha de la compra - > fecha
 *total -> total de la compra
 
 
@@ -21,7 +23,6 @@ campos/atributos :
 -proveedorId (String) , 
 -productoId (String) ,
 -precioProducto ( Number )
--fechaCompra (String) ,
 -fechaPago (String) ,
 -observacionesCompra (String) ,
 -cantidad (number) ,
@@ -32,7 +33,6 @@ campos/atributos :
 *proveedorId  -> id del proveedor (viene de la DB)
 *productoId  -> producto del proveedor (viene de la DB)
 *precioProducto -> precio del producto ( viene de la DB)
-*fechaCompra -> fecha (se ingresa)
 *fechaPago  -> fecha (se ingresa)
 *observacionesCompra  -> se ingresa
 *cantidad (number) , -> se ingresa

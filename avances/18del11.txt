@@ -1,0 +1,82 @@
+MODELOS NUEVOS:
+
+-------COMPRA : objeto de la compra, se arma lista de todas las compras
+
+campos/atributos: 
+
+-compraId  (String), 
+-productosComprados (Array), 
+-fechaCompra (String) ,
+-total (number)
+
+*compraId -> ID de la compra, 
+*productosComprados ->array para meter los productos de la compra, es decir, llega cada uno de los prodCompra que se agregarán a la compra
+*fecha de la compra - > fecha
+*total -> total de la compra
+
+
+-------PRODCOMPRA : UN producto de la compra, se arma lista (array) con los productos que serán parte de la compra
+
+campos/atributos : 
+
+-prodCompraId (String), 
+-proveedorId (String) , 
+-productoId (String) ,
+-precioProducto ( Number )
+-fechaPago (String) ,
+-observacionesCompra (String) ,
+-cantidad (number) ,
+-total (number) 
+
+
+*prodCompraId  -> id del producto de la compra, sera el id que tendra dentro del array que se pasará a la compra.  (se genera automatico)
+*proveedorId  -> id del proveedor (viene de la DB)
+*productoId  -> producto del proveedor (viene de la DB)
+*precioProducto -> precio del producto ( viene de la DB)
+*fechaPago  -> fecha (se ingresa)
+*observacionesCompra  -> se ingresa
+*cantidad (number) , -> se ingresa
+*total (number)  -> se debe calcular automaticamente cantidad * precio
+
+
+CONTROLADORES : 
+
+- compraController
+ -------> FUNCIONES : {
+            getAllCompras , 
+            getCompraById , 
+            createCompra, 
+            updateCompra, 
+            deleteCompra 
+            }
+
+- prodCompraController
+ -------> FUNCIONES : {
+        createProdCompra ,
+        deleteProdCompra
+
+ }
+
+* OBSERVACIONES : en prodCompraController solo estan esas dos porque la funcion que cumplen es crear el ProdCompra que recibirá el array de Compras , y tendra eliminar por error o por otra decision. no hay update, ni getById pq me parecio que no tenia sentido, teniendo toda la info de la Compra despues. Si el usuario se equivoca al subir el producto, lo quita con una (X) y lo vuelve a agregar.
+
+
+RUTAS: 
+
+app.use('/compras', comprasRoutes);
+app.use('/compras/prodCompra', prodcompraRoutes);
+
+// COMPRA
+
+comprasRoutes.get('/', getAllCompras);
+comprasRoutes.get('/:comprasId', getCompraById);
+comprasRoutes.post('/', createCompra);
+comprasRoutes.put('/:comprasId', updateCompra);
+comprasRoutes.delete('/:comprasId', deleteCompra);
+
+// PRODUCTO DE LA COMPRA 
+
+prodcompraRoutes.post('/', createProdCompra);
+prodcompraRoutes.delete('/:prodCompraId', deleteProdCompra);
+
+
+

@@ -5,6 +5,8 @@ import  productRoutes from './routes/productRoutes.js';
 import  ventaRoutes from './routes/ventaRoutes.js';
 import  userRoutes from './routes/userRoutes.js';
 import  proveedorRoutes from './routes/proveedorRoutes.js';
+import  comprasRoutes from './routes/comprasRoutes.js';
+import  prodcompraRoutes from './routes/prodCompraRoutes.js';
 import  connectDataBase from './database/connectdb.js';
 
 
@@ -26,6 +28,8 @@ app.use('/productos', productRoutes);
 app.use('/venta', ventaRoutes);
 app.use('/usuario', userRoutes);
 app.use('/proveedores', proveedorRoutes);
+app.use('/compras', comprasRoutes);
+app.use('/compras/prodCompra', prodcompraRoutes);
 
 
 app.get('/', (req, res) => {

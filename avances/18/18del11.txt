@@ -1,0 +1,39 @@
+MODELOS NUEVOS:
+
+-------COMPRA : objeto de la compra, se arma lista de todas las compras
+
+campos/atributos: 
+
+-compraId  (String), 
+-productosComprados (Array), 
+-total (number)
+
+*compraId -> ID de la compra, 
+*productosComprados ->array para meter los productos de la compra, es decir, llega cada uno de los prodCompra que se agregarán a la compra
+*total -> total de la compra
+
+
+-------PRODCOMPRA : UN producto de la compra, se arma lista (array) con los productos que serán parte de la compra
+
+campos/atributos : 
+
+-prodCompraId (String), 
+-proveedorId (String) , 
+-productoId (String) ,
+-precioProducto ( Number )
+-fechaCompra (String) ,
+-fechaPago (String) ,
+-observacionesCompra (String) ,
+-cantidad (number) ,
+-total (number) 
+
+
+*prodCompraId  -> id del producto de la compra, sera el id que tendra dentro del array que se pasará a la compra.  (se genera automatico)
+*proveedorId  -> id del proveedor (viene de la DB)
+*productoId  -> producto del proveedor (viene de la DB)
+*precioProducto -> precio del producto ( viene de la DB)
+*fechaCompra -> fecha (se ingresa)
+*fechaPago  -> fecha (se ingresa)
+*observacionesCompra  -> se ingresa
+*cantidad (number) , -> se ingresa
+*total (number)  -> se debe calcular automaticamente cantidad * precio

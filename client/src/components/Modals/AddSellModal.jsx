@@ -14,6 +14,8 @@ const AddSellModal = ({}) => {
     const [productId, setProductId] = useState("")
     const [productSelectedData, setProductSelectedData] = useState([])
     const [showProductData, setShowProductData] = useState(false)
+    const [quantity, setQuantity] = useState(null)
+    const [totalToPay, setTotalToPay] = useState(null)
 
 
     useEffect(() => { 
@@ -38,10 +40,17 @@ const AddSellModal = ({}) => {
              })
     }
 
-   
+    useEffect(() => {
+        if (productId !== "") {
+          getProductId();
+          setTimeout(() => { 
+            setShowProductData(true)
+          }, 1000)
+        }
+      }, [productId]);
 
 
- 
+
 
 
   return (
@@ -50,7 +59,7 @@ const AddSellModal = ({}) => {
         <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
             <form method="dialog">        
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => setProductId(null)}>✕</button>
             </form>
             <div className='flex flex-col'>
                 <div className='flex justify-start items-start '>
@@ -63,7 +72,8 @@ const AddSellModal = ({}) => {
                            <small className='font-bold'>Producto</small>
                            <select 
                             className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center" 
-                            style={{backgroundColor:"#E6EEFF"}} display="flex" 
+                            style={{backgroundColor:"#E6EEFF"}}
+                              display="flex" 
                               onChange={(e) => {
                               const selectedName = e.target.value;                            
                               const selectedId = productsAvailable.find((p) => p.nombre === selectedName)._id;
@@ -71,53 +81,56 @@ const AddSellModal = ({}) => {
                               }}
                              >
                             {productsAvailable.map((p) => (
-                              <option key={p._id}>{p.nombre}</option>
+                                <>
+                                   
+                                   <option key={p._id}>{p.nombre}</option>
+                                </>
                             ))}
                           </select>
                         </div>  
                         {showProductData ? (
-                            productSelectedData.map((p) => (
-                              <div key={p._id} className='flex flex-col items-center justify-center'>
+                          
+                              <div key={productSelectedData._id} className='flex flex-col items-center justify-center'>
 
-                                 <div className='flex gap-2'>
+                                 <div className='flex gap-2 mt-4 text-center items-center'>
                                      <small className='font-bold'>Stock del producto:</small>
-                                     <p>{p.stock}</p>
+                                     <p>{productSelectedData.stock}</p>
                                   </div>
 
-                                  <div className='flex gap-2'>
+                                  <div className='flex gap-2 mt-4 text-center items-center'>
                                      <small className='font-bold'>Proveedor del producto:</small>
-                                     <p>{p.proveedor[0]}</p>
+                                     <p>{productSelectedData.proveedor}</p>
                                   </div>
 
-                                  <div className='flex gap-2'>
+                                  <div className='flex gap-2 mt-4 text-center items-center'>
                                      <small className='font-bold'>Precio por unidad:</small>
-                                     <p>{p.precio}</p>
+                                     <p>{productSelectedData.precio}</p>
                                   </div>
 
-                                  <div className='flex gap-2'>
-                                     <small className='font-bold'>Descripcion</small>
-                                     <p>{p.descripcion}</p>
+                                  <div className='flex gap-2 mt-4 text-center items-center'>
+                                     <small className='font-bold'>Descripcion:</small>
+                                     <p>{productSelectedData.descripcion}</p>
                                   </div>
 
                                
 
-                                  <div className='flex gap-2'>
+                                  <div className='flex gap-2 mt-4 text-center items-center'>
                                      <small className='font-bold'>Nombre del cliente</small>
-                                     <input type="text" className='h-9 rounded-lg border border-none w-44 text-sm text-center justify-center'/>  
+                                     <input type="text" className='h-9 rounded-lg border border-none w-44 text-sm text-center justify-center' style={{backgroundColor:"#E6EEFF"}}/>  
                                   </div> 
 
-                                  <div className='flex gap-2'>
+                                  <div className='flex gap-2 mt-4 text-center items-center'>
                                      <small className='font-bold'>Cantidad</small>
-                                     <input type="text" className='h-9 rounded-lg border border-none w-44 text-sm text-center justify-center'/>  
+                                     <input type="text" className='h-9 rounded-lg border border-none w-44 text-sm text-center justify-center' style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setQuantity(e.target.value)}/>  
                                   </div> 
 
-                                  <div className='flex gap-2'>
+                                  <div className='flex gap-2 mt-4 text-center items-center'>
                                      <small className='font-bold'>Total a pagar:</small>
-                                      <p>1000$</p>
+                                      <p>{quantity * productSelectedData.precio}</p>
                                   </div> 
                                  
                               </div>
-                            ))
+                         
                          ) : null}
                    </div>
 

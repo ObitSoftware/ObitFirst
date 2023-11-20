@@ -35,9 +35,9 @@ export const createCompra = async (req, res) => {
       try {
         const newCompraToSaved = new Compra({ 
           compraId,
-          productosComprados,
           fechaCompra,
-          total
+          total,
+          productosComprados,   
         })
         newCompraToSaved.save()
                         .then((nuevaCompra) => { 

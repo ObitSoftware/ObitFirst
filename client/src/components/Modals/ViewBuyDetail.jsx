@@ -3,7 +3,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import alertLogo from "../../img/alertLogo.png"
 import axios from "axios";
 
-export default function ViewBuyDetail ({type, producto})  {
+export default function ViewBuyDetail ({producto})  {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure("");
   const [productId, setProductId] = useState("")
@@ -22,6 +22,32 @@ export default function ViewBuyDetail ({type, producto})  {
               <ModalBody>
                 <div className='flex flex-col text-center items-center justify-center'>
                   <img src={alertLogo} className='w-12 h-12'/>
+                  {producto.id}
+                  {producto.detail.map((d) => ( 
+                    <>
+                      <div className="flex gap-4 items-center justify-center">
+                        <p>Producto Comprado: </p>
+                        <small>{d.nombreProducto}</small>
+                      </div>
+                       <div className="flex gap-4 items-center justify-center">
+                         <p>Precio del producto: </p>
+                         <small>{d.precioProducto}</small>
+                       </div>
+                       <div className="flex gap-4 items-center justify-center">
+                          <p>Cantidad Comprada: </p>
+                          <small>{d.cantidad}</small>
+                        </div>
+                        <div className="flex gap-4 items-center justify-center">
+                          <p>Monto total gastado: </p>
+                          <small>{d.total}</small>
+                        </div>
+                        <div className="flex gap-4 items-center justify-center">
+                          <p>Fecha de la Compra: </p>
+                          <small>{producto.date}</small>
+                        </div>
+                    </>
+                    
+                  ))}
                     <div className='flex items-center justify-center mt-6 gap-6'>
                         <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  >                              
                             Si, estoy seguro

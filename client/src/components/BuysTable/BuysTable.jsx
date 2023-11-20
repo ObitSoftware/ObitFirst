@@ -31,11 +31,30 @@ const BuysTable = ({comeBack}) => {
         .then((res) => {
             setData(res.data);
             console.log(res.data)
-            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id');
+            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados');
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
                 label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
           }));
+
+          columnObjects.push({
+            key: 'VerDetalle',
+            label: 'Detalle de Compra',
+            cellRenderer: (cell) => { 
+              const filaActual = cell.row;
+              const id = filaActual.original._id;
+              const buyDetail = filaActual.original.productosComprados;
+              const dateOfBuy = filaActual.original.fechaCompra
+              const producto = {
+              id: id,
+              detail: buyDetail,
+              date: dateOfBuy,
+              };
+              return (
+                <ViewBuyDetail  producto={producto} /> 
+                );
+          },
+            }) 
 
           
             columnObjects.push({
@@ -149,16 +168,10 @@ const BuysTable = ({comeBack}) => {
                     {(item) => (
                     <TableRow key={item._id}>
                         {columns.map((column) => (
-                        <TableCell key={column.key}>
-                           {column.key === 'productosComprados' ? (
-                                <div>
-                                    <ViewBuyDetail/>
-                                </div>
-                                ) : (
-                                column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]
-                                )}
-                        </TableCell>
-                        ))}
+                    <TableCell key={column.key}>
+                      {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
+                    </TableCell>
+                  ))}
                     </TableRow>
                     )}
                 </TableBody>

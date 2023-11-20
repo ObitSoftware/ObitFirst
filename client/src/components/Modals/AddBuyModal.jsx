@@ -15,6 +15,7 @@ const AddBuyModal = () => {
   const [productsAvailable, setProductsAvailable] = useState([])
   const [productId, setProductId] = useState("")
   const [productSelectedData, setProductSelectedData] = useState([])
+  const [succesMessage, setSuccesMessage] = useState(false)
 
   const [productToBuyData, setProductToBuyData] = useState({ 
     proveedor: '',
@@ -91,6 +92,10 @@ const AddBuyModal = () => {
         axios.post("http://localhost:3000/compras", newBuyToBeSaved)
              .then((res) => { 
               console.log(res.data)
+              setSuccesMessage(true)
+              setTimeout(() => { 
+                 window.location.reload()
+              }, 2500)
              })
              .catch((err) => { 
               console.log(err)
@@ -170,10 +175,13 @@ const AddBuyModal = () => {
                                  <input type="date" onChange={handleFechaDePagoChange}></input>
                             </div>
 
-                            <div className='flex gap-6 items-center justify-center'>
+                           {succesMessage ?
+                            <p style={{color:"#728EC3"}} className="text-sm font-bold">Compra añadida con Exito</p>
+                            :
+                           <div className='flex gap-6 items-center justify-center'>
                               <Button onClick={() => sendMyNewBuy()}>Confirmar Compra</Button>
                               <Button onClick={() => cancelTheBuy()}>Cancelar Compra</Button>
-                            </div>
+                            </div>}
                         </div>  : null}
                   </div>
              </div>

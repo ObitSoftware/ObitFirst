@@ -9,6 +9,7 @@ export default function DeleteProductModal ({type, producto})  {
   const [productId, setProductId] = useState("")
   const [succesMessage, setSuccesMessage] = useState(false)
   const [proveedorId, setProveedorId] = useState("")
+  const [compraId, setCompraId] = useState("")
   const [ventaId, setVentaId] = useState("")
 
   const deleteProduct = () => { 
@@ -53,6 +54,20 @@ export default function DeleteProductModal ({type, producto})  {
          })
   }
 
+  const deleteBuy = () => { 
+    axios.delete(`http://localhost:3000/compras/${compraId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
 
 
   useEffect(() => { 
@@ -62,6 +77,8 @@ export default function DeleteProductModal ({type, producto})  {
       setProveedorId(producto.proveedorId)
     } else if(type === "venta") { 
       setVentaId(producto.ventaId)
+    } else if(type === "compras") { 
+      setCompraId(producto.id)
     }
     
   }, [producto])
@@ -80,6 +97,7 @@ export default function DeleteProductModal ({type, producto})  {
                   {type === "productos" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el producto?</small> : null}
                   {type === "proveedores" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el proveedor?</small> : null}
                   {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta?</small> : null}
+                  {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
                       <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'

@@ -67,7 +67,7 @@ const AddSellModal = ({}) => {
                 </div>
                 <div className='border border-gray-200 mt-2'></div>
 
-                  <div className='flex flex-col items-center justify-center mt-6'>
+                    <div className='flex flex-col items-center justify-center mt-6'>
                         <div className='flex text-center items-center gap-2'>
                            <small className='font-bold'>Producto</small>
                            <select 

@@ -11,7 +11,8 @@ import { SearchIcon } from "../components/icons/SearchIcon";
 import DeleteProductModal from "../components/Modals/DeleteProductModal";
 import EditModal from "../components/Modals/EditModal";
 import AddProviderModal from "../components/Modals/AddProviderModal";
-import AddSellModal from "../components/Modals/AddSellModal";
+import AddSellModal from "../components/Modals/AddSellModal"
+import BuysTable from "../components/BuysTable/BuysTable";
 
 
 const Tabla = () => {
@@ -22,6 +23,7 @@ const Tabla = () => {
     const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
     const [load, setLoad] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
+    const [showBuyTable, setShowBuyTable] = useState(false)
   
     useEffect(() => {
       axios.get(`http://localhost:3000/${activeTab}`)
@@ -207,23 +209,31 @@ const Tabla = () => {
       useEffect(() => { 
         console.log(filteredData)
       }, [filteredData])
+
+
+      const returnToTablaGenerica = () => { 
+        setShowBuyTable(false)
+      }
   
     return (
         <>
      
-     {load ? (
-            <div className="flex items-center justify-center mt-44">
-                <Loading text={activeTab === "productos" ? "Cargando Productos.." : activeTab === "proveedores" ? "Cargando Proveedores.." : activeTab === "venta" ? "Cargando Ventas": null} />
-            </div>
-            )  :
-            <div className="mt-6">
-            <div className="flex justify-between items-start m-4" style={{backgroundColor:"#E6EFFF"}}>
+     {!showBuyTable && (
+    <>
+      {load ? (
+        <div className="flex items-center justify-center mt-44">
+          <Loading text={activeTab === "productos" ? "Cargando Productos.." : activeTab === "proveedores" ? "Cargando Proveedores.." : activeTab === "venta" ? "Cargando Ventas" : null} />
+        </div>
+      ) : (
+        <div className="mt-6">
+          <div className="flex justify-between items-start m-4" style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
                             <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("productos")}>Productos</a>
                             <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("proveedores")}>Proveedores</a>
                             <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("venta")}>Ventas</a>
+                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setShowBuyTable(true)}>Compras</a>
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
@@ -241,35 +251,42 @@ const Tabla = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                  />
             </div>
-            
-            <Table  
-               columnAutoWidth={true}
-               columnSpacing={10}
-               aria-label="Selection behavior table example with dynamic content"
-               selectionMode="multiple"
-               selectionBehavior={selectionBehavior}
-               className="w-[1250px] h-[676px] text-center"
-               >
-              <TableHeader columns={columns}>
-                {(column) => <TableColumn key={column.key} className="text-center">{column.label}</TableColumn>}
-              </TableHeader>
-              <TableBody items={filteredData}>
-                    {(item) => (
-                        <TableRow key={item._id}>
-                        {columns.map((column) => (
-                            <TableCell key={column.key}>
-                            {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
-                            </TableCell>
-                        ))}
-                        </TableRow>
-                    )}
-              </TableBody>
-            </Table>
-            </div>
-            }  
+          <Table  
+            columnAutoWidth={true}
+            columnSpacing={10}
+            aria-label="Selection behavior table example with dynamic content"
+            selectionMode="multiple"
+            selectionBehavior={selectionBehavior}
+            className="w-[1250px] h-[676px] text-center"
+          >
+            <TableHeader columns={columns}>
+              {(column) => <TableColumn key={column.key} className="text-center">{column.label}</TableColumn>}
+            </TableHeader>
+            <TableBody items={filteredData}>
+              {(item) => (
+                <TableRow key={item._id}>
+                  {columns.map((column) => (
+                    <TableCell key={column.key}>
+                      {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+    </>
+  )}
+  
+  {/* Mostrar BuyTable si showBuyTable es true */}
+  {showBuyTable && <BuysTable comeBack={returnToTablaGenerica}/>}
+      
         </>
       
     );
   };
   
   export default Tabla;
+
+ 

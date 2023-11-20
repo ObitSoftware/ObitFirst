@@ -26,20 +26,30 @@ export const getCompraById = async (req, res) => {
 };
 
 // Crear un nuevo compra
-export const createCompra = async (req, res) => {
- 
+
+
+export const createCompra = async (req, res) => { 
   const {compraId, productosComprados, fechaCompra, total} = req.body
   console.log(req.body)
 
-  try {
-    const newCompra = new Compra(req.body);
-    const savedCompra = await newCompra.save();
-    res.status(201).json(savedCompra);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al crear la compra' });
-    console.log(error)
-  }
-};
+      try {
+        const newCompraToSaved = new Compra({ 
+          compraId,
+          productosComprados,
+          fechaCompra,
+          total
+        })
+        newCompraToSaved.save()
+                        .then((nuevaCompra) => { 
+                          res.json({message: "Compra guardada", nuevaCompra})
+                        })
+                        .catch((err) => { 
+                          console.log(err)
+                        })
+      } catch (error) {
+        console.log(err)
+      }
+}
 
 //Actualizar Compra
 export const updateCompra = async (req, res) => {

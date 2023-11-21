@@ -132,14 +132,39 @@ export default function EditModal({type, producto}) {
              
               <ModalBody>
                     {type === "productos" ?    
-                          <div className="flex flex-col items-center justify-center">
-                              <small> {producto.productId}</small>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProductName(e.target.value)} />
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.descripcion}`} onChange={(e) => setNewProductDescription(e.target.value)}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.precio}`} onChange={(e) => setNewPrice(e.target.value)}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.cantidad}`} onChange={(e) => setNewProductCantidad(e.target.value)}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.categoria}`} onChange={(e) => setNewProductCategoria(e.target.value)}/>
+                          <div className="flex flex-col ">
+
+                                 <div className="flex gap-6 items-center">
+                                    <div className="flex gap-2 items-center">
+                                      <p className="text-xs font-bold">Nombre:</p>
+                                      <input type="text" className=" w-36 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProductName(e.target.value)} />
+                                    </div>
+
+                                    <div className="flex gap-2 items-center">
+                                      <p className="text-xs font-bold">Cantidad:</p>
+                                      <input type="number" className="w-16 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.cantidad}`} onChange={(e) => setNewProductCantidad(e.target.value)}/>
+                                    </div>
+                                 </div>
+
+                                 <div className="flex gap-6 justify-center items-center text-center mt-6">
+                                    <div className="flex gap-2 items-center">
+                                      <p className="text-xs font-bold">Precio:</p>
+                                      <input type="number" className="w-24 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.precio}`} onChange={(e) => setNewPrice(e.target.value)}/>
+                                    </div>
+
+                                    <div className="flex gap-2 items-center text-center">
+                                      <p className="text-xs font-bold">Categoria:</p>
+                                      <input type="number" className="w-16 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.categoria}`} onChange={(e) => setNewProductCategoria(e.target.value)}/>
+                                    </div>
+                                 </div>
+
+                                 <div className="flex justify-center items-center mt-8">
+                                   <textarea type="text" className="rounded-lg text-sm flex text-center items-center" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.descripcion}`} onChange={(e) => setNewProductDescription(e.target.value)}></textarea>
+                                 </div>
+
                           </div> 
+
+                          
                      : null }
 
                      {type === "proveedores" ?    
@@ -201,3 +226,4 @@ export default function EditModal({type, producto}) {
     </>
   );
 }
+

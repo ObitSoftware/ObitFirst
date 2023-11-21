@@ -8,7 +8,7 @@ const Main = () => {
   return (
     <div>
         <Navbar/> 
-        <div className='flex flex-col mt-36'>
+        <div className='flex flex-col items-center mt-36'>
           <TablaGenerica/>
         </div>         
     </div>

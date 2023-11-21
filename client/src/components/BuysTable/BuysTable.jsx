@@ -105,7 +105,7 @@ const BuysTable = ({comeBack}) => {
                     }
                     setTimeout(() => { 
                         setLoad(false)
-                    }, 1000)
+                    }, 200)
                     })
                     .catch((err) => {
                     console.log(err);

@@ -16,7 +16,10 @@ const AddSellModal = ({}) => {
     const [showProductData, setShowProductData] = useState(false)
     const [quantity, setQuantity] = useState(null)
     const [totalToPay, setTotalToPay] = useState(null)
-
+    const [clientName, setClientName] = useState("")
+    const [succesMessage, setSuccesMessage] = useState(false)
+    
+    const actualDate = obtenerFechaActual()
 
     useEffect(() => { 
             axios.get("http://localhost:3000/productos")
@@ -48,6 +51,31 @@ const AddSellModal = ({}) => {
           }, 1000)
         }
       }, [productId]);
+
+
+      const addNewSell = () => { 
+        const dataOfSell = ({ 
+          idProducto: productSelectedData._id,
+          idCliente: "cliente_19",
+          nombreProducto: productSelectedData.nombre,
+          nombreCliente: clientName,
+          precio: productSelectedData.precio,
+          cantidad: quantity,
+          total: quantity * productSelectedData.precio,
+          fechaCreacion: actualDate
+        })
+        axios.post("http://localhost:3000/venta", dataOfSell)
+             .then((res) => { 
+              console.log(res.data)
+              setSuccesMessage(true)
+              setTimeout(() => { 
+                window.location.reload()
+              }, 2500)
+             })
+             .catch((err) => { 
+              console.log(err)
+             })
+      }
 
 
 
@@ -116,7 +144,9 @@ const AddSellModal = ({}) => {
 
                                   <div className='flex gap-2 mt-4 text-center items-center'>
                                      <small className='font-bold'>Nombre del cliente</small>
-                                     <input type="text" className='h-9 rounded-lg border border-none w-44 text-sm text-center justify-center' style={{backgroundColor:"#E6EEFF"}}/>  
+                                        <input type="text" className='h-9 rounded-lg border border-none w-44 text-sm text-center justify-center' 
+                                        style={{backgroundColor:"#E6EEFF"}} 
+                                        onChange={(e) => setClientName(e.target.value)}/>  
                                   </div> 
 
                                   <div className='flex gap-2 mt-4 text-center items-center'>
@@ -135,8 +165,12 @@ const AddSellModal = ({}) => {
                    </div>
 
                    <div className='flex justify-end w-full mt-8'>
-                       <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' >Añadir Venta </Button>
+                       <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => addNewSell()}>Añadir Venta </Button>
                    </div>
+
+                  {succesMessage ? <div className='flex justify-end w-full mt-8'>
+                     <p style={{color:"#60BCFF"}} className="font-bold text-md mb-6">Venta asentada con Exito</p>
+                   </div> : null}
 
               
             </div>

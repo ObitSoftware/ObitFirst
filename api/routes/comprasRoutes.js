@@ -12,7 +12,7 @@ comprasRoutes.get('/', getAllCompras);
 comprasRoutes.get('/:comprasId', getCompraById);
 comprasRoutes.post('/', createCompra);
 comprasRoutes.put('/:comprasId', updateCompra);
-comprasRoutes.delete('/:comprasId', deleteCompra);
+comprasRoutes.delete('/:compraId', deleteCompra);
 
 
 export default comprasRoutes;

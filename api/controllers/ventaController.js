@@ -50,7 +50,7 @@ export const eliminarVenta = async (req, res) => {
   const { ventaId } = req.params;
 
   try {
-    const sale = await Venta.findById(ventaId);
+    const sale = await Venta.findByIdAndDelete(ventaId);
 
     if (!sale) {
       return res.status(404).json({ error: 'Venta no encontrada' });

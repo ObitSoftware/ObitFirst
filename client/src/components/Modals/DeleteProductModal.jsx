@@ -96,13 +96,13 @@ export default function DeleteProductModal ({type, producto})  {
                   <img src={alertLogo} className='w-12 h-12'/>
                   {type === "productos" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el producto?</small> : null}
                   {type === "proveedores" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el proveedor?</small> : null}
-                  {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta?</small> : null}
+                  {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta? {producto.ventaId} </small> : null}
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
                       <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'
                        style={{backgroundColor:"#728EC3"}} 
-                        onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "venta" ? deleteSell() : null}}>                              
+                        onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "venta" ? deleteSell() : type === "compras" ? deleteBuy() : null}}>                              
                           Si, estoy seguro
                        </button>
                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button>

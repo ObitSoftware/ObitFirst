@@ -1,7 +1,51 @@
 import Venta from '../models/ventaModel.js';
 import Product from '../models/productModel.js';
 
+/* export const crearVenta = async (req, res) => {
+  const {
+    idProducto,
+    idCliente,
+    nombreProducto,
+    nombreCliente,
+    precio,
+    cantidad,
+    total,
+    fechaCreacion,
+  } = req.body;
 
+  try {
+    const product = await Product.findById({ _id: idProducto });
+
+    if (!product) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    if (product.stock < cantidad) {
+      return res.status(400).json({ error: 'Stock insuficiente' });
+    }
+
+    const newSale = new Venta({ idProducto,idCliente,nombreProducto,nombreCliente, precio,cantidad,total,fechaCreacion,});
+
+    await newSale.save().then(async (nuevaVenta) => {
+      await Product.findOneAndUpdate(
+        { _id: idProducto },
+        { $inc: { stock: -cantidad } }, 
+        { new: true } 
+      )
+        .then(() => {
+          res.status(201).json({ message: 'Venta realizada con éxito', nuevaVenta });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json({ error: 'Error interno del servidor' });
+        });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+*/
 
 
 

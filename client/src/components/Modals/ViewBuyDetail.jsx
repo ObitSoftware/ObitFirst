@@ -34,6 +34,10 @@ export default function ViewBuyDetail ({producto})  {
                          <small>{d.precioProducto}</small>
                        </div>
                        <div className="flex gap-4 items-center justify-center">
+                         <p>Proveedor del producto: </p>
+                         <small>{d.proveedor}</small>
+                       </div>
+                       <div className="flex gap-4 items-center justify-center">
                           <p>Cantidad Comprada: </p>
                           <small>{d.cantidad}</small>
                         </div>

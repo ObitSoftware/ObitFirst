@@ -1,57 +1,37 @@
 import Venta from '../models/ventaModel.js';
 import Product from '../models/productModel.js';
 
-/* export const crearVenta = async (req, res) => {
-  const {
-    idProducto,
-    idCliente,
-    nombreProducto,
-    nombreCliente,
-    precio,
-    cantidad,
-    total,
-    fechaCreacion,
-  } = req.body;
 
+
+const decrementarStock = async (productoId, cantidad) => {
   try {
-    const product = await Product.findById({ _id: idProducto });
-
-    if (!product) {
-      return res.status(404).json({ error: 'Producto no encontrado' });
-    }
-
-    if (product.stock < cantidad) {
-      return res.status(400).json({ error: 'Stock insuficiente' });
-    }
-
-    const newSale = new Venta({ idProducto,idCliente,nombreProducto,nombreCliente, precio,cantidad,total,fechaCreacion,});
-
-    await newSale.save().then(async (nuevaVenta) => {
-      await Product.findOneAndUpdate(
-        { _id: idProducto },
-        { $inc: { stock: -cantidad } }, 
-        { new: true } 
-      )
-        .then(() => {
-          res.status(201).json({ message: 'Venta realizada con éxito', nuevaVenta });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json({ error: 'Error interno del servidor' });
-        });
-    });
+    await Product.findByIdAndUpdate(
+      productoId,
+      { $inc: { stock: -cantidad } } 
+    );
   } catch (error) {
-    res.status(500).json({ error: 'Error interno del servidor' });
+    console.log(error);
+    throw new Error('Error al decrementar el stock del producto');
   }
 };
 
-*/
+const incrementarStock = async (productoId, cantidad) => {
+  try {
+    await Product.findByIdAndUpdate(
+      productoId,
+      { $inc: { stock: cantidad } } // Incrementar el stock según la cantidad originalmente vendida
+    );
+  } catch (error) {
+    console.log(error);
+    throw new Error('Error al incrementar el stock del producto');
+  }
+};
 
 
 
 export const crearVenta = async (req, res) => {
   const { idProducto,
-    idCliente,
+  
     nombreProducto,
     nombreCliente,
     precio,
@@ -77,7 +57,6 @@ export const crearVenta = async (req, res) => {
 
         const newSale = new Venta({ 
           idProducto,
-          idCliente,
           nombreProducto,
           nombreCliente,
           precio,
@@ -87,6 +66,7 @@ export const crearVenta = async (req, res) => {
          });
                           await newSale.save()
                                        .then((nuevaVenta) => { 
+                                        decrementarStock(idProducto, cantidad)
                                         res.status(201).json({ message: 'Venta realizada con éxito', nuevaVenta});
                                        })
                                        .catch((err) => { 
@@ -104,22 +84,20 @@ export const eliminarVenta = async (req, res) => {
   const { ventaId } = req.params;
 
   try {
-    const sale = await Venta.findByIdAndDelete(ventaId);
+    const deletedSell = await Venta.findByIdAndDelete({_id: ventaId});
 
-    if (!sale) {
-      return res.status(404).json({ error: 'Venta no encontrada' });
+    if (deletedSell) {
+      res.status(200).json({ message: 'Venta eliminado correctamente', deleted: deletedSell });
+    } else {
+      res.status(404).json({ message: 'Venta no eliminada' });
     }
 
-    const { productoId, cantidad } = sale;
-    await incrementarStock(productoId, cantidad);
-
-    await Venta.findByIdAndRemove(ventaId);
-
-    res.status(200).json({ message: 'Venta eliminada con éxito' });
   } catch (error) {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
+
+
 
 export const consultarTodasVentas = async (req, res) => {
     try {

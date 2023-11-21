@@ -56,7 +56,6 @@ const AddSellModal = ({}) => {
       const addNewSell = () => { 
         const dataOfSell = ({ 
           idProducto: productSelectedData._id,
-          idCliente: "cliente_19",
           nombreProducto: productSelectedData.nombre,
           nombreCliente: clientName,
           precio: productSelectedData.precio,

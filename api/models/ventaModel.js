@@ -5,10 +5,7 @@ const ventaSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  idCliente: {
-    type: String,
-    required: true
-  },
+
   nombreProducto: {
     type: String,
     require: true,

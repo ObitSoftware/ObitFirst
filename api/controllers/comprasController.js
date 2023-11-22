@@ -28,8 +28,6 @@ export const getCompraById = async (req, res) => {
   }
 };
 
-// Crear un nuevo compra
-
 
 
 const incrementarStock = async (productosComprados) => { 
@@ -41,11 +39,18 @@ const incrementarStock = async (productosComprados) => {
       { $inc: { stock: cantidad }} 
     );
   }
-
 }
 
-
-
+const decrementarStock = async (productosComprados) => { 
+  for (const productoCompra of productosComprados) {
+   const { productoId, cantidad } = productoCompra;
+   console.log("Me llego:", productoId, cantidad)
+   await Product.findByIdAndUpdate(
+     { _id: productoId },
+     { $inc: { stock: -cantidad }} 
+   );
+ }
+}
 
 export const createCompra = async (req, res) => { 
   const {compraId, productosComprados, fechaCompra, total} = req.body

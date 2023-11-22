@@ -11,6 +11,8 @@ export default function DeleteProductModal ({type, producto})  {
   const [proveedorId, setProveedorId] = useState("")
   const [compraId, setCompraId] = useState("")
   const [ventaId, setVentaId] = useState("")
+  const [salesQuestion, setSalesQuestion] = useState(false)
+  const [purchaseQuestion, setPurchaseQuestion] = useState(false)
 
   const deleteProduct = () => { 
     axios.delete(`http://localhost:3000/productos/${productId}`)
@@ -100,14 +102,51 @@ export default function DeleteProductModal ({type, producto})  {
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
-                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'
-                       style={{backgroundColor:"#728EC3"}} 
-                        onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "venta" ? deleteSell() : type === "compras" ? deleteBuy() : null}}>                              
+                      {type === "productos" ? 
+                       <>
+                        <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  onClick={()=> deleteProduct()}>                              
                           Si, estoy seguro
                        </button>
-                      <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button>
+                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
+                       </>
+                     : null }
+
+                     {type === "proveedores" ? 
+                       <>
+                        <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  onClick={()=> deleteProvider()}>                              
+                          Si, estoy seguro
+                       </button>
+                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
+                       </>
+                     : null }
+
+                    {type === "venta" ?
+                     <>
+                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestion(true)}>                              
+                          Si, estoy seguro
+                       </button>
+                      <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
+                     </>
+                      : null}
+
+                   {type === "compras" ?
+                     <>
+                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setPurchaseQuestion(true)}>                              
+                          Si, estoy seguro
+                       </button>
+                      <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
+                     </>
+                      : null}
 
                   </div> 
+
+                  {salesQuestion ? 
+                       <div className="flex items-center justify-center gap-6">
+                         <p>aa</p>
+                       </div>
+                      : null }
+
+
                  {succesMessage ? 
                    <div className="flex flex-col items-center text-center justify-center mt-6">
                         <p style={{color:"#728EC3"}} className="text-sm font-bold">Eliminado correctamente</p>

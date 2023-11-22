@@ -11,8 +11,9 @@ export default function DeleteProductModal ({type, producto})  {
   const [proveedorId, setProveedorId] = useState("")
   const [compraId, setCompraId] = useState("")
   const [ventaId, setVentaId] = useState("")
-  const [salesQuestion, setSalesQuestion] = useState(false)
-  const [purchaseQuestion, setPurchaseQuestion] = useState(false)
+  const [salesQuestionSell, setSalesQuestionSell] = useState(false)
+  const [salesQuestionBuy, setSalesQuestionBuy] = useState(false)
+  const [replenishStockSell, setReplenishStockSell] = useState("")
 
   const deleteProduct = () => { 
     axios.delete(`http://localhost:3000/productos/${productId}`)
@@ -56,8 +57,38 @@ export default function DeleteProductModal ({type, producto})  {
          })
   }
 
+  const deleteSellAndReplenishStock = () => { 
+    axios.delete(`http://localhost:3000/venta/reponerStock/${ventaId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
+
+
   const deleteBuy = () => { 
     axios.delete(`http://localhost:3000/compras/${compraId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            window.location.reload()
+          }, 2500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
+  const deleteBuyAndReplenishStock = () => { 
+    axios.delete(`http://localhost:3000/compras/reponerStock/${compraId}`)
          .then((res) => { 
           console.log(res.data)
           setSuccesMessage(true)
@@ -85,6 +116,11 @@ export default function DeleteProductModal ({type, producto})  {
     
   }, [producto])
 
+
+  
+   
+
+
   return (
     <>
      <small onClick={onOpen} className="bg-white text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
@@ -102,27 +138,20 @@ export default function DeleteProductModal ({type, producto})  {
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
-                      {type === "productos" ? 
-                       <>
-                        <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  onClick={()=> deleteProduct()}>                              
-                          Si, estoy seguro
-                       </button>
-                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
-                       </>
+                      {type === "productos" || type === "proveedores" ? 
+                       <div className="flex gap-6 items-center justify-center">
+                          <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  
+                         onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : null}}>                           
+                            Si, estoy seguro
+                        </button>
+                        <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
+                       </div>
                      : null }
 
-                     {type === "proveedores" ? 
-                       <>
-                        <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  onClick={()=> deleteProvider()}>                              
-                          Si, estoy seguro
-                       </button>
-                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
-                       </>
-                     : null }
-
+                 
                     {type === "venta" ?
                      <>
-                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestion(true)}>                              
+                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionSell(true)}>                              
                           Si, estoy seguro
                        </button>
                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
@@ -131,7 +160,7 @@ export default function DeleteProductModal ({type, producto})  {
 
                    {type === "compras" ?
                      <>
-                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setPurchaseQuestion(true)}>                              
+                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionBuy(true)}>                              
                           Si, estoy seguro
                        </button>
                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
@@ -140,9 +169,17 @@ export default function DeleteProductModal ({type, producto})  {
 
                   </div> 
 
-                  {salesQuestion ? 
-                       <div className="flex items-center justify-center gap-6">
-                         <p>aa</p>
+                  {salesQuestionSell ? 
+                       <div className="flex items-center justify-center gap-6 mt-8">
+                         <p style={{color:"#728EC3"}} className="font-bold text-xs cursor-pointer" onClick={() => deleteSellAndReplenishStock()}>Reponer al Stock</p>
+                         <p style={{color:"#728EC3"}} className="font-bold text-xs cursor-pointer" onClick={() =>  deleteSell()()}>No reponer al Stock</p>
+                       </div>
+                      : null }
+
+                  {salesQuestionBuy ? 
+                       <div className="flex items-center justify-center gap-6 mt-8">
+                         <p style={{color:"#728EC3"}} className="font-bold text-xs cursor-pointer" onClick={() => deleteBuyAndReplenishStock()}>Reponer al Stock</p>
+                         <p style={{color:"#728EC3"}} className="font-bold text-xs cursor-pointer" onClick={() => deleteBuy()}>No reponer al Stock</p>
                        </div>
                       : null }
 

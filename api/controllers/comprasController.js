@@ -117,3 +117,43 @@ export const deleteCompra = async (req, res) => {
 };
 
 
+export const deleteCompraAndReplenishStock = async (req, res) => {
+  const { compraId } = req.params;
+
+  try {
+    const compra = await Compra.findById(compraId);
+    if (!compra) {
+      return res.status(404).json({ mensaje: 'Compra no encontrada' });
+    }
+
+    // Obtener la lista de productos comprados de la compra
+    const productosComprados = compra.productosComprados;
+
+    // Actualizar el stock de cada producto comprado
+    await Promise.all(
+      productosComprados.map(async (productoComprado) => {
+        const { productoId, cantidad } = productoComprado;
+
+        // Decrementar el stock por la cantidad comprada
+        await Product.findByIdAndUpdate(
+          productoId,
+          { $inc: { stock: -cantidad } },
+          { new: true }
+        );
+      })
+    );
+
+    // Eliminar la compra
+    await Compra.findByIdAndDelete(compraId);
+
+    res.status(200).json({ mensaje: 'Compra eliminada y stock repuesto' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al procesar la solicitud' });
+  }
+};
+
+
+
+
+

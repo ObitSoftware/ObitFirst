@@ -6,11 +6,13 @@ import {
     eliminarVenta, 
     consultarTodasVentas, 
     consultarVenta, 
-    actualizarVenta
+    actualizarVenta,
+    eliminarVentaReponerStock
  } from '../controllers/ventaController.js';
 
 ventaRoutes.post('/', crearVenta);
 ventaRoutes.delete('/:ventaId', eliminarVenta);
+ventaRoutes.delete('/reponerStock/:ventaId', eliminarVentaReponerStock);
 ventaRoutes.get('/', consultarTodasVentas);
 ventaRoutes.get('/:ventaId', consultarVenta);
 ventaRoutes.put('/:ventaId', actualizarVenta);

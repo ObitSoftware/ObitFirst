@@ -80,6 +80,7 @@ export const crearVenta = async (req, res) => {
         }
 };
 
+
 export const eliminarVenta = async (req, res) => {
   const { ventaId } = req.params;
 
@@ -94,6 +95,29 @@ export const eliminarVenta = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+
+
+export const eliminarVentaReponerStock = async (req, res) => {
+  const { ventaId } = req.params;
+
+  try {
+    const venta = await Venta.findById(ventaId);
+    if (!venta) {
+      return res.status(404).json({ mensaje: 'Venta no encontrada' });
+    }
+    await Product.findByIdAndUpdate(
+      venta.idProducto,
+      { $inc: { stock: venta.cantidad } }, 
+      { new: true }
+    );
+    await Venta.findByIdAndDelete(ventaId);
+    res.status(200).json({ mensaje: 'Venta eliminada y stock repuesto' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al procesar la solicitud' });
   }
 };
 

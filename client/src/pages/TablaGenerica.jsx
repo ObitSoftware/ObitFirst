@@ -261,15 +261,14 @@ const Tabla = () => {
                 </div>      
             </div>
             <div className="flex items-start m-2">
-                <Input style={{border: "none"}}
-                    classNames={{ base: "w-full sm:max-w-[40%]" }} 
-                    disableFilled={true}
-                    startContent={<SearchIcon className="text-default-300 " disableFocusRing />}  
-                    placeholder="Buscador"
-                    size="xxs"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                 />
+            <Input
+  style={{border: "none"}}
+  classNames={{ base: "w-full sm:max-w-[40%]" }}
+  disableFilled={true}
+  placeholder="Buscador"
+  size="xxs"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)} />
                    
             </div>
           <Table  

@@ -35,6 +35,7 @@ const BuysTable = ({comeBack}) => {
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
                 label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
+                allowsSorting: true
           }));
 
           columnObjects.push({
@@ -122,6 +123,18 @@ const BuysTable = ({comeBack}) => {
                     useEffect(() => { 
                         console.log(filteredData)
                     }, [filteredData])
+
+                    function sortData(data, columnKey, sortDirection) {
+                        const sortedData = [...data];
+                      
+                        if (columnKey === "total") {
+                          sortedData.sort((a, b) => (sortDirection === "asc" ? a.total - b.total : b.total - a.total));
+                        } 
+                      
+                        return sortedData; 
+                      }
+                
+                      let sortDirection = "asc";
   
     return (
         <>
@@ -162,7 +175,24 @@ const BuysTable = ({comeBack}) => {
             
             <Table columnAutoWidth={true} columnSpacing={10}  aria-label="Selection behavior table example with dynamic content"   selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-[1250px] h-[676px] text-center">
                 <TableHeader columns={columns}>
-                    {(column) => <TableColumn key={column.key} className="text-center">{column.label}</TableColumn>}
+                    {(column) => (
+                        <TableColumn
+                        key={column.key}
+                        className="text-center"
+                        allowsSorting={column.key === "total"}
+                        onClick={() => {
+                            if (column.key === "total") {
+                            const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
+                            const sortedData = sortData(data, column.key, newSortDirection);
+
+                            setData(sortedData);
+                            sortDirection = newSortDirection;
+                            }
+                        }}
+                        >
+                        {column.label}
+                        </TableColumn>
+                    )}
                 </TableHeader>
                 <TableBody items={filteredData}>
                     {(item) => (
@@ -184,4 +214,5 @@ const BuysTable = ({comeBack}) => {
   };
   
   export default BuysTable;
+
 

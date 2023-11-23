@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 import { PlusIcon } from '../icons/PlusIcon';
 import axios from 'axios';
 import obtenerFechaActual from '../../functions/actualDate.js';
 import { v4 as uuidv4 } from 'uuid';
 import AddProductModal from './AddProductModal';
+import {Textarea} from "@nextui-org/react";
+
 
 const AddBuyModal = () => {
   const randomId = uuidv4();
@@ -195,6 +197,7 @@ const AddBuyModal = () => {
                     <input
                       type="number"
                       className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center"
+                      value={productToBuyData.cantidad}
                       style={{ backgroundColor: '#E6EEFF' }}
                       onChange={(e) => {
                         const cantidadValue = e.target.value;
@@ -211,20 +214,25 @@ const AddBuyModal = () => {
 
                   <div className="mt-4 flex flex-col items-center justify-center">
                     <p>Observaciones</p>
-                    <textarea
-                      onChange={(e) => {
-                        const observacionesAclaradas = e.target.value;
-                        setProductToBuyData((prevState) => ({
-                          ...prevState,
-                          observaciones: observacionesAclaradas,
-                        }));
-                      }}
-                    ></textarea>
+                    <Textarea
+                   value={productToBuyData.observaciones}        
+                   onChange={(e) => {
+                    const observacionesAclaradas = e.target.value;
+                    setProductToBuyData((prevState) => ({
+                      ...prevState,
+                      observaciones: observacionesAclaradas,
+                    }));
+                  }}
+                   placeholder="Enter your description"
+                   className="max-w-xs border border-none"
+                />
                   </div>
+
+               
 
                   <div className="mt-4">
                     <p>Selecciona la fecha de Pago</p>
-                    <input type="date" onChange={handleFechaDePagoChange}></input>
+                    <input type="date"  style={{ backgroundColor: '#E6EEFF' }} value={productToBuyData.fechaPago} onChange={handleFechaDePagoChange}></input>
                   </div>
 
                   {succesMessage ? (
@@ -232,10 +240,10 @@ const AddBuyModal = () => {
                       Compra añadida con Éxito
                     </p>
                   ) : (
-                    <div className="flex gap-6 items-center justify-center">
-                      <Button onClick={() => sendMyNewBuy()}>Finalizar</Button>
-                      <Button onClick={() => agregarProducto()}>Agregar Otro</Button>
-                      <Button onClick={() => cancelTheBuy()}>Cancelar</Button>
+                    <div className="flex gap-6 items-center justify-center mt-4">
+                      <Button className="bg-foreground text-background font-bold cursor-pointer" style={{ backgroundColor: '#60BCFF' }} size="sm" onClick={() => sendMyNewBuy()}>Finalizar</Button>
+                      <Button className="bg-foreground text-background font-bold cursor-pointer" style={{ backgroundColor: '#60BCFF' }} size="sm" onClick={() => agregarProducto()}>Agregar Otro</Button>
+                      <Button className="bg-foreground text-background font-bold cursor-pointer" style={{ backgroundColor: '#60BCFF' }} size="sm" onClick={() => cancelTheBuy()}>Cancelar</Button>
                     </div>
                   )}
                 </div>

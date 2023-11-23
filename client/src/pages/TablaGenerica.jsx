@@ -34,6 +34,7 @@ const Tabla = () => {
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
                 label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
+                allowsSorting: true
           }));
 
             {activeTab === "productos" ?    
@@ -181,23 +182,20 @@ const Tabla = () => {
                     },
                 }) :
             null}
-
-
-
           
           setColumns(columnObjects);
 
-          if (tableRef.current) {
-            tableRef.current.updateColumns(columnObjects);
-          }
-          setTimeout(() => { 
-            setLoad(false)
-          }, 1000)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, [activeTab]);
+            if (tableRef.current) {
+              tableRef.current.updateColumns(columnObjects);
+            }
+            setTimeout(() => { 
+              setLoad(false)
+            }, 1000)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+       }, [activeTab]);
 
 
     const filteredData = data.filter((item) => {
@@ -214,6 +212,28 @@ const Tabla = () => {
       const returnToTablaGenerica = () => { 
         setShowBuyTable(false)
       }
+
+      function sortData(data, columnKey, sortDirection) {
+        const sortedData = [...data];
+      
+        if (columnKey === "total") {
+          sortedData.sort((a, b) => (sortDirection === "asc" ? a.total - b.total : b.total - a.total));
+        } else if (columnKey === "precio") {
+          sortedData.sort((a, b) => (sortDirection === "asc" ? a.precio - b.precio : b.precio - a.precio));
+        } else if (columnKey === "stock") {
+          sortedData.sort((a, b) => (sortDirection === "asc" ? a.stock - b.stock : b.stock - a.stock));
+        }
+      
+        return sortedData; 
+      }
+
+      let sortDirection = "asc";
+
+      function getStockClass(stock, columnName) {
+      
+        return stock < 5 ? 'bg-red-100' : '';
+      }
+      
   
     return (
         <>
@@ -250,6 +270,7 @@ const Tabla = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                  />
+                   
             </div>
           <Table  
             columnAutoWidth={true}
@@ -260,13 +281,31 @@ const Tabla = () => {
             className="w-[1250px] h-[676px] text-center"
           >
             <TableHeader columns={columns}>
-              {(column) => <TableColumn key={column.key} className="text-center">{column.label}</TableColumn>}
+              {(column) => (
+                <TableColumn
+                  key={column.key}
+                  className="text-center"
+                  allowsSorting={column.key === "total" || column.key === "precio" || column.key === "stock"}
+                  onClick={() => {
+                    if (column.key === "total" || column.key === "precio" || column.key === "stock") {
+                      const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
+                      const sortedData = sortData(data, column.key, newSortDirection);
+
+                      setData(sortedData);
+                      sortDirection = newSortDirection;
+                    }
+                  }}
+                >
+                  {column.label}
+                </TableColumn>
+              )}
             </TableHeader>
+
             <TableBody items={filteredData}>
               {(item) => (
-                <TableRow key={item._id}>
+               <TableRow key={item._id} >
                   {columns.map((column) => (
-                    <TableCell key={column.key}>
+                    <TableCell key={column.key} className={getStockClass(item.stock, column.key)}>
                       {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
                     </TableCell>
                   ))}
@@ -278,8 +317,7 @@ const Tabla = () => {
       )}
     </>
   )}
-  
-  {/* Mostrar BuyTable si showBuyTable es true */}
+
   {showBuyTable && <BuysTable comeBack={returnToTablaGenerica}/>}
       
         </>

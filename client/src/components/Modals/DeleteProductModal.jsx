@@ -123,7 +123,7 @@ export default function DeleteProductModal ({type, producto})  {
 
   return (
     <>
-     <small onClick={onOpen} className="bg-white text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
+     <small onClick={onOpen} className=" text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (

@@ -16,6 +16,7 @@ const AddBuyModal = () => {
   const [productSelectedData, setProductSelectedData] = useState([]);
   const [succesMessage, setSuccesMessage] = useState(false);
   const [productosComprados, setProductosComprados] = useState([]);
+  const [showOrdersChoosen, setShowOrdersChoosen] = useState(false)
   const [productToBuyData, setProductToBuyData] = useState({
     proveedor: '',
     productoId: '',
@@ -81,6 +82,7 @@ const AddBuyModal = () => {
     };
 
     const agregarProducto = () => {
+      setShowOrdersChoosen(true)
       setProductosComprados((prevProductos) => [
         ...prevProductos,
         {
@@ -234,6 +236,20 @@ const AddBuyModal = () => {
                     <p>Selecciona la fecha de Pago</p>
                     <input type="date"  style={{ backgroundColor: '#E6EEFF' }} value={productToBuyData.fechaPago} onChange={handleFechaDePagoChange}></input>
                   </div>
+
+                {showOrdersChoosen ?
+                    <div className="flex flex-col items-start justify-start mt-6 mb-2">
+                        {productosComprados.map((p) => (
+                          <div key={p.nombreProducto} className="flex flex-col">
+                            <ul className="list-disc flex flex-col ">
+                              <li className="text-sm font-bold">{p.nombreProducto} - {p.cantidad} Unidades</li>
+                            </ul>
+                      
+                          </div>   
+                        ))}
+                    </div> 
+
+                    : null} 
 
                   {succesMessage ? (
                     <p style={{ color: '#728EC3' }} className="text-sm font-bold">

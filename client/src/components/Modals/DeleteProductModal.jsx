@@ -160,10 +160,10 @@ export default function DeleteProductModal ({type, producto})  {
 
                    {type === "compras" ?
                      <>
-                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionBuy(true)}>                              
+                      <button className='h-10 w-36 rounded-lg font-bold text-white items-center text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionBuy(true)}>                              
                           Si, estoy seguro
                        </button>
-                      <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
+                      <button className='h-10 w-36 rounded-lg bg-white flex items-center text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
                      </>
                       : null}
 

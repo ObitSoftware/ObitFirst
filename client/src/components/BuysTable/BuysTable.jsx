@@ -141,7 +141,7 @@ const BuysTable = ({comeBack}) => {
         <>
      
      {load ? (
-            <div className="flex items-center justify-center mt-44">
+            <div className="flex items-center justify-center mt-22">
                 <Loading text="Cargando Compras.." />
             </div>
             )  :

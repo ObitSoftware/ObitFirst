@@ -45,14 +45,15 @@ const BuysTable = ({comeBack}) => {
               const filaActual = cell.row;
               const id = filaActual.original._id;
               const buyDetail = filaActual.original.productosComprados;
-              const dateOfBuy = filaActual.original.fechaCompra
+              const dateOfBuy = filaActual.original.fechaCompra;
+              const total = filaActual.original.total;
               const producto = {
               id: id,
               detail: buyDetail,
               date: dateOfBuy,
               };
               return (
-                <ViewBuyDetail  producto={producto} /> 
+                <ViewBuyDetail  producto={producto} totalAmount={total}/> 
                 );
           },
             }) 
@@ -150,10 +151,10 @@ const BuysTable = ({comeBack}) => {
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
-                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => comeBack()}>Productos</a>
-                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => comeBack()}>Proveedores</a>
-                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => comeBack()}>Ventas</a>
-                            <a className="tab bg-white text-black hover:text-gray-400" >Compras</a>
+                            <a className="tab text-white hover:text-white" style={{backgroundColor:"#A6BBE4"}} onClick={() => comeBack()}>Productos</a>
+                            <a className="tab text-white hover:text-white" style={{backgroundColor:"#A6BBE4"}} onClick={() => comeBack()}>Proveedores</a>
+                            <a className="tab text-white hover:text-white" style={{backgroundColor:"#A6BBE4"}} onClick={() => comeBack()}>Ventas</a>
+                            <a className="tab text-white hover:text-white" style={{backgroundColor:"#728EC3"}}>Compras</a>
                         </div>
                         </div>
                 </div>    

@@ -230,8 +230,7 @@ const Tabla = () => {
       let sortDirection = "asc";
 
       function getStockClass(stock, columnName) {
-      
-        return stock < 5 ? 'bg-red-100' : '';
+        return stock < 5 ? 'text-red-500' : '';
       }
       
   
@@ -250,26 +249,25 @@ const Tabla = () => {
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
-                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("productos")}>Productos</a>
-                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("proveedores")}>Proveedores</a>
-                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setActiveTab("venta")}>Ventas</a>
-                            <a className="tab bg-white text-black hover:text-gray-400" onClick={() => setShowBuyTable(true)}>Compras</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "productos" ? "#728EC3" : "#A6BBE4" }}  onClick={() => setActiveTab("productos")}>Productos</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "proveedores" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("proveedores")}>Proveedores</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "venta" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("venta")}>Ventas</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: showBuyTable === true ? "#728EC3" : "#A6BBE4" }} onClick={() => setShowBuyTable(true)}>Compras</a>
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
-                  {activeTab === "productos" ? <AddProductModal /> : activeTab === "proveedores" ? <AddProviderModal/> : activeTab === "venta" ? <AddSellModal/> : null}
+                  {activeTab === "productos" ? <AddProductModal showLike={"likeButton"}/> : activeTab === "proveedores" ? <AddProviderModal/> : activeTab === "venta" ? <AddSellModal/> : null}
                 </div>      
             </div>
             <div className="flex items-start m-2">
-            <Input
-  style={{border: "none"}}
-  classNames={{ base: "w-full sm:max-w-[40%]" }}
-  disableFilled={true}
-  placeholder="Buscador"
-  size="xxs"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)} />
-                   
+              <Input
+                style={{border: "none"}}
+                classNames={{ base: "w-full sm:max-w-[40%]" }}
+                disableFilled={true}
+                placeholder="Buscador"
+                size="xxs"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
           <Table  
             columnAutoWidth={true}

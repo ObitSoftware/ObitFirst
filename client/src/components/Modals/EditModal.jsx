@@ -2,6 +2,7 @@ import React from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import axios from "axios"
+import edit from "../../img/edit.png"
 
 export default function EditModal({type, producto}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();

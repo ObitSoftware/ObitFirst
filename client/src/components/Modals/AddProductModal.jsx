@@ -5,13 +5,13 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import obtenerFechaActual from "../../functions/actualDate.js"
 import { v4 as uuidv4 } from 'uuid';
-
+import Arrow from "../../img/arrow.png"
 
 
 /* productId, nombre, descripcion, precio, cantidad, stock, fechacreacion, categoria, proveedor  */
 
 
-const AddProductModal = () => {
+const AddProductModal = ({showLike}) => {
 
   const actualDate = obtenerFechaActual()
   const randomId = uuidv4();
@@ -67,8 +67,15 @@ const AddProductModal = () => {
 
   return (
     <div>
-      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm">    AÑADIR PRODUCTO 
-      </Button>
+    {showLike === "likeButton" ? 
+     <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm">       AÑADIR PRODUCTO 
+      </Button> 
+      : 
+       <div style={{backgroundColor:"#96ADD9"}} className='flex justify-between items-center w-full rounded-lg h-12 mt-4 cursor-pointer'  onClick={()=>document.getElementById('my_modal_3').showModal()}>
+          <small className='font-bold text-sm ml-4 text-white'>AÑADIR PRODUCTO</small>
+          <img className='h-4 w-4 mr-4' src={Arrow}/>
+      </div>
+      }
         <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
             <form method="dialog">        

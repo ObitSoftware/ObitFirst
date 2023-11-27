@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import alertLogo from "../../img/alertLogo.png"
 import axios from "axios";
+import deleteIcon from "../../img/deleteIcon.png"
 
 export default function DeleteProductModal ({type, producto})  {
 
@@ -123,7 +124,7 @@ export default function DeleteProductModal ({type, producto})  {
 
   return (
     <>
-     <small onClick={onOpen} className=" text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
+     <small onClick={onOpen} className="text-center text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
@@ -140,7 +141,7 @@ export default function DeleteProductModal ({type, producto})  {
 
                       {type === "productos" || type === "proveedores" ? 
                        <div className="flex gap-6 items-center justify-center">
-                          <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  
+                          <button className='h-10 w-42 rounded-lg font-bold text-white items-center text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  
                          onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : null}}>                           
                             Si, estoy seguro
                         </button>
@@ -151,7 +152,7 @@ export default function DeleteProductModal ({type, producto})  {
                  
                     {type === "venta" ?
                      <>
-                      <button className='h-10 w-36 rounded-lg font-bold text-white text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionSell(true)}>                              
+                      <button className='h-10 w-42 rounded-lg font-bold text-white items-center text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionSell(true)}>                              
                           Si, estoy seguro
                        </button>
                       <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
@@ -160,7 +161,7 @@ export default function DeleteProductModal ({type, producto})  {
 
                    {type === "compras" ?
                      <>
-                      <button className='h-10 w-36 rounded-lg font-bold text-white items-center text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionBuy(true)}>                              
+                      <button className='h-10 w-42 rounded-lg font-bold text-white items-center text-center flex border border-none'style={{backgroundColor:"#728EC3"}} onClick={() => setSalesQuestionBuy(true)}>                              
                           Si, estoy seguro
                        </button>
                       <button className='h-10 w-36 rounded-lg bg-white flex items-center text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 

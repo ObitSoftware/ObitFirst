@@ -6,6 +6,7 @@ import obtenerFechaActual from '../../functions/actualDate.js';
 import { v4 as uuidv4 } from 'uuid';
 import AddProductModal from './AddProductModal';
 import {Textarea} from "@nextui-org/react";
+import Arrow from "../../img/arrow.png"
 
 
 const AddBuyModal = () => {
@@ -168,73 +169,91 @@ const AddBuyModal = () => {
 
             <div className="border border-gray-200 mt-2"></div>
 
-            <div className="flex gap-8 items-center justify-center text-center  mt-4">
-              <Button className="bg-foreground text-background font-bold cursor-pointer" style={{ backgroundColor: '#60BCFF' }}size="sm" onClick={() => setProductExist(true)}>PRODUCTO EXISTENTE </Button>
-              <AddProductModal />
-            </div>
 
-            <div className="flex flex-col items-center jsutify-center mt-8">
+           {productExist ? 
+             <div className='flex gap-6 mt-4'>
+               <button className='text-white text-xs' style={{backgroundColor:"#728EC3"}}>Producto Existente</button>
+               <button className='text-white text-xs' style={{backgroundColor:"#A6BBE4"}}>Añadir Producto +</button>
+             </div>
+           : 
+           
+           <div className='flex flex-col items-center justify-start mt-4'>
+                        <div style={{backgroundColor:"#4F8BE6"}} className='flex justify-between items-center w-full rounded-lg h-12 mt-4 cursor-pointer'>
+                            <small className='font-bold text-sm ml-4 text-white' onClick={() => setProductExist(true)}>PRODUCTO EXISTENTE </small>
+                            <img className='h-4 w-4 mr-4' src={Arrow}/>
+                        </div>
+                        <div className=' w-full'>
+                          <AddProductModal/>
+                        </div>
+             </div>}
+
+            <div className="flex flex-col items-center jsutify-center mt-8"> 
+
+             
+
               {productExist ? (
-                <div className="flex flex-col text-center items-center gap-2">
-                  <small className="font-bold">Producto</small>
-                  <select
-                    className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center"
-                    style={{ backgroundColor: '#E6EEFF' }}
-                    display="flex"
-                    onChange={(e) => {
-                      const selectedName = e.target.value;
-                      const selectedId = productsAvailable.find(
-                        (p) => p.nombre === selectedName
-                      )._id;
-                      setProductId(selectedId);
-                    }}
-                  >
-                    {productsAvailable.map((p) => (
-                      <option key={p._id}>{p.nombre}</option>
-                    ))}
-                  </select>
+                <div className="flex flex-col  gap-2 ">
 
-                  <div className="flex flex-col text-center justify-center gap-2">
-                    <p>Cantidad</p>
-                    <input
-                      type="number"
-                      className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center"
-                      value={productToBuyData.cantidad}
-                      style={{ backgroundColor: '#E6EEFF' }}
-                      onChange={(e) => {
-                        const cantidadValue = e.target.value;
-                        const precioProducto = productToBuyData.precioProducto;
-                        const totalValue = cantidadValue * precioProducto;
+                  <div className='flex gap-6 items-center justify-center'>
+                     <div className='flex items-center justify-center gap-2'>
+                      <small className="font-bold text-sm">Producto</small>
+                          <select
+                            className="h-9 rounded-lg border border-none w-48 text-sm text-center justify-center"
+                            style={{ backgroundColor: '#E6EEFF' }}
+                            display="flex"
+                            onChange={(e) => {
+                              const selectedName = e.target.value;
+                              const selectedId = productsAvailable.find(
+                                (p) => p.nombre === selectedName
+                              )._id;
+                              setProductId(selectedId);
+                            }}
+                          >
+                             <option disabled selected> Seleccionar Producto</option>
+                            {productsAvailable.map((p) => (
+                              <option key={p._id}>{p.nombre}</option>
+                            ))}
+                          </select>
+                     </div>
+                     <div className='flex gap-2 items-center justify-center'>
+                       <p className='font-bold text-sm'>Cantidad</p>
+                        <input
+                          type="number"
+                          className="w-16 h-9 rounded-md border border-none"
+                          value={productToBuyData.cantidad}
+                          style={{ backgroundColor: '#E6EEFF' }}
+                          onChange={(e) => {
+                            const cantidadValue = e.target.value;
+                            const precioProducto = productToBuyData.precioProducto;
+                            const totalValue = cantidadValue * precioProducto;
+                            setProductToBuyData((prevState) => ({
+                              ...prevState,
+                              cantidad: cantidadValue,
+                              total: totalValue,
+                            }));
+                          }}
+                        />
+                     </div>
+                  </div>
+
+                  <div className='flex items-center justify-start  gap-2 mt-2'>
+                    <p className='font-bold text-sm'>Selecciona la fecha de Pago</p>
+                    <input className='h-9 border border-none rounded-lg' type="date"  style={{ backgroundColor: '#E6EEFF' }} value={productToBuyData.fechaPago} onChange={handleFechaDePagoChange}/>
+                  </div>
+
+                  <div className='flex items-start justify-start  gap-2 mt-2'>
+                    <p className='font-bold text-sm'>Observaciones</p>
+                    <textarea className="w-72 border border-none text-center items-center justify-center rounded-lg"
+                        style={{ backgroundColor: '#E6EEFF' }}
+                        value={productToBuyData.observaciones}        
+                        onChange={(e) => {
+                        const observacionesAclaradas = e.target.value;
                         setProductToBuyData((prevState) => ({
                           ...prevState,
-                          cantidad: cantidadValue,
-                          total: totalValue,
-                        }));
-                      }}
+                          observaciones: observacionesAclaradas,
+                          }));
+                          }}
                     />
-                  </div>
-
-                  <div className="mt-4 flex flex-col items-center justify-center">
-                    <p>Observaciones</p>
-                    <Textarea
-                   value={productToBuyData.observaciones}        
-                   onChange={(e) => {
-                    const observacionesAclaradas = e.target.value;
-                    setProductToBuyData((prevState) => ({
-                      ...prevState,
-                      observaciones: observacionesAclaradas,
-                    }));
-                  }}
-                   placeholder="Enter your description"
-                   className="max-w-xs border border-none"
-                />
-                  </div>
-
-               
-
-                  <div className="mt-4">
-                    <p>Selecciona la fecha de Pago</p>
-                    <input type="date"  style={{ backgroundColor: '#E6EEFF' }} value={productToBuyData.fechaPago} onChange={handleFechaDePagoChange}></input>
                   </div>
 
                 {showOrdersChoosen ?
@@ -257,9 +276,15 @@ const AddBuyModal = () => {
                     </p>
                   ) : (
                     <div className="flex gap-6 items-center justify-center mt-4">
-                      <Button className="bg-foreground text-background font-bold cursor-pointer" style={{ backgroundColor: '#60BCFF' }} size="sm" onClick={() => sendMyNewBuy()}>Finalizar</Button>
-                      <Button className="bg-foreground text-background font-bold cursor-pointer" style={{ backgroundColor: '#60BCFF' }} size="sm" onClick={() => agregarProducto()}>Agregar Otro</Button>
-                      <Button className="bg-foreground text-background font-bold cursor-pointer" style={{ backgroundColor: '#60BCFF' }} size="sm" onClick={() => cancelTheBuy()}>Cancelar</Button>
+                      <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#ACB3C0' }} size="sm" onClick={() => cancelTheBuy()}>
+                        Cancelar X
+                      </button>
+                      <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#728EC3' }} size="sm" onClick={() => agregarProducto()}>
+                        Agregar Otro +
+                      </button>
+                      <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#5074B9' }} size="sm" onClick={() => sendMyNewBuy()}>
+                        Finalizar ✔
+                      </button>
                     </div>
                   )}
                 </div>

@@ -4,8 +4,8 @@ import {Routes, Route} from "react-router-dom"
 import Main from './pages/Main'
 import Login from './pages/Login'
 import Register from './pages/Register'
-
 import Navbar from './components/NavBar/NavBar'
+
 
 
 
@@ -18,8 +18,7 @@ function App() {
        <Routes>
           <Route path="/main" element={<Main/>}></Route>
           <Route path="/" element={<Login/>}></Route>
-          <Route path="/register" element={<Register/>}></Route>
-       
+          <Route path="/register" element={<Register/>}></Route> 
        </Routes>
     </div>
   )

@@ -39,7 +39,7 @@ const AddProviderModal = ({}) => {
 
   return (
     <div>
-      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR PROVEEDOR </Button>
+      <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR PROVEEDOR </Button>
         <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
             <form method="dialog">        

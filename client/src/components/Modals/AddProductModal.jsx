@@ -68,7 +68,7 @@ const AddProductModal = ({showLike}) => {
   return (
     <div>
     {showLike === "likeButton" ? 
-     <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm">       AÑADIR PRODUCTO 
+     <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm">       AÑADIR PRODUCTO 
       </Button> 
       : 
        <div style={{backgroundColor:"#96ADD9"}} className='flex justify-between items-center w-full rounded-lg h-12 mt-4 cursor-pointer'  onClick={()=>document.getElementById('my_modal_3').showModal()}>

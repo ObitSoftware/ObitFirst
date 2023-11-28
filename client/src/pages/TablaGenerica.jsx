@@ -30,7 +30,7 @@ const Tabla = () => {
         .then((res) => {
             setData(res.data);
             console.log(res.data)
-            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'idCliente');
+            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'idCliente' && propiedad !== 'idProducto');
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
                 label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
@@ -244,8 +244,8 @@ const Tabla = () => {
           <Loading text={activeTab === "productos" ? "Cargando Productos.." : activeTab === "proveedores" ? "Cargando Proveedores.." : activeTab === "venta" ? "Cargando Ventas" : null} />
         </div>
       ) : (
-        <div className="mt-6">
-          <div className="flex justify-between items-start m-4" style={{backgroundColor:"#E6EFFF"}}>
+        <div className="mt-6 ">
+          <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full" style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
@@ -302,7 +302,7 @@ const Tabla = () => {
               {(item) => (
                <TableRow key={item._id} >
                   {columns.map((column) => (
-                    <TableCell key={column.key} className={getStockClass(item.stock, column.key)}>
+                    <TableCell align="center" key={column.key} className={getStockClass(item.stock, column.key)}>
                       {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
                     </TableCell>
                   ))}

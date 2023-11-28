@@ -64,7 +64,7 @@ const ViewBuyDetail = ({ producto, totalAmount }) => {
                               {(item) => (
                                 <TableRow key={item.nombreProducto}>
                                   {columns.map(column => (
-                                    <TableCell key={column.key} className="text-center">
+                                    <TableCell key={column.key} className="text-start items-start">
                                       {item[column.key]}
                                     </TableCell>
                                   ))}

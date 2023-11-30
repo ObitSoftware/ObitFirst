@@ -46,7 +46,7 @@ const RankingVentaProductos = () => {
   return (
        <div className='flex flex-col items-center mt-56'>
                 <p className='m-8 text-md font-bold'>Productos mas Vendidos</p>
-                <ResponsiveContainer minWidth={1400} minHeight={900} width="100%" aspect={4}>
+                <ResponsiveContainer minWidth={800} minHeight={100} width="100%" aspect={4} className="max-w-fit-contain border border-red-600">
                     <BarChart data={rankingProductos} width={500} height={300}>
                         <CartesianGrid strokeDasharray="4 1 2" />
                         <XAxis dataKey="NombreProducto" />

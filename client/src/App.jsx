@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Navbar from './components/NavBar/NavBar'
 import ContenedorDeGraficos from './components/Graficos/ContenedorDeGraficos'
+import Templa from './pages/Templa'
 
 
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route> 
           <Route path="prueba" element={<ContenedorDeGraficos/>}></Route>
+          <Route path="tt" element={<Templa/>}></Route>
        </Routes>
     </div>
   )

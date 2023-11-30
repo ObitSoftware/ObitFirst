@@ -129,6 +129,7 @@ export default function EditModal({type, producto}) {
             <div className="flex items-start justify-start border border-b-gray-200">
               {type === "productos" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Producto</ModalHeader> : null}
               {type === "proveedores" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Proveedor</ModalHeader> : null}
+              {type === "venta" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Proveedor</ModalHeader> : null}
             </div>    
              
               <ModalBody>
@@ -138,29 +139,30 @@ export default function EditModal({type, producto}) {
                                  <div className="flex gap-6 items-center">
                                     <div className="flex gap-2 items-center">
                                       <p className="text-xs font-bold">Nombre:</p>
-                                      <input type="text" className=" w-36 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProductName(e.target.value)} />
+                                      <input type="text" className=" w-36 rounded-lg text-xs h-8  border border-none flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProductName(e.target.value)} />
                                     </div>
 
                                     <div className="flex gap-2 items-center">
                                       <p className="text-xs font-bold">Cantidad:</p>
-                                      <input type="number" className="w-16 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.cantidad}`} onChange={(e) => setNewProductCantidad(e.target.value)}/>
+                                      <input type="number" className="w-16 rounded-lg text-xs h-8 border border-none  flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.cantidad}`} onChange={(e) => setNewProductCantidad(e.target.value)}/>
                                     </div>
                                  </div>
 
-                                 <div className="flex gap-6 justify-center items-center text-center mt-6">
+                                 <div className="flex gap-20 justify-start items-center text-center mt-6">
                                     <div className="flex gap-2 items-center">
                                       <p className="text-xs font-bold">Precio:</p>
-                                      <input type="number" className="w-24 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.precio}`} onChange={(e) => setNewPrice(e.target.value)}/>
+                                      <input type="number" className="w-24 rounded-lg text-xs h-8 border border-none  flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.precio}`} onChange={(e) => setNewPrice(e.target.value)}/>
                                     </div>
 
                                     <div className="flex gap-2 items-center text-center">
                                       <p className="text-xs font-bold">Categoria:</p>
-                                      <input type="number" className="w-16 rounded-lg text-xs h-8 flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.categoria}`} onChange={(e) => setNewProductCategoria(e.target.value)}/>
+                                      <input type="number" className="w-16 rounded-lg text-xs h-8 border border-none  flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.categoria}`} onChange={(e) => setNewProductCategoria(e.target.value)}/>
                                     </div>
                                  </div>
 
-                                 <div className="flex justify-center items-center mt-8">
-                                   <textarea type="text" className="rounded-lg text-sm flex text-center items-center" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.descripcion}`} onChange={(e) => setNewProductDescription(e.target.value)}></textarea>
+                                 <div className="flex justify-start items-start mt-8 gap-2">
+                                   <p className="text-xs font-bold">Descripcion:</p>
+                                   <textarea type="text" className="rounded-lg text-sm flex text-center items-center w-full" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.descripcion}`} onChange={(e) => setNewProductDescription(e.target.value)}></textarea>
                                  </div>
 
                           </div> 
@@ -169,33 +171,67 @@ export default function EditModal({type, producto}) {
                      : null }
 
                      {type === "proveedores" ?    
-                          <div className="flex flex-col items-start justify-start text-center">
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProviderName(e.target.value)}/>
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.telefono}`} onChange={(e) => setNewProviderPhone(e.target.value)}/>         
+                          <div className="flex flex-col items-start justify-start text-center mt-6">
+
+                            <div className="flex gap-2 text-center items-center justify-center">
+                              <p className="font-bold text-sm">Nombre del Proveedor: </p>
+                              <input type="text" className=" w-44 rounded-lg text-xs h-8 flex text-center items-center border border-none" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProviderName(e.target.value)}/>
+                            </div>
+
+                            <div className="flex gap-2 text-center items-center justify-center mt-6">
+                              <p className="font-bold text-sm">Telefono del Proveedor: </p>
+                              <input type="text" className=" w-44 rounded-lg text-xs h-8 flex text-center items-center border border-none" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.telefono}`} onChange={(e) => setNewProviderPhone(e.target.value)}/>      
+                            </div>
+                           
+                                 
                                    
                           </div> 
                      : null }
 
-                      {type === "venta" ?    
-                          <div className="flex flex-col items-center justify-center">
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
+                      {type === "venta" ?  
+                      <>  
+                          <div className="flex flex-col items-start justify-start mt-4">
+
+                            <div className="flex gap-2 text-center items-center justify-start mt-4">                            
+                              <p className="font-bold text-sm">Producto: </p>
+                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
                                placeholder={`${producto.nombreProducto}`} onChange={(e) => setSellNewProductName(e.target.value)}/>
+                            </div>
 
-                              <input type="text"  className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
-                              placeholder={`${producto.nombreCliente}`} onChange={(e) => setSellNewClientName(e.target.value)}/>
+                            <div className="flex gap-2 text-center items-center justify-start mt-4">
+                              <p className="font-bold text-sm">Cliente:  </p>
+                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
+                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewClientName(e.target.value)}/>
+                            </div>
 
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
-                              placeholder={`${producto.precio}`} onChange={(e) => setSellNewPrice(e.target.value)}/>     
+                            <div className="flex gap-2 text-center items-center justify-start mt-4">
+                              <p className="font-bold text-sm">Precio:  </p>
+                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
+                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewPrice(e.target.value)}/>
+                            </div>
 
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
-                              placeholder={`${producto.cantidad}`} onChange={(e) => setSellNewQuantity(e.target.value)}/> 
+                            <div className="flex gap-2 text-center items-center justify-start mt-4">
+                              <p className="font-bold text-sm">Cantidad:  </p>
+                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
+                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewQuantity(e.target.value)}/>
+                            </div>
 
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
-                              placeholder={`${producto.total}`} onChange={(e) => setSellNewTotal(e.target.value)}/> 
+                            <div className="flex gap-2 text-center items-center justify-start mt-4">
+                              <p className="font-bold text-sm">Total:  </p>
+                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
+                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewTotal(e.target.value)}/>
+                            </div>
 
-                              <input type="text" className="mt-6 w-44 rounded-lg text-xs h-8 flex text-center items-center" 
-                              placeholder={`${producto.fechaCreacion}`} value={fechaActual}/>                     
+                            <div className="flex gap-2 text-center items-center justify-start mt-4">
+                              <p className="font-bold text-sm">Fecha:  </p>
+                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
+                               placeholder={`${producto.nombreProducto}`} value={fechaActual} />
+                            </div>
+
                           </div> 
+
+                     
+                          </>
                      : null }
 
                        {type === "compras" ?    
@@ -205,12 +241,12 @@ export default function EditModal({type, producto}) {
                        : null }    
 
 
-                  <div className="flex flex-col items-center justify-center">
+                  <div className="flex flex-col items-center justify-center m-4">
 
                       {succesMessaggeProductEdited  ? 
                           <Button className="font-bold" style={{backgroundColor:"#728EC3", color:"white"}} 
                             onClick={() =>{type === "productos" ?  editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() : null}}>
-                            Guardar Cambios
+                            Guardar Cambios ✔
                           </Button> 
                                                   : 
                         <p style={{color:"#60BCFF"}} className="font-bold text-md mb-6">Cambio Actualizado con Exito</p>

@@ -1,5 +1,5 @@
 import React from "react";
-import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell, Button, Input} from "@nextui-org/react";
+import {Table,TableHeader,TableColumn,TableBody,TableRow,TableCell, Button, Input, Pagination} from "@nextui-org/react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios"
@@ -13,6 +13,7 @@ import EditModal from "../components/Modals/EditModal";
 import AddProviderModal from "../components/Modals/AddProviderModal";
 import AddSellModal from "../components/Modals/AddSellModal"
 import BuysTable from "../components/BuysTable/BuysTable";
+import PaginationTable from "../components/Pagination/Pagination"
 
 
 const Tabla = () => {
@@ -244,7 +245,7 @@ const Tabla = () => {
           <Loading text={activeTab === "productos" ? "Cargando Productos.." : activeTab === "proveedores" ? "Cargando Proveedores.." : activeTab === "venta" ? "Cargando Ventas" : null} />
         </div>
       ) : (
-        <div className="mt-6 ">
+        <div className="mt-6">
           <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full" style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
@@ -275,7 +276,7 @@ const Tabla = () => {
             aria-label="Selection behavior table example with dynamic content"
             selectionMode="multiple"
             selectionBehavior={selectionBehavior}
-            className="w-[1250px] h-[676px] text-center"
+            className="w-[1250px] h-auto text-center "
           >
             <TableHeader columns={columns}>
               {(column) => (
@@ -298,7 +299,7 @@ const Tabla = () => {
               )}
             </TableHeader>
 
-            <TableBody items={filteredData}>
+            <TableBody items={filteredData} className="">
               {(item) => (
                <TableRow key={item._id} >
                   {columns.map((column) => (
@@ -310,6 +311,9 @@ const Tabla = () => {
               )}
             </TableBody>
           </Table>
+            <div className="flex items-center justify-center text-center mt-2">
+               <PaginationTable/>
+            </div>
         </div>
       )}
     </>

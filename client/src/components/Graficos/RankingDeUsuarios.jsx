@@ -68,7 +68,7 @@ const RankingDeUsuarios = () => {
                     <BarChart data={resultado} width={500} height={300}>
                         <CartesianGrid strokeDasharray="4 1 2" />
                         <XAxis dataKey="NombreCliente" />
-                        <YAxis type="number"  domain={[0, 5]} ticks={[0, 1, 2, 3, 4, 5, 6]} className='text-sm' />
+                        <YAxis type="number"  domain={[0, 10]} ticks={[0, 2, 4, 6, 8, 10]} className='text-sm' />
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="Cantidad" fill="#728EC3" />

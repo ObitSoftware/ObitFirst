@@ -25,12 +25,18 @@ const Tabla = () => {
     const [load, setLoad] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
     const [showBuyTable, setShowBuyTable] = useState(false)
+
+    const [firstPaginationData, setFirstPaginationData] = useState([])
+    const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
+    const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
   
     useEffect(() => {
       axios.get(`http://localhost:3000/${activeTab}`)
         .then((res) => {
             setData(res.data);
             console.log(res.data)
+            const newArrayFiltered = res.data.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setFirstPaginationData(newArrayFiltered)
             const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'idCliente' && propiedad !== 'idProducto');
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
@@ -196,10 +202,10 @@ const Tabla = () => {
           .catch((err) => {
             console.log(err);
           });
-       }, [activeTab]);
+       }, [activeTab, secondNumberOfSlice, firstNumberOfSlice]);
 
 
-    const filteredData = data.filter((item) => {
+    const filteredData = firstPaginationData.filter((item) => {
         return Object.values(item).some((value) =>
           value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -232,6 +238,14 @@ const Tabla = () => {
 
       function getStockClass(stock, columnName) {
         return stock < 5 ? 'text-red-500' : '';
+      }
+
+      const firstNumSlice = (x) => { 
+        setFirstNumberOfSlice(x)
+      }
+
+      const secondNumSlice = (x) => { 
+        setSecondNumberOfSlice(x)
       }
       
   
@@ -312,7 +326,7 @@ const Tabla = () => {
             </TableBody>
           </Table>
             <div className="flex items-center justify-center text-center mt-2">
-               <PaginationTable/>
+               <PaginationTable firstNumberToSliceData={firstNumSlice} secondNumberToSliceData={secondNumSlice}/>
             </div>
         </div>
       )}

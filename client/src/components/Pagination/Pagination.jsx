@@ -3,17 +3,19 @@ import {Pagination} from "@nextui-org/react";
 import rowLeft from "../../img/rowLeft.png"
 import rowRight from "../../img/rowRight.png"
 
-export default function PaginationTable() { 
+export default function PaginationTable({firstNumberToSliceData, secondNumberToSliceData}) { 
  
  
   const [actualPage, setActualPage] = useState(1)
 
   const changePageToNext = () => { 
-    if(actualPage === 5) { 
-      setActualPage(actualPage)
-    } else { 
+    if(actualPage === 1) { 
       setActualPage(actualPage + 1)
-    }
+      secondNumberToSliceData(20)
+      firstNumberToSliceData(10)
+    } else if(actualPage === 5) { 
+      setActualPage(actualPage)
+    }  
   }
 
   const changePageToBack = () => { 

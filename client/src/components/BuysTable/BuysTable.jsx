@@ -12,7 +12,8 @@ import DeleteProductModal from "../Modals/DeleteProductModal";
 import EditModal from "../Modals/EditModal";
 import AddProviderModal from "../Modals/AddProviderModal";
 import AddSellModal from "../Modals/AddSellModal"
-import ViewBuyDetail from "../Modals/ViewBuyDetail";
+import ViewBuyDetail from "../Modals/ViewBuyDetail"
+import PaginationTable from "../Pagination/Pagination";
 import AddBuyModal from "../Modals/AddBuyModal";
 
 
@@ -25,11 +26,18 @@ const BuysTable = ({comeBack}) => {
     const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
     const [load, setLoad] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
+
+    const [sliceData, setSliceData] = useState([])
+    const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
+    const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
   
     useEffect(() => {
       axios.get("http://localhost:3000/compras")
         .then((res) => {
             setData(res.data);
+            console.log("compras", res.data)
+            const newArrayFiltered = res.data.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setSliceData(newArrayFiltered)
             console.log(res.data)
             const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados' );
             const columnObjects = propiedades.map(propiedad => ({
@@ -112,10 +120,10 @@ const BuysTable = ({comeBack}) => {
                     .catch((err) => {
                     console.log(err);
                     });
-                }, [activeTab]);
+                }, [secondNumberOfSlice, firstNumberOfSlice]);
 
 
-                    const filteredData = data.filter((item) => {
+                    const filteredData = sliceData.filter((item) => {
                         return Object.values(item).some((value) =>
                         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
                         );
@@ -123,7 +131,7 @@ const BuysTable = ({comeBack}) => {
 
                     useEffect(() => { 
                         console.log(filteredData)
-                    }, [filteredData])
+                    }, [filteredData, secondNumberOfSlice, firstNumberOfSlice])
 
                     function sortData(data, columnKey, sortDirection) {
                         const sortedData = [...data];
@@ -136,6 +144,14 @@ const BuysTable = ({comeBack}) => {
                       }
                 
                       let sortDirection = "asc";
+
+                      const firstNumSlice = (x) => { 
+                        setFirstNumberOfSlice(x)
+                      }
+                
+                      const secondNumSlice = (x) => { 
+                        setSecondNumberOfSlice(x)
+                      }
   
     return (
         <>
@@ -174,7 +190,7 @@ const BuysTable = ({comeBack}) => {
                  />
             </div>
             
-            <Table columnAutoWidth={true} columnSpacing={10}  aria-label="Selection behavior table example with dynamic content"   selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-[1250px] h-[676px] text-center">
+            <Table columnAutoWidth={true} columnSpacing={10}  aria-label="Selection behavior table example with dynamic content"   selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-[1250px] h-auto text-center">
                 <TableHeader columns={columns}>
                     {(column) => (
                         <TableColumn
@@ -207,6 +223,9 @@ const BuysTable = ({comeBack}) => {
                     )}
                 </TableBody>
             </Table>
+            <div className="flex items-center justify-center text-center mt-2">
+               <PaginationTable firstNumberToSliceData={firstNumSlice} secondNumberToSliceData={secondNumSlice}/>
+            </div>
 
             </div>
             }  

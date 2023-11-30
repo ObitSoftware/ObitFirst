@@ -26,7 +26,7 @@ const Tabla = () => {
     const [searchTerm, setSearchTerm] = useState("")
     const [showBuyTable, setShowBuyTable] = useState(false)
 
-    const [firstPaginationData, setFirstPaginationData] = useState([])
+    const [sliceData, setSliceData] = useState([])
     const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
     const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
   
@@ -36,7 +36,7 @@ const Tabla = () => {
             setData(res.data);
             console.log(res.data)
             const newArrayFiltered = res.data.slice(firstNumberOfSlice, secondNumberOfSlice)
-            setFirstPaginationData(newArrayFiltered)
+            setSliceData(newArrayFiltered)
             const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'idCliente' && propiedad !== 'idProducto');
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
@@ -205,7 +205,7 @@ const Tabla = () => {
        }, [activeTab, secondNumberOfSlice, firstNumberOfSlice]);
 
 
-    const filteredData = firstPaginationData.filter((item) => {
+    const filteredData = sliceData.filter((item) => {
         return Object.values(item).some((value) =>
           value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -220,8 +220,9 @@ const Tabla = () => {
         setShowBuyTable(false)
       }
 
-      function sortData(data, columnKey, sortDirection) {
-        const sortedData = [...data];
+      function sortData(sliceData, columnKey, sortDirection) {
+        const sortedData = [...sliceData];
+        console.log("aaa")
       
         if (columnKey === "total") {
           sortedData.sort((a, b) => (sortDirection === "asc" ? a.total - b.total : b.total - a.total));
@@ -264,7 +265,7 @@ const Tabla = () => {
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "productos" ? "#728EC3" : "#A6BBE4" }}  onClick={() => setActiveTab("productos")}>Productos</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "productos" ? "#728EC3" : "#A6BBE4" }}  onClick={() => setActiveTab("productos") }>Productos</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "proveedores" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("proveedores")}>Proveedores</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "venta" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("venta")}>Ventas</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: showBuyTable === true ? "#728EC3" : "#A6BBE4" }} onClick={() => setShowBuyTable(true)}>Compras</a>
@@ -301,9 +302,8 @@ const Tabla = () => {
                   onClick={() => {
                     if (column.key === "total" || column.key === "precio" || column.key === "stock") {
                       const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
-                      const sortedData = sortData(data, column.key, newSortDirection);
-
-                      setData(sortedData);
+                      const sortedData = sortData(sliceData, column.key, newSortDirection);
+                      setSliceData(sortedData);
                       sortDirection = newSortDirection;
                     }
                   }}

@@ -50,9 +50,7 @@ export default function EditModal({type, producto}) {
          .then((res) => { 
           console.log(res.data)
           setSuccesMessaggeProductEdited(false)
-          setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+         
          })
          .catch((err) => { 
           console.log(err)
@@ -68,9 +66,7 @@ export default function EditModal({type, producto}) {
         .then((res) => { 
           console.log(res.data)
           setSuccesMessaggeProductEdited(false)
-          setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+        
         })
         .catch((err) => { 
           console.log(err)
@@ -90,9 +86,7 @@ export default function EditModal({type, producto}) {
          .then((res) => { 
           console.log(res.data)
           setSuccesMessaggeProductEdited(false)
-          setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+          
          })
          .catch((err) => { 
           console.log(err)
@@ -244,12 +238,21 @@ export default function EditModal({type, producto}) {
                   <div className="flex flex-col items-center justify-center m-4">
 
                       {succesMessaggeProductEdited  ? 
-                          <Button className="font-bold" style={{backgroundColor:"#728EC3", color:"white"}} 
-                            onClick={() =>{type === "productos" ?  editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() : null}}>
-                            Guardar Cambios ✔
-                          </Button> 
+                           <Button
+                           className="font-bold"
+                           style={{ backgroundColor: "#728EC3", color: "white" }}
+                           onClick={() => {
+                             type === "productos" ? editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() : null;
+                             setTimeout(() => {
+                               onClose();
+                               setSuccesMessaggeProductEdited(true)
+                             }, 2500);
+                           }}
+                         >
+                           Guardar Cambios ✔
+                         </Button>
                                                   : 
-                        <p style={{color:"#60BCFF"}} className="font-bold text-md mb-6">Cambio Actualizado con Exito</p>
+                        <p style={{color:"#728EC3"}} className="font-bold text-sm mt-6 mb-6">Cambio Actualizado con Exito</p>
                       }
 
                   </div>

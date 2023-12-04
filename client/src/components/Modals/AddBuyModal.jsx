@@ -137,9 +137,11 @@ const AddBuyModal = () => {
         .then((res) => {
           console.log(res.data);
           setSuccesMessage(true);
-          setTimeout(() => {
-            window.location.reload();
-          }, 2500);
+          setProductToBuyData([])
+          setTimeout(() => { 
+            document.getElementById('my_modal_23').close();
+            setSuccesMessage(false);
+           }, 1500)
         })
         .catch((err) => {
           console.log(err);
@@ -220,7 +222,6 @@ const AddBuyModal = () => {
                         <input
                           type="number"
                           className="w-16 h-9 rounded-md border border-none"
-                          value={productToBuyData.cantidad}
                           style={{ backgroundColor: '#E6EEFF' }}
                           onChange={(e) => {
                             const cantidadValue = e.target.value;

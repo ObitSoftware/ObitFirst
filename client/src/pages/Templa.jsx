@@ -1,6 +1,7 @@
 import React from 'react'
 import RankingDeUsuarios from '../components/Graficos/RankingDeUsuarios'
 import RankingVentaProductos from '../components/Graficos/RankingVentaProductos'
+import ContenedorDeGraficos from '../components/Graficos/ContenedorDeGraficos'
 
 const Templa = () => {
   return (
@@ -60,7 +61,7 @@ const Templa = () => {
              
             </div>
             <div className='flex items-center justify-center  text-centerborder bored-red-600'>
-              <RankingVentaProductos/>
+              <ContenedorDeGraficos/>
             </div>
            
         </div>

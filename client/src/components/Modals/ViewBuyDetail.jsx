@@ -46,7 +46,7 @@ const ViewBuyDetail = ({ producto, totalAmount }) => {
               </ModalHeader>
               <div className='border border-gray-200'></div>
                 <div className='flex items-start justify-start mt-4 ml-4'>
-                   <p className='text-xs'>Fecha de Compra: {producto.date}</p>
+                   <p className='text-xs'> <b>Fecha de Compra:</b> {producto.date}</p>
                 </div>
               <ModalBody>
                 <div className='flex flex-col text-center items-center justify-center mt-6'>
@@ -73,7 +73,7 @@ const ViewBuyDetail = ({ producto, totalAmount }) => {
                             </TableBody>
                         </Table>
                     
-                    <div className='flex justify-end items-center w-full mt-6'>
+                    <div className='flex justify-end items-center w-full m-6'>
                       <p className='text-xs font-bold'>Total Gastado: {totalAmount} $</p>
                     </div>
 
@@ -82,19 +82,8 @@ const ViewBuyDetail = ({ producto, totalAmount }) => {
                   ) : (
                     <p>No hay datos para mostrar</p>
                   )}
-                  <div className='flex items-center justify-center mt-6 gap-6'>
-                    <button className='h-10 w-42 rounded-lg font-bold text-white text-center flex border border-none' style={{ backgroundColor: "#728EC3" }}>
-                      Si, estoy seguro
-                    </button>
-                    <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{ color: "#728EC3", borderColor: "#728EC3" }} onClick={onClose}>
-                      No, cancelar
-                    </button>
-                  </div>
-                  {successMessage ? (
-                    <div className="flex flex-col items-center text-center justify-center mt-6">
-                      <p style={{ color: "#728EC3" }} className="text-sm font-bold">Eliminado correctamente</p>
-                    </div>
-                  ) : null}
+                  
+                 
                 </div>
               </ModalBody>
             </>

@@ -25,12 +25,25 @@ const Tabla = () => {
     const [load, setLoad] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
     const [showBuyTable, setShowBuyTable] = useState(false)
-
     const [sliceData, setSliceData] = useState([])
     const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
     const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
+
+    const updateProductsDeleted = (productsDeleted) => { 
+      setSliceData(productsDeleted)
+    }
+
+    const updateProvidersDeleted  = (providersDeleted) => {
+      setSliceData(providersDeleted)
+    } 
+
+    const updateSellsDeleted = (sellsDeleted) => { 
+      setSliceData(sellsDeleted)
+    }
+
   
     useEffect(() => {
+   
       axios.get(`http://localhost:3000/${activeTab}`)
         .then((res) => {
             setData(res.data);
@@ -57,7 +70,7 @@ const Tabla = () => {
                     productId: id
                     };
                     return (
-                      <DeleteProductModal producto={producto} type={"productos"} />
+                      <DeleteProductModal producto={producto} type={"productos"} updateProductList={updateProductsDeleted} productListCompleted={sliceData}/>
                       );
                 },
                   }) :
@@ -76,7 +89,7 @@ const Tabla = () => {
                       proveedorId: id
                       };
                       return (
-                        <DeleteProductModal producto={producto} type={"proveedores"} />
+                        <DeleteProductModal producto={producto} type={"proveedores"} updateProvidersDeleted={updateProvidersDeleted} providersListCompleted={sliceData}/>
                         );
                   },
                     }) :
@@ -93,7 +106,7 @@ const Tabla = () => {
                         ventaId: id
                         };
                         return (
-                          <DeleteProductModal producto={producto} type={"venta"} />
+                          <DeleteProductModal producto={producto} type={"venta"} updateSellsDelete={updateSellsDeleted} sellsListCompleted={sliceData}/>
                           );
                     },
                       }) :
@@ -202,7 +215,7 @@ const Tabla = () => {
           .catch((err) => {
             console.log(err);
           });
-       }, [activeTab, secondNumberOfSlice, firstNumberOfSlice]);
+       }, [data, secondNumberOfSlice, firstNumberOfSlice]);
 
 
     const filteredData = sliceData.filter((item) => {

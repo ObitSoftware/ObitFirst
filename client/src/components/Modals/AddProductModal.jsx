@@ -53,9 +53,16 @@ const AddProductModal = ({showLike}) => {
           .then((res) => {
            console.log(res.data)
            setSuccesMessage(true)
+           setProductName("")
+           setProductDescription("")
+           setProductCategory("")
+           setProductPrice("")
+           setProductProvider("")
+           setProductStock("")
+           setProductQuantity("")
            setTimeout(() => { 
-             window.location.reload()
-           }, 2500)
+            document.getElementById('my_modal_3').close();
+           }, 1500)
           })
           .catch((err) => { 
           console.log(err)
@@ -91,11 +98,11 @@ const AddProductModal = ({showLike}) => {
                    <div className='flex justify-between items-center'>
                        <div className='flex gap-2 items-center'>
                           <small>Nombre</small>
-                          <input type='text' className='h-8 rounded-lg border border-none w-44' style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductName(e.target.value)}/>
+                          <input type='text' className='h-8 rounded-lg border border-none w-44' value={productName} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductName(e.target.value)}/>
                        </div>
                        <div className='flex items-center text-center gap-2'>
                           <small>Cantidad</small>
-                          <select className="h-9 rounded-lg border border-none w-24 text-sm" style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductQuantity(e.target.value)}>
+                          <select className="h-9 rounded-lg border border-none w-24 text-sm" value={productQuantity} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductQuantity(e.target.value)}>
                               <option disabled selected>1</option>
                               <option>1</option>
                               <option>2</option>
@@ -107,11 +114,11 @@ const AddProductModal = ({showLike}) => {
                    <div className='flex justify-between items-center mt-4'>
                        <div className='flex gap-2 items-center'>
                           <small>Precio</small>
-                          <input type='text' className='h-8 rounded-lg border border-none w-32'  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductPrice(e.target.value)}/>
+                          <input type='text' className='h-8 rounded-lg border border-none w-32' value={productPrice}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductPrice(e.target.value)}/>
                        </div>
                        <div className='flex gap-2 items-center'>
                           <small>Categoria</small>
-                          <select className="h-9 rounded-lg border border-none w-44 text-center justify-center text-sm"  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductCategory(e.target.value)}>
+                          <select className="h-9 rounded-lg border border-none w-44 text-center justify-center text-sm" value={productCategory} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductCategory(e.target.value)}>
                             <option disabled selected >Categoria</option>
                             <option>1</option>
                             <option>2</option>
@@ -131,7 +138,7 @@ const AddProductModal = ({showLike}) => {
                         </div>
                         <div className='flex text-center items-center gap-2'>
                            <small>Proveedor</small>
-                           <select className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center" style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => setProductProvider(e.target.value)}>
+                           <select className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center" value={productProvider} style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => setProductProvider(e.target.value)}>
                             {allProviders.map((provider) => (
                               <option key={provider._id}>{provider.nombre}</option>
                             ))}
@@ -141,12 +148,12 @@ const AddProductModal = ({showLike}) => {
 
                    <div className='mt-4 flex justify-start items-center gap-2'>
                       <small>Stock</small>
-                      <input type="number"  className='h-8 rounded-lg border border-none w-32'  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductStock(e.target.value)}/>
+                      <input type="number"  className='h-8 rounded-lg border border-none w-32' value={productStock}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductStock(e.target.value)}/>
                    </div>
 
                    <div className='flex flex-col  items-start justify-start w-full mt-6'>
                         <small >Descripcion</small>
-                        <textarea type="text" className='w-full rounded-lg border border-none mt-2' style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductDescription(e.target.value)} ></textarea>
+                        <textarea type="text" className='w-full rounded-lg border border-none mt-2' value={productDescription} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductDescription(e.target.value)} ></textarea>
                    </div>
 
                    <div className='flex justify-end w-full mt-4'>

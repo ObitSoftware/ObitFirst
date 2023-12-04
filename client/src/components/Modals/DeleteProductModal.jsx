@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import alertLogo from "../../img/alertLogo.png"
-import axios from "axios";
+import axios from "axios"; 
 import deleteIcon from "../../img/deleteIcon.png"
 
-export default function DeleteProductModal ({type, producto})  {
+export default function DeleteProductModal ({type, producto, updateProductList, updateProvidersDeleted, updateSellsDelete, updateBuyList, productListCompleted, providersListCompleted, sellsListCompleted, buyListCompleted})  {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure("");
   const [productId, setProductId] = useState("")
@@ -22,8 +22,9 @@ export default function DeleteProductModal ({type, producto})  {
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+            const listWithOutProductDeleted = productListCompleted.filter((product) => product._id !== productId)
+            updateProductList(listWithOutProductDeleted)
+          }, 1500)
          })
          .catch((err) => { 
           console.log(err)
@@ -36,7 +37,8 @@ export default function DeleteProductModal ({type, producto})  {
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            window.location.reload()
+            const listWithOutProvidersDeleted = providersListCompleted.filter((prov) => prov._id !== proveedorId)
+            updateProvidersDeleted(listWithOutProvidersDeleted)
           }, 2500)
          })
          .catch((err) => { 
@@ -50,8 +52,9 @@ export default function DeleteProductModal ({type, producto})  {
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+            const listWithOutSellsDeleted = sellsListCompleted.filter((s) => s._id !== ventaId)
+            updateSellsDelete(listWithOutSellsDeleted)
+          }, 1500)
          })
          .catch((err) => { 
           console.log(err)
@@ -63,9 +66,8 @@ export default function DeleteProductModal ({type, producto})  {
          .then((res) => { 
           console.log(res.data)
           setSuccesMessage(true)
-          setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+          const listWithOutSellsDeleted = sellsListCompleted.filter((s) => s._id !== ventaId)
+          updateSellsDelete(listWithOutSellsDeleted)
          })
          .catch((err) => { 
           console.log(err)
@@ -80,8 +82,9 @@ export default function DeleteProductModal ({type, producto})  {
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+            const listWithOutBuyDeleted = buyListCompleted.filter((buy) => buy._id !== compraId)
+            updateBuyList(listWithOutBuyDeleted)
+          }, 1800)       
          })
          .catch((err) => { 
           console.log(err)
@@ -94,8 +97,9 @@ export default function DeleteProductModal ({type, producto})  {
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            window.location.reload()
-          }, 2500)
+            const listWithOutBuyDeleted = buyListCompleted.filter((buy) => buy._id !== compraId)
+            updateBuyList(listWithOutBuyDeleted)
+          }, 1800)       
          })
          .catch((err) => { 
           console.log(err)

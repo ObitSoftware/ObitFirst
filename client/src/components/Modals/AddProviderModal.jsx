@@ -27,9 +27,13 @@ const AddProviderModal = ({}) => {
           .then((res) => {
            console.log(res.data)
            setSuccesMessage(true)
+           setProviderId("")
+           setProviderName("")
+           setProviderPhone("")
            setTimeout(() => { 
-             window.location.reload()
-           }, 2500)
+            document.getElementById('my_modal_3').close();
+           }, 1500)
+           
           })
           .catch((err) => { 
           console.log(err)
@@ -51,9 +55,9 @@ const AddProviderModal = ({}) => {
                 </div>
                 <div className='border border-gray-200 mt-2'></div>
                 <div className='flex flex-col mt-6 items-center justify-center'>
-                     <input placeholder='Numero de Identificacion' className='w-72 text-sm mt-6 rounded-lg' style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProviderId(e.target.value)}/>
-                     <input placeholder='Nombre' className='w-72 text-sm mt-6 rounded-lg' style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProviderName(e.target.value)}/>
-                     <input placeholder='Telefono' className='w-72 text-sm mt-4 rounded-lg' style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setProviderPhone(e.target.value)}/>
+                     <input placeholder='Numero de Identificacion' className='w-72 text-sm mt-6 rounded-lg' value={providerId} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProviderId(e.target.value)}/>
+                     <input placeholder='Nombre' className='w-72 text-sm mt-6 rounded-lg' value={providerName} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProviderName(e.target.value)}/>
+                     <input placeholder='Telefono' className='w-72 text-sm mt-4 rounded-lg' value={providerPhone} style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setProviderPhone(e.target.value)}/>
                 </div>
 
                    <div className='flex justify-end w-full mt-4'>

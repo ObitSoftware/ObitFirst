@@ -67,9 +67,15 @@ const AddSellModal = ({}) => {
              .then((res) => { 
               console.log(res.data)
               setSuccesMessage(true)
+              setClientName("")
+              setProductId("")
+              setProductSelectedData([])
+              setShowProductData(false)
+              setTotalToPay("")
               setTimeout(() => { 
-                window.location.reload()
-              }, 2500)
+                document.getElementById('my_modal_3').close();
+                setSuccesMessage(false)
+               }, 1500)
              })
              .catch((err) => { 
               console.log(err)
@@ -114,6 +120,7 @@ const AddSellModal = ({}) => {
                                     const selectedName = e.target.value;                            
                                     const selectedId = productsAvailable.find((p) => p.nombre === selectedName)._id;
                                     setProductId(selectedId);
+                                    value={productId}
                                     }}
                                   >
                                     <option disabled selected> Seleccionar Producto</option>
@@ -127,7 +134,7 @@ const AddSellModal = ({}) => {
 
                           <div className='flex gap-2 text-center items-center'>
                               <p className='font-bold text-sm'>Cantidad</p>
-                              <input type="number" className='w-16 h-9 rounded-md'  onChange={(e) => setQuantity(e.target.value)}/>
+                              <input type="number" className='w-16 h-9 rounded-md' value={quantity}  onChange={(e) => setQuantity(e.target.value)}/>
                           </div>
                         </div>  
 
@@ -135,6 +142,7 @@ const AddSellModal = ({}) => {
                           <p className='font-bold text-sm'>Nombre del Cliente</p>
                           <input type="text" className='h-9 rounded-lg border border-none w-44 text-sm text-center justify-center' 
                                         style={{backgroundColor:"#E6EEFF"}} 
+                                        value={clientName}
                                         onChange={(e) => setClientName(e.target.value)}
                           />  
                         </div>

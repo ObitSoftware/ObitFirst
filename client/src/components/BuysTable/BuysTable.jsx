@@ -30,6 +30,10 @@ const BuysTable = ({comeBack}) => {
     const [sliceData, setSliceData] = useState([])
     const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
     const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
+
+    const updateBuysList = (buysUpdated) => { 
+      setSliceData(buysUpdated)
+    }
   
     useEffect(() => {
       axios.get("http://localhost:3000/compras")
@@ -77,7 +81,7 @@ const BuysTable = ({comeBack}) => {
                     id: id
                     };
                     return (
-                      <DeleteProductModal producto={producto} type={"compras"} />
+                      <DeleteProductModal producto={producto} type={"compras"}  updateBuyList={updateBuysList} buyListCompleted={sliceData}/>
                       );
                 },
                   }) 

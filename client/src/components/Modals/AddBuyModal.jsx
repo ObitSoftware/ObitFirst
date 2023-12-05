@@ -9,7 +9,7 @@ import {Textarea} from "@nextui-org/react";
 import Arrow from "../../img/arrow.png"
 
 
-const AddBuyModal = () => {
+const AddBuyModal = ({updateList}) => {
   const randomId = uuidv4();
   const [productExist, setProductExist] = useState(false);
   const [productsAvailable, setProductsAvailable] = useState([]);
@@ -141,6 +141,7 @@ const AddBuyModal = () => {
           setTimeout(() => { 
             document.getElementById('my_modal_23').close();
             setSuccesMessage(false);
+            updateList()
            }, 1500)
         })
         .catch((err) => {

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"
 import edit from "../../img/edit.png"
 
-export default function EditModal({type, producto}) {
+export default function EditModal({type, producto, showUsersUpdated, showProviderEdited, showSaleEditedNow}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const [succesMessaggeProductEdited, setSuccesMessaggeProductEdited] = useState(true)
@@ -50,7 +50,9 @@ export default function EditModal({type, producto}) {
          .then((res) => { 
           console.log(res.data)
           setSuccesMessaggeProductEdited(false)
-         
+          setTimeout(() => {
+            showUsersUpdated();
+          }, 1500);
          })
          .catch((err) => { 
           console.log(err)
@@ -66,7 +68,9 @@ export default function EditModal({type, producto}) {
         .then((res) => { 
           console.log(res.data)
           setSuccesMessaggeProductEdited(false)
-        
+          setTimeout(() => {
+            showProviderEdited();
+          }, 1500);
         })
         .catch((err) => { 
           console.log(err)
@@ -86,7 +90,9 @@ export default function EditModal({type, producto}) {
          .then((res) => { 
           console.log(res.data)
           setSuccesMessaggeProductEdited(false)
-          
+          setTimeout(() => {
+            showSaleEditedNow();
+          }, 1500);
          })
          .catch((err) => { 
           console.log(err)

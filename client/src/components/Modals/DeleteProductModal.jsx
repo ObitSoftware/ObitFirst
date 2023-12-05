@@ -4,7 +4,7 @@ import alertLogo from "../../img/alertLogo.png"
 import axios from "axios"; 
 import deleteIcon from "../../img/deleteIcon.png"
 
-export default function DeleteProductModal ({type, producto, updateProductList, updateProvidersDeleted, updateSellsDelete, updateBuyList, productListCompleted, providersListCompleted, sellsListCompleted, buyListCompleted})  {
+export default function DeleteProductModal ({type, producto, showProvidersUpdated, showSaleUpdated,  updateBuyList,  showProductsUpdated, updateBuysList})  {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure("");
   const [productId, setProductId] = useState("")
@@ -22,8 +22,7 @@ export default function DeleteProductModal ({type, producto, updateProductList, 
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            const listWithOutProductDeleted = productListCompleted.filter((product) => product._id !== productId)
-            updateProductList(listWithOutProductDeleted)
+            showProductsUpdated()
           }, 1500)
          })
          .catch((err) => { 
@@ -37,9 +36,8 @@ export default function DeleteProductModal ({type, producto, updateProductList, 
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            const listWithOutProvidersDeleted = providersListCompleted.filter((prov) => prov._id !== proveedorId)
-            updateProvidersDeleted(listWithOutProvidersDeleted)
-          }, 2500)
+            showProvidersUpdated()
+          }, 1500)
          })
          .catch((err) => { 
           console.log(err)
@@ -52,8 +50,7 @@ export default function DeleteProductModal ({type, producto, updateProductList, 
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            const listWithOutSellsDeleted = sellsListCompleted.filter((s) => s._id !== ventaId)
-            updateSellsDelete(listWithOutSellsDeleted)
+            showSaleUpdated()
           }, 1500)
          })
          .catch((err) => { 
@@ -66,15 +63,12 @@ export default function DeleteProductModal ({type, producto, updateProductList, 
          .then((res) => { 
           console.log(res.data)
           setSuccesMessage(true)
-          const listWithOutSellsDeleted = sellsListCompleted.filter((s) => s._id !== ventaId)
-          updateSellsDelete(listWithOutSellsDeleted)
+            showSaleUpdated()
          })
          .catch((err) => { 
           console.log(err)
          })
   }
-
-
 
   const deleteBuy = () => { 
     axios.delete(`http://localhost:3000/compras/${compraId}`)
@@ -82,8 +76,7 @@ export default function DeleteProductModal ({type, producto, updateProductList, 
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            const listWithOutBuyDeleted = buyListCompleted.filter((buy) => buy._id !== compraId)
-            updateBuyList(listWithOutBuyDeleted)
+            updateBuysList()
           }, 1800)       
          })
          .catch((err) => { 
@@ -97,8 +90,7 @@ export default function DeleteProductModal ({type, producto, updateProductList, 
           console.log(res.data)
           setSuccesMessage(true)
           setTimeout(() => { 
-            const listWithOutBuyDeleted = buyListCompleted.filter((buy) => buy._id !== compraId)
-            updateBuyList(listWithOutBuyDeleted)
+            updateBuysList()
           }, 1800)       
          })
          .catch((err) => { 

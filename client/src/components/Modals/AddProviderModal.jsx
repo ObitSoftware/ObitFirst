@@ -8,7 +8,7 @@ import obtenerFechaActual from "../../functions/actualDate.js"
 import { v4 as uuidv4 } from 'uuid';
 
 
-const AddProviderModal = ({}) => {
+const AddProviderModal = ({updateList}) => {
 
   const randomId = uuidv4();
 
@@ -32,6 +32,7 @@ const AddProviderModal = ({}) => {
            setProviderPhone("")
            setTimeout(() => { 
             document.getElementById('my_modal_3').close();
+            updateList()
            }, 1500)
            
           })

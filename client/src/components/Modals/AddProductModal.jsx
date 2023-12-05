@@ -11,7 +11,7 @@ import Arrow from "../../img/arrow.png"
 /* productId, nombre, descripcion, precio, cantidad, stock, fechacreacion, categoria, proveedor  */
 
 
-const AddProductModal = ({showLike}) => {
+const AddProductModal = ({showLike, updateList}) => {
 
   const actualDate = obtenerFechaActual()
   const randomId = uuidv4();
@@ -62,6 +62,7 @@ const AddProductModal = ({showLike}) => {
            setProductQuantity("")
            setTimeout(() => { 
             document.getElementById('my_modal_3').close();
+            updateList()
            }, 1500)
           })
           .catch((err) => { 

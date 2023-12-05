@@ -26,24 +26,33 @@ const BuysTable = ({comeBack}) => {
     const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
     const [load, setLoad] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
-
     const [sliceData, setSliceData] = useState([])
     const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
     const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
 
-    const updateBuysList = (buysUpdated) => { 
-      setSliceData(buysUpdated)
-    }
+
+    const showBuysUpdated = () => {
+      axios.get("http://localhost:3000/compras")
+           .then((res) => {
+            const allData = res.data
+            const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setSliceData(newArrayFiltered)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    };
   
     useEffect(() => {
-      axios.get("http://localhost:3000/compras")
+      
+        axios.get("http://localhost:3000/compras")
         .then((res) => {
             setData(res.data);
             console.log("compras", res.data)
             const newArrayFiltered = res.data.slice(firstNumberOfSlice, secondNumberOfSlice)
             setSliceData(newArrayFiltered)
             console.log(res.data)
-            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados' );
+            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados'  && propiedad !== 'compraId' );
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
                 label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
@@ -70,6 +79,22 @@ const BuysTable = ({comeBack}) => {
           },
             }) 
 
+            columnObjects.push({
+              key: 'Vendedor',
+              label: 'Proveedores',
+              cellRenderer: (cell) => { 
+                const filaActual = cell.row;
+                const id = filaActual.original._id;
+                const purchasedProducts = filaActual.original.productosComprados;
+                const getProviders = purchasedProducts.map((prod) => prod.proveedor)
+                const providers = getProviders
+                console.log(providers)
+                return (
+                    <p>{providers.length === 1 ? providers[0] : providers.length === 2 ? [providers[0], " / " ,providers[1]] : null}</p>
+                  );
+            },
+              }) 
+
           
             columnObjects.push({
                   key: 'Eliminar',
@@ -81,7 +106,7 @@ const BuysTable = ({comeBack}) => {
                     id: id
                     };
                     return (
-                      <DeleteProductModal producto={producto} type={"compras"}  updateBuyList={updateBuysList} buyListCompleted={sliceData}/>
+                      <DeleteProductModal producto={producto} type={"compras"}  updateBuysList={showBuysUpdated}/>
                       );
                 },
                   }) 
@@ -124,6 +149,8 @@ const BuysTable = ({comeBack}) => {
                     .catch((err) => {
                     console.log(err);
                     });
+      
+     
                 }, [secondNumberOfSlice, firstNumberOfSlice]);
 
 
@@ -179,19 +206,16 @@ const BuysTable = ({comeBack}) => {
                         </div>
                 </div>    
                     <div className="flex justify-end items-center m-4">
-                       <AddBuyModal/>
+                       <AddBuyModal updateList={showBuysUpdated}/>
                     </div>      
             </div>
             <div className="flex items-start m-2">
-                <Input style={{border: "none"}}
-                    classNames={{ base: "w-full sm:max-w-[40%]" }} 
-                    disableFilled={true}
-                    startContent={<SearchIcon className="text-default-300 " disableFocusRing />}  
+                   <input
+                    className="w-[40%] border border-none focus:outline-none  focus:ring-0 h-10 rounded-xl bg-gray-200"
                     placeholder="Buscador"
-                    size="xxs"
-                    value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                 />
+                    value={searchTerm}
+                  />
             </div>
             
             <Table columnAutoWidth={true} columnSpacing={10}  aria-label="Selection behavior table example with dynamic content"   selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-[1250px] h-auto text-center">

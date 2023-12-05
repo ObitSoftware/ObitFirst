@@ -29,17 +29,43 @@ const Tabla = () => {
     const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
     const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
 
-    const updateProductsDeleted = (productsDeleted) => { 
-      setSliceData(productsDeleted)
-    }
+    
 
-    const updateProvidersDeleted  = (providersDeleted) => {
-      setSliceData(providersDeleted)
-    } 
+    const showProductsUpdated = () => {
+      axios.get("http://localhost:3000/productos")
+           .then((res) => {
+            const allData = res.data
+            const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setSliceData(newArrayFiltered)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    };
 
-    const updateSellsDeleted = (sellsDeleted) => { 
-      setSliceData(sellsDeleted)
-    }
+    const showProvidersEdited = () => {
+      axios.get("http://localhost:3000/proveedores")
+           .then((res) => {
+            const allData = res.data
+            const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setSliceData(newArrayFiltered)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    };
+
+    const showSaleEdited = () => {
+      axios.get("http://localhost:3000/venta")
+           .then((res) => {
+            const allData = res.data
+            const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setSliceData(newArrayFiltered)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    };
 
   
     useEffect(() => {
@@ -70,7 +96,7 @@ const Tabla = () => {
                     productId: id
                     };
                     return (
-                      <DeleteProductModal producto={producto} type={"productos"} updateProductList={updateProductsDeleted} productListCompleted={sliceData}/>
+                      <DeleteProductModal producto={producto} type={"productos"} showProductsUpdated={showProductsUpdated}/>
                       );
                 },
                   }) :
@@ -89,7 +115,7 @@ const Tabla = () => {
                       proveedorId: id
                       };
                       return (
-                        <DeleteProductModal producto={producto} type={"proveedores"} updateProvidersDeleted={updateProvidersDeleted} providersListCompleted={sliceData}/>
+                        <DeleteProductModal producto={producto} type={"proveedores"} showProvidersUpdated={showProvidersEdited}/>
                         );
                   },
                     }) :
@@ -106,7 +132,7 @@ const Tabla = () => {
                         ventaId: id
                         };
                         return (
-                          <DeleteProductModal producto={producto} type={"venta"} updateSellsDelete={updateSellsDeleted} sellsListCompleted={sliceData}/>
+                          <DeleteProductModal producto={producto} type={"venta"} showSaleUpdated={showSaleEdited}/>
                           );
                     },
                       }) :
@@ -139,7 +165,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                        <EditModal producto={producto} type={"productos"} />
+                        <EditModal producto={producto} type={"productos"}  showUsersUpdated={showProductsUpdated}/>
                         );
                     },
                 }) :
@@ -165,7 +191,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                         <EditModal producto={producto} type={"proveedores"} />
+                         <EditModal producto={producto} type={"proveedores"} showProviderEdited={showProvidersEdited}/>
                         );
                     },
                 }) :
@@ -197,7 +223,7 @@ const Tabla = () => {
                         };
                         
                         return (
-                         <EditModal producto={producto} type={"venta"} />
+                         <EditModal producto={producto} type={"venta"} showSaleEditedNow={showSaleEdited}/>
                         );
                     },
                 }) :
@@ -213,9 +239,9 @@ const Tabla = () => {
             }, 1000)
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err); 
           });
-       }, [data, secondNumberOfSlice, firstNumberOfSlice]);
+       }, [activeTab, secondNumberOfSlice, firstNumberOfSlice]);
 
 
     const filteredData = sliceData.filter((item) => {
@@ -285,18 +311,22 @@ const Tabla = () => {
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
-                  {activeTab === "productos" ? <AddProductModal showLike={"likeButton"}/> : activeTab === "proveedores" ? <AddProviderModal/> : activeTab === "venta" ? <AddSellModal/> : null}
+                  {activeTab === "productos" ? 
+                  <AddProductModal updateList={showProductsUpdated} showLike={"likeButton"}/>
+                   : activeTab === "proveedores" ? <AddProviderModal updateList={showProvidersEdited}/> 
+                   : activeTab === "venta" ? <AddSellModal updateList={showSaleEdited}/> 
+                   : null}
                 </div>      
             </div>
             <div className="flex items-start m-2">
-              <Input
-                style={{border: "none"}}
-                classNames={{ base: "w-full sm:max-w-[40%]" }}
-                disableFilled={true}
-                placeholder="Buscador"
-                size="xxs"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)} />
+                   <input
+                    className="w-[40%] border border-gray-200  focus:border-gray-300 focus:ring-0 h-10 rounded-xl"
+                    style={{background:"#FFFFFF"}}
+                    placeholder="Buscador.."
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    value={searchTerm}
+                    />
+                    
             </div>
           <Table  
             columnAutoWidth={true}
@@ -354,5 +384,3 @@ const Tabla = () => {
   };
   
   export default Tabla;
-
- 

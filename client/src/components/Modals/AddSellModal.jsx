@@ -8,7 +8,7 @@ import obtenerFechaActual from "../../functions/actualDate.js"
 import { v4 as uuidv4 } from 'uuid';
 
 
-const AddSellModal = ({}) => {
+const AddSellModal = ({updateList}) => {
 
     const [productsAvailable, setProductsAvailable] = useState([])
     const [productId, setProductId] = useState("")
@@ -75,6 +75,7 @@ const AddSellModal = ({}) => {
               setTimeout(() => { 
                 document.getElementById('my_modal_3').close();
                 setSuccesMessage(false)
+                updateList()
                }, 1500)
              })
              .catch((err) => { 

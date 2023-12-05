@@ -129,7 +129,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
             <div className="flex items-start justify-start border border-b-gray-200">
               {type === "productos" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Producto</ModalHeader> : null}
               {type === "proveedores" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Proveedor</ModalHeader> : null}
-              {type === "venta" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Proveedor</ModalHeader> : null}
+              {type === "venta" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Venta</ModalHeader> : null}
             </div>    
              
               <ModalBody>

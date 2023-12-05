@@ -63,6 +63,7 @@ const AddProductModal = ({showLike, updateList}) => {
            setTimeout(() => { 
             document.getElementById('my_modal_3').close();
             updateList()
+            setSuccesMessage(false)
            }, 1500)
           })
           .catch((err) => { 
@@ -104,7 +105,7 @@ const AddProductModal = ({showLike, updateList}) => {
                        <div className='flex items-center text-center gap-2'>
                           <small>Cantidad</small>
                           <select className="h-9 rounded-lg border border-none w-24 text-sm" value={productQuantity} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductQuantity(e.target.value)}>
-                              <option disabled selected>1</option>
+                              <option disabled selected>Cantidad</option>
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
@@ -140,8 +141,11 @@ const AddProductModal = ({showLike, updateList}) => {
                         <div className='flex text-center items-center gap-2'>
                            <small>Proveedor</small>
                            <select className="h-9 rounded-lg border border-none w-44 text-sm text-center justify-center" value={productProvider} style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => setProductProvider(e.target.value)}>
+                           <option disabled selected> Proveedor </option>
                             {allProviders.map((provider) => (
-                              <option key={provider._id}>{provider.nombre}</option>
+                              <>
+                                <option key={provider._id}>{provider.nombre}</option>    
+                              </>                         
                             ))}
                           </select>
                         </div>   

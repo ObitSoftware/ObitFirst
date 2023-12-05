@@ -14,6 +14,7 @@ import AddProviderModal from "../components/Modals/AddProviderModal";
 import AddSellModal from "../components/Modals/AddSellModal"
 import BuysTable from "../components/BuysTable/BuysTable";
 import PaginationTable from "../components/Pagination/Pagination"
+import ChooseBranch from "../components/Branch/ChooseBranch";
 
 
 const Tabla = () => {
@@ -288,6 +289,7 @@ const Tabla = () => {
         setSecondNumberOfSlice(x)
       }
       
+
   
     return (
         <>
@@ -299,8 +301,11 @@ const Tabla = () => {
           <Loading text={activeTab === "productos" ? "Cargando Productos.." : activeTab === "proveedores" ? "Cargando Proveedores.." : activeTab === "venta" ? "Cargando Ventas" : null} />
         </div>
       ) : (
-        <div className="mt-6">
-          <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full" style={{backgroundColor:"#E6EFFF"}}>
+        <div className="">
+            <div className="w-full  flex justify-start items-start ">
+              <ChooseBranch/>
+            </div>
+          <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full mt-12 " style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
@@ -334,7 +339,7 @@ const Tabla = () => {
             aria-label="Selection behavior table example with dynamic content"
             selectionMode="multiple"
             selectionBehavior={selectionBehavior}
-            className="w-[1250px] h-auto text-center "
+            className="w-[1250px] h-auto text-center shadow-left-right"
           >
             <TableHeader columns={columns}>
               {(column) => (

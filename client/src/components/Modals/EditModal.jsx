@@ -13,19 +13,20 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
   const [providerUniqueId, setProviderUniqueId] = useState("")
   const [ventaId, setVentaId] = useState("")
   const [buyId, setBuyId] = useState("")
-  const [newProductName, setNewProductName] = useState("")
-  const [newProductDescription, setNewProductDescription] = useState("")
-  const [newPrice, setNewPrice] = useState("")
-  const [newProductCantidad, setNewProductCantidad] = useState("")
-  const [newProductCategoria, setNewProductCategoria] = useState("")
-  const [newProviderName, setNewProviderName] = useState("")
-  const [newProviderPhone, setNewProviderPhone] = useState("")
-  const [sellNewProductName, setSellNewProductName] = useState("")
-  const [sellNewClientName, setSellNewClientName] = useState("")
-  const [sellNewPrice, setSellNewPrice] = useState("")
-  const [sellNewQuantity, setSellNewQuantity] = useState("")
-  const [sellNewTotal, setSellNewTotal] = useState("")
+  const [newProductName, setNewProductName] = useState(type === "productos" ? producto.nombre : "")
+  const [newProductDescription, setNewProductDescription] = useState(type === "productos" ? producto.descripcion : "")
+  const [newPrice, setNewPrice] = useState(type === "productos" ? producto.precio : "")
+  const [newProductCantidad, setNewProductCantidad] = useState(type === "productos" ? producto.cantidad : "")
+  const [newProductCategoria, setNewProductCategoria] = useState(type === "productos" ? producto.categoria : "")
+  const [newProviderName, setNewProviderName] = useState(type === "proveedores" ? producto.nombre : "")
+  const [newProviderPhone, setNewProviderPhone] = useState(type === "proveedores" ? producto.telefono : "")
+  const [sellNewProductName, setSellNewProductName] = useState(type === "venta" ? producto.nombreProducto : "")
+  const [sellNewClientName, setSellNewClientName] =useState(type === "venta" ? producto.nombreCliente : "")
+  const [sellNewPrice, setSellNewPrice] =useState(type === "venta" ? producto.precio : "")
+  const [sellNewQuantity, setSellNewQuantity] =useState(type === "venta" ? producto.cantidad : "")
+  const [sellNewTotal, setSellNewTotal] =useState(type === "venta" ? producto.total : "")
 
+ 
   function obtenerFechaActual() {
     const fecha = new Date();
     const dia = fecha.getDate();
@@ -139,30 +140,50 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                                  <div className="flex gap-6 items-center">
                                     <div className="flex gap-2 items-center">
                                       <p className="text-xs font-bold">Nombre:</p>
-                                      <input type="text" className=" w-36 rounded-lg text-xs h-8  border border-none flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProductName(e.target.value)} />
+                                      <input type="text" 
+                                       className=" w-36 rounded-lg text-xs h-8  border border-none focus:outline-none  focus:ring-0  flex text-center items-center" 
+                                       style={{backgroundColor:"#E6EEFF"}}  
+                                       value={newProductName} 
+                                       onChange={(e) => setNewProductName(e.target.value)} />
                                     </div>
 
                                     <div className="flex gap-2 items-center">
                                       <p className="text-xs font-bold">Cantidad:</p>
-                                      <input type="number" className="w-16 rounded-lg text-xs h-8 border border-none  flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.cantidad}`} onChange={(e) => setNewProductCantidad(e.target.value)}/>
+                                      <input type="number" 
+                                      className="w-16 rounded-lg text-xs h-8 border border-none focus:outline-none  focus:ring-0  flex text-center items-center"  
+                                      style={{backgroundColor:"#E6EEFF"}} 
+                                      value={newProductCantidad} 
+                                      onChange={(e) => setNewProductCantidad(e.target.value)}/>
                                     </div>
                                  </div>
 
                                  <div className="flex gap-20 justify-start items-center text-center mt-6">
                                     <div className="flex gap-2 items-center">
                                       <p className="text-xs font-bold">Precio:</p>
-                                      <input type="number" className="w-24 rounded-lg text-xs h-8 border border-none  flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.precio}`} onChange={(e) => setNewPrice(e.target.value)}/>
+                                      <input type="number" 
+                                      className="w-24 rounded-lg border border-none focus:outline-none  focus:ring-0  text-xs h-8   flex text-center items-center"  
+                                      style={{backgroundColor:"#E6EEFF"}} 
+                                      value={newPrice}
+                                      onChange={(e) => setNewPrice(e.target.value)}/>
                                     </div>
 
                                     <div className="flex gap-2 items-center text-center">
                                       <p className="text-xs font-bold">Categoria:</p>
-                                      <input type="number" className="w-16 rounded-lg text-xs h-8 border border-none  flex text-center items-center"  style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.categoria}`} onChange={(e) => setNewProductCategoria(e.target.value)}/>
+                                      <input type="number" 
+                                      className="w-16 rounded-lg border border-none focus:outline-none  focus:ring-0  text-xs h-8  flex text-center items-center"  
+                                      style={{backgroundColor:"#E6EEFF"}} 
+                                      value={newProductCategoria} 
+                                      onChange={(e) => setNewProductCategoria(e.target.value)}/>
                                     </div>
                                  </div>
 
                                  <div className="flex justify-start items-start mt-8 gap-2">
                                    <p className="text-xs font-bold">Descripcion:</p>
-                                   <textarea type="text" className="rounded-lg text-sm flex text-center items-center w-full" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.descripcion}`} onChange={(e) => setNewProductDescription(e.target.value)}></textarea>
+                                   <textarea type="text" 
+                                    className="rounded-lg border border-none focus:outline-none  focus:ring-0  text-sm flex text-center items-center w-full" 
+                                    style={{backgroundColor:"#E6EEFF"}} 
+                                    value={newProductDescription}
+                                    onChange={(e) => setNewProductDescription(e.target.value)}></textarea>
                                  </div>
 
                           </div> 
@@ -175,12 +196,22 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
 
                             <div className="flex gap-2 text-center items-center justify-center">
                               <p className="font-bold text-sm">Nombre del Proveedor: </p>
-                              <input type="text" className=" w-44 rounded-lg text-xs h-8 flex text-center items-center border border-none" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.nombre}`} onChange={(e) => setNewProviderName(e.target.value)}/>
+                              <input 
+                               type="text" 
+                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none" 
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={newProviderName}
+                               onChange={(e) => setNewProviderName(e.target.value)}/>
                             </div>
 
                             <div className="flex gap-2 text-center items-center justify-center mt-6">
                               <p className="font-bold text-sm">Telefono del Proveedor: </p>
-                              <input type="text" className=" w-44 rounded-lg text-xs h-8 flex text-center items-center border border-none" style={{backgroundColor:"#E6EEFF"}} placeholder={`${producto.telefono}`} onChange={(e) => setNewProviderPhone(e.target.value)}/>      
+                              <input 
+                               type="text" 
+                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={newProviderPhone}
+                               onChange={(e) => setNewProviderPhone(e.target.value)}/>      
                             </div>
                            
                                  
@@ -189,48 +220,71 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                      : null }
 
                       {type === "venta" ?  
-                      <>  
-                          <div className="flex flex-col items-start justify-start mt-4">
 
-                            <div className="flex gap-2 text-center items-center justify-start mt-4">                            
-                              <p className="font-bold text-sm">Producto: </p>
-                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
-                               placeholder={`${producto.nombreProducto}`} onChange={(e) => setSellNewProductName(e.target.value)}/>
+                      <> 
+
+                      <div className="flex flex-col  items-start justify-start">
+                         <div className="flex flex-col"> 
+
+                            <div className="flex items-center text-center justify-evenly">
+                               <p className="font-bold text-sm  w-20">Producto: </p>
+                               <input 
+                               type="text" 
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" 
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={sellNewProductName}
+                               onChange={(e) => setSellNewProductName(e.target.value)}/>
+                            </div>  
+
+                            <div className="flex items-center text-center justify-evenly mt-2">
+                              <p className="font-bold text-sm  w-20">Cliente:  </p>
+                              <input type="text" 
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" 
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={sellNewClientName}
+                               onChange={(e) => setSellNewClientName(e.target.value)}/>
+                            </div>   
+
+                            <div className="flex items-center text-center justify-evenly mt-2">
+                              <p className="font-bold text-sm  w-20">Precio:  </p>
+                              <input 
+                               type="text" 
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" 
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={sellNewPrice}
+                               onChange={(e) => setSellNewPrice(e.target.value)}/>
+                            </div>  
+
+                            <div className="flex items-center text-center justify-evenly mt-2">
+                              <p className="font-bold text-sm  w-20">Cantidad:  </p>
+                              <input 
+                               type="text" 
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" 
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={sellNewQuantity}
+                               onChange={(e) => setSellNewQuantity(e.target.value)}/>
                             </div>
 
-                            <div className="flex gap-2 text-center items-center justify-start mt-4">
-                              <p className="font-bold text-sm">Cliente:  </p>
-                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
-                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewClientName(e.target.value)}/>
-                            </div>
+                            <div className="flex items-center text-center justify-evenly mt-2">
+                              <p className="font-bold text-sm  w-20">Total:  </p>
+                              <input 
+                               type="text" 
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center"
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={sellNewTotal}
+                               onChange={(e) => setSellNewTotal(e.target.value)}/>
+                            </div> 
 
-                            <div className="flex gap-2 text-center items-center justify-start mt-4">
-                              <p className="font-bold text-sm">Precio:  </p>
-                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
-                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewPrice(e.target.value)}/>
-                            </div>
+                            <div className="flex items-center text-center justify-evenly mt-2">
+                              <p className="font-bold text-sm  w-20">Fecha:  </p>
+                              <input type="text" className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
+                              value={fechaActual} />
+                            </div> 
 
-                            <div className="flex gap-2 text-center items-center justify-start mt-4">
-                              <p className="font-bold text-sm">Cantidad:  </p>
-                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
-                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewQuantity(e.target.value)}/>
-                            </div>
+                         </div>
 
-                            <div className="flex gap-2 text-center items-center justify-start mt-4">
-                              <p className="font-bold text-sm">Total:  </p>
-                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
-                               placeholder={`${producto.nombreProducto}`}onChange={(e) => setSellNewTotal(e.target.value)}/>
-                            </div>
+                      </div>
 
-                            <div className="flex gap-2 text-center items-center justify-start mt-4">
-                              <p className="font-bold text-sm">Fecha:  </p>
-                              <input type="text" className="w-44 rounded-lg text-xs h-8 flex text-center items-center" style={{backgroundColor:"#E6EEFF"}}
-                               placeholder={`${producto.nombreProducto}`} value={fechaActual} />
-                            </div>
-
-                          </div> 
-
-                     
                           </>
                      : null }
 

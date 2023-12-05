@@ -90,7 +90,7 @@ const BuysTable = ({comeBack}) => {
                 const providers = getProviders
                 console.log(providers)
                 return (
-                    <p>{providers.length === 1 ? providers[0] : providers.length === 2 ? [providers[0], " / " ,providers[1]] : null}</p>
+                    <p>{providers.length === 1 ? providers[0] : providers.length === 2 ? [providers[0], " - " ,providers[1]] : null}</p>
                   );
             },
               }) 
@@ -193,7 +193,7 @@ const BuysTable = ({comeBack}) => {
             </div>
             )  :
             <div className="mt-6">
-            <div className="flex justify-between items-start m-4" style={{backgroundColor:"#E6EFFF"}}>
+             <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full" style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
@@ -211,14 +211,21 @@ const BuysTable = ({comeBack}) => {
             </div>
             <div className="flex items-start m-2">
                    <input
-                    className="w-[40%] border border-none focus:outline-none  focus:ring-0 h-10 rounded-xl bg-gray-200"
+                     className="w-[40%] border border-gray-200  focus:border-gray-300 focus:ring-0 h-10 rounded-xl"
                     placeholder="Buscador"
                     onChange={(e) => setSearchTerm(e.target.value)}
                     value={searchTerm}
                   />
             </div>
             
-            <Table columnAutoWidth={true} columnSpacing={10}  aria-label="Selection behavior table example with dynamic content"   selectionMode="multiple" selectionBehavior={selectionBehavior} className="w-[1250px] h-auto text-center">
+            <Table 
+            columnAutoWidth={true} 
+            columnSpacing={10}  
+            aria-label="Selection behavior table example with dynamic content"   
+            selectionMode="multiple" 
+            selectionBehavior={selectionBehavior} 
+            className="w-[1250px] h-auto text-center shadow-left-right"
+            >
                 <TableHeader columns={columns}>
                     {(column) => (
                         <TableColumn

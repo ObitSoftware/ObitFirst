@@ -33,6 +33,7 @@ const AddProviderModal = ({updateList}) => {
            setTimeout(() => { 
             document.getElementById('my_modal_3').close();
             updateList()
+            setSuccesMessage(false)
            }, 1500)
            
           })

@@ -25,6 +25,11 @@ export default {
       '2xl': '1536px',
       '3xl': '1700px',
     },   
+    extend: {
+      boxShadow: {
+        'left-right': '-4px 0 6px -3px rgba(0, 0, 0, 0.1), 4px 0 6px -3px rgba(0, 0, 0, 0.1)',
+      },
+    },
   },
   plugins: [nextui(), daisyui,  formsPlugin]
 };

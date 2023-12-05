@@ -8,9 +8,7 @@ const Main = () => {
 
   return (
     <div className=''> 
-      <div className='flex items-start justify-start text-center'>
-        <ChooseBranch/>
-      </div>
+     
         <div className='flex flex-col items-center mt-12'>
           <TablaGenerica/>
         </div>         

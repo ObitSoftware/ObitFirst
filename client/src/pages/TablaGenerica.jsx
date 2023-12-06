@@ -69,8 +69,7 @@ const Tabla = () => {
     };
 
   
-    useEffect(() => {
-   
+    useEffect(() => { 
       axios.get(`http://localhost:3000/${activeTab}`)
         .then((res) => {
             setData(res.data);
@@ -301,7 +300,7 @@ const Tabla = () => {
           <Loading text={activeTab === "productos" ? "Cargando Productos.." : activeTab === "proveedores" ? "Cargando Proveedores.." : activeTab === "venta" ? "Cargando Ventas" : null} />
         </div>
       ) : (
-        <div className="">
+        <div className="w-full">
             <div className="w-full  flex justify-start items-start ">
               <ChooseBranch/>
             </div>
@@ -339,13 +338,13 @@ const Tabla = () => {
             aria-label="Selection behavior table example with dynamic content"
             selectionMode="multiple"
             selectionBehavior={selectionBehavior}
-            className="w-[1250px] h-auto text-center shadow-left-right"
+            className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1800px] h-auto text-center shadow-left-right"
           >
             <TableHeader columns={columns}>
               {(column) => (
                 <TableColumn
                   key={column.key}
-                  className="text-center"
+                  className="text-center "
                   allowsSorting={column.key === "total" || column.key === "precio" || column.key === "stock"}
                   onClick={() => {
                     if (column.key === "total" || column.key === "precio" || column.key === "stock") {
@@ -361,11 +360,11 @@ const Tabla = () => {
               )}
             </TableHeader>
 
-            <TableBody items={filteredData} className="">
+            <TableBody items={filteredData} className="flex items-start">
               {(item) => (
                <TableRow key={item._id} >
                   {columns.map((column) => (
-                    <TableCell align="center" key={column.key} className={getStockClass(item.stock, column.key)}>
+                    <TableCell align="center" key={column.key}  className={getStockClass(item.stock, column.key)}>
                       {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
                     </TableCell>
                   ))}

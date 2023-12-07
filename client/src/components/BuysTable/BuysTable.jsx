@@ -226,7 +226,7 @@ const BuysTable = ({comeBack}) => {
             aria-label="Selection behavior table example with dynamic content"   
             selectionMode="multiple" 
             selectionBehavior={selectionBehavior} 
-            className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1800px] h-auto text-center shadow-left-right"
+            className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1400px] h-auto text-center shadow-left-right"
             >
                 <TableHeader columns={columns}>
                     {(column) => (

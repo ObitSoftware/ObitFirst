@@ -1,50 +1,234 @@
 import React, { useState } from 'react';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined,} from '@ant-design/icons';
+import { ConfigProvider, Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
-const items = [
-    getItem('Option 1', '1', <PieChartOutlined />),
-    getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
+import finance from "../img/finance.png"
+import estadistics from "../img/estadistics.png"
+import home from "../img/home.png"
+import clients from "../img/clients.png"
+import { Link } from 'react-router-dom';
+import AddClientModal from './Modals/AddClientModal';
 
+function getItem(label, key, icon, children) {
+  return { key, icon, children, label, };
+}
+
+const styles = {
+  myMenuItem: {
+    marginTop: '20px',
+  },
+};
 
 const Otro = () => {
+
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+const items = [
+  getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}>Inicio</p>,'1', (
+    <Link to="/main">
+      <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+  </Link>
+  )),
+ 
+    getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Finanzas</p>, 'sub1', (
+      <img src={finance} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+    ), [
+      getItem(<Link to="/prueba"><p>Gastos Mensuales</p></Link>, "2"),
+      getItem(<Link to="/prueba"><p>Gastos Anuales</p></Link>, '3'),
+      getItem(<Link to="/prueba"><p>Gastos Proveedores</p></Link>, '4'),
+      getItem(<Link to="/prueba"><p>Ingresos Anuales</p></Link>, '5'),
+      getItem(<Link to="/prueba"><p>Ingresos Mensuales</p></Link>, '6'),
+      getItem(<Link to="/prueba"><p>Ingresos por Clientes</p></Link>, '7'),
+      getItem(<Link to="/prueba"><p>Ingresos por Producto</p></Link>, '8'),
+    ]),
+
+      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold',}}>Estadisticas</p>, 'sub2', (
+        <img src={estadistics} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+      ), [
+        getItem(<Link to="/prueba"><p>Productos</p></Link>, '9'),
+        getItem(<Link to="/prueba"><p>Proveedores</p></Link>, '10'),
+        getItem(<Link to="/prueba"><p>Compras</p></Link>, '11'),
+        getItem(<Link to="/prueba"><p>Ventas</p></Link>, '12'),
+      ]),
+
+      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold',}}>Clientes</p>, 'sub3', (
+        <img src={clients} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+      ), [
+        getItem(<AddClientModal type="sideBar"/>, '15'),
+        getItem(<Link to="/prueba"><p >lalala</p></Link>, '16'),
+        getItem(<Link to="/prueba"><p >lalala</p></Link>, '17'),
+        getItem(<Link to="/prueba"><p >lalala</p></Link>, '18'),
+      ]),
+];
+
+
   return (
-    <Layout style={{  minHeight: '100vh'}} >
-      <Sider collapsible collapsed={collapsed}  className=' h-full' onCollapse={(value) => setCollapsed(value)} style={{position: "fixed", top:64,  left: 0, background:"#728EC3" }}>
-        <div className="demo-logo-vertical" />
-        <Menu  style={{background:"#728EC3" }} defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </Sider>
-      <Layout>
-        <Header style={{   padding: 0,   background: colorBgContainer, }}/>
-       
-      </Layout>
-    </Layout>
+    <>
+    
+        <Layout  >
+          <Sider collapsible collapsed={collapsed}  className=' h-full' onCollapse={(value) => setCollapsed(value)} style={{position: "fixed", top:64,  left: 0, background:"#728EC3" }}>
+            <div className="demo-logo-vertical" />
+            <Menu style={{ background: '#728EC3', marginTop:"5px" }} defaultSelectedKeys={['1']} mode="inline" items={items}>
+              {items.map((item) => (
+               <Menu.Item key={item.key} icon={item.icon} style={styles.myMenuItem}>
+
+                <p >{item.label}</p> 
+               </Menu.Item>
+              ))}
+            </Menu>
+          </Sider>
+        </Layout>
+
+ 
+    </>
   );
 };
 export default Otro;
+
+
+/*import React, { useState } from 'react';
+import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined,} from '@ant-design/icons';
+import { ConfigProvider, Layout, Menu, theme } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
+import finance from "../img/finance.png"
+import estadistics from "../img/estadistics.png"
+import home from "../img/home.png"
+import clients from "../img/clients.png"
+import { Link } from 'react-router-dom';
+import AddClientModal from './Modals/AddClientModal';
+
+function getItem(label, key, icon, children) {
+  return { key, icon, children, label, };
+}
+
+
+const MenuLateral = ({ children, title, open, backgroundColor = '#728EC3', textColor = '#FFFFFF' }) => {
+  return (
+    <Menu
+      style={{
+        backgroundColor: backgroundColor,
+        borderRadius: 4,
+        padding: '8px 12px',
+        display: open ? 'block' : 'none',
+        marginLeft: 10,
+        marginTop: 5,
+      }}
+    >
+      {title && (
+        <Menu.Item
+          key={title}
+          style={{
+            backgroundColor: backgroundColor,
+            color: textColor,
+            fontWeight: 'bold',
+            fontSize: 14,
+          }}
+        >
+          {title}
+        </Menu.Item>
+      )}
+      {children.map((child) => (
+        <Menu.Item key={child.key} icon={child.icon}>
+          {child.key === 'sub1' || child.key === 'sub2' ? (
+            <MenuLateral open={open} children={child.children} backgroundColor="#7D3C98" textColor="#FFFFFF" />
+          ) : (
+            <p>{child.label}</p>
+          )}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+};
+
+
+
+const items = [
+  getItem(
+    <Link to="/main">
+      <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+    </Link>,
+    '1',
+    <DesktopOutlined />
+  ),
+  getItem(
+    <Link to="/prueba">
+      <img src={finance} alt="Finanzas" style={{ width: '20px', height: '20px' }} />
+    </Link>,
+    '2',
+    <PieChartOutlined />
+  ),
+  getItem(
+    <img src={estadistics} alt="Estadísticas" style={{ width: '20px', height: '20px' }} />,
+    'sub1',
+    <FileOutlined />,
+    [
+      getItem('Productos', '3'),
+      getItem('Proveedores', '4'),
+      getItem('Gastos', '5'),
+      getItem('Ingresos', '6'),
+    ]
+  ),
+  getItem(
+    <img src={clients} alt="Clientes" style={{ width: '20px', height: '20px' }} />,
+    'sub2',
+    <TeamOutlined />,
+    [
+      getItem(<AddClientModal type="sideBar" />, '7'),
+      getItem('...', '8'),
+      getItem('...', '9'),
+      getItem('...', '10'),
+    ]
+  ),
+];
+
+const Otro = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const { token: { colorBgContainer } } = theme.useToken();
+
+  return (
+    <>
+      <ConfigProvider
+        theme={{
+          token: {
+            background: '#7D3C98',
+            colorText: '#F8F9F9',
+            fontWeight: 'medium',
+            borderRadius: 2,
+          },
+        }}
+      >
+        <Layout>
+          <Sider
+            collapsible
+            collapsed={collapsed}
+            className="h-full"
+            onCollapse={(value) => setCollapsed(value)}
+            style={{
+              position: 'fixed',
+              top: 64,
+              left: 0,
+              background: '#728EC3',
+            }}
+          >
+            <div className="demo-logo-vertical" />
+            <Menu
+              style={{ background: '#728EC3', marginTop: '10px', color: '#FFFFFF' }}
+              defaultSelectedKeys={['1']}
+              mode="inline"
+              items={items}
+            >
+              {items.map((item) => (
+                <Menu.Item key={item.key} icon={item.icon}>
+                  <p>{item.label}</p>
+                </Menu.Item>
+              ))}
+            </Menu>
+          </Sider>
+        </Layout>
+      </ConfigProvider>
+    </>
+  )}
+export default Otro;*/

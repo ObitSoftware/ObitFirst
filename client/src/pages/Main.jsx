@@ -9,7 +9,7 @@ const Main = () => {
   return (
     <div className=''> 
      
-        <div className='flex flex-col items-center justify-center mt-36'>
+        <div className='flex flex-col items-center justify-center mt-6'>
           <TablaGenerica/>
         </div>         
     </div>

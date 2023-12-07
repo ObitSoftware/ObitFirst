@@ -301,7 +301,7 @@ const Tabla = () => {
         </div>
       ) : (
         <div className="w-full">
-            <div className="w-full  flex justify-start items-start ">
+            <div className="w-full flex justify-start items-start ">
               <ChooseBranch/>
             </div>
           <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full mt-12 " style={{backgroundColor:"#E6EFFF"}}>
@@ -364,7 +364,7 @@ const Tabla = () => {
               {(item) => (
                <TableRow key={item._id} >
                   {columns.map((column) => (
-                    <TableCell align="center" key={column.key}  className={getStockClass(item.stock, column.key)}>
+                    <TableCell align="center" key={column.key}   className={`text-black dark:text-black ${getStockClass(item.stock, column.key)}`}>
                       {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
                     </TableCell>
                   ))}

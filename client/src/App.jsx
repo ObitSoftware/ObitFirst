@@ -8,6 +8,7 @@ import Navbar from './components/NavBar/NavBar'
 import ContenedorDeGraficos from './components/Graficos/ContenedorDeGraficos'
 import Templa from './pages/Templa'
 import Prueba from './components/Prueba'
+import Otro from './components/Otro'
 
 
 
@@ -18,14 +19,18 @@ function App() {
   return (
     <div>
        <Navbar />
-       <Routes>
-          <Route path="/main" element={<Main/>}></Route>
-          <Route path="/" element={<Login/>}></Route>
-          <Route path="/register" element={<Register/>}></Route> 
-          <Route path="prueba" element={<ContenedorDeGraficos/>}></Route>
-          <Route path="tt" element={<Templa/>}></Route>
-          <Route path="pruebaa" element={<Prueba/>}></Route>
-       </Routes>
+
+        <Routes>
+            <Route path="/main" element={<Main/>}></Route>
+            <Route path="/" element={<Login/>}></Route>
+            <Route path="/register" element={<Register/>}></Route> 
+            <Route path="prueba" element={<ContenedorDeGraficos/>}></Route>
+            <Route path="tt" element={<Templa/>}></Route>
+            <Route path="pruebaa" element={<Prueba/>}></Route>
+            <Route path="otro" element={<Otro/>}></Route>
+        </Routes>
+       <Otro/>
+
     </div>
   )
 }

@@ -324,7 +324,7 @@ const Tabla = () => {
             </div>
             <div className="flex items-start m-2">
                    <input
-                    className="w-[40%] border border-gray-200  focus:border-gray-300 focus:ring-0 h-10 rounded-xl"
+                    className="w-[35%] border border-gray-200  focus:border-gray-300 focus:ring-0 h-10 rounded-xl"
                     style={{background:"#FFFFFF"}}
                     placeholder="Buscador.."
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -338,7 +338,7 @@ const Tabla = () => {
             aria-label="Selection behavior table example with dynamic content"
             selectionMode="multiple"
             selectionBehavior={selectionBehavior}
-            className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1800px] h-auto text-center shadow-left-right"
+            className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1400px] h-auto text-center shadow-left-right"
           >
             <TableHeader columns={columns}>
               {(column) => (

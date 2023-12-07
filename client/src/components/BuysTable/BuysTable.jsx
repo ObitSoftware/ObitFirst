@@ -15,6 +15,7 @@ import AddSellModal from "../Modals/AddSellModal"
 import ViewBuyDetail from "../Modals/ViewBuyDetail"
 import PaginationTable from "../Pagination/Pagination";
 import AddBuyModal from "../Modals/AddBuyModal";
+import ChooseBranch from "../Branch/ChooseBranch";
 
 
 const BuysTable = ({comeBack}) => {
@@ -188,12 +189,13 @@ const BuysTable = ({comeBack}) => {
         <>
      
      {load ? (
-            <div className="flex items-center justify-center mt-22">
-                <Loading text="Cargando Compras.." />
-            </div>
+           null
             )  :
-            <div className="mt-6">
-             <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full" style={{backgroundColor:"#E6EFFF"}}>
+            <div className="w-full">
+                <div className="w-full  flex justify-start items-start ">
+                  <ChooseBranch/>
+                 </div>
+             <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full mt-12" style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
@@ -211,7 +213,7 @@ const BuysTable = ({comeBack}) => {
             </div>
             <div className="flex items-start m-2">
                    <input
-                     className="w-[40%] border border-gray-200  focus:border-gray-300 focus:ring-0 h-10 rounded-xl"
+                     className="w-[35%] border border-gray-200  focus:border-gray-300 focus:ring-0 h-10 rounded-xl"
                     placeholder="Buscador"
                     onChange={(e) => setSearchTerm(e.target.value)}
                     value={searchTerm}
@@ -224,7 +226,7 @@ const BuysTable = ({comeBack}) => {
             aria-label="Selection behavior table example with dynamic content"   
             selectionMode="multiple" 
             selectionBehavior={selectionBehavior} 
-            className="w-full 2xl:w-[1500px]  h-auto text-center shadow-left-right"
+            className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1800px] h-auto text-center shadow-left-right"
             >
                 <TableHeader columns={columns}>
                     {(column) => (

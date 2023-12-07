@@ -8,4 +8,7 @@ export default defineConfig({
   resolve: {
     extensions: [".js", ".ts", ".tsx", ".css"], 
   },
+  dependencies: {
+    antd: "^4.18.1"
+  },
 });

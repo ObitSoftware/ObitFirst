@@ -86,12 +86,20 @@ const BuysTable = ({comeBack}) => {
               cellRenderer: (cell) => { 
                 const filaActual = cell.row;
                 const id = filaActual.original._id;
+                const buyDetail = filaActual.original.productosComprados;
+                const dateOfBuy = filaActual.original.fechaCompra;
+                const total = filaActual.original.total;
                 const purchasedProducts = filaActual.original.productosComprados;
                 const getProviders = purchasedProducts.map((prod) => prod.proveedor)
                 const providers = getProviders
+                const producto = {
+                  id: id,
+                  detail: buyDetail,
+                  date: dateOfBuy,
+                  };
                 console.log(providers)
                 return (
-                    <p>{providers.length === 1 ? providers[0] : providers.length === 2 ? [providers[0], " - " ,providers[1]] : null}</p>
+                    <p>{providers.length === 1 ? providers[0] : providers.length === 2 ? [providers[0], " - " ,providers[1]] :  providers.length >= 3 ?   <ViewBuyDetail  producto={producto} totalAmount={total}/>  : null}</p>
                   );
             },
               }) 

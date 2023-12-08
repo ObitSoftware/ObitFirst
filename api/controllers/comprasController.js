@@ -72,7 +72,7 @@ export const createCompra = async (req, res) => {
                         })
         await incrementarStock(productosComprados)
       } catch (error) {
-        console.log(err)
+        console.log(error)
       }
 }
 

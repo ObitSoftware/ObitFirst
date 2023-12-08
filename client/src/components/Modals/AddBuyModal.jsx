@@ -32,6 +32,14 @@ const AddBuyModal = ({updateList}) => {
     total: '',
     nombreProducto: '',
   });
+  const [dataIsIncompleted, setDataIsIncompleted] = useState(false)
+
+  const showIncompletedData = () => { 
+    setDataIsIncompleted(true)
+    setTimeout(() => { 
+      setDataIsIncompleted(false)
+    }, 3000)
+  }
 
 
     useEffect(() => {
@@ -113,33 +121,43 @@ const AddBuyModal = ({updateList}) => {
       }));
     };
 
+    useEffect(() => { 
+       console.log(productToBuyData)
+    }, [productToBuyData])
+
     const agregarProducto = () => {
-      setShowOrdersChoosen(true)
-      setInputValue("")
-      setProductosComprados((prevProductos) => [
-        ...prevProductos,
-        {
-          proveedor: productToBuyData.proveedor,
-          productoId: productToBuyData.productoId,
-          precioProducto: productToBuyData.precioProducto,
-          fechaPago: productToBuyData.fechaPago,
-          observaciones: productToBuyData.observaciones,
-          cantidad: productToBuyData.cantidad,
-          total: productToBuyData.total,
-          nombreProducto: productToBuyData.nombreProducto,
-        },
-      ]);
-  
-      setProductToBuyData({
-        proveedor: '',
-        productoId: '',
-        precioProducto: '',
-        fechaPago: '',
-        observaciones: '',
-        cantidad: '',
-        total: '',
-        nombreProducto: '',
-      });
+      if(productToBuyData.proveedor === "" || productToBuyData.productoId.length === 0 || productToBuyData.fechaPago.length === 0 || productToBuyData.cantidad.length === 0 || productToBuyData.total.length === 0) {
+        showIncompletedData()
+      } else { 
+        setShowOrdersChoosen(true)
+        setInputValue("")
+        setProductToBuyData([])
+        setProductosComprados((prevProductos) => [
+          ...prevProductos,
+          {
+            proveedor: productToBuyData.proveedor,
+            productoId: productToBuyData.productoId,
+            precioProducto: productToBuyData.precioProducto,
+            fechaPago: productToBuyData.fechaPago,
+            observaciones: productToBuyData.observaciones,
+            cantidad: productToBuyData.cantidad,
+            total: productToBuyData.total,
+            nombreProducto: productToBuyData.nombreProducto,
+          },
+        ]);
+    
+        setProductToBuyData({
+          proveedor: '',
+          productoId: '',
+          precioProducto: '',
+          fechaPago: '',
+          observaciones: '',
+          cantidad: '',
+          total: '',
+          nombreProducto: '',
+        });
+      }
+    
     };
 
     
@@ -169,13 +187,24 @@ const AddBuyModal = ({updateList}) => {
         .then((res) => {
           console.log(res.data);
           setSuccesMessage(true);
-          setProductToBuyData([])
+          setProductosComprados([])
+          setProductToBuyData({
+            proveedor: '',
+            productoId: '',
+            precioProducto: '',
+            fechaPago: '',
+            observaciones: '',
+            cantidad: '',
+            total: '',
+            nombreProducto: '',
+          })
           setInputValue("")
         
           setTimeout(() => { 
             document.getElementById('my_modal_23').close();
             setSuccesMessage(false);
             updateList()
+            setShowOrdersChoosen(false)
            }, 1500)
         })
         .catch((err) => {
@@ -259,6 +288,7 @@ const AddBuyModal = ({updateList}) => {
                           type="number"
                           className="w-16 h-9 rounded-md border border-none focus:outline-none  focus:ring-0"
                           style={{ backgroundColor: '#E6EEFF' }}
+                          value={productToBuyData.cantidad}
                           onChange={(e) => {
                             const cantidadValue = e.target.value;
                             const precioProducto = productToBuyData.precioProducto;
@@ -306,6 +336,8 @@ const AddBuyModal = ({updateList}) => {
                     </div> 
 
                     : null} 
+
+                    {dataIsIncompleted ? <p style={{ color: '#728EC3' }} className="text-sm font-bold">No has agregado ningun Producto</p> : null}
 
                   {succesMessage ? (
                     <p style={{ color: '#728EC3' }} className="text-sm font-bold">

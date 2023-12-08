@@ -24,6 +24,19 @@ const AddSellModal = ({updateList}) => {
     const [inputValue, setInputValue] = useState('');
     const [productoSeleccionado, setProductoSeleccionado] = useState("")
 
+    const [missedData, setMissedData] = useState(false)
+    const [textMissedData, setTextMissedData] = useState("")
+
+    const showMissedData = (text) => { 
+      setMissedData(true)
+      setTextMissedData(text)
+      setTimeout(() => { 
+        setMissedData(false)
+        setTextMissedData("")
+      }, 3500)
+  
+    }
+
     const actualDate = obtenerFechaActual()
 
     useEffect(() => {
@@ -94,35 +107,48 @@ const AddSellModal = ({updateList}) => {
 
 
       const addNewSell = () => { 
-        const dataOfSell = ({ 
-          idProducto: productSelectedData._id,
-          nombreProducto: productSelectedData.nombre,
-          nombreCliente: clientName,
-          precio: productSelectedData.precio,
-          cantidad: quantity,
-          total: quantity * productSelectedData.precio,
-          fechaCreacion: actualDate
-        })
-        axios.post("http://localhost:3000/venta", dataOfSell)
-             .then((res) => { 
-              console.log(res.data)
-              setSuccesMessage(true)
-              setClientName("")
-              setInputValue("")
-              setQuantity(0)
-              setProductId("")
-              setProductSelectedData([])
-              setShowProductData(false)
-              setTotalToPay("")
-              setTimeout(() => { 
-                document.getElementById('my_modal_3').close();
-                setSuccesMessage(false)
-                updateList()
-               }, 1500)
-             })
-             .catch((err) => { 
-              console.log(err)
-             })
+        if(productoSeleccionado.length === 0 || clientName.length === 0 || quantity.length === 0 ) { 
+          showMissedData("Faltan datos para poder agregar la venta. Por favor, completa todos los campos")
+          setTimeout(() => { 
+                setClientName("")
+                setInputValue("")
+                setQuantity(0)
+                setProductId("")
+                setProductSelectedData([])
+                setShowProductData(false)
+                setTotalToPay("")
+          }, 3500) 
+        } else { 
+          const dataOfSell = ({ 
+            idProducto: productSelectedData._id,
+            nombreProducto: productSelectedData.nombre,
+            nombreCliente: clientName,
+            precio: productSelectedData.precio,
+            cantidad: quantity,
+            total: quantity * productSelectedData.precio,
+            fechaCreacion: actualDate
+          })
+          axios.post("http://localhost:3000/venta", dataOfSell)
+               .then((res) => { 
+                console.log(res.data)
+                setSuccesMessage(true)
+                setClientName("")
+                setInputValue("")
+                setQuantity(0)
+                setProductId("")
+                setProductSelectedData([])
+                setShowProductData(false)
+                setTotalToPay("")
+                setTimeout(() => { 
+                  document.getElementById('my_modal_3').close();
+                  setSuccesMessage(false)
+                  updateList()
+                 }, 1500)
+               })
+               .catch((err) => { 
+                console.log(err)
+               })
+        }
       }
 
 <style>
@@ -141,7 +167,7 @@ const AddSellModal = ({updateList}) => {
     <div>
       <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR VENTA </Button>
         <dialog id="my_modal_3" className="modal">
-        <div className="modal-box">
+        <div className="modal-box bg-white text-black">
             <form method="dialog">        
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => setProductId(null)}>✕</button>
             </form>
@@ -225,6 +251,14 @@ const AddSellModal = ({updateList}) => {
                    <div className='flex justify-center items-center w-full mt-8'>
                        <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => addNewSell()}>Añadir Venta </Button>
                    </div>
+
+                   {missedData ? 
+                        <div className="flex flex-col items-center text-center justify-center mt-10">
+                            <p style={{color:"#728EC3"}} className="text-sm font-bold">{textMissedData}</p>
+                        </div> 
+                        :
+                        null
+                    }
 
                   {succesMessage ? <div className='flex justify-center items-center w-full mt-8'>
                      <p style={{color:"#728EC3"}} className="font-bold text-md mb-6">Venta asentada con Exito ✔</p>

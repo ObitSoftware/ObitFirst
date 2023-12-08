@@ -123,7 +123,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
   return (
     <>
       <small onClick={onOpen} className=" text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Editar</small>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-white text-black">
         <ModalContent>
           {(onClose) => (
             <> 

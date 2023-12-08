@@ -336,7 +336,7 @@ const Tabla = () => {
             columnAutoWidth={true}
             columnSpacing={10}
             aria-label="Selection behavior table example with dynamic content"
-            selectionMode="multiple"
+            selectionMode="none"
             selectionBehavior={selectionBehavior}
             className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1400px] h-auto text-center shadow-left-right"
           >

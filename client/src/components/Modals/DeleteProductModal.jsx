@@ -121,7 +121,7 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
   return (
     <>
      <small onClick={onOpen} className="text-center text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-white text-black">
         <ModalContent>
           {(onClose) => (
             <>
@@ -131,7 +131,7 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
                   <img src={alertLogo} className='w-12 h-12'/>
                   {type === "productos" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el producto?</small> : null}
                   {type === "proveedores" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el proveedor?</small> : null}
-                  {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta? {producto.ventaId} </small> : null}
+                  {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta? </small> : null}
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 

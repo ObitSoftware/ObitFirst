@@ -6,7 +6,7 @@ import axios from "axios"
 
 
 
-const AddClientModal = ({ type }) => {
+const AddClientModal = ({ type, colorSelected }) => {
   const { isOpen, onOpen, onClose } = useDisclosure("");
 
 
@@ -44,12 +44,12 @@ const AddClientModal = ({ type }) => {
   return (
     <>
       {type === "sideBar" ? 
-      <small onClick={onOpen} className=" font-bold cursor-pointer text-black" >
+      <small onClick={onOpen} className={`font-bold cursor-pointer ${colorSelected === 'white' ? 'text-black' : 'text-white'}`}>
        Crear Cliente
       </small> : 
        <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR CLIENTE </Button>
       }
-      <Modal isOpen={isOpen} onClose={onClose} className='max-w-max'>
+      <Modal isOpen={isOpen} onClose={onClose} className='max-w-max bg-white text-black'>
         <ModalContent>
           {(onClose) => (
             <>

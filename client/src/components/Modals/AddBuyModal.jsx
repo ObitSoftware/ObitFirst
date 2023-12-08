@@ -33,12 +33,24 @@ const AddBuyModal = ({updateList}) => {
     nombreProducto: '',
   });
   const [dataIsIncompleted, setDataIsIncompleted] = useState(false)
+  const [missedData, setMissedData] = useState(false)
+  const [textMissedData, setTextMissedData] = useState("")
 
   const showIncompletedData = () => { 
     setDataIsIncompleted(true)
     setTimeout(() => { 
       setDataIsIncompleted(false)
     }, 3000)
+  }
+
+  const showMissedData = (text) => { 
+    setMissedData(true)
+    setTextMissedData(text)
+    setTimeout(() => { 
+      setMissedData(false)
+      setTextMissedData("")
+    }, 3500)
+
   }
 
 
@@ -126,8 +138,11 @@ const AddBuyModal = ({updateList}) => {
     }, [productToBuyData])
 
     const agregarProducto = () => {
-      if(productToBuyData.proveedor === "" || productToBuyData.productoId.length === 0 || productToBuyData.fechaPago.length === 0 || productToBuyData.cantidad.length === 0 || productToBuyData.total.length === 0) {
-        showIncompletedData()
+      if(productToBuyData.proveedor === "" || productToBuyData.productoId.length === 0 
+      || productToBuyData.fechaPago.length === 0 || productToBuyData.cantidad.length === 0 ||
+         productToBuyData.total.length === 0 || productToBuyData.observaciones.length === 0) {
+        showMissedData("Faltan datos para agregar el producto a la Compra")
+        setInputValue("")
       } else { 
         setShowOrdersChoosen(true)
         setInputValue("")
@@ -162,54 +177,59 @@ const AddBuyModal = ({updateList}) => {
 
     
     const sendMyNewBuy = () => {
-      const productoActual = {
-        proveedor: productToBuyData.proveedor,
-        productoId: productToBuyData.productoId,
-        precioProducto: productToBuyData.precioProducto,
-        fechaPago: productToBuyData.fechaPago,
-        observaciones: productToBuyData.observaciones,
-        cantidad: productToBuyData.cantidad,
-        total: productToBuyData.total,
-        nombreProducto: productToBuyData.nombreProducto,
-      };
-    
-      setProductosComprados((prevProductos) => [...prevProductos, productoActual]);
-    
-      const newBuyToBeSaved = {
-        compraId: randomId,
-        fechaCompra: fechaActual,
-        total: productosComprados.reduce((total, producto) => total + parseFloat(producto.total), 0) + parseFloat(productoActual.total),
-        productosComprados: [...productosComprados, productoActual],
-      };
-    
-      axios
-        .post('http://localhost:3000/compras', newBuyToBeSaved)
-        .then((res) => {
-          console.log(res.data);
-          setSuccesMessage(true);
-          setProductosComprados([])
-          setProductToBuyData({
-            proveedor: '',
-            productoId: '',
-            precioProducto: '',
-            fechaPago: '',
-            observaciones: '',
-            cantidad: '',
-            total: '',
-            nombreProducto: '',
+      if(productToBuyData.proveedor === "" || productToBuyData.productoId.length === 0 || productToBuyData.fechaPago.length === 0 || productToBuyData.cantidad.length === 0 || productToBuyData.total.length === 0) {
+        showMissedData("Debes agregar Productos para asentar una compra")
+        setInputValue("")
+      } else { 
+        const productoActual = {
+          proveedor: productToBuyData.proveedor,
+          productoId: productToBuyData.productoId,
+          precioProducto: productToBuyData.precioProducto,
+          fechaPago: productToBuyData.fechaPago,
+          observaciones: productToBuyData.observaciones,
+          cantidad: productToBuyData.cantidad,
+          total: productToBuyData.total,
+          nombreProducto: productToBuyData.nombreProducto,
+        };
+      
+        setProductosComprados((prevProductos) => [...prevProductos, productoActual]);
+      
+        const newBuyToBeSaved = {
+          compraId: randomId,
+          fechaCompra: fechaActual,
+          total: productosComprados.reduce((total, producto) => total + parseFloat(producto.total), 0) + parseFloat(productoActual.total),
+          productosComprados: [...productosComprados, productoActual],
+        };
+      
+        axios
+          .post('http://localhost:3000/compras', newBuyToBeSaved)
+          .then((res) => {
+            console.log(res.data);
+            setSuccesMessage(true);
+            setProductosComprados([])
+            setProductToBuyData({
+              proveedor: '',
+              productoId: '',
+              precioProducto: '',
+              fechaPago: '',
+              observaciones: '',
+              cantidad: '',
+              total: '',
+              nombreProducto: '',
+            })
+            setInputValue("")
+          
+            setTimeout(() => { 
+              document.getElementById('my_modal_23').close();
+              setSuccesMessage(false);
+              updateList()
+              setShowOrdersChoosen(false)
+             }, 1500)
           })
-          setInputValue("")
-        
-          setTimeout(() => { 
-            document.getElementById('my_modal_23').close();
-            setSuccesMessage(false);
-            updateList()
-            setShowOrdersChoosen(false)
-           }, 1500)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     };
 
 
@@ -225,7 +245,7 @@ const AddBuyModal = ({updateList}) => {
         AÑADIR COMPRA
       </Button>
       <dialog id="my_modal_23" className="modal">
-        <div className="modal-box">
+        <div className="modal-box bg-white text-black ">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">  ✕</button>
           </form>
@@ -339,22 +359,39 @@ const AddBuyModal = ({updateList}) => {
 
                     {dataIsIncompleted ? <p style={{ color: '#728EC3' }} className="text-sm font-bold">No has agregado ningun Producto</p> : null}
 
+                   
+
                   {succesMessage ? (
                     <p style={{ color: '#728EC3' }} className="text-sm font-bold">
                       Compra añadida con Éxito
                     </p>
                   ) : (
-                    <div className="flex gap-6 items-center justify-center mt-4">
-                      <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#ACB3C0' }} size="sm" onClick={() => cancelTheBuy()}>
-                        Cancelar X
-                      </button>
-                      <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#728EC3' }} size="sm" onClick={() => agregarProducto()}>
-                        Agregar Otro +
-                      </button>
-                      <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#5074B9' }} size="sm" onClick={() => sendMyNewBuy()}>
-                        Finalizar ✔
-                      </button>
+                    <>
+                    <div className='flex flex-col'>
+                        <div className="flex gap-6 items-center justify-center mt-4">
+                          <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#ACB3C0' }} size="sm" onClick={() => cancelTheBuy()}>
+                            Cancelar X
+                          </button>
+                          <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#728EC3' }} size="sm" onClick={() => agregarProducto()}>
+                            Agregar Otro +
+                          </button>
+                          <button className="w-32 h-9 text-white text-xs font-bold cursor-pointer rounded-xl border border-none" style={{ backgroundColor: '#5074B9' }} size="sm" onClick={() => sendMyNewBuy()}>
+                            Finalizar ✔
+                          </button>
+                        </div>      
+                        <div className='mt-10'>
+                          {missedData ? 
+                          <p style={{ color: '#728EC3' }} className="text-xs font-bold">{textMissedData}</p>
+                          :
+                          null
+                           }
+                        </div>
                     </div>
+                    
+                    </>
+              
+
+
                   )}
                 </div>
               ) : null}

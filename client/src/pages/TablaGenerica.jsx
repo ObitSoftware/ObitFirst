@@ -304,7 +304,7 @@ const Tabla = () => {
             <div className="w-full flex justify-start items-start ">
               <ChooseBranch/>
             </div>
-          <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full mt-12 " style={{backgroundColor:"#E6EFFF"}}>
+          <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full mt-2 xl:mt-2 3xl:mt-12 " style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
@@ -338,7 +338,7 @@ const Tabla = () => {
             aria-label="Selection behavior table example with dynamic content"
             selectionMode="none"
             selectionBehavior={selectionBehavior}
-            className="w-full lg:-w[800px] xl:w-[1200px] 2xl:w-[1400px] h-auto text-center shadow-left-right"
+            className="w-full lg:-w[800px] xl:w-[1100px] 2xl:w-[1400px] h-auto text-center shadow-left-right "
           >
             <TableHeader columns={columns}>
               {(column) => (

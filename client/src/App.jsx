@@ -8,6 +8,7 @@ import Navbar from './components/NavBar/NavBar'
 import ContenedorDeGraficos from './components/Graficos/ContenedorDeGraficos'
 import Templa from './pages/Templa'
 import SidebarComponent from './components/SideBar/SidebarComponent'
+import ProductsSidebarDetail from './components/SideBar/ProductsSidebarDetail'
 
 
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/register" element={<Register/>}></Route> 
             <Route path="prueba" element={<ContenedorDeGraficos/>}></Route>
             <Route path="tt" element={<Templa/>}></Route>
+            <Route path="primero" element={<ProductsSidebarDetail/>}></Route>
         </Routes>
        <SidebarComponent/>
 

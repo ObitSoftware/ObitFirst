@@ -16,7 +16,8 @@ import BuysTable from "../components/BuysTable/BuysTable";
 import PaginationTable from "../components/Pagination/Pagination"
 import ChooseBranch from "../components/Branch/ChooseBranch";
 import AddClientModal from "../components/Modals/AddClientModal";
-
+import ViewBuyDetail from "../components/Modals/ViewBuyDetail";
+import AddBuyModal from "../components/Modals/AddBuyModal";
 
 const Tabla = () => {
     const tableRef = useRef(null);
@@ -31,7 +32,17 @@ const Tabla = () => {
     const [firstNumberOfSlice, setFirstNumberOfSlice] = useState(0)
     const [secondNumberOfSlice, setSecondNumberOfSlice] = useState(10)
 
-    
+    const showBuysUpdated = () => {
+      axios.get("http://localhost:3000/compras")
+           .then((res) => {
+            const allData = res.data
+            const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setSliceData(newArrayFiltered)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    };
 
     const showProductsUpdated = () => {
       axios.get("http://localhost:3000/productos")
@@ -89,12 +100,110 @@ const Tabla = () => {
             console.log(res.data)
             const newArrayFiltered = res.data.slice(firstNumberOfSlice, secondNumberOfSlice)
             setSliceData(newArrayFiltered)
-            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'idCliente' && propiedad !== 'idProducto');
+            const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'idCliente' && propiedad !== 'idProducto' && propiedad !== 'productosComprados'  && propiedad !== 'compraId');
             const columnObjects = propiedades.map(propiedad => ({
                 key: propiedad,
                 label: propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
                 allowsSorting: true
           }));
+
+          {activeTab === "compras" ? 
+          columnObjects.push({
+            key: 'Vendedor',
+            label: 'Proveedores',
+            cellRenderer: (cell) => { 
+              const filaActual = cell.row;
+              const id = filaActual.original._id;
+              const buyDetail = filaActual.original.productosComprados;
+              const dateOfBuy = filaActual.original.fechaCompra;
+              const total = filaActual.original.total;
+              const purchasedProducts = filaActual.original.productosComprados;
+              const getProviders = purchasedProducts.map((prod) => prod.proveedor)
+              const providers = getProviders
+              const producto = {
+                id: id,
+                detail: buyDetail,
+                date: dateOfBuy,
+              };
+              console.log(providers);
+              return (
+                <p>
+                  {providers.length === 1 ? providers[0] : 
+                  providers.length === 2 ? [providers[0], " - " ,providers[1]] :  
+                  providers.length >= 3 ? <ViewBuyDetail  producto={producto} totalAmount={total}/>  : null}
+                </p>
+              );
+            },
+          }) 
+        : null}
+
+        {activeTab === "compras" && columnObjects.push({
+          key: 'VerDetalle',
+          label: 'Detalle de Compra',
+          cellRenderer: (cell) => { 
+            const filaActual = cell.row;
+            const id = filaActual.original._id;
+            const buyDetail = filaActual.original.productosComprados;
+            const dateOfBuy = filaActual.original.fechaCompra;
+            const total = filaActual.original.total;
+            const producto = {
+              id: id,
+              detail: buyDetail,
+              date: dateOfBuy,
+            };
+        
+            return <ViewBuyDetail producto={producto} totalAmount={total}/> ;
+          },
+        })}
+
+        
+        {activeTab === "compras" && columnObjects.push({
+          key: 'Editar',
+          label: 'Editar',
+          cellRenderer: (cell) => {
+            const filaActual = cell.row;
+            const compraId = filaActual.original.compraId;
+            const productosComprados = filaActual.original.productosComprados;
+            const fechaCompra = filaActual.original.fechaCompra;
+            const total = filaActual.original.total;
+            const id = filaActual.original._id;
+        
+            const producto = {
+              compraId: compraId,
+              productosComprados: productosComprados,
+              fechaCompra: fechaCompra,
+              total: total,
+              id: id,
+            };
+        
+            return <EditModal producto={producto} type={"compras"} />;
+          },
+        })}
+
+
+              {activeTab === "compras" ?    
+                columnObjects.push({
+                  key: 'Eliminar',
+                  label: 'Eliminar',
+                  cellRenderer: (cell) => { 
+                    const filaActual = cell.row;
+                    const id = filaActual.original._id;
+                    const producto = {
+                    id: id
+                    };
+                    return (
+                      <DeleteProductModal producto={producto} type={"compras"}  updateBuysList={showBuysUpdated}/>
+                      );
+                },
+                    }) :
+                null}
+
+               
+
+
+                 
+
+
 
             {activeTab === "productos" ?    
             columnObjects.push({
@@ -169,6 +278,8 @@ const Tabla = () => {
                     },
                       }) :
                   null}
+
+                  
 
       
          {activeTab === "productos" ?    
@@ -372,8 +483,7 @@ const Tabla = () => {
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "proveedores" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("proveedores")}>Proveedores</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "clientes" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("clientes")}>Clientes</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "venta" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("venta")}>Ventas</a>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: showBuyTable === true ? "#728EC3" : "#A6BBE4" }} onClick={() => setShowBuyTable(true)}>Compras</a>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "compras" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("compras")}>Comprasss</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "compras" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("compras")}>Compras</a>
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
@@ -381,7 +491,9 @@ const Tabla = () => {
                   <AddProductModal updateList={showProductsUpdated} showLike={"likeButton"}/>
                    : activeTab === "proveedores" ? <AddProviderModal updateList={showProvidersEdited}/> 
                    : activeTab === "venta" ? <AddSellModal updateList={showSaleEdited}/> 
-                   : activeTab === "clientes" ? <AddClientModal type={"table"} updateList={showClientsUpdated}/> : null}
+                   : activeTab === "clientes" ? <AddClientModal type={"table"} updateList={showClientsUpdated}/> 
+                   : activeTab === "compras" ? <AddBuyModal  updateList={showBuysUpdated}/> 
+                   : null}
                 </div>      
             </div>
             <div className="flex items-start m-2">
@@ -442,7 +554,7 @@ const Tabla = () => {
     </>
   )}
 
-  {showBuyTable && <BuysTable comeBack={returnToTablaGenerica}/>}
+
       
         </>
       

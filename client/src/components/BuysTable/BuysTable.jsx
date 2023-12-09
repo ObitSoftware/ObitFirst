@@ -21,7 +21,6 @@ import ChooseBranch from "../Branch/ChooseBranch";
 const BuysTable = ({comeBack}) => {
 
     const tableRef = useRef(null);
-    const [activeTab, setActiveTab] = useState('productos');
     const [data, setData] = useState([]);
     const [columns, setColumns] = useState([]);
     const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");

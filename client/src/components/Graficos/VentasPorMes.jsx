@@ -139,11 +139,8 @@ const VentasPorMes = () => {
 
   return (
     <>
-    <div>
-        <div className='flex flex-col items-center justify-center'>
-            <p className='m-8 text-md font-bold'>Cantidad de Ventas Por meses</p>
-        </div>
-        <ResponsiveContainer  minWidth={800} minHeight={900} width="100%" aspect={4}>
+        <div className='flex items-center justify-center flex-grow '> 
+         <ResponsiveContainer width="100%" height="100%" aspect={2} className="max-h-fit-contain- max-w-fit-contain">
             <LineChart width={500} height={300} data={rankingMensualDeVentas}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="NombreDelMes" padding={{ left: 30, right: 30 }} />
@@ -152,8 +149,8 @@ const VentasPorMes = () => {
                     <Legend />
                     <Line type="monotone" dataKey="CantidadDeVentas" stroke="#728EC3"  activeDot={{ r: 8 }} />
             </LineChart>
-        </ResponsiveContainer>  
-    </div>
+          </ResponsiveContainer>  
+        </div>
   
     </>
 

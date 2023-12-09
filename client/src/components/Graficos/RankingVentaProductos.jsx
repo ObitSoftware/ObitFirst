@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import axios from "axios"
 
-const RankingVentaProductos = () => {
+const RankingVentaProductos = ({width, height}) => {
 
     const [rankingProductos, setRankingProductos] = useState([]);
 
@@ -44,19 +44,18 @@ const RankingVentaProductos = () => {
 
 
   return (
-       <div className='flex flex-col items-center mt-56'>
-                <p className='m-8 text-md font-bold'>Productos mas Vendidos</p>
-                <ResponsiveContainer minWidth={800} minHeight={100} width="100%" aspect={4} className="max-w-fit-contain border border-red-600">
-                    <BarChart data={rankingProductos} width={500} height={300}>
-                        <CartesianGrid strokeDasharray="4 1 2" />
-                        <XAxis dataKey="NombreProducto" />
-                        <YAxis type="number"  domain={[0, 6]} ticks={[0, 1, 2, 3, 4, 5, 6]} className='text-sm' />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="CantidadVendida" fill="#728EC3" />
-                    </BarChart>
-                </ResponsiveContainer>
-            </div>
+    <div className='flex items-center justify-center flex-grow '>
+    <ResponsiveContainer width="100%" height="100%" aspect={4} className="max-h-fit-contain- max-w-fit-contain">
+    <BarChart data={rankingProductos}>
+      <CartesianGrid strokeDasharray="4 1 2" />
+        <XAxis dataKey="NombreProducto" />
+        <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="CantidadVendida" fill="#728EC3" />
+    </BarChart>
+    </ResponsiveContainer>
+</div>
   )
 }
 

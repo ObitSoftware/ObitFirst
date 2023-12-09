@@ -8,7 +8,7 @@ const data = [
   { name: 'Group D', value: 200 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#99CBEF', '#76BDF1', '#4A95CD', '#1F547B'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -25,7 +25,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const Pastel = () => {
   return (
-    <ResponsiveContainer  minWidth={800} minHeight={900} width="100%" aspect={2}>
+    <ResponsiveContainer  minWidth={40} minHeight={30} width="100%" aspect={2}>
       <PieChart width={400} height={400}>
         <Pie
           data={data}

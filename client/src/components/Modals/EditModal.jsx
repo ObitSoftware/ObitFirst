@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"
 import edit from "../../img/edit.png"
 
-export default function EditModal({type, producto, showUsersUpdated, showProviderEdited, showSaleEditedNow}) {
+export default function EditModal({type, producto, showUsersUpdated, showProviderEdited, showSaleEditedNow, showClientsUpdated}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const [succesMessaggeProductEdited, setSuccesMessaggeProductEdited] = useState(true)
@@ -12,6 +12,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
   const [productId, setProductId] = useState("")
   const [providerUniqueId, setProviderUniqueId] = useState("")
   const [ventaId, setVentaId] = useState("")
+  const [clientId, setClientId] = useState("")
   const [buyId, setBuyId] = useState("")
   const [newProductName, setNewProductName] = useState(type === "productos" ? producto.nombre : "")
   const [newProductDescription, setNewProductDescription] = useState(type === "productos" ? producto.descripcion : "")
@@ -25,6 +26,11 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
   const [sellNewPrice, setSellNewPrice] =useState(type === "venta" ? producto.precio : "")
   const [sellNewQuantity, setSellNewQuantity] =useState(type === "venta" ? producto.cantidad : "")
   const [sellNewTotal, setSellNewTotal] =useState(type === "venta" ? producto.total : "")
+
+  const [clientNewName, setClientNewName] = useState(type === "clientes" ? producto.nombre : "")
+  const [clientNewEmail, setClientNewEmail] = useState(type === "clientes" ? producto.email : "")
+  const [clientNewDni, setClientNewDni] = useState(type === "clientes" ? producto.dni : "")
+  const [clientNewTelephone, setClientNewTelephone] = useState(type === "clientes" ? producto.telefono : "")
 
  
   function obtenerFechaActual() {
@@ -53,6 +59,26 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
           setSuccesMessaggeProductEdited(false)
           setTimeout(() => {
             showUsersUpdated();
+          }, 1500);
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
+  const editClient = () => { 
+    const newDataForClient = ({ 
+      nombre: clientNewName,
+      telefono: clientNewTelephone,
+      dni: clientNewDni,
+      email: clientNewEmail,
+    })
+    axios.put(`http://localhost:3000/clientes/${clientId}`, newDataForClient)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessaggeProductEdited(false)
+          setTimeout(() => {
+            showClientsUpdated();
           }, 1500);
          })
          .catch((err) => { 
@@ -110,6 +136,8 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
       setVentaId(producto.id)
     } else if (type === "compras") { 
       setBuyId(producto.id)
+    } else if (type === "clientes") { 
+      setClientId(producto.productId)
     }
     
   }, [producto])
@@ -191,6 +219,53 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                           
                      : null }
 
+                     {type === "clientes" ?    
+                          <div className="flex flex-col  items-start justify-start mt-6"> 
+
+                          <div className="flex flex-col">
+                             <div className="flex items-center text-center justify-evenly">
+                                    <p className="font-bold text-sm w-20">Nombre: </p>
+                                    <input 
+                                    type="text" 
+                                    className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none" 
+                                    style={{backgroundColor:"#E6EEFF"}}
+                                    value={clientNewName}
+                                    onChange={(e) => setClientNewName(e.target.value)}/>
+                                  </div>
+
+                                  <div className="flex items-center text-center justify-evenly mt-4">
+                                    <p className="font-bold text-sm w-20">Telefono: </p>
+                                    <input 
+                                    type="text" 
+                                    className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
+                                    style={{backgroundColor:"#E6EEFF"}}
+                                    value={clientNewTelephone}
+                                    onChange={(e) => setClientNewTelephone(e.target.value)}/>      
+                                  </div>
+
+                                  <div className="flex items-center text-center justify-evenly mt-4">
+                                    <p className="font-bold text-sm w-20">Email: </p>
+                                    <input 
+                                    type="text" 
+                                    className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
+                                    style={{backgroundColor:"#E6EEFF"}}
+                                    value={clientNewEmail}
+                                    onChange={(e) => setClientNewEmail(e.target.value)}/>      
+                                  </div>
+
+                                  <div className="flex items-center text-center justify-evenly mt-4">
+                                    <p className="font-bold text-sm w-20">DNI: </p>
+                                    <input 
+                                    type="text" 
+                                    className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
+                                    style={{backgroundColor:"#E6EEFF"}}
+                                    value={clientNewDni}
+                                    onChange={(e) => setClientNewDni(e.target.value)}/>      
+                                  </div>
+                              </div>                           
+                          </div> 
+                     : null }
+
                      {type === "proveedores" ?    
                           <div className="flex flex-col items-start justify-start text-center mt-6">
 
@@ -223,7 +298,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
 
                       <> 
 
-                      <div className="flex flex-col  items-start justify-start">
+                      <div className="flex flex-col  items-start justify-start mt-6">
                          <div className="flex flex-col"> 
 
                             <div className="flex items-center text-center justify-evenly">
@@ -302,7 +377,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                            className="font-bold"
                            style={{ backgroundColor: "#728EC3", color: "white" }}
                            onClick={() => {
-                             type === "productos" ? editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() : null;
+                             type === "productos" ? editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() :  type === "clientes" ? editClient() : null;
                              setTimeout(() => {
                                onClose();
                                setSuccesMessaggeProductEdited(true)

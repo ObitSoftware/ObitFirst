@@ -15,6 +15,7 @@ import AddSellModal from "../components/Modals/AddSellModal"
 import BuysTable from "../components/BuysTable/BuysTable";
 import PaginationTable from "../components/Pagination/Pagination"
 import ChooseBranch from "../components/Branch/ChooseBranch";
+import AddClientModal from "../components/Modals/AddClientModal";
 
 
 const Tabla = () => {
@@ -34,6 +35,18 @@ const Tabla = () => {
 
     const showProductsUpdated = () => {
       axios.get("http://localhost:3000/productos")
+           .then((res) => {
+            const allData = res.data
+            const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
+            setSliceData(newArrayFiltered)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    };
+
+    const showClientsUpdated = () => {
+      axios.get("http://localhost:3000/clientes")
            .then((res) => {
             const allData = res.data
             const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
@@ -101,6 +114,25 @@ const Tabla = () => {
                 },
                   }) :
               null}
+
+              {activeTab === "clientes" ?    
+              columnObjects.push({
+                    key: 'Eliminar',
+                    label: 'Eliminar',
+                    cellRenderer: (cell) => { 
+                      const filaActual = cell.row;
+                      const name = filaActual.original.nombre;
+                      const id = filaActual.original._id;
+                      const producto = {
+                      nombre: name,
+                      productId: id
+                      };
+                      return (
+                        <DeleteProductModal producto={producto} type={"clientes"} showClientsUpdated={showClientsUpdated}/>
+                        );
+                  },
+                    }) :
+                null}
 
             {activeTab === "proveedores" ?    
               columnObjects.push({
@@ -170,6 +202,34 @@ const Tabla = () => {
                     },
                 }) :
             null}
+
+            {activeTab === "clientes" ?    
+            columnObjects.push({
+                key: 'Editar',
+                label: 'Editar',
+                cellRenderer: (cell) => { 
+
+                    const filaActual = cell.row;
+                    const name = filaActual.original.nombre;
+                    const telephone = filaActual.original.telefono;
+                    const email = filaActual.original.email;
+                    const dni = filaActual.original.dni;
+                    const id = filaActual.original._id;
+                    
+                    const producto = {
+                    nombre: name,
+                    telefono: telephone,
+                    email: email,
+                    dni: dni,
+                    productId: id,                  
+                    };
+                    
+                    return (
+                    <EditModal producto={producto} type={"clientes"}  showClientsUpdated={showClientsUpdated}/>
+                    );
+                },
+            }) :
+        null}
 
             {activeTab === "proveedores" ?    
                 columnObjects.push({
@@ -310,8 +370,10 @@ const Tabla = () => {
                   <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "productos" ? "#728EC3" : "#A6BBE4" }}  onClick={() => setActiveTab("productos") }>Productos</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "proveedores" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("proveedores")}>Proveedores</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "clientes" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("clientes")}>Clientes</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "venta" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("venta")}>Ventas</a>
                             <a className="tab text-white hover:text-white" style={{ backgroundColor: showBuyTable === true ? "#728EC3" : "#A6BBE4" }} onClick={() => setShowBuyTable(true)}>Compras</a>
+                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "compras" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("compras")}>Comprasss</a>
                         </div>
                 </div>    
                 <div className="flex justify-end items-center m-4">
@@ -319,7 +381,7 @@ const Tabla = () => {
                   <AddProductModal updateList={showProductsUpdated} showLike={"likeButton"}/>
                    : activeTab === "proveedores" ? <AddProviderModal updateList={showProvidersEdited}/> 
                    : activeTab === "venta" ? <AddSellModal updateList={showSaleEdited}/> 
-                   : null}
+                   : activeTab === "clientes" ? <AddClientModal type={"table"} updateList={showClientsUpdated}/> : null}
                 </div>      
             </div>
             <div className="flex items-start m-2">

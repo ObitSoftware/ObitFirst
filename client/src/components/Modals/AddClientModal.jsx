@@ -6,7 +6,7 @@ import axios from "axios"
 
 
 
-const AddClientModal = ({ type, colorSelected }) => {
+const AddClientModal = ({ type, colorSelected, updateList }) => {
   const { isOpen, onOpen, onClose } = useDisclosure("");
 
 
@@ -17,25 +17,39 @@ const AddClientModal = ({ type, colorSelected }) => {
   const [error, setError] = useState(false)
   const [succesMessage, setSuccesMessage] = useState(false)
 
+  useEffect(() => { 
+    axios.get("http://localhost:3000/clientes")
+         .then((res) => { 
+          console.log(res.data)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }, [])
+
   const createNewUser = () => { 
-    userData = ({ 
-      name: name,
-      telephone: telephone,
-      dni: dni
-    })
-    if (name.length <= 3 || telephone <= 3 || dni <= 3) {
+    if (name.length <= 3 || telephone.length <= 3 || dni.length <= 3) {
       setError(true)
     } else { 
-      axios.post("http://localhost:4000/create", userData)
+      const userData = ({ 
+        nombre: name,
+        telefono: telephone,
+        dni: dni,
+        email: email,
+      })
+      axios.post("http://localhost:3000/clientes", userData)
            .then((res) => { 
-                    console.log(res.data)
-                    setSuccesMessage(true)
-                    })
-            .catch((err) => { 
-            console.log(err)
-            })
+               console.log(res.data)
+               setSuccesMessage(true)
+               setTimeout(() => { 
+                onClose()
+               }, 2200)
+               })
+       .catch((err) => { 
+       console.log(err)
+       })
+
     }
-   
   }
  
  
@@ -47,8 +61,10 @@ const AddClientModal = ({ type, colorSelected }) => {
       <small onClick={onOpen} className={`font-bold cursor-pointer ${colorSelected === 'white' ? 'text-black' : 'text-white'}`}>
        Crear Cliente
       </small> : 
-       <Button onClick={()=>document.getElementById('my_modal_3').showModal()} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR CLIENTE </Button>
-      }
+       type === "table" ? 
+       <Button onClick={onOpen} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR CLIENTE </Button>
+      : null
+       }
       <Modal isOpen={isOpen} onClose={onClose} className='max-w-max bg-white text-black'>
         <ModalContent>
           {(onClose) => (
@@ -69,7 +85,7 @@ const AddClientModal = ({ type, colorSelected }) => {
 
                  {succesMessage? 
                   
-                  <p>Cliente añadido con exito</p>
+                  <p className='mt-12 font-bold' style={{ color: "#728EC3" }}>Cliente añadido con exito</p>
 
                  : 
                  <div className='flex justify-end w-full mt-4'>

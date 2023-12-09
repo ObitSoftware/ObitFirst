@@ -8,7 +8,7 @@ import  proveedorRoutes from './routes/proveedorRoutes.js';
 import  comprasRoutes from './routes/comprasRoutes.js';
 import  prodcompraRoutes from './routes/prodCompraRoutes.js';
 import  connectDataBase from './database/connectdb.js';
-
+import clientsRoutes from "./routes/clientsRoutes.js";
 
 
 const app = express();
@@ -28,6 +28,7 @@ app.use('/productos', productRoutes);
 app.use('/venta', ventaRoutes);
 app.use('/usuario', userRoutes);
 app.use('/proveedores', proveedorRoutes);
+app.use('/clientes', clientsRoutes);
 app.use('/compras', comprasRoutes);
 app.use('/compras/prodCompra', prodcompraRoutes);
 

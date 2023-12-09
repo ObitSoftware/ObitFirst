@@ -4,10 +4,11 @@ import alertLogo from "../../img/alertLogo.png"
 import axios from "axios"; 
 import deleteIcon from "../../img/deleteIcon.png"
 
-export default function DeleteProductModal ({type, producto, showProvidersUpdated, showSaleUpdated,  updateBuyList,  showProductsUpdated, updateBuysList})  {
+export default function DeleteProductModal ({type, producto, showProvidersUpdated, showSaleUpdated,  updateBuyList,  showProductsUpdated, updateBuysList, showClientsUpdated})  {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure("");
   const [productId, setProductId] = useState("")
+  const [clientId, setClientId] = useState("")
   const [succesMessage, setSuccesMessage] = useState(false)
   const [proveedorId, setProveedorId] = useState("")
   const [compraId, setCompraId] = useState("")
@@ -23,6 +24,20 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
           setSuccesMessage(true)
           setTimeout(() => { 
             showProductsUpdated()
+          }, 1500)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
+  const deleteClient = () => { 
+    axios.delete(`http://localhost:3000/clientes/${clientId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            showClientsUpdated()
           }, 1500)
          })
          .catch((err) => { 
@@ -109,6 +124,8 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
       setVentaId(producto.ventaId)
     } else if(type === "compras") { 
       setCompraId(producto.id)
+    } else if (type === "clientes") { 
+      setClientId(producto.productId)
     }
     
   }, [producto])
@@ -130,15 +147,16 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
                 <div className='flex flex-col text-center items-center justify-center'>
                   <img src={alertLogo} className='w-12 h-12'/>
                   {type === "productos" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el producto?</small> : null}
+                  {type === "clientes" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el cliente?</small> : null}
                   {type === "proveedores" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el proveedor?</small> : null}
                   {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta? </small> : null}
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
-                      {type === "productos" || type === "proveedores" ? 
+                      {type === "productos" || type === "proveedores" || type === "clientes" ? 
                        <div className="flex gap-6 items-center justify-center">
                           <button className='h-10 w-42 rounded-lg font-bold text-white items-center text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  
-                         onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : null}}>                           
+                         onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "clientes" ? deleteClient() : null}}>                           
                             Si, estoy seguro
                         </button>
                         <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 

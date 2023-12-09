@@ -8,7 +8,7 @@ import Navbar from './components/NavBar/NavBar'
 import ContenedorDeGraficos from './components/Graficos/ContenedorDeGraficos'
 import Templa from './pages/Templa'
 import SidebarComponent from './components/SideBar/SidebarComponent'
-import ProductsSidebarDetail from './components/SideBar/ProductsSidebarDetail'
+import ProductsSidebarDetail from './components/ProductsDetail/ProductsSidebarDetail'
 
 
 

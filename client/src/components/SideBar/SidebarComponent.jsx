@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined,} from '@ant-design/icons';
 import { ConfigProvider, Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import finance from "../../img/finance.png"
-import estadistics from "../../img/estadistics.png"
-import home from "../../img/home.png"
-import clients from "../../img/clients.png"
+import finance from "../../img/FinanceUno.png"
+import estadistics from "../../img/EstadisticsUno.png"
+import home from "../../img/HomeUno.png"
+import clients from "../../img/ClientUno.png"
+import tesoreria from "../../img/TesoreriaUno.png"
 import { Link } from 'react-router-dom';
 import AddClientModal from '../Modals/AddClientModal';
 
@@ -48,7 +49,7 @@ const items = [
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold',}}>Estadisticas</p>, 'sub2', (
         <img src={estadistics} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
-        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
+        getItem(<Link to="/primero"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Proveedores</p></Link>, '10'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Compras</p></Link>, '11'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ventas</p></Link>, '12'),
@@ -61,6 +62,18 @@ const items = [
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>lalala</p></Link>, '16'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>lalala</p></Link>, '17'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>lalala</p></Link>, '18'),
+      ]),
+
+      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Tesoreria</p>, 'sub 3', (
+        <img src={tesoreria} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+      ), [
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Mensuales</p></Link>, "19"),
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Anuales</p></Link>, '20'),
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Proveedores</p></Link>, '21'),
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos Anuales</p></Link>, '22'),
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos Mensuales</p></Link>, '23'),
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos por Clientes</p></Link>, '24'),
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos por Producto</p></Link>, '25'),
       ]),
 ];
 

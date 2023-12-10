@@ -3,6 +3,7 @@ import {NavbarMenuToggle, NavbarItem, NavbarMenuItem, NavbarMenu} from "@nextui-
 //import {AcmeLogo} from "./AcmeLogo.jsx";
 import obitLogoSmall from "../../img/obitLogoSmall.png"
 import config from "../../img/confi.png"
+import DropDownNavBarOptions from "./DropdownMenu";
 
 
 export default function Navbar() {
@@ -54,7 +55,7 @@ export default function Navbar() {
             <div className="flex items-center mr-6">
                 <div className="avatar">
                 <div className="w-6 rounded-full m-2">
-                    <img src={config} style={{color:"white"}}/>
+                    <DropDownNavBarOptions/>
                 </div>
                 </div>
            </div>

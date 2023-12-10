@@ -1,17 +1,24 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 
 const Register = () => {
+
+    const navigate = useNavigate()
 
     const [userName, setUserName] = useState("")
     const [userEmail, setUserEmail] = useState("")
     const [userRol, setUserRol] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [userFirstPassword, setUserFirstPassword] = useState("")
-     const [succesMessagge, setSuccesMessage] = useState(true)
+    const [succesMessagge, setSuccesMessage] = useState(true)
     const [passwordIncorrect, setPasswordIncorrect] = useState(true)
+
+    const goToPage = (rute) => { 
+        navigate(rute)
+    }
 
     const registerNewUser = () => { 
        const userData = ({ 
@@ -21,10 +28,14 @@ const Register = () => {
         userPassword: userPassword
        }) 
        if(userFirstPassword === userPassword) { 
-        axios.post("http://localhost:4000/usuario", userData)
+        console.log(userData)
+        axios.post("http://localhost:3000/usuario", userData)
              .then((res) => { 
                 console.log(res.data)
                 setSuccesMessage(false)
+                setTimeout(() => {
+                    goToPage("/")
+                }, (2000));
              })
              .catch((err) => { 
                console.log(err)
@@ -41,6 +52,10 @@ const Register = () => {
             }, 3000)
         }
     }
+
+    useEffect(() => { 
+        console.log(userRol)
+    }, [userRol])
 
 
 
@@ -75,7 +90,7 @@ const Register = () => {
             </div>
             <div className="">
                 <select className='block w-72 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' onChange={(e) => setUserRol(e.target.value)} value={userRol}>
-                    <option disabled selected> Elegi un Rol</option>
+                <option disabled value="">Elegi un rol</option>
                     <option>Administrador</option>
                     <option>Empleado</option>
                 </select>
@@ -108,7 +123,7 @@ const Register = () => {
         </div>
          :
          <div>
-            <p className='font-sm font-bold' style={{color:"#768BAB"}}>Usuario Creado con Exito ✔</p>
+            <p className='text-xs font-bold mt-6' style={{color:"#768BAB"}}>Usuario Creado con Exito ✔</p>
          </div>
         }
 

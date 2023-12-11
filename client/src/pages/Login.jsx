@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from "../img/obitLogoSmall.png"
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/userContext'
 
 
 const Login = () => { 
 
     const navigate = useNavigate()
+    const userCtx = useContext(UserContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [succesMessagge, setSuccesMessage] = useState(false)
@@ -25,6 +27,10 @@ const Login = () => {
            .then((res) => { 
             console.log(res.data)
             setSuccesMessage(true)
+            userCtx.updateUser(res.data.id)
+            userCtx.updateUserName(res.data.name)
+            userCtx.updateUserRol(res.data.role)
+            userCtx.updateUserEmail(res.data.email)
             setTimeout(() => {
                 navigate("/main")
             }, 2000);

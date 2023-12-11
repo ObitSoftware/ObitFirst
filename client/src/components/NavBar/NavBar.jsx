@@ -1,14 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {NavbarMenuToggle, NavbarItem, NavbarMenuItem, NavbarMenu} from "@nextui-org/react";
 //import {AcmeLogo} from "./AcmeLogo.jsx";
 import obitLogoSmall from "../../img/obitLogoSmall.png"
 import config from "../../img/confi.png"
 import DropDownNavBarOptions from "./DropdownMenu";
+import { UserContext } from '../../context/userContext'
+
 
 
 export default function Navbar() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const userCtx = useContext(UserContext)
 
   const menuItems = [
     "Profile",
@@ -46,8 +49,8 @@ export default function Navbar() {
                 </div>
                  <div className="hidden lg:block">
                     <div className="flex flex-col ml-4 items-start  justify-center">
-                        <p className="text-white font-bold text-md">EMPRESA 01</p>              
-                        <p className="text-white text-sm">Usuario: MDB</p>             
+                        <p className="text-white font-bold text-md">{userCtx.userName}</p>              
+                        <p className="text-white text-sm">{userCtx.userRol}</p>             
                     </div>
                   
                  </div>

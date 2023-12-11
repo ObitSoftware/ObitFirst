@@ -9,6 +9,7 @@ import clients from "../../img/ClientUno.png"
 import tesoreria from "../../img/TesoreriaUno.png"
 import { Link } from 'react-router-dom';
 import AddClientModal from '../Modals/AddClientModal';
+import usersIcon from "../../img/people.png"
 
 function getItem(label, key, icon, children) {
   return { key, icon, children, label, };
@@ -23,16 +24,14 @@ const styles = {
 const SidebarComponent = () => {
 
   const [collapsed, setCollapsed] = useState(true);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+ 
 
 const items = [
-  getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}>Inicio</p>,'1', (
-    <Link to="/main">
-      <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
-  </Link>
-  )),
+    getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}>Inicio</p>,'1', (
+       <Link to="/main">
+           <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+      </Link>
+     )),
  
     getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Finanzas</p>, 'sub1', (
       <img src={finance} alt="Inicio" style={{ width: '20px', height: '20px' }} />
@@ -75,6 +74,12 @@ const items = [
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos por Clientes</p></Link>, '24'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos por Producto</p></Link>, '25'),
       ]),
+
+      getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}>Usuarios</p>,'2', (
+        <Link to="/main">
+            <img src={usersIcon} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+       </Link>
+      )),
 ];
 
 

@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 
+  
+
     const UserContext = createContext({ 
         userId: null,             
         updateUser: () => {},
@@ -8,7 +10,7 @@ import React, { createContext, useState, useEffect } from 'react';
         userEmail: null,
         updateUserEmail: () => {},
         userRol: null,
-        updateUserEmail: () => {}
+        updateUserRol: () => {}
     });
 
 
@@ -73,6 +75,12 @@ import React, { createContext, useState, useEffect } from 'react';
         window.removeEventListener('storage', handleStorageChange); 
         };
     }, []);
+
+    useEffect(() => { 
+        console.log(userName)
+        console.log(userId)
+        console.log(userRol)
+    }, [userName, userId, userRol])
 
     return (
         <UserContext.Provider value={{ userId, updateUser,  userName, updateUserName, userEmail, updateUserEmail, userRol, updateUserRol}}>

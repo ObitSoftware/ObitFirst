@@ -534,11 +534,11 @@ const Tabla = () => {
               )}
             </TableHeader>
 
-            <TableBody items={filteredData} className="flex items-start">
+            <TableBody items={filteredData} className="flex items-start justify-start">
               {(item) => (
-               <TableRow key={item._id} >
+               <TableRow key={item._id} className="">
                   {columns.map((column) => (
-                    <TableCell align="center" key={column.key}   className={`text-black dark:text-black ${getStockClass(item.stock, column.key)}`}>
+                    <TableCell align="center" key={column.key}   className={`text-center text-black dark:text-black ${getStockClass(item.stock, column.key)}`}>
                       {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
                     </TableCell>
                   ))}

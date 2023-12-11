@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const AddSellModal = ({updateList}) => {
 
+    const actualDate = obtenerFechaActual()
     const [productsAvailable, setProductsAvailable] = useState([])
     const [productId, setProductId] = useState("")
     const [productSelectedData, setProductSelectedData] = useState([])
@@ -18,12 +19,10 @@ const AddSellModal = ({updateList}) => {
     const [totalToPay, setTotalToPay] = useState(null)
     const [clientName, setClientName] = useState("")
     const [succesMessage, setSuccesMessage] = useState(false)
-
     const [allProducts, setAllProducts] = useState([])
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [productoSeleccionado, setProductoSeleccionado] = useState("")
-
     const [missedData, setMissedData] = useState(false)
     const [textMissedData, setTextMissedData] = useState("")
 
@@ -36,8 +35,6 @@ const AddSellModal = ({updateList}) => {
       }, 3500)
   
     }
-
-    const actualDate = obtenerFechaActual()
 
     useEffect(() => {
       if (inputValue.trim() === '') {
@@ -105,6 +102,12 @@ const AddSellModal = ({updateList}) => {
         }
       }, [productId]);
 
+      const calcularGananciaNeta = (precioVenta, precioCompra, cantidad) => {
+        const gananciaPorUnidad = precioVenta - precioCompra;
+        const gananciaNeta = gananciaPorUnidad * cantidad;
+        return gananciaNeta;
+      };
+
 
       const addNewSell = () => { 
         if(productoSeleccionado.length === 0 || clientName.length === 0 || quantity.length === 0 ) { 
@@ -126,6 +129,7 @@ const AddSellModal = ({updateList}) => {
             precio: productSelectedData.precio,
             cantidad: quantity,
             total: quantity * productSelectedData.precio,
+            gananciaNeta: calcularGananciaNeta(productSelectedData.precio, productSelectedData.precioCompra, quantity),
             fechaCreacion: actualDate
           })
           axios.post("http://localhost:3000/venta", dataOfSell)
@@ -151,15 +155,15 @@ const AddSellModal = ({updateList}) => {
         }
       }
 
-<style>
-  {`
-    .custom-select option:hover {
-      background-color: #728EC3;
-      color: white; 
-      cursor: pointer
-    }
-  `}
-</style>
+    <style>
+      {`
+        .custom-select option:hover {
+          background-color: #728EC3;
+          color: white; 
+          cursor: pointer
+        }
+      `}
+    </style>
 
 
 
@@ -232,6 +236,10 @@ const AddSellModal = ({updateList}) => {
                                   <div className='flex gap-2  text-center items-center'>
                                      <small className='font-bold'>Precio por unidad:</small>
                                      <p className='text-xs'>{productSelectedData.precio} $</p>
+                                  </div>
+                                  <div className='flex gap-2  text-center items-center'>
+                                     <small className='font-bold'>Precio de Costo:</small>
+                                     <p className='text-xs'>{productSelectedData.precioCompra} $</p>
                                   </div>
                                   <div className='flex gap-2  text-center items-center'>
                                      <small className='font-bold'>Descripcion:</small>

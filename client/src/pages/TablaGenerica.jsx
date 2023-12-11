@@ -294,6 +294,7 @@ const Tabla = () => {
                         const price = filaActual.original.precio;
                         const quantity = filaActual.original.cantidad;
                         const category = filaActual.original.categoria;
+                        const priceBuy = filaActual.original.precioCompra;
                         const stock = filaActual.original.stock;
                         const id = filaActual.original._id;
                         
@@ -304,6 +305,7 @@ const Tabla = () => {
                         cantidad: quantity,
                         categoria: category,
                         stock: stock,
+                        productPriceBuy: priceBuy,
                         productId: id
                         };
                         

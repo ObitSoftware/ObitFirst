@@ -37,6 +37,7 @@ export const crearVenta = async (req, res) => {
     precio,
     cantidad,
     total,
+    gananciaNeta,
     fechaCreacion  } = req.body;
 
     console.log(req.body)
@@ -62,6 +63,7 @@ export const crearVenta = async (req, res) => {
           precio,
           cantidad,
           total,
+          gananciaNeta,
           fechaCreacion,
          });
                           await newSale.save()

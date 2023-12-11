@@ -23,6 +23,7 @@ const AddProductModal = ({showLike, updateList}) => {
   const [productName, setProductName] = useState("")
   const [productDescription, setProductDescription] = useState("")
   const [productPrice, setProductPrice] = useState("")
+  const [productPriceBuy, setProductPriceBuy] = useState("")
   const [productQuantity, setProductQuantity] = useState("")
   const [productStock, setProductStock] = useState("")
   const [productCategory, setProductCategory] = useState("")
@@ -53,12 +54,13 @@ const AddProductModal = ({showLike, updateList}) => {
     if( productName.length === 0 || productDescription.length === 0 || 
         productPrice.length === 0 || productQuantity.length === 0 ||
         productStock.length === 0 || productCategory.length === 0 || 
-        productProvider.length === 0) { 
+        productProvider.length === 0 ||  productPriceBuy.length === 0 ) { 
         showMissedData("Faltan datos para poder agregar el producto. Por favor, completa todos los campos")
         setTimeout(() => { 
           setProductName("")
           setProductDescription("")
           setProductCategory("")
+          setProductPriceBuy("")
           setProductPrice("")
           setProductProvider("")
           setProductStock("")
@@ -71,6 +73,7 @@ const AddProductModal = ({showLike, updateList}) => {
         nombre: productName,
         descripcion: productDescription,
         precio: productPrice,
+        precioCompra: productPriceBuy,
         cantidad: productQuantity,
         stock: productStock,
         fechaCreacion: actualDate,
@@ -85,6 +88,7 @@ const AddProductModal = ({showLike, updateList}) => {
              setProductDescription("")
              setProductCategory("")
              setProductPrice("")
+             setProductPriceBuy("")
              setProductProvider("")
              setProductStock("")
              setProductQuantity("")
@@ -145,7 +149,7 @@ const AddProductModal = ({showLike, updateList}) => {
 
                    <div className='flex justify-between items-center mt-4'>
                        <div className='flex gap-2 items-center'>
-                          <small>Precio</small>
+                          <small>Precio Venta</small>
                           <input type='text' className='h-8 rounded-lg border border-none w-40' value={productPrice}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductPrice(e.target.value)}/>
                        </div>
                        <div className='flex gap-2 items-center'>
@@ -181,9 +185,17 @@ const AddProductModal = ({showLike, updateList}) => {
                         </div>   
                    </div>
 
-                   <div className='mt-4 flex justify-start items-center gap-2'>
-                      <small>Stock</small>
+                   <div className='mt-4 flex justify-between gap-2 w-full items-center'>
+                    <div className='flex items-center gap-2'>
+                       <small>Stock</small>
                       <input type="number"  className='h-8 rounded-lg border border-none  w-40' value={productStock}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductStock(e.target.value)}/>
+                    </div>
+
+                    <div className='flex items-center gap-2'>
+                       <small>Precio Compra</small>
+                      <input type="number"  className='h-8 rounded-lg border border-none  w-40' value={productPriceBuy}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductPriceBuy(e.target.value)}/>
+                    </div>
+                   
                    </div>
 
                    <div className='flex flex-col  items-start justify-start w-full mt-6'>

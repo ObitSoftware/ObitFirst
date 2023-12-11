@@ -1,4 +1,5 @@
 import Product from '../models/productModel.js';
+import Categorias from '../models/category.js';
 
 // Obtener todos los productos
 export const getAllProducts = async (req, res) => {
@@ -27,7 +28,7 @@ export const getProductById = async (req, res) => {
 // Crear un nuevo producto
 export const createProduct = async (req, res) => {
  
-  const {productId, nombre, descripcion, precio, cantidad, stock, fechacreacion, categoria, proveedor} = req.body
+  const {productId, nombre, descripcion, precioCompra, precio, cantidad, stock, fechacreacion, categoria, proveedor} = req.body
   console.log(req.body)
 
   try {
@@ -44,7 +45,7 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   const { productId } = req.params;
-  const {productName, productDescription, productPrice, productQuantity, productCategory} = req.body
+  const {productName, productDescription, productPrice, productPriceBuy, productQuantity, productCategory} = req.body
 
 
   try {
@@ -52,6 +53,7 @@ export const updateProduct = async (req, res) => {
               nombre: productName,
               descripcion: productDescription,
               precio: productPrice,
+              precioCompra: productPriceBuy,
               cantidad: productQuantity,
               categoria: productCategory
           })
@@ -86,4 +88,15 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
+export const addNewCategory = async (req, res) => { 
+  
+  try {
+    const newCategory = new Categorias(req.body);
+    const savedCategory = await newCategory.save();
+    res.status(201).json(savedCategory);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al crear categoria' });
+    console.log(error)
+  }
 
+}

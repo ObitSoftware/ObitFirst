@@ -18,6 +18,10 @@ const ventaSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  gananciaNeta: { 
+    type: Number,
+    required: true
+  },
   cantidad: {
     type: Number,
     required: true,

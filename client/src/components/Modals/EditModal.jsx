@@ -19,6 +19,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
   const [newPrice, setNewPrice] = useState(type === "productos" ? producto.precio : "")
   const [newProductCantidad, setNewProductCantidad] = useState(type === "productos" ? producto.cantidad : "")
   const [newProductCategoria, setNewProductCategoria] = useState(type === "productos" ? producto.categoria : "")
+  const [newProductPriceBuy, setNewProductPriceBuy] = useState(type === "productos" ? producto.productPriceBuy : "")
   const [newProviderName, setNewProviderName] = useState(type === "proveedores" ? producto.nombre : "")
   const [newProviderPhone, setNewProviderPhone] = useState(type === "proveedores" ? producto.telefono : "")
   const [sellNewProductName, setSellNewProductName] = useState(type === "venta" ? producto.nombreProducto : "")
@@ -50,6 +51,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
       productName: newProductName,
       productDescription: newProductDescription,
       productPrice: newPrice,
+      productPriceBuy: newProductPriceBuy,
       productQuantity: newProductCantidad,
       productCategory: newProductCategoria,
     })
@@ -159,6 +161,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
               {type === "productos" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Producto</ModalHeader> : null}
               {type === "proveedores" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Proveedor</ModalHeader> : null}
               {type === "venta" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Venta</ModalHeader> : null}
+              {type === "clientes" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Cliente</ModalHeader> : null}
             </div>    
              
               <ModalBody>
@@ -196,12 +199,13 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                                     </div>
 
                                     <div className="flex gap-2 items-center text-center">
-                                      <p className="text-xs font-bold">Categoria:</p>
-                                      <input type="number" 
-                                      className="w-16 rounded-lg border border-none focus:outline-none  focus:ring-0  text-xs h-8  flex text-center items-center"  
+                                 
+                                       <p className="text-xs font-bold">Precio de Compra: </p>
+                                    <input type="number" 
+                                      className="w-20 rounded-lg border border-none focus:outline-none  focus:ring-0  text-xs h-8  flex text-center items-center"  
                                       style={{backgroundColor:"#E6EEFF"}} 
-                                      value={newProductCategoria} 
-                                      onChange={(e) => setNewProductCategoria(e.target.value)}/>
+                                      value={newProductPriceBuy} 
+                                      onChange={(e) => setNewProductPriceBuy(e.target.value)}/>
                                     </div>
                                  </div>
 
@@ -212,6 +216,15 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                                     style={{backgroundColor:"#E6EEFF"}} 
                                     value={newProductDescription}
                                     onChange={(e) => setNewProductDescription(e.target.value)}></textarea>
+                                 </div>
+
+                                 <div className="flex justify-start items-start mt-8 gap-2">
+                                     <p className="text-xs font-bold">Categoria:</p>
+                                      <input type="number" 
+                                      className="w-16 rounded-lg border border-none focus:outline-none  focus:ring-0  text-xs h-8  flex text-center items-center"  
+                                      style={{backgroundColor:"#E6EEFF"}} 
+                                      value={newProductCategoria} 
+                                      onChange={(e) => setNewProductCategoria(e.target.value)}/>
                                  </div>
 
                           </div> 

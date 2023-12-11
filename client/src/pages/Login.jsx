@@ -15,29 +15,58 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [succesMessagge, setSuccesMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState(false)
+    const [textMessage, setTextMessage] = useState(false)
 
   
 
     const loginMySession = () => { 
-      const userData = ({ 
-        email,
-        password
-      })
-      axios.post("http://localhost:3000/usuario/login", userData)
-           .then((res) => { 
-            console.log(res.data)
-            setSuccesMessage(true)
-            userCtx.updateUser(res.data.id)
-            userCtx.updateUserName(res.data.name)
-            userCtx.updateUserRol(res.data.role)
-            userCtx.updateUserEmail(res.data.email)
-            setTimeout(() => {
-                navigate("/main")
-            }, 2000);
-           })
-           .catch((err) => { 
-            console.log(err)
-           })
+      if(email.length === 0 || password.length === 0) { 
+        setErrorMessage(true)
+        setTextMessage("Debes completar todos los campos")
+        setTimeout(() => { 
+          setErrorMessage(false)
+          setEmail("")
+          setPassword("")
+        }, 2500)
+      } else  { 
+        const userData = ({ 
+          email,
+          password
+        })
+        axios.post("http://localhost:3000/usuario/login", userData)
+             .then((res) => { 
+              console.log(res.data)
+              if(res.data.message === "El email no se encuentra registrado") { 
+                setErrorMessage(true)
+                setTextMessage("El email ingresado no es correcto")
+                setTimeout(() => { 
+                  setErrorMessage(false)
+                  setEmail("")
+                  setPassword("")
+                }, 2500)
+              } else if (res.data.message === "La contraseña es incorrecta") { 
+                setErrorMessage(true)
+                setTextMessage("La contraseña es incorrecta")
+                setTimeout(() => { 
+                  setErrorMessage(false)
+                  setEmail("")
+                  setPassword("")
+                }, 2500)
+              } else { 
+                setSuccesMessage(true)
+                userCtx.updateUser(res.data.id)
+                userCtx.updateUserName(res.data.name)
+                userCtx.updateUserRol(res.data.role)
+                userCtx.updateUserEmail(res.data.email)
+                setTimeout(() => {
+                    navigate("/main")
+                }, 2000);
+              }            
+             })
+             .catch((err) => { 
+              console.log(err)
+             })
+      }
     }
      
   return (
@@ -59,6 +88,7 @@ const Login = () => {
                     <input id="email"  
                     name="email" type="email"
                     autoComplete="email" 
+                    value={email}
                     required 
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                     onChange={(e) => setEmail(e.target.value)}
@@ -77,6 +107,7 @@ const Login = () => {
                 name="password" 
                 type="password" 
                 autoComplete="current-password" 
+                value={password}
                 required 
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                 onChange={(e) => setPassword(e.target.value)}
@@ -110,6 +141,8 @@ const Login = () => {
         </div>
         </>
       }
+
+      {errorMessage ? <p className='mt-8 font-bold text-xs' style={{text:"#728EC3"}} >{textMessage}</p> : null}
 
     </div>
   </div>

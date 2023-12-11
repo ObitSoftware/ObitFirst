@@ -44,7 +44,7 @@ export const login = async (req, res) => {
   try {
      let checkUser = await User.findOne({email: email})
      if(!checkUser) { 
-        res.json({message: "The Email is not Registered. Please, go to create your Account and try Again!"})
+        res.json({message: "El email no se encuentra registrado"})
      } else { 
         const hashedPassword = checkUser.password;
         bcrypt.compare(password, hashedPassword)
@@ -59,7 +59,7 @@ export const login = async (req, res) => {
                         email: email                   
                     })
                    } else { 
-                    res.json({message: "You typed an incorrect password. You have 2 more tries to Login"})
+                    res.json({message: "La contraseña es incorrecta"})
                    }
               })
      }

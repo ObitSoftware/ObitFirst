@@ -15,6 +15,7 @@ const AddClientModal = ({ type, colorSelected, updateList }) => {
   const [email, setEmail] = useState("")
   const [dni, setDni] = useState("")
   const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
   const [succesMessage, setSuccesMessage] = useState(false)
 
   useEffect(() => { 
@@ -28,8 +29,24 @@ const AddClientModal = ({ type, colorSelected, updateList }) => {
   }, [])
 
   const createNewUser = () => { 
-    if (name.length <= 3 || telephone.length <= 3 || dni.length <= 3) {
+    const validateEmail = email.includes("@");
+    if (name.length <= 3 || telephone.length <= 3 || dni.length <= 5 || email.length <= 5) {
       setError(true)
+      setErrorMessage("Los datos estan incompletos")
+      setTimeout(() => { 
+        setError(false)
+        setDni("")
+        setTelephone("")
+        setName("")
+        setEmail("")
+      }, 2500)
+    } else if (!validateEmail) {
+      setError(true);
+      setErrorMessage("Ingresa un correo electronico valido");
+      setTimeout(() => {
+        setError(false);
+        setEmail("")
+      }, 2500);
     } else { 
       const userData = ({ 
         nombre: name,
@@ -43,6 +60,12 @@ const AddClientModal = ({ type, colorSelected, updateList }) => {
                setSuccesMessage(true)
                setTimeout(() => { 
                 onClose()
+                updateList()
+                setDni("")
+                setTelephone("")
+                setName("")
+                setEmail("")
+                setSuccesMessage(false)
                }, 2200)
                })
        .catch((err) => { 
@@ -70,29 +93,27 @@ const AddClientModal = ({ type, colorSelected, updateList }) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col items-start justify-start text-center gap-1" style={{ color: "#728EC3" }}>
-              Crear Cliente
-              <div className='border border-gray-200 mt-2'></div>
+                Crear Cliente
               </ModalHeader>
                
               <ModalBody>
                   <div className='flex flex-col items-center justify-center text-center'>
-                  <div className='flex flex-col mt-6 items-center justify-center'>
-                     <input placeholder='Nombre' className='w-72 text-sm mt-6 rounded-lg'  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setName(e.target.value)}/>
-                     <input placeholder='DNI' className='w-72 text-sm mt-6 rounded-lg'  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setDni(e.target.value)}/>
-                     <input placeholder='Telefono' className='w-72 text-sm mt-4 rounded-lg'  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setTelephone(e.target.value)}/>
-                     <input placeholder='Email' className='w-72 text-sm mt-4 rounded-lg'  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setEmail(e.target.value)}/>
+                  <div className='flex flex-col  items-center justify-center'>
+                     <input placeholder='Nombre' className='w-72 text-sm mt-2 rounded-lg border border-none' value={name}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setName(e.target.value)}/>
+                     <input placeholder='DNI' className='w-72 text-sm mt-6 rounded-lg border border-none'  value={dni}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setDni(e.target.value)}/>
+                     <input placeholder='Telefono' className='w-72 text-sm mt-4 rounded-lg border border-none'  value={telephone}  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setTelephone(e.target.value)}/>
+                     <input placeholder='Email' className='w-72 text-sm mt-4 rounded-lg border border-none'  value={email}  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setEmail(e.target.value)}/>
                 </div>
 
-                 {succesMessage? 
-                  
-                  <p className='mt-12 font-bold' style={{ color: "#728EC3" }}>Cliente añadido con exito</p>
+                 {succesMessage ?    
+                      <p className='mt-12 font-bold' style={{ color: "#728EC3" }}>Cliente añadido con exito</p>
+                      : 
+                     <div className='flex justify-end w-full m-6'>
+                        <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => createNewUser()}>Añadir Nuevo Cliente </Button>
+                    </div>
+                  } 
 
-                 : 
-                 <div className='flex justify-end w-full mt-4'>
-                       <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => createNewUser()}>Añadir Nuevo Cliente </Button>
-                   </div>
-                  
-                  }
+                  {error ? <p className='font-bold text-xs' style={{ color: "#728EC3" }}>{errorMessage}</p> : null}
                   </div>
               </ModalBody>
             </>

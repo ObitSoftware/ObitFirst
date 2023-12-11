@@ -7,45 +7,56 @@ import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import VentasPorMes from '../Graficos/VentasPorMes';
+import { getMonthGains, getAllGains, getPercentage } from './FunctionsGetDataOfSells';
+
 
 const SellsSidebardDetail = () => {
 
-    const [rankingProductos, setRankingProductos] = useState([]);
+  const [totalMonthGains, setTotalMonthGains] = useState(null);
+  const [totalEverGains, setTotalEverGains] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const gains = await getMonthGains();
+        setTotalMonthGains(gains);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []); 
+
+  useEffect(() => {
+    
+    const getEverGains = async () => {
+      try {
+        const allGains = await getAllGains();
+        setTotalEverGains(allGains);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getEverGains();
+  }, []); 
 
 
-    useEffect(() => {
-        axios.get("http://localhost:3000/venta")
-          .then((res) => {
-            const productosVendidos = res.data.reduce((acc, venta) => {
-              const nombreProducto = venta.nombreProducto;
-              const cantidadVendida = venta.cantidad || 0; // Utilizar la propiedad correcta
-    
-              const index = acc.findIndex((producto) => producto.NombreProducto === nombreProducto);
-    
-              if (index !== -1) {
-                acc[index].CantidadVendida += cantidadVendida;
-              } else {
-                acc.push({
-                  NombreProducto: nombreProducto,
-                  CantidadVendida: cantidadVendida
-                });
-              }
-    
-              return acc;
-            }, []);
-    
-            productosVendidos.sort((a, b) => b.CantidadVendida - a.CantidadVendida);
-    
-            setRankingProductos(productosVendidos);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }, []);
+  const getMonthName = () => {
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const fechaActual = new Date();
+    const numeroMes = fechaActual.getMonth();
+    return meses[numeroMes];
+  };
 
-  useEffect(() => { 
-   console.log(rankingProductos)
-  }, [rankingProductos])
+  const monthName = getMonthName();
+
+  const getActualYear = () => {
+    const fechaActual = new Date();
+    const anio = fechaActual.getFullYear();
+    return anio;
+  };
+  
+  const actualYear = getActualYear();
 
 
   
@@ -57,22 +68,35 @@ const SellsSidebardDetail = () => {
         <p className='text-sm font-bold underline'>Ventas</p>
     </div>
     
-    <div className="grid grid-cols-3  w-full mt-12">
-    <div className='flex gap-28 col-span-3 justify-center items-center'>
+    <div className="grid grid-cols-3 w-full mt-12">
+    <div className='flex gap-12 col-span-3 justify-center items-center'>
       <Card isHoverable={true} className='col-span-1 bg-white h-24 flex items-center justify-center w-96'>
         <CardBody className='flex items-center justify-center'>
-          <div className='flex items-center justify-center gap-2'>
-            <img src={iconProduct} className='h-6 object-fit w-6'/>
-            <p className='font-bold text-xs'>Total de Ganancias</p>
+          <div className='flex flex-col items-center justify-center gap-2'>
+            <div className='flex gap-2'>
+              <img src={iconProduct} className='h-6 object-fit w-6'/>
+               Ganancias Mensuales - {monthName}
+            </div>
+            <div>
+              <p className='text-sm font-bold' style={{color:"#728EC3"}}> {totalMonthGains !== null ? totalMonthGains + " ARS" : 'Cargando...'}</p>
+            </div>
+          </div>
+          <div>
+           
           </div>
         </CardBody>
       </Card>
       <div className="col-span-1">
       <Card isHoverable={true} className='col-span-1 bg-white h-24 flex items-center justify-center  w-96'>
         <CardBody className='flex items-center justify-center'>
-          <div className='flex items-center justify-center gap-2'>
-            <img src={iconProduct} className='h-6 object-fit w-6'/>
-            <p className='font-bold text-xs'>Cantidad de Clientes</p>
+          <div className='flex flex-col items-center justify-center gap-2'>
+            <div className='flex gap-2'>
+              <img src={iconProduct} className='h-6 object-fit w-6'/>
+               Ganancias Totales - {actualYear}
+            </div>
+            <div>
+              <p className='text-sm font-bold' style={{color:"#728EC3"}}> {totalEverGains !== null ? totalEverGains + " ARS" : 'Cargando...'}</p>
+            </div>
           </div>
         </CardBody>
       </Card>
@@ -82,7 +106,7 @@ const SellsSidebardDetail = () => {
         <CardBody className='flex items-center justify-center'>
           <div className='flex items-center justify-center gap-2'>
             <img src={iconProduct} className='h-6 object-fit w-6'/>
-            <p className='font-bold text-xs'>Cantidad de Compras del Mes</p>
+            <p className='font-bold text-xs'>Porcentaje de Crecimiento en comparacion al mes pasado</p>
           </div>
         </CardBody>
       </Card>
@@ -90,7 +114,7 @@ const SellsSidebardDetail = () => {
     </div>
   
     <div className="col-span-3 justify-center items-center mt-12">
-      <div className='flex gap-28 col-span-3 justify-center items-center'>
+      <div className='flex gap-12 col-span-3 justify-center items-center'>
         <div className="col-span-1">
         <Card isHoverable={true} className='bg-white h-64 flex items-center justify-center w-96'>
                     <CardBody>

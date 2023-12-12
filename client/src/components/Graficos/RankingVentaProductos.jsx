@@ -45,13 +45,12 @@ const RankingVentaProductos = ({width, height}) => {
 
   return (
     <div className='flex items-center justify-center flex-grow '>
-    <ResponsiveContainer width="100%" height="100%" aspect={4} className="max-h-fit-contain- max-w-fit-contain">
+    <ResponsiveContainer width="100%" height="100%" aspect={5.2} className="max-h-fit-contain- max-w-fit-contain">
     <BarChart data={rankingProductos}>
       <CartesianGrid strokeDasharray="4 1 2" />
         <XAxis dataKey="NombreProducto" />
         <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
         <Tooltip />
-        <Legend />
         <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs'/>
     </BarChart>
     </ResponsiveContainer>

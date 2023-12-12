@@ -34,6 +34,12 @@ const items = [
            <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
       </Link>
      )),
+
+     getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}>Usuarios</p>,'2', (
+      <Link to="/usersData">
+          <img src={usersIcon} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+     </Link>
+    )),
  
     getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Finanzas</p>, 'sub1', (
       <img src={finance} alt="Inicio" style={{ width: '20px', height: '20px' }} />
@@ -60,9 +66,8 @@ const items = [
         <img src={clients} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
         getItem(collapsed ?<AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '15'),
-        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>lalala</p></Link>, '16'),
-        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>lalala</p></Link>, '17'),
-        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>lalala</p></Link>, '18'),
+        getItem(<Link to="/clientData"><p className='cursor-pointer' style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ver Clientes</p></Link>, '16'),
+        getItem(<Link to="/prueba"><p className='cursor-pointer' style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Detalle Clientes</p></Link>, '17'),
       ]),
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Tesoreria</p>, 'sub 3', (
@@ -77,11 +82,7 @@ const items = [
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos por Producto</p></Link>, '25'),
       ]),
 
-      getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}>Usuarios</p>,'2', (
-        <Link to="/main">
-            <img src={usersIcon} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
-       </Link>
-      )),
+   
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Acciones</p>, 'sub 4', (
         <img src={tesoreria} alt="Inicio" style={{ width: '20px', height: '20px' }} />

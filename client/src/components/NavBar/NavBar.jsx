@@ -49,8 +49,14 @@ export default function Navbar() {
                 </div>
                  <div className="hidden lg:block">
                     <div className="flex flex-col ml-4 items-start  justify-center">
-                        <p className="text-white font-bold text-md">{userCtx.userName}</p>              
-                        <p className="text-white text-sm">{userCtx.userRol}</p>             
+                       {userCtx.userId !== null ?
+                         <div className="flex flex-col items-start justify-start text-start">
+                            <p className="text-white font-bold text-md">{userCtx.userName}</p>              
+                            <p className="text-white text-sm">{userCtx.userRol}</p>  
+                         </div>
+                         :
+                        <p  className="text-white font-bold text-sm">OBIT SOFTWARE</p>
+                      }        
                     </div>
                   
                  </div>

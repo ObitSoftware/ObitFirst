@@ -36,54 +36,50 @@ export const getAllGains = async () => {
       });
   };
 
-  export const getMonthGainsByMonth = async (month) => {
+  export const getPreviousMonthGains = async () => {
     try {
       const response = await axios.get("http://localhost:3000/venta");
-      const salesOfMonth = response.data.filter((sale) => {
+      const currentDate = new Date();
+      
+      // Obtener el mes actual
+      const currentMonth = currentDate.getMonth() + 1;
+  
+      // Calcular el mes anterior
+      const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+  
+      const salesOfPreviousMonth = response.data.filter((sale) => {
         const saleDateParts = sale.fechaCreacion.split('/');
-        const saleMonth = parseInt(saleDateParts[0], 10); // Log this value
-        console.log(saleMonth);
-        return saleMonth === month;
+        const saleMonth = parseInt(saleDateParts[1], 10); // Convertir a entero
+        return saleMonth === previousMonth;
       });
-    
-      const totalGains = salesOfMonth.reduce((sum, sale) => sum + sale.gananciaNeta, 0);
+  
+      const totalGains = salesOfPreviousMonth.reduce(
+        (sum, sale) => sum + sale.gananciaNeta,
+        0
+      );
+
+      console.log(totalGains)
+  
       return totalGains;
     } catch (error) {
-      console.error(`Error al obtener las ganancias del mes ${month}:`, error);
+      console.error("Error al obtener las ganancias del mes anterior:", error);
       throw error;
     }
   };
 
-  export const getPercentage = async () => { 
+  export const getImprovementPercentage = async () => {
     try {
-      // Obtener las ganancias del mes actual
+      // Obtener las ganancias del mes actual y del mes anterior
       const currentMonthGains = await getMonthGains();
+      const previousMonthGains = await getPreviousMonthGains();
   
-      // Obtener las ganancias del mes anterior
-      const currentDate = new Date();
-      const previousMonth = currentDate.getMonth() === 0 ? 11 : currentDate.getMonth() - 1; // Ajustar para diciembre
-      const previousMonthGains = await getMonthGainsByMonth(previousMonth);
-      console.log(previousMonthGains)
-  
-      // Calcular el porcentaje de mejora o empeoramiento
-      let percentChange;
-  
-      if (previousMonthGains !== 0) {
-        percentChange = ((currentMonthGains - previousMonthGains) / Math.abs(previousMonthGains)) * 100;
-      } else {
-        // Handle the case where previousMonthGains is zero
-        percentChange = currentMonthGains === 0 ? 0 : Infinity; // Set to 0 or Infinity as appropriate
-      }
-  
-      console.log(percentChange);
-  
-      return {
-        currentMonthGains,
-        previousMonthGains,
-        percentChange
-      };
-    } catch (error) {
-      console.error("Error al obtener la comparación de ganancias:", error);
+      // Calcular el porcentaje de mejora
+      const improvementPercentage = ((currentMonthGains - previousMonthGains) / Math.abs(previousMonthGains)) * 100;
+      const shortenedPercentage = improvementPercentage.toFixed(1);
+      console.log(parseFloat(shortenedPercentage))
+      return parseFloat(shortenedPercentage); // Convertir de nuevo a número
+  } catch (error) {
+      console.error("Error al calcular el porcentaje de mejora:", error);
       throw error;
     }
   };

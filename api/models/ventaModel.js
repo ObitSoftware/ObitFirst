@@ -5,8 +5,11 @@ const ventaSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-
   nombreProducto: {
+    type: String,
+    require: true,
+  },
+  categoriaProducto: {
     type: String,
     require: true,
   },

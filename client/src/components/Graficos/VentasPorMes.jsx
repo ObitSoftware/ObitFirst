@@ -144,7 +144,7 @@ const VentasPorMes = () => {
             <LineChart width={500} height={300} data={rankingMensualDeVentas}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="NombreDelMes" padding={{ left: 30, right: 30 }} />
-                    <YAxis type="number"  domain={[0, 5]} ticks={[0, 1, 2, 3, 4, 5, 6]} className='text-sm' />
+                    <YAxis type="number"  domain={[0, 5]} ticks={[0, 5, 10, 15, 20, 25, 30]} className='text-sm' />
                     <Tooltip />
                     <Legend />
                     <Line type="monotone" dataKey="CantidadDeVentas" stroke="#728EC3"  activeDot={{ r: 8 }} />

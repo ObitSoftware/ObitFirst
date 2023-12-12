@@ -52,7 +52,7 @@ const RankingVentaProductos = ({width, height}) => {
         <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
         <Tooltip />
         <Legend />
-        <Bar dataKey="CantidadVendida" fill="#728EC3" />
+        <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs'/>
     </BarChart>
     </ResponsiveContainer>
 </div>

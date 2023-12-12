@@ -122,8 +122,10 @@ const SellsSidebardDetail = () => {
                             <img src={iconProduct} className='h-6 object-fit w-6'/>
                             <p className='font-bold text-xs'>Ventas por Categoria</p>
                         </div>
-                        <div className='flex items-center justify-center mt-4'>
+                        <div className='flex items-center justify-center mt-4 border h-full w-full'>
+                        <ResponsiveContainer width="100%" height="100%" aspect={3} className="max-h-fit-contain- max-w-fit-contain flex items-center">
                            <Pastel/>
+                          </ResponsiveContainer>
                         </div>
                     </CardBody>
                 </Card>
@@ -136,7 +138,7 @@ const SellsSidebardDetail = () => {
                             <p className='font-bold text-xs'>Ventas Mensuales</p>
                         </div>
                         <div className='flex items-center justify-center mt-6'>
-                          <ResponsiveContainer width="100%" height="100%" aspect={4} className="max-h-fit-contain- max-w-fit-contain">
+                        <ResponsiveContainer width="100%" height="100%" aspect={2} className="max-h-fit-contain- max-w-fit-contain">
                             <VentasPorMes/>
                           </ResponsiveContainer>
                         </div>

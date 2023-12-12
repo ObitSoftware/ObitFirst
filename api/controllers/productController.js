@@ -1,5 +1,5 @@
 import Product from '../models/productModel.js';
-import Categorias from '../models/category.js';
+import Categorias from "../models/categoryModel.js"
 
 // Obtener todos los productos
 export const getAllProducts = async (req, res) => {
@@ -98,5 +98,5 @@ export const addNewCategory = async (req, res) => {
     res.status(500).json({ error: 'Error al crear categoria' });
     console.log(error)
   }
-
 }
+

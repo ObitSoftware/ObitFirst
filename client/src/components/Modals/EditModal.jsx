@@ -8,6 +8,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const [succesMessaggeProductEdited, setSuccesMessaggeProductEdited] = useState(true)
+  const [allCategorys, setAllCategorys] = useState([])
 
   const [productId, setProductId] = useState("")
   const [providerUniqueId, setProviderUniqueId] = useState("")
@@ -144,6 +145,17 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
     
   }, [producto])
 
+  useEffect(() => { 
+    axios.get("http://localhost:3000/getAllCategorys")
+         .then((res) => {
+           setAllCategorys(res.data)
+           console.log(res.data)
+         })
+         .catch((err) => { 
+         console.log(err)
+         })
+ }, [producto])
+
   
   useEffect(() => { 
     console.log(producto)
@@ -188,7 +200,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                                     </div>
                                  </div>
 
-                                 <div className="flex gap-20 justify-start items-center text-center mt-6">
+                                 <div className="flex gap-12 justify-start items-center text-center mt-6">
                                     <div className="flex gap-2 items-center">
                                       <p className="text-xs font-bold">Precio:</p>
                                       <input type="number" 
@@ -209,6 +221,18 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                                     </div>
                                  </div>
 
+                                 <div className="flex justify-start items-center mt-8 gap-2">
+                                     <small className="font-bold text-xs">Categoria</small>
+                                      <select className="h-9 rounded-lg border border-none w-40 text-sm text-center justify-center" value={newProductCategoria} style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => setNewProductCategoria(e.target.value)}>
+                                        <option disabled selected> Categoria </option>
+                                          {allCategorys.map((cat) => (
+                                            <>
+                                              <option key={cat._id}>{cat.nombreCategoria}</option>    
+                                            </>                         
+                                          ))}
+                                      </select>
+                                 </div>
+
                                  <div className="flex justify-start items-start mt-8 gap-2">
                                    <p className="text-xs font-bold">Descripcion:</p>
                                    <textarea type="text" 
@@ -218,14 +242,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                                     onChange={(e) => setNewProductDescription(e.target.value)}></textarea>
                                  </div>
 
-                                 <div className="flex justify-start items-start mt-8 gap-2">
-                                     <p className="text-xs font-bold">Categoria:</p>
-                                      <input type="number" 
-                                      className="w-16 rounded-lg border border-none focus:outline-none  focus:ring-0  text-xs h-8  flex text-center items-center"  
-                                      style={{backgroundColor:"#E6EEFF"}} 
-                                      value={newProductCategoria} 
-                                      onChange={(e) => setNewProductCategoria(e.target.value)}/>
-                                 </div>
+                               
 
                           </div> 
 

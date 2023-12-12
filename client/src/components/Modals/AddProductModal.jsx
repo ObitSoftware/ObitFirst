@@ -20,6 +20,7 @@ const AddProductModal = ({showLike, updateList}) => {
   const [missedData, setMissedData] = useState(false)
   const [textMissedData, setTextMissedData] = useState("")
   const [allProviders, setAllProviders] = useState([])
+  const [allCategorys, setAllCategorys] = useState([])
   const [productName, setProductName] = useState("")
   const [productDescription, setProductDescription] = useState("")
   const [productPrice, setProductPrice] = useState("")
@@ -49,6 +50,17 @@ const AddProductModal = ({showLike, updateList}) => {
           console.log(err)
          })
   }, [allProviders])
+
+  useEffect(() => { 
+     axios.get("http://localhost:3000/getAllCategorys")
+          .then((res) => {
+            setAllCategorys(res.data)
+            console.log(res.data)
+          })
+          .catch((err) => { 
+          console.log(err)
+          })
+  }, [])
 
   const addProduct = () => { 
     if( productName.length === 0 || productDescription.length === 0 || 
@@ -149,20 +161,20 @@ const AddProductModal = ({showLike, updateList}) => {
 
                    <div className='flex justify-between items-center mt-4'>
                        <div className='flex gap-2 items-center'>
-                          <small>Precio Venta</small>
+                          <small>Precio</small>
                           <input type='text' className='h-8 rounded-lg border border-none w-40' value={productPrice}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductPrice(e.target.value)}/>
                        </div>
-                       <div className='flex gap-2 items-center'>
-                          <small>Categoria</small>
-                          <select className="h-9 rounded-lg border border-none w-40 text-center justify-center text-sm" value={productCategory} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductCategory(e.target.value)}>
-                            <option disabled value="">Categoria</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                       </div>
+                       <div className='flex text-center items-center gap-2'>
+                           <small>Categoria</small>
+                           <select className="h-9 rounded-lg border border-none w-40 text-sm text-center justify-center" value={productCategory} style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => setProductCategory(e.target.value)}>
+                           <option disabled selected> Categoria </option>
+                            {allCategorys.map((cat) => (
+                              <>
+                                <option key={cat._id}>{cat.nombreCategoria}</option>    
+                              </>                         
+                            ))}
+                          </select>
+                        </div>   
                    </div>
 
                    <div className='flex justify-between gap-2 w-full items-center mt-4'>

@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import axios from "axios"
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Button } from '@nextui-org/react';
 
 
 export default function AddCategory() {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure("");
 
     const [categoryName, setCategoryName] = useState("")
     const [succesMessage, setSuccesMessage] = useState(false)
@@ -30,6 +30,7 @@ export default function AddCategory() {
                     onClose()
                     setCategoryName("")
                     setSuccesMessage(false)
+                    console.log("agregado")
                    }, 2000)
                   })
                 .catch((err) => { 
@@ -41,11 +42,14 @@ export default function AddCategory() {
     return (
       <>
         <small onClick={() => onOpen()}>Añadir Categoria</small>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1 items-start justify-start" style={{color:"#728EC3"}}> Añadir Categoria </ModalHeader>
+        <Modal isOpen={isOpen} onClose={onClose} className='max-w-max bg-white text-black'>
+    <ModalContent>
+      {(onClose) => (
+        <>
+          <ModalHeader className="flex flex-col items-start justify-start text-center gap-1" style={{ color: "#728EC3" }}>
+            Añadir Categoria
+          </ModalHeader>
+           
                 <ModalBody>
                   <div className="flex items-center gap-4"> 
                     <p className="text-sm text-black font-medium">Nombre de la Categoria:</p>
@@ -78,3 +82,6 @@ export default function AddCategory() {
     );
   }
   
+
+
+ 

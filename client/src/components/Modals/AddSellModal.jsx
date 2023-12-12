@@ -110,6 +110,8 @@ const AddSellModal = ({updateList}) => {
 
 
       const addNewSell = () => { 
+        const quantityAsNumber = parseFloat(quantity);
+        const stockAsNumber = parseFloat(productSelectedData.stock);
         if(productoSeleccionado.length === 0 || clientName.length === 0 || quantity.length === 0 ) { 
           showMissedData("Faltan datos para poder agregar la venta. Por favor, completa todos los campos")
           setTimeout(() => { 
@@ -121,12 +123,24 @@ const AddSellModal = ({updateList}) => {
                 setShowProductData(false)
                 setTotalToPay("")
           }, 3500) 
+        } else if (quantityAsNumber > stockAsNumber) { 
+          showMissedData("No dispones de suficiente stock")
+          setTimeout(() => { 
+            setClientName("")
+            setInputValue("")
+            setQuantity(0)
+            setProductId("")
+            setProductSelectedData([])
+            setShowProductData(false)
+            setTotalToPay("")
+          }, 2500)
         } else { 
           const dataOfSell = ({ 
             idProducto: productSelectedData._id,
             nombreProducto: productSelectedData.nombre,
             nombreCliente: clientName,
             precio: productSelectedData.precio,
+            categoriaProducto: productSelectedData.categoria,
             cantidad: quantity,
             total: quantity * productSelectedData.precio,
             gananciaNeta: calcularGananciaNeta(productSelectedData.precio, productSelectedData.precioCompra, quantity),
@@ -134,7 +148,6 @@ const AddSellModal = ({updateList}) => {
           })
           axios.post("http://localhost:3000/venta", dataOfSell)
                .then((res) => { 
-                console.log(res.data)
                 setSuccesMessage(true)
                 setClientName("")
                 setInputValue("")
@@ -228,6 +241,10 @@ const AddSellModal = ({updateList}) => {
                                   <div className='flex gap-2  text-center items-center'>
                                      <small className='font-bold'>Stock del producto:</small>
                                      <p className='text-xs'>{productSelectedData.stock}</p>
+                                  </div>
+                                  <div className='flex gap-2  text-center items-center'>
+                                     <small className='font-bold'>Categoria del producto:</small>
+                                     <p className='text-xs'>{productSelectedData.categoria}</p>
                                   </div>
                                   <div className='flex gap-2  text-center items-center'>
                                      <small className='font-bold'>Proveedor del producto:</small>

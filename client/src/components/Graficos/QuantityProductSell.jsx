@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 import axios from 'axios';
 
-const Pastel = () => {
+const QuantityProductSell = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const Pastel = () => {
   );
 };
 
-export default Pastel;
+export default QuantityProductSell;
 
 
 

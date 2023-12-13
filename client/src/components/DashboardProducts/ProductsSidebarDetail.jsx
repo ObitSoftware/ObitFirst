@@ -1,13 +1,15 @@
 import React from 'react'
 import {Card, CardBody} from "@nextui-org/react";
 import iconProduct from "../../img/productsIcon.png"
+import { getHistoricGainsOfProduct } from './FunctionsGetDataOfProducts';
+import  HistoricGainsProduct  from '../Graficos/HistoricGainsProduct';
 
 
 const ProductsSidebarDetail = () => {
   return (
     <div className='flex flex-col items-center justify-center max-w-[800px]'>
 
-        <div className='flex gap-12 items-center justify-center'>
+        <div className='flex gap-12 items-center justify-center' onClick={() => getHistoricGainsOfProduct()}>
             <div className='w-[400px] '>
                 <Card isHoverable={true} className='bg-white h-24 flex items-center justify-center'>
                     <CardBody className='flex items-center justify-center'>
@@ -86,9 +88,12 @@ const ProductsSidebarDetail = () => {
             <div className='w-[850px] '>
                 <Card className='bg-white h-64 flex items-center justify-center'>
                     <CardBody className='flex items-center justify-center'>
-                        <div className='flex items-center justify-center gap-2'>
+                        <div className='flex items-start justify-start gap-2'>
                             <img src={iconProduct} className='h-6 object-fit w-6'/>
                             <p className='font-bold text-xs'>Historial de Ganancias por producto</p>
+                        </div>
+                        <div>
+                            <HistoricGainsProduct/>
                         </div>
                     </CardBody>
                 </Card>

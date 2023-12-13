@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, CardBody} from "@nextui-org/react";
 import iconProduct from "../../img/productsIcon.png"
-import Pastel from '../Graficos/Pastel';
+import QuantityProductSell from '../Graficos/QuantityProductSell';
 import RankingVentaProductos from '../Graficos/RankingVentaProductos';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import axios from 'axios';
@@ -149,7 +149,7 @@ const SellsSidebardDetail = () => {
                         <p className='font-bold text-xs'>Ventas por Categoria</p>
                     </div>
                     <div className='flex items-center justify-center mt-4  h-full w-full'>                          
-                      <Pastel/>                            
+                      <QuantityProductSell/>                            
                     </div>
                 </CardBody>
             </Card>

@@ -6,7 +6,7 @@ import axios from "axios"
 
 
 
-const AddClientModal = ({ type, colorSelected, updateList }) => {
+const AddClientModal = ({ type, colorSelected, updateList, refresh }) => {
   const { isOpen, onOpen, onClose } = useDisclosure("");
 
 
@@ -66,6 +66,7 @@ const AddClientModal = ({ type, colorSelected, updateList }) => {
                 setName("")
                 setEmail("")
                 setSuccesMessage(false)
+                refresh()
                }, 2200)
                })
        .catch((err) => { 
@@ -86,9 +87,12 @@ const AddClientModal = ({ type, colorSelected, updateList }) => {
       </small> : 
        type === "table" ? 
        <Button onClick={onOpen} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR CLIENTE </Button>
-      : null
+      : type === "addingSell" ? 
+         <small onClick={onOpen} className="text-xs font-medium underline cursor-pointer" style={{color:"E6EEFF"}}>
+            Si el cliente no esta registrado, has click aqui.
+        </small> : null
        }
-      <Modal isOpen={isOpen} onClose={onClose} className='max-w-max bg-white text-black'>
+      <Modal isOpen={isOpen} onClose={onClose} className='max-w-max bg-white text-black dark:bg-white'>
         <ModalContent>
           {(onClose) => (
             <>

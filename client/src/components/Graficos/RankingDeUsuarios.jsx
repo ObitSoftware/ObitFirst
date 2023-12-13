@@ -2,7 +2,7 @@ import { Tooltip } from 'flowbite'
 import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import VentasPorMes from './VentasPorMes'
-import Pastel from './Pastel'
+import PasQuantityProductSelltel from './QuantityProductSell'
 import axios from "axios"
 
 const data = [

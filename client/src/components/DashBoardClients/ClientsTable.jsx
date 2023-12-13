@@ -199,7 +199,7 @@ const ClientsTable = () => {
           {(item) => (
            <TableRow key={item._id} className="">
               {columns.map((column) => (
-                <TableCell align="center" key={column.key}   lassName={`text-center text-black dark:text-black`}>
+                <TableCell align="center" key={column.key}   className={`text-center text-black dark:text-black`}>
                   {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
                 </TableCell>
               ))}

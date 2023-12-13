@@ -142,7 +142,7 @@ const Login = () => {
         </>
       }
 
-      {errorMessage ? <p className='mt-8 font-bold text-xs' style={{text:"#728EC3"}} >{textMessage}</p> : null}
+      {errorMessage ? <p className='mt-8 font-bold text-xs' style={{color:"#728EC3"}} >{textMessage}</p> : null}
 
     </div>
   </div>

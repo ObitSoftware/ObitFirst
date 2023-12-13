@@ -71,7 +71,7 @@ const UsersTable = () => {
                             userId: id,                  
                             };
                             return (
-                            <EditModal producto={userData} type={"users"}  showClientsUpdated={showUsersUpdated}/>
+                            <EditModal producto={userData} type={"users"}  showUsersUpdated={showUsersUpdated}/>
                             );
                         },
                     }) 

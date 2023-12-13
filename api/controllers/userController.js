@@ -94,22 +94,29 @@ export const getUserById = async (req, res) => {
 
 // Actualizar un usuario existente
 export const updateUser = async (req, res) => {
+  console.log(req.params)
   const { userId } = req.params;
-  const {username, password, role} = req.body
-  try {
-    const updatedUser = await User.findByIdAndUpdate({_id: userId }, 
-      {username, password, role}, 
-      {
-      new: true,
-      });
-    if (!updatedUser) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar el usuario' });
-  }
+  const {username, role, email} = req.body
+
+    try {
+      User.findByIdAndUpdate({ _id: userId }, { 
+        username: username,
+        role: role,
+        email: email,
+          
+        })
+        .then((newUserData) => {                                      
+        res.json({message:"Usuario Modificado", newUserData})
+        })
+        .catch((err) => { 
+        console.log(err)
+        })
+      } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+      }
 };
+
 
 // Eliminar un usuario
 export const deleteUser = async (req, res) => {

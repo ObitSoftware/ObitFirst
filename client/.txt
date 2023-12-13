@@ -1,0 +1,92 @@
+1 - El item 2 de la sidebar es "Usuarios" - Cuando lo abrimos, vemos la tabla de usuarios del sistema. Que mas cosas deberia contener este componente? Me refiero a las acciones disponibles para esta seccion
+
+---- Agregar boton de CREAR USUARIO. Mantener mismo diseño de las demas tablas.
+---- PROBAR SACAR USUARIO DEL SIDEBAR Y LLEVAR AL ICON DE AJUSTES. (ver darkmode en desplegable de ajustes)
+---- VER LA POSIBILIDAD DE PODER CREAR THEMAS CON LOS COLORES. ---> a analizar en escala de trabajo, y si lo vale
+---- AGREGAR SUCURSALES Y FILTRAR "USUARIOS // EMPLEADOS" POR SUCURSAL.
+
+
+2 - El item 3 de la sidebar es "Finanzas" - Que subItems debe contener, y que debe representar cada uno de ellos. De que forma debe ser representada la informacion?
+
+---- ESTO SERÁ DEFINIDO ESTANDO DE ACUERDO CON PROFESIONAL ESPECÍFICO DE FINANZAS. ASI MISMO, SE COMENZARA INVESTIGACION (BERNI) PARA DEJAR AL MENOS 6 DATOS MODELADOS FUNDAMENTALES DEL SECTOR DE FINANZAS.
+
+
+3 - El item 4, es estadisticas: Ventas lo tenemos representado. Necesito definir exactamente los datos que va a llevar, productos -- compras -- proveedores. Tambien necesito saber exactamente de que manera vamos a representar estos
+datos. Va a ser igual que el grid de ventas? O similar? LO QUE MAS ME INTERESA ES SABER QUE DATOS SE REPRESENTARAN EN CADA ITEM.
+
+---- INTENTAR REPRESENTAR 
+
+### PROTO VENTAS
+
+1. Total de ganancias (numero en $$)
+2. Total ganancias Mensuales (num entero)
+3. Procentaje de Crecimiento (% -numero entero)
+4. Ventas por categoria (grafico)
+5. Top VENTAS MAS GRANDES (listado con detalle, COMO LA IMAGEN)
+6. Ventas mensuales (grafico)
+7. Cantidad TOTAL de VENTAS (año, mes, dia -> nro entero grande)
+
+### PROTO PRODUCTOS
+
+1. CANTIDAD DE PRODUCTOS TOTALES NUMERO GRANDE 
+2. MONTO TOTAL DE SUMA DE PRODUCTOS ( INTENTAR REPRESENTAR GASTO TOTAL POR LOS PRODUCTOS COMPRADOS)3.  -----A definir----
+4. PRODUCTOS POR CATEGORIAS (LISTADO DE CANTIDAD DE PRODUCTOS X CATEGORIA)
+5. TOP PRODUCTOS MAS COMPRADOS, RANKING GENERAL(LISTADO COMO IMAGEN)
+6. TOP PRODUCTOS QUE MAS GANANCIAS GENERARON A LO LARGO DEL TIEMPO. ES DECIR, QUE PRODUCTO MEDIO MAS PLATA, HACER UYN RANKING (LISTADO COMO IMAGEN)
+7. HISTORIAL DE VENTAS POR PRODUCTO ----> ES EL COMPONENTE RANKING PRODUCTOS (REPRESENTAR MES A MES EL PRODUCTO MAS VENDIDO DE ESE MES CON EL TOOLTIP -> X MES ; Y ES CANTIDAD)
+
+### PROTO COMPRAS
+
+1. INVERSION TOTAL DE PRODUCTOS DEL AÑO - NUMERO ENTERO 
+2. INVERSION TOTAL DE PRODUCTOS DEL MES - NUMERO
+3. PORCENTAJE DE CUANTO DINERO GANE A CUANTO DINERO INVERTI. ES DECIR, SI EL ITEM 1 QUE ES LA INVERSION SON 100, Y LA GANANCIA NETA DEL MES SON 200, TENES UN 100% DE GANANCIA
+4. LISTADO DE TOP COMPRAS A PROVEEDORES. SERA UN LISTADO COMO EL DE LA IMAGEN, QUE TENDRA ITEM--> NOMBREPRODUCTO --> MONTO --> PROVEEDOR (5 EJEMPLOS ORDENADOS POR RANKING)
+5. GRAFICO QUE REPRESENTA HISTORIAL DE COMPRAS POR PRODUCTO - CON POSIBILIDAD DE FILTRAR POR MES Y AÑO
+6. GRAFICO QUE REPRESENTA, LA CANTIDAD TOTAL DE COMPRAS DE CADFA CATEGORIA --> EJE Y CANTIDAD DE COMPRAS ---> EJE X CATEGORIA
+7. CANTIDAD TOTAL DE COMPRAS, CON POSIBILIDAD DE FILTRAR PÓR MES Y AÑO (ESTE SERA UN NUMERO ENTERO, NO UN GRAFICO)
+
+### PROTO PROVEEDORES - a analizar ****
+
+
+.1 Monto total de compras por proveedor ()
+.2 
+.3
+.4 Top proveedores ---> ranking con listado de la imagen (referencia al que mas le compre cosas)
+.5 
+.6
+
+
+
+
+4 - El item 5, es "Clientes" - Sus subitems al momento son: Crear Clientes - Ver Clientes - Detalle Clientes. 
+- Crear cliente abre el modal..
+- Ver clientes, representa la tabla de clientes, la cual tambien ya esta en el main. Habria que sacarla del Main y dejarla solo en esta seccion, o dejarla en ambas? O Habria que representar los datos de los clientes de otra forma en 
+vez de ser en una tabla como esta ahora? --> aparte, en esta seccion, tenemos la posibilidad de ver "Historico del cliente" que se encuentra en la tabla. Claramente, el historico del cliente va a mostrar sus compras, su monto gastado,
+algo mas? Habria que definir bien que va a mostrar ese historico.
+Aparte, el historico del cliente, se va a mostrar desde un Modal que se abre desde la tabla? O se va a mostrar en un componente aparte mas detallado?
+- En caso de que se muestre el historico del cliente desde el modal, habria que eliminar el subItem "Historico Clientes"
+- En caso de eliminar ese subItem. Definir como se va a representar esa data.
+
+
+##Clientes
+
+1 - El historial del cliente sera representado en un modal, con algo similar a la lista que tenemos en detalle de compra, la cual, aparte de repreesentar los datos del cliente, mostrata un listado con las compras del cliente y todos los datos de las mismas.
+2 -  Eliminar del sidebar el item de clientes, y agregar en acciones la posibilidad de crear cliente. Asi mismo, contemplar la posibilidad de crearun Main al entrar a la App, con botones para las secciones. 
+
+
+
+
+
+
+
+
+5 - Tesoreria: Ver luego..
+
+6 - Acciones - En este momento acciones solamente tiene "Añadir Categoria". Que mas subItems debemos agregar? Como se representaran?
+SUBITEMS DE ACCIONES :  Crear clioente, añadir categoria, crear nueva compra, crear nueva venta, Mail a proveedor, crear proveedor, crear producto, acceso a tablas, acceso a estadisticas. Contemplar la posibilidad de al estar en el main, esconder el sidebar ya que estyas mismas acciones se encuentran en el.
+
+## agregar crear cliente
+
+
+
+... Hablar con GEO: Generar Main, con botones a las acciones mas utilizadas del sistema, con la intencion de generar mayor facilidad de uso: Crear clioente, añadir categoria, crear nueva compra, crear nueva venta, Mail a proveedor, crear proveedor, crear producto, acceso a tablas, acceso a estadisticas. Contemplar la posibilidad de al estar en el main, esconder el sidebar ya que estyas mismas acciones se encuentran en el.

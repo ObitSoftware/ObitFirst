@@ -5,28 +5,6 @@ import VentasPorMes from './VentasPorMes'
 import PasQuantityProductSelltel from './QuantityProductSell'
 import axios from "axios"
 
-const data = [
-    {
-        usuario: "Octavio",
-        facturacion: 125900,
-        cantidadDeCompras: 2
-    },
-    {
-        usuario: "Pedro",
-        facturacion: 651900,
-        cantidadDeCompras: 7
-    },
-    {
-        usuario: "Alvaro",
-        facturacion: 735200,
-        cantidadDeCompras: 1
-    },
-    {
-        usuario: "Julio",
-        facturacion: 431716,
-        cantidadDeCompras: 4
-    }
-]
 
 const RankingDeUsuarios = () => {
 

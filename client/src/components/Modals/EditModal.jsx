@@ -134,6 +134,27 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
          })   
   }
 
+  const editUser = () => { 
+    const userData = ({ 
+      username: userNewName,   
+      role: userNewRole,
+      email: userNewEmail,
+    })
+    axios.put(`http://localhost:3000/usuario/${userId}`, userData)
+         .then((res) => { 
+          setSuccesMessaggeProductEdited(false)
+          setTimeout(() => {
+            showUsersUpdated();
+            setSuccesMessaggeProductEdited(true)
+          }, 1500);
+         })
+         .catch((err) => { 
+          console.log(err)
+          console.log(userData)
+
+         })
+  }
+
   useEffect(() => { 
     if(type === "productos") { 
       setProductId(producto.productId)
@@ -407,48 +428,42 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
 
                        
                         {type === "users" ?    
-                          <div className="flex flex-col items-center text-center justify-evenly">
+                        
 
-                            <div className="flex gap-2 text-center items-center justify-center">
-                              <p className="font-bold text-sm">Nombre : </p>
-                              <input 
+                             <div className="flex flex-col  items-start justify-start mt-6">
+                         <div className="flex flex-col"> 
+
+                            <div className="flex items-center text-center justify-evenly">
+                               <p className="font-bold text-sm  w-20">Nombre: </p>
+                               <input 
                                type="text" 
-                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none" 
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" 
                                style={{backgroundColor:"#E6EEFF"}}
                                value={userNewName}
                                onChange={(e) => setUserNewName(e.target.value)}/>
-                            </div>
+                            </div>  
 
-                            <div className="flex gap-2 text-center items-center justify-center mt-6">
-                              <p className="font-bold text-sm">Rol : </p>
-                              <input 
-                               type="text" 
-                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none" 
+                            <div className="flex items-center text-center justify-evenly mt-2">
+                              <p className="font-bold text-sm  w-20">Rol:  </p>
+                              <input type="text" 
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" 
                                style={{backgroundColor:"#E6EEFF"}}
                                value={userNewRole}
                                onChange={(e) => setUserNewRole(e.target.value)}/>
-                            </div>
+                            </div>   
 
-                            <div className="flex gap-2 text-center items-center justify-center mt-6">
-                              <p className="font-bold text-sm">Email : </p>
+                            <div className="flex items-center text-center justify-evenly mt-2">
+                              <p className="font-bold text-sm  w-20">Email:  </p>
                               <input 
                                type="text" 
-                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
+                               className="w-44 border border-none focus:outline-none  focus:ring-0  rounded-lg text-xs h-8 flex text-center items-center" 
                                style={{backgroundColor:"#E6EEFF"}}
                                value={userNewEmail}
-                               onChange={(e) => setUserNewEmail(e.target.value)}/>      
-                            </div> 
+                               onChange={(e) => setUserNewEmail(e.target.value)}/>
+                            </div>  
+                         </div>
 
-                             <div className="flex gap-2 text-center items-center justify-center mt-6">
-                              <p className="font-bold text-sm">Contraseña : </p>
-                              <input 
-                               type="text" 
-                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
-                               style={{backgroundColor:"#E6EEFF"}}
-                               value={userNewPassword}
-                               onChange={(e) => setUserNewPassword(e.target.value)}/>      
-                            </div>                                                             
-                          </div> 
+                      </div>
                         
                      : null }  
 
@@ -460,7 +475,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                            className="font-bold"
                            style={{ backgroundColor: "#728EC3", color: "white" }}
                            onClick={() => {
-                             type === "productos" ? editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() :  type === "clientes" ? editClient() : null;
+                             type === "productos" ? editProduct() : type === "proveedores" ? editProvider() : type === "venta" ? editSell() :  type === "clientes" ? editClient() :type === "users" ? editUser() : null;
                              setTimeout(() => {
                                onClose();
                                setSuccesMessaggeProductEdited(true)

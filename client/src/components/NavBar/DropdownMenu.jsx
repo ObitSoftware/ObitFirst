@@ -4,6 +4,7 @@ import config from "../../img/confi.png"
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
+import { Link } from "react-router-dom";
 
 export default function DropDownNavBarOptions() { 
 
@@ -24,7 +25,7 @@ export default function DropDownNavBarOptions() {
 
 
   return (
-    <Dropdown>
+    <Dropdown className="bg-white text-black">
       <DropdownTrigger>
         <img src={config} className="cursor-pointer"/>
       </DropdownTrigger>
@@ -32,9 +33,10 @@ export default function DropDownNavBarOptions() {
         aria-label="Action event example"   
         onAction={(key) => console.log(key)}  
        >
-         <DropdownItem key="new" >Mi Perfil</DropdownItem>
-         <DropdownItem key="edit">Configuracion</DropdownItem> 
-         <DropdownItem onClick={() => goToPage("/")}>Cerrar Sesion </DropdownItem>
+         <DropdownItem key="new"><Link to="/usersData" className="text-blue-500 hover:text-blue-600">Mi perfil</Link></DropdownItem>
+         <DropdownItem key="new"><Link to="/usersData" className="text-blue-500 hover:text-blue-600">Usuarios</Link></DropdownItem>
+         <DropdownItem key="edit"><Link to="/usersData" className="text-blue-500 hover:text-blue-600">Configuracion</Link></DropdownItem> 
+         <DropdownItem onClick={() => goToPage("/")} color={"#338EF7"}><Link to="/" className="text-blue-500 hover:text-blue-600">Cerrar Sesion</Link></DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );

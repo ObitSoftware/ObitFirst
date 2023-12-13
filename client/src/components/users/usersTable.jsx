@@ -9,6 +9,7 @@ import AddClientModal from '../Modals/AddClientModal';
 import PaginationTable from '../Pagination/Pagination';
 import Loading from '../LoadingComponent/Loading';
 import { useRef } from 'react';
+import AddUserModal from '../Modals/AddUserModal';
 
 const UsersTable = () => {
 
@@ -24,9 +25,10 @@ const UsersTable = () => {
     const [searchTerm, setSearchTerm] = useState("")
 
   
-    const showClientsUpdated = () => {
+    const showUsersUpdated = () => {
         axios.get("http://localhost:3000/usuario")
              .then((res) => {
+              console.log(res.data)
               const allData = res.data
               const newArrayFiltered = allData.slice(firstNumberOfSlice, secondNumberOfSlice)
               setSliceData(newArrayFiltered)
@@ -53,49 +55,28 @@ const UsersTable = () => {
 
                     columnObjects.push({
                         key: 'Editar',
-                        label: 'Cambiar de Rol',
+                        label: 'Editar ',
                         cellRenderer: (cell) => { 
                             const filaActual = cell.row;
-                            const name = filaActual.original.nombre;
-                            const telephone = filaActual.original.telefono;
+                            const name = filaActual.original.username;                         
                             const email = filaActual.original.email;
-                            const dni = filaActual.original.dni;
+                            const password = filaActual.original.password;
+                            const role = filaActual.original.role
                             const id = filaActual.original._id;                  
-                            const producto = {
+                            const userData = {
                             nombre: name,
-                            telefono: telephone,
                             email: email,
-                            dni: dni,
-                            productId: id,                  
+                            password: password,
+                            role: role,
+                            userId: id,                  
                             };
                             return (
-                            <EditModal producto={producto} type={"clientes"}  showClientsUpdated={showClientsUpdated}/>
+                            <EditModal producto={userData} type={"users"}  showClientsUpdated={showUsersUpdated}/>
                             );
                         },
                     }) 
  
-                    columnObjects.push({
-                        key: 'Editar',
-                        label: 'Editar Datos',
-                        cellRenderer: (cell) => { 
-                            const filaActual = cell.row;
-                            const name = filaActual.original.nombre;
-                            const telephone = filaActual.original.telefono;
-                            const email = filaActual.original.email;
-                            const dni = filaActual.original.dni;
-                            const id = filaActual.original._id;                  
-                            const producto = {
-                            nombre: name,
-                            telefono: telephone,
-                            email: email,
-                            dni: dni,
-                            productId: id,                  
-                            };
-                            return (
-                            <EditModal producto={producto} type={"clientes"}  showClientsUpdated={showClientsUpdated}/>
-                            );
-                        },
-                    }) 
+                  
 
                     columnObjects.push({
                         key: 'Eliminar',
@@ -105,11 +86,11 @@ const UsersTable = () => {
                           const name = filaActual.original.nombre;
                           const id = filaActual.original._id;
                           const producto = {
-                          nombre: name,
-                          productId: id
+                          userName: name,
+                          userId: id
                           };
                           return (
-                            <DeleteProductModal producto={producto} type={"clientes"} showClientsUpdated={showClientsUpdated}/>
+                            <DeleteProductModal producto={producto} type={"users"} showUsersUpdated={showUsersUpdated}/>
                             );
                       },
                         }) 
@@ -162,7 +143,7 @@ const UsersTable = () => {
                     </div>
             </div>    
             <div className="flex justify-end items-center m-4">
-              <AddClientModal/>
+              <AddUserModal updateList={showUsersUpdated}/>
             </div>      
         </div>
         <div className="flex items-start m-2">

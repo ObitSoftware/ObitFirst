@@ -34,12 +34,6 @@ const items = [
            <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
       </Link>
      )),
-
-     getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}>Usuarios</p>,'2', (
-      <Link to="/usersData">
-          <img src={usersIcon} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
-     </Link>
-    )),
  
     getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Finanzas</p>, 'sub1', (
       <img src={finance} alt="Inicio" style={{ width: '20px', height: '20px' }} />

@@ -20,7 +20,7 @@ export const createUser = async (req, res) => {
                        if(err) res.json({err})
                        else { 
                            const newUser = new User ( { 
-                               username: userPassword,
+                               username: userName,
                                password: passwordHash,                            
                                email: userEmail,
                                role: userRol
@@ -113,13 +113,17 @@ export const updateUser = async (req, res) => {
 
 // Eliminar un usuario
 export const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+
   try {
-    const deletedUser = await User.findByIdAndRemove(req.params.id);
-    if (!deletedUser) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+    const deletedUser = await User.findByIdAndDelete(userId);
+    if (deletedUser) {
+      res.status(200).json({ message: 'Usuario eliminado correctamente', deleted: deletedUser });
+    } else {
+      res.status(404).json({ message: 'Usuario no encontrado' });
     }
-    res.status(200).json({ message: 'Usuario eliminado correctamente' });
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar el usuario' });
   }
 };
+

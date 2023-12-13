@@ -4,11 +4,12 @@ import alertLogo from "../../img/alertLogo.png"
 import axios from "axios"; 
 import deleteIcon from "../../img/deleteIcon.png"
 
-export default function DeleteProductModal ({type, producto, showProvidersUpdated, showSaleUpdated,  updateBuyList,  showProductsUpdated, updateBuysList, showClientsUpdated})  {
+export default function DeleteProductModal ({type, producto, showProvidersUpdated, showSaleUpdated,  updateBuyList,  showProductsUpdated, updateBuysList, showClientsUpdated, showUsersUpdated})  {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure("");
   const [productId, setProductId] = useState("")
   const [clientId, setClientId] = useState("")
+  const [userId, setUserId] = useState("")
   const [succesMessage, setSuccesMessage] = useState(false)
   const [proveedorId, setProveedorId] = useState("")
   const [compraId, setCompraId] = useState("")
@@ -113,6 +114,20 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
          })
   }
 
+  const deleteUser = () => { 
+    axios.delete(`http://localhost:3000/usuario/${userId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            showUsersUpdated()
+          }, 1800)       
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
 
 
   useEffect(() => { 
@@ -126,6 +141,8 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
       setCompraId(producto.id)
     } else if (type === "clientes") { 
       setClientId(producto.productId)
+    } else if (type === "users") { 
+      setUserId(producto.userId)
     }
     
   }, [producto])
@@ -151,12 +168,14 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
                   {type === "proveedores" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el proveedor?</small> : null}
                   {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta? </small> : null}
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
+                  {type === "users" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar este Usuario?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
-                      {type === "productos" || type === "proveedores" || type === "clientes" ? 
+                      {type === "productos" || type === "proveedores" || type === "clientes" || type === "users"? 
                        <div className="flex gap-6 items-center justify-center">
                           <button className='h-10 w-42 rounded-lg font-bold text-white items-center text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  
-                         onClick={() => {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "clientes" ? deleteClient() : null}}>                           
+                         onClick={() => 
+                         {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "clientes" ? deleteClient() : type === "users" ? deleteUser() : null}}>                           
                             Si, estoy seguro
                         </button>
                         <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
@@ -181,6 +200,8 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
                       <button className='h-10 w-36 rounded-lg bg-white flex items-center text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
                      </>
                       : null}
+
+                      
 
                   </div> 
 

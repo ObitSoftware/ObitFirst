@@ -9,11 +9,11 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
 
   const [succesMessaggeProductEdited, setSuccesMessaggeProductEdited] = useState(true)
   const [allCategorys, setAllCategorys] = useState([])
-
   const [productId, setProductId] = useState("")
   const [providerUniqueId, setProviderUniqueId] = useState("")
   const [ventaId, setVentaId] = useState("")
   const [clientId, setClientId] = useState("")
+  const [userId, setUserId] = useState("")
   const [buyId, setBuyId] = useState("")
   const [newProductName, setNewProductName] = useState(type === "productos" ? producto.nombre : "")
   const [newProductDescription, setNewProductDescription] = useState(type === "productos" ? producto.descripcion : "")
@@ -33,6 +33,11 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
   const [clientNewEmail, setClientNewEmail] = useState(type === "clientes" ? producto.email : "")
   const [clientNewDni, setClientNewDni] = useState(type === "clientes" ? producto.dni : "")
   const [clientNewTelephone, setClientNewTelephone] = useState(type === "clientes" ? producto.telefono : "")
+
+  const [userNewName, setUserNewName] = useState(type === "users" ? producto.nombre : "")
+  const [userNewEmail, setUserNewEmail] = useState(type === "users" ? producto.email : "")
+  const [userNewRole, setUserNewRole] = useState(type === "users" ? producto.role : "")
+  const [userNewPassword, setUserNewPassword] = useState(type === "users" ? producto.password : "")
 
  
   function obtenerFechaActual() {
@@ -126,8 +131,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
          })
          .catch((err) => { 
           console.log(err)
-         })
-        
+         })   
   }
 
   useEffect(() => { 
@@ -141,8 +145,9 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
       setBuyId(producto.id)
     } else if (type === "clientes") { 
       setClientId(producto.productId)
+    } else if(type === "users") { 
+      setUserId(producto.userId)
     }
-    
   }, [producto])
 
   useEffect(() => { 
@@ -174,6 +179,7 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
               {type === "proveedores" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Proveedor</ModalHeader> : null}
               {type === "venta" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Venta</ModalHeader> : null}
               {type === "clientes" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Cliente</ModalHeader> : null}
+              {type === "users" ? <ModalHeader className="flex flex-col items-center justify-center gap-1" style={{color:"#5C77A9"}}>Editar Usuario</ModalHeader> : null}
             </div>    
              
               <ModalBody>
@@ -398,6 +404,53 @@ export default function EditModal({type, producto, showUsersUpdated, showProvide
                               <p>El ID de la compra seleccionada es: {buyId}</p>                   
                           </div> 
                        : null }    
+
+                       
+                        {type === "users" ?    
+                          <div className="flex flex-col items-center text-center justify-evenly">
+
+                            <div className="flex gap-2 text-center items-center justify-center">
+                              <p className="font-bold text-sm">Nombre : </p>
+                              <input 
+                               type="text" 
+                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none" 
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={userNewName}
+                               onChange={(e) => setUserNewName(e.target.value)}/>
+                            </div>
+
+                            <div className="flex gap-2 text-center items-center justify-center mt-6">
+                              <p className="font-bold text-sm">Rol : </p>
+                              <input 
+                               type="text" 
+                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none" 
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={userNewRole}
+                               onChange={(e) => setUserNewRole(e.target.value)}/>
+                            </div>
+
+                            <div className="flex gap-2 text-center items-center justify-center mt-6">
+                              <p className="font-bold text-sm">Email : </p>
+                              <input 
+                               type="text" 
+                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={userNewEmail}
+                               onChange={(e) => setUserNewEmail(e.target.value)}/>      
+                            </div> 
+
+                             <div className="flex gap-2 text-center items-center justify-center mt-6">
+                              <p className="font-bold text-sm">Contraseña : </p>
+                              <input 
+                               type="text" 
+                               className=" w-44  rounded-lg focus:outline-none  focus:ring-0  text-xs h-8 flex text-center items-center border border-none"
+                               style={{backgroundColor:"#E6EEFF"}}
+                               value={userNewPassword}
+                               onChange={(e) => setUserNewPassword(e.target.value)}/>      
+                            </div>                                                             
+                          </div> 
+                        
+                     : null }  
 
 
                   <div className="flex flex-col items-center justify-center m-4">

@@ -83,5 +83,56 @@ export const getAllGains = async () => {
       throw error;
     }
   };
+
+
+  export const getTotalYearNetIncome = async () => { 
+  
+      try {
+        const response = await axios.get("http://localhost:3000/venta");
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+    
+        const salesOfYear = response.data.filter(sale => {
+          const saleDateParts = sale.fechaCreacion.split('/');
+          const saleYear = parseInt(saleDateParts[2], 10); // Convertir a entero
+          return saleYear === currentYear;
+        });
+    
+        const totalGains = salesOfYear.reduce((sum, sale) => sum + sale.gananciaNeta, 0);
+        console.log(totalGains)
+        return totalGains;
+      } catch (error) {
+        console.error("Error al obtener las ganancias del año:", error);
+        throw error;
+      }
+    
+  }
+
+  export const getTotalYearMoneyFactured = async () => { 
+  
+    try {
+      const response = await axios.get("http://localhost:3000/venta");
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+  
+      const salesOfYear = response.data.filter(sale => {
+        const saleDateParts = sale.fechaCreacion.split('/');
+        const saleYear = parseInt(saleDateParts[2], 10); // Convertir a entero
+        return saleYear === currentYear;
+      });
+  
+      const totalGains = salesOfYear.reduce((sum, sale) => sum + sale.total, 0);
+      console.log(totalGains)
+      return totalGains;
+    } catch (error) {
+      console.error("Error al obtener las ganancias del año:", error);
+      throw error;
+    }
+  
+}
+
+  export const netIncome = () => { 
+    
+  }
   
   

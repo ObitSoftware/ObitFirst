@@ -7,7 +7,27 @@ import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import VentasPorMes from '../Graficos/VentasPorMes';
-import { getMonthGains, getAllGains, getImprovementPercentage} from './FunctionsGetDataOfSells';
+import { getMonthGains, getAllGains, getImprovementPercentage, getTotalYearMoneyFactured, getTotalYearNetIncome} from './FunctionsGetDataOfSells';
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
+
+const items = [
+  {
+    key: "Monto total Anual Facturado",
+    label: "Monto total Anual Facturado",
+  },
+  {
+    key: "Monto total Mensual Facturado",
+    label: "Monto total Mensual Facturado",
+  },
+  {
+    key: "Ganancia Neta Anual",
+    label: " Ganancia Neta Anual ",
+  },
+  {
+    key: "dGanancia Neta Mensual",
+    label: "Ganancia Neta Mensual",
+  }
+];
 
 
 const SellsSidebardDetail = () => {
@@ -15,6 +35,13 @@ const SellsSidebardDetail = () => {
   const [totalMonthGains, setTotalMonthGains] = useState(null);
   const [totalEverGains, setTotalEverGains] = useState(null);
   const [porcentage, setPorcentage] = useState(null);
+  const [totalAnualFactured, setTotalAnualFactured] = useState(null);
+
+  const [showTotalAnualFactured, setShowTotalAnualFactured] = useState(true)
+  const [showTotalAnualNetIncome, setShowTotalAnualNetIncome] = useState(true)
+  const [showTotalMonthFactured, setShowTotalMonthFactured] = useState(true)
+  const [showTotalMonthNetIncome, setShowTotalMonthNetIncom] = useState(true)
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,8 +68,8 @@ const SellsSidebardDetail = () => {
     getPorcentage();
   }, []); 
 
+
   useEffect(() => {
-    
     const getEverGains = async () => {
       try {
         const allGains = await getAllGains();
@@ -52,6 +79,18 @@ const SellsSidebardDetail = () => {
       }
     };
     getEverGains();
+  }, []); 
+
+  useEffect(() => {
+    const getTotalAnualFactured = async () => {
+      try {
+        const totalAnualFacturedAtTheMoment = await getTotalYearMoneyFactured();
+        setTotalAnualFactured(totalAnualFacturedAtTheMoment);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getTotalAnualFactured();
   }, []); 
 
 
@@ -78,9 +117,9 @@ const SellsSidebardDetail = () => {
   return (
 
     <> 
-    <div className='flex flex-col items-center justify-center ml-24 mt-24 2xl:mt-20 3xl:mt-0 2xl:ml-20 3xl:ml-2'>
+    <div className='flex flex-col items-center justify-center ml-24 mt-24 2xl:mt-20 3xl:mt-0 2xl:ml-20 3xl:ml-2' onClick={() => getTotalYearMoneyFactured()}>
         <div class="grid grid-cols-3 gap-4 mt-8">
-          <div class="col-span-3 flex gap 4 2xl:gap-8 3xl:gap-12">
+          <div class="col-span-3 flex gap-4 2xl:gap-8 3xl:gap-12">
               <div class="w-full">
                   <Card isHoverable={true} className='col-span-1 bg-white h-24 flex items-center justify-center w-96'>
                       <CardBody className='flex'>
@@ -103,7 +142,7 @@ const SellsSidebardDetail = () => {
                       </CardBody>
                   </Card>
               </div>
-            <div class="w-full">
+            <div class="w-full" onClick={() => getTotalYearNetIncome()}>
                 <Card isHoverable={true} className='col-span-1 bg-white h-24 flex items-center justify-center  w-96'>
                 <CardBody className='flex '>
                 
@@ -161,12 +200,10 @@ const SellsSidebardDetail = () => {
                 <CardBody>
                     <div className='flex items-center justify-center gap-2'>
                         <img src={iconProduct} className='h-6 object-fit w-6'/>
-                        <p className='font-bold text-xs'>Ventas Mensuales</p>
+                        <p className='font-bold text-xs'>Ventas + Grandes - list</p>
                     </div>
                     <div className='flex items-center justify-center mt-6'>
-                    <ResponsiveContainer width="100%" height="100%" aspect={2} className="max-h-fit-contain- max-w-fit-contain">
-                        <VentasPorMes/>
-                      </ResponsiveContainer>
+                    lala
                     </div>
                 </CardBody>
             </Card>
@@ -180,12 +217,12 @@ const SellsSidebardDetail = () => {
       <CardBody>
       <div className='flex items-start justify-start gap-2'>
           <img src={iconProduct} className='h-6 object-fit w-6'/>
-          <p className='font-bold text-xs'>Top Productos mas Vendidos</p>
+          <p className='font-bold text-xs'>Ventas Mensuales</p>
       </div>
       <div className='flex items-center justify-center flex-grow mt-4'>
-          <ResponsiveContainer width="100%" height="100%" aspect={4} className="max-h-fit-contain- max-w-fit-contain">
-             <RankingVentaProductos/>
-          </ResponsiveContainer>
+          <div className='flex items-center justify-center mt-4  h-full w-full'>                          
+                      <VentasPorMes/>                            
+           </div>
       </div>
       </CardBody>
   </Card>
@@ -195,12 +232,19 @@ const SellsSidebardDetail = () => {
     <div className="col-span-1">
         <Card isHoverable={true} className='bg-white h-72 flex items-center justify-center w-full'>
                 <CardBody>
-                    <div className='flex items-center justify-center gap-2'>
+                    <div className='flex items-start justify-start gap-2'>
                         <img src={iconProduct} className='h-6 object-fit w-6'/>
-                        <p className='font-bold text-xs'>Top Productos menos vendidos</p>
+                        <Dropdown>
+                            <DropdownTrigger>
+                              <small className='text-xs font-bold'>Monto total Facturado Anual <b className='text-sm'>↓</b> </small>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Dynamic Actions" items={items}>
+                              {(item) => ( <DropdownItem key={item.key}> {item.label} </DropdownItem> )}
+                            </DropdownMenu>
+                          </Dropdown>
                     </div>
-                    <div className='flex items-center justify-center'>
-                        <img className='h-44 w-44' src={"https://thumbs.dreamstime.com/b/gr%C3%A1fico-circular-transparente-azul-y-gr%C3%A1ficos-de-barras-diagramas-negocio-sobre-el-fondo-blanco-estad%C3%ADsticas-crecimiento-221788349.jpg"}/>
+                    <div className='flex items-center justify-center mt-12'>
+                             <p className='text-lg font-bold' style={{color:"#728EC3"}}>{totalAnualFactured} ARS</p>
                     </div>
                 </CardBody>
             </Card>

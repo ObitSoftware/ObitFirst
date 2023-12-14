@@ -140,7 +140,7 @@ const VentasPorMes = () => {
   return (
     <>
         <div className='flex items-center justify-center flex-grow '> 
-         <ResponsiveContainer width="100%" height="100%" aspect={2} className="max-h-fit-contain- max-w-fit-contain">
+        <ResponsiveContainer width="100%" height={190}>
             <LineChart width={500} height={300} data={rankingMensualDeVentas}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="NombreDelMes" padding={{ left: 30, right: 30 }} />

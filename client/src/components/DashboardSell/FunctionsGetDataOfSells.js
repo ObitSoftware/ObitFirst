@@ -85,28 +85,7 @@ export const getAllGains = async () => {
   };
 
 
-  export const getTotalYearNetIncome = async () => { 
   
-      try {
-        const response = await axios.get("http://localhost:3000/venta");
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-    
-        const salesOfYear = response.data.filter(sale => {
-          const saleDateParts = sale.fechaCreacion.split('/');
-          const saleYear = parseInt(saleDateParts[2], 10); // Convertir a entero
-          return saleYear === currentYear;
-        });
-    
-        const totalGains = salesOfYear.reduce((sum, sale) => sum + sale.gananciaNeta, 0);
-        console.log(totalGains)
-        return totalGains;
-      } catch (error) {
-        console.error("Error al obtener las ganancias del año:", error);
-        throw error;
-      }
-    
-  }
 
   export const getTotalYearMoneyFactured = async () => { 
   
@@ -131,8 +110,40 @@ export const getAllGains = async () => {
   
 }
 
-  export const netIncome = () => { 
-    
+export const getTotalMonthMoneyFactured = async () => { 
+  try {
+    const response = await axios.get("http://localhost:3000/venta");
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // Nota: getMonth() devuelve un índice base 0, por lo que sumamos 1
+  
+    const salesOfMonth = response.data.filter(sale => {
+      const saleDateParts = sale.fechaCreacion.split('/');
+      const saleYear = parseInt(saleDateParts[2], 10);
+      const saleMonth = parseInt(saleDateParts[1], 10);
+      return saleYear === currentYear && saleMonth === currentMonth;
+    });
+  
+    const totalGains = salesOfMonth.reduce((sum, sale) => sum + sale.total, 0);
+    console.log(totalGains)
+    return totalGains;
+  } catch (error) {
+    console.error("Error al obtener las ganancias del mes:", error);
+    throw error;
   }
+}
+
+  export const bestSells = async () => { 
+           try {
+            const response = await axios.get("http://localhost:3000/venta");
+            const orderSells = response.data.sort((a, b) => b.total - a.total);
+            const theBestFiveSells = orderSells.slice(0, 5)
+            console.log(theBestFiveSells)
+            return theBestFiveSells;
+          } catch (error) {
+            console.error("Error al obtener las ventas:", error);
+            throw error;
+          }
+  } 
   
   

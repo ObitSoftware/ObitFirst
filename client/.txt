@@ -1,8 +1,8 @@
 1 - El item 2 de la sidebar es "Usuarios" - Cuando lo abrimos, vemos la tabla de usuarios del sistema. Que mas cosas deberia contener este componente? Me refiero a las acciones disponibles para esta seccion
 
----- Agregar boton de CREAR USUARIO. Mantener mismo diseño de las demas tablas.
----- PROBAR SACAR USUARIO DEL SIDEBAR Y LLEVAR AL ICON DE AJUSTES. (ver darkmode en desplegable de ajustes)
----- VER LA POSIBILIDAD DE PODER CREAR THEMAS CON LOS COLORES. ---> a analizar en escala de trabajo, y si lo vale
+---- Agregar boton de CREAR USUARIO. Mantener mismo diseño de las demas tablas. ✔
+---- PROBAR SACAR USUARIO DEL SIDEBAR Y LLEVAR AL ICON DE AJUSTES. ✔
+---- VER LA POSIBILIDAD DE PODER CREAR THEMAS CON LOS COLORES. ---> a analizar en escala de trabajo, y si lo vale  (ver darkmode en desplegable de ajustes)
 ---- AGREGAR SUCURSALES Y FILTRAR "USUARIOS // EMPLEADOS" POR SUCURSAL.
 
 
@@ -18,18 +18,19 @@ datos. Va a ser igual que el grid de ventas? O similar? LO QUE MAS ME INTERESA E
 
 ### PROTO VENTAS
 
-1. Total de ganancias (numero en $$)
-2. Total ganancias Mensuales (num entero)
-3. Procentaje de Crecimiento (% -numero entero)
-4. Ventas por categoria (grafico)
+1. Total de ganancias (numero en $$) ✔
+2. Total ganancias Mensuales (num entero) ✔
+3. Procentaje de Crecimiento (% -numero entero) ✔
+4. Ventas por categoria (grafico) ✔
 5. Top VENTAS MAS GRANDES (listado con detalle, COMO LA IMAGEN)
-6. Ventas mensuales (grafico)
+6. Ventas mensuales (grafico) ✔
 7. Cantidad TOTAL de VENTAS (año, mes, dia -> nro entero grande)
 
 ### PROTO PRODUCTOS
 
 1. CANTIDAD DE PRODUCTOS TOTALES NUMERO GRANDE 
-2. MONTO TOTAL DE SUMA DE PRODUCTOS ( INTENTAR REPRESENTAR GASTO TOTAL POR LOS PRODUCTOS COMPRADOS)3.  -----A definir----
+2. MONTO TOTAL DE SUMA DE PRODUCTOS ( INTENTAR REPRESENTAR GASTO TOTAL POR LOS PRODUCTOS COMPRADOS)
+3.  -----A definir----
 4. PRODUCTOS POR CATEGORIAS (LISTADO DE CANTIDAD DE PRODUCTOS X CATEGORIA)
 5. TOP PRODUCTOS MAS COMPRADOS, RANKING GENERAL(LISTADO COMO IMAGEN)
 6. TOP PRODUCTOS QUE MAS GANANCIAS GENERARON A LO LARGO DEL TIEMPO. ES DECIR, QUE PRODUCTO MEDIO MAS PLATA, HACER UYN RANKING (LISTADO COMO IMAGEN)

@@ -20,6 +20,7 @@ export const calcularMontoTotal = async () => {
     const peticion = await axios.get("http://localhost:3000/productos");
     const products = peticion.data;
     console.log(products)
+    
     const newArray = [];
 
     products.forEach((p) => { 
@@ -40,6 +41,79 @@ export const calcularMontoTotal = async () => {
     console.log(error);
   }
 }
+
+
+
+
+
+
+export const topMoreBoughtProducts = async () => { 
+  try {
+    const res = await axios.get("http://localhost:3000/compras");
+    console.log("Compras", res.data);
+    const data = res.data;
+    const moreBoughtProducts = {};
+   
+    data.forEach(compra => {
+      compra.productosComprados.forEach(producto => {
+        const productName = producto.nombreProducto;
+        const cantidadComprada = parseInt(producto.cantidad, 10);
+
+        if (moreBoughtProducts[productName]) { 
+          moreBoughtProducts[productName] += cantidadComprada;
+        } else { 
+          moreBoughtProducts[productName] = cantidadComprada;
+        }
+      });
+    });
+
+    const newArray = Object.keys(moreBoughtProducts).map(nombreProducto => ({ 
+      nombreProducto,
+      cantidadComprada: moreBoughtProducts[nombreProducto]
+    }));
+
+    const orderArray = newArray.sort((a, b) => b.cantidadComprada - a.cantidadComprada);
+    const limitJustFive = orderArray.slice(0, 5)
+
+    return limitJustFive;
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const topProductsWithMoreNetGains = async () => { 
+  try {
+    const res = await axios.get("http://localhost:3000/venta");
+    console.log("ventas", res.data);
+    const data = res.data;
+
+    const productsNetGains = {}
+
+    data.forEach(sells => { 
+       const productName = sells.nombreProducto;
+       const netGain = sells.gananciaNeta;
+       if(productsNetGains[productName]) { 
+        productsNetGains[productName] += netGain
+       } else { 
+        productsNetGains[productName] = netGain
+       }
+    })
+
+    
+    const newArray = Object.keys(productsNetGains).map(productName => ({ 
+      productName,
+      netGain: productsNetGains[productName]
+    }));
+
+    const topFive = newArray.slice(0, 5)
+    return topFive
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 
 export const getQuantityProductsCategory  = async () => { 
@@ -70,6 +144,9 @@ export const getQuantityProductsCategory  = async () => {
   }
 }
 
+
+
+
 export const getHistoricGainsOfProduct = async () => { 
     try {
       const res = await axios.get("http://localhost:3000/venta");
@@ -96,7 +173,9 @@ export const getHistoricGainsOfProduct = async () => {
       return resultado;
     } catch (err) {
       console.error(err);
-      throw err; // Re-lanza el error para que sea manejado por el bloque catch del componente que llama a esta función
+      throw err; 
     }
   };
+
+
 

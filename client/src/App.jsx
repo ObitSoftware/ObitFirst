@@ -13,6 +13,7 @@ import SellsSidebardDetail from './components/DashboardSell/SellsSidebardDetail'
 import { UserProvider } from './context/userContext'
 import ClientsTable from './components/DashBoardClients/ClientsTable'
 import UsersTable from './components/users/usersTable'
+import PurchaseSidebarDetail from './components/DashboardPuchaseDetail/PurchaseSidebarDetail'
 
 
 
@@ -31,6 +32,7 @@ function App() {
                     <Route path="tt" element={<Templa/>}></Route>
                     <Route path="productosDashboard" element={<ProductsSidebarDetail/>}></Route>
                     <Route path="ventasDashboard" element={<SellsSidebardDetail/>}></Route>
+                    <Route path="comprasDashboard" element={<PurchaseSidebarDetail/>}></Route>
                     <Route path="clientData" element={<ClientsTable/>}></Route>
                     <Route path="usersData" element={<UsersTable/>}></Route>
                 </Routes>

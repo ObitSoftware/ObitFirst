@@ -227,26 +227,26 @@ const ProductsSidebarDetail = () => {
                     <div className='flex items-start justify-between'>
                         <div className='flex items-center justify-start gap-2'>
                             <img src={iconProduct} className='h-6 object-fit w-6'/>
-                            <p className='font-bold text-xs'>Historial de Venta por producto Mensual</p>
+                           {monthSelected === "" ? <p className='font-bold text-xs'>Historial de Ventas Historico</p> : <p className='font-bold text-xs'>Historial de Venta por producto del mes de {monthSelected}</p>}
                         </div>   
                         <div className='flex items-center justify-end'>
                         <Dropdown >
                             <DropdownTrigger>
                                {monthSelected === "" ? <small  className="text-xs font-bold" >Selecciona el mes</small> : <small  className="text-xs font-bold" >{monthSelected}</small>}
                             </DropdownTrigger>
-                            <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => alert(key)}>
-                                <DropdownItem key="new" onClick={() => setMonthSelected("enero")}>Enero</DropdownItem>
-                                <DropdownItem key="copy">Febrero</DropdownItem>
-                                <DropdownItem key="edit">Marzo</DropdownItem>
-                                <DropdownItem key="edit">Abril</DropdownItem>
-                                <DropdownItem key="edit">Mayo</DropdownItem>
-                                <DropdownItem key="edit">Junio</DropdownItem>
-                                <DropdownItem key="edit">Julio</DropdownItem>
-                                <DropdownItem key="edit">Agosto</DropdownItem>
-                                <DropdownItem key="edit">Septiembre</DropdownItem>
-                                <DropdownItem key="edit"  onClick={() => setMonthSelected("octubre")}>Octubre</DropdownItem>
-                                <DropdownItem key="edit"  onClick={() => setMonthSelected("noviembre")}>Noviembre</DropdownItem>
-                                <DropdownItem key="edit"  onClick={() => setMonthSelected("diciembre")}>Diciembre</DropdownItem>
+                            <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => console.log(key)}>
+                                <DropdownItem key="new"  onClick={() => setMonthSelected("enero")}>Enero</DropdownItem>
+                                <DropdownItem key="copy" onClick={() => setMonthSelected("febrero")}>Febrero</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("marzo")}>Marzo</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("abril")}>Abril</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("mayo")}>Mayo</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("junio")}>Junio</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("julio")}>Julio</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("agosto")}>Agosto</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("septiembre")}>Septiembre</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("octubre")}>Octubre</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("noviembre")}>Noviembre</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => setMonthSelected("diciembre")}>Diciembre</DropdownItem>
                      
                             </DropdownMenu>
                             </Dropdown>

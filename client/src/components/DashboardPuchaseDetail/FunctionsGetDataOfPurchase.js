@@ -36,3 +36,48 @@ export const getTotalInvertedMonth = async () =>  {
     }
 }
 
+export const getTopCompras = async () => { 
+   try {
+     const response = await axios.get("http://localhost:3000/compras");
+     const allPurchase = response.data
+     const orderBestPurchase = allPurchase.sort((a, b) => b.total - a.total)
+     const topFive = orderBestPurchase.slice(0, 5)
+     console.log(topFive)
+     return topFive
+
+   } catch (error) {
+      console.log(error)
+   }
+}
+
+export const quantityPurchaseOfAllCategorys = async () => { 
+  try {
+    const response = await axios.get("http://localhost:3000/compras");
+    const allPurchase = response.data
+    console.log(allPurchase)
+
+    const categoryPurchase = {};
+
+    allPurchase.map((p) => { 
+     p.productosComprados.forEach((p) => { 
+        const productCategory = p.categoriaProducto;
+        if(categoryPurchase[productCategory]) { 
+          categoryPurchase[productCategory]++;
+        } else { 
+          categoryPurchase[productCategory] = 1
+        }
+      })
+    })
+
+    const newArray = Object.keys(categoryPurchase).map((categoriaProducto) => ({
+      categoriaProducto,
+      cantidad: categoryPurchase[categoriaProducto],
+    }));
+
+    console.log("COMPRAS POR CATEGORIA", newArray)
+    return(newArray);
+
+  } catch (error) {
+     console.log(error)
+  }
+}

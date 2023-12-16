@@ -26,6 +26,7 @@ const AddBuyModal = ({updateList}) => {
     proveedor: '',
     productoId: '',
     precioProducto: '',
+    categoriaProducto: "",
     fechaPago: '',
     observaciones: '',
     cantidad: '',
@@ -82,7 +83,7 @@ const AddBuyModal = ({updateList}) => {
       const selectedName = product;                            
       const selectedId = productsAvailable.find((p) => p.nombre === selectedName)._id;
       setProductId(selectedId);
-      setShowProductData(true)
+     
     };
 
   const fechaActual = obtenerFechaActual();
@@ -111,6 +112,7 @@ const AddBuyModal = ({updateList}) => {
               productoId: res.data._id,
               precioProducto: res.data.precio,
               nombreProducto: res.data.nombre,
+              categoriaProducto: res.data.categoria
             }));
           })
           .catch((err) => {
@@ -153,6 +155,7 @@ const AddBuyModal = ({updateList}) => {
             proveedor: productToBuyData.proveedor,
             productoId: productToBuyData.productoId,
             precioProducto: productToBuyData.precioProducto,
+            categoriaProducto: productToBuyData.categoriaProducto,
             fechaPago: productToBuyData.fechaPago,
             observaciones: productToBuyData.observaciones,
             cantidad: productToBuyData.cantidad,
@@ -164,6 +167,7 @@ const AddBuyModal = ({updateList}) => {
         setProductToBuyData({
           proveedor: '',
           productoId: '',
+          categoriaProducto: '',
           precioProducto: '',
           fechaPago: '',
           observaciones: '',
@@ -185,6 +189,7 @@ const AddBuyModal = ({updateList}) => {
           proveedor: productToBuyData.proveedor,
           productoId: productToBuyData.productoId,
           precioProducto: productToBuyData.precioProducto,
+          categoriaProducto: productToBuyData.categoriaProducto,
           fechaPago: productToBuyData.fechaPago,
           observaciones: productToBuyData.observaciones,
           cantidad: productToBuyData.cantidad,
@@ -210,6 +215,7 @@ const AddBuyModal = ({updateList}) => {
             setProductToBuyData({
               proveedor: '',
               productoId: '',
+              categoriaProducto: "",
               precioProducto: '',
               fechaPago: '',
               observaciones: '',

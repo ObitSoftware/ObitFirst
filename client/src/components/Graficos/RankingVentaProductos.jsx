@@ -100,7 +100,7 @@ const RankingVentaProductos = (props) => {
 
   return (
     <div className='flex items-center justify-center flex-grow '>
-  <ResponsiveContainer width="100%" height="100%" aspect={5.2} className="max-h-fit-contain- max-w-fit-contain">
+    <ResponsiveContainer width="100%" height="100%" aspect={5.2} className="max-h-fit-contain- max-w-fit-contain">
     {props.month.length === 0 ? 
 
       <BarChart data={rankingGral}>

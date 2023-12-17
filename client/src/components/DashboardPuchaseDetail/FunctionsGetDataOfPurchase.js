@@ -81,3 +81,13 @@ export const quantityPurchaseOfAllCategorys = async () => {
      console.log(error)
   }
 }
+
+export const getQuantityPurchaseEver = async () => { 
+  try {
+    const response = await axios.get("http://localhost:3000/compras");
+    const allPurchase = response.data
+    return(allPurchase.length)
+  } catch (error) {
+     console.log(error)
+  }
+}

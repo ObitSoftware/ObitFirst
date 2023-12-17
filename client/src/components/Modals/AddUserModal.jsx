@@ -78,7 +78,7 @@ const AddUserModal = ({updateList}) => {
                   <p className='font-bold text-sm mt-6' style={{color:"#728EC3"}}>Usuario añadido Correctamente</p> 
                   :
                  <div className='flex justify-end w-full mt-6'>
-                       <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => addNewUser()}>Añadir Nuevo Provedor </Button>
+                       <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => addNewUser()}>Añadir Nuevo Usuario </Button>
                    </div>}
                  </div>
              </ModalBody>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {Card, CardBody} from "@nextui-org/react";
-import { getTotalInvertedAmount, getTotalInvertedMonth, getTopCompras, quantityPurchaseOfAllCategorys } from './FunctionsGetDataOfPurchase';
+import { getTotalInvertedAmount, getTotalInvertedMonth, getTopCompras, quantityPurchaseOfAllCategorys, getQuantityPurchaseEver } from './FunctionsGetDataOfPurchase';
 import iconProduct from "../../img/productsIcon.png"
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import QuantityCategoryProductsPurchase from '../Graficos/QuantityCategoryProductsPurchase';
@@ -14,6 +14,7 @@ const PurchaseSidebarDetail = () => {
     const [totalInvertedAmount, setTotalInvertedAmount] = useState("")
     const [invertedMonthAmount, setInvertedMonthAmount] = useState("")
     const [topFivePurchase, setTopFivePurchase] = useState([])
+    const [quantityPurchaseEver, setQuantityPurchaseEver] = useState([])
 
     useEffect(() => { 
        const getTotal = async () => { 
@@ -51,6 +52,18 @@ const PurchaseSidebarDetail = () => {
     getTopFive()
  }, [])
 
+ useEffect(() => { 
+  const getQuantityEver = async () => { 
+   try {
+       const quantity = await getQuantityPurchaseEver()
+       setQuantityPurchaseEver(quantity)
+   } catch (error) {
+       console.error(error);
+   }
+  }
+  getQuantityEver()
+}, [])
+
  
 
 
@@ -60,7 +73,7 @@ const PurchaseSidebarDetail = () => {
   return (
 
     <> 
-    <div className='flex flex-col items-center justify-center ml-24 mt-24 2xl:mt-20 3xl:mt-0 2xl:ml-20 3xl:ml-2' onClick={() => quantityPurchaseOfAllCategorys()}>
+    <div className='flex flex-col items-center justify-center ml-24 mt-24 2xl:mt-20 3xl:mt-0 2xl:ml-20 3xl:ml-2' onClick={() => getQuantityPurchaseEver()}>
         <div class="grid grid-cols-3 gap-4 mt-8">
           <div class="col-span-3 flex gap-4 2xl:gap-8 3xl:gap-12">
               <div class="w-full">
@@ -187,6 +200,9 @@ const PurchaseSidebarDetail = () => {
                         </DropdownMenu>
                       </Dropdown>  
                   </div>  
+                  <div className='flex items-center justify-center mt-12'>
+                  <p className='text-lg font-bold' style={{color:'#728EC3'}}>{quantityPurchaseEver}</p>
+                  </div>
                 </CardBody>
             </Card>
     </div>

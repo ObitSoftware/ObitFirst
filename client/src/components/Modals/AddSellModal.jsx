@@ -183,6 +183,7 @@ const AddSellModal = ({updateList}) => {
             setProductSelectedData([])
             setShowProductData(false)
             setTotalToPay("")
+            setInputClientsValue("")
           }, 2500)
         } else { 
           const dataOfSell = ({ 

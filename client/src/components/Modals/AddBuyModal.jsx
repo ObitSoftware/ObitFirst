@@ -287,7 +287,7 @@ const AddBuyModal = ({updateList}) => {
 
                   <div className='flex gap-6 items-center justify-center'>
                      <div className="relative">
-                      <small className="font-bold text-sm mr-2">Producto</small>
+                                 <small className="font-bold text-sm mr-2">Producto</small>
                                       <input type='text' 
                                           value={inputValue} 
                                           onChange={handleChange}  
@@ -295,13 +295,14 @@ const AddBuyModal = ({updateList}) => {
                                           className='h-9 rounded-lg border border-none focus:outline-none  focus:ring-0 w-48 text-sm text-center justify-center' 
                                        />
                                       {filteredProducts.length > 0 && (
-                                        <div 
-                                            className='options-container absolute z-10 bg-white border rounded-lg mt-1 w-46 items-center jusitfy-center max-h-36 overflow-y-auto'
-                                            style={{backgroundColor:"#E6EEFF"}}>
+                                        <div
+                                        className='options-container absolute z-10 bg-white rounded-lg mt-1 w-46 items-center justify-center max-h-36 overflow-y-auto'
+                                        style={{ backgroundColor: '#E6EEFF', left: '50%', transform: 'translateX(-50%)' }}
+                                      >
                                           {filteredProducts.map((product, index) => (
                                             productoSeleccionado.length > 1 ? null : (
                                               <div key={index}  className='option-item rounded-lg m-2 cursor-pointer flex flex-col  items-center jusitfy-center' onClick={() => handleItemClick(product)} >
-                                                <p className='m-2 text-xs text-black hover:text-white hover:bg-blue-500'>{product}</p>
+                                                <p className='m-2 text-xs text-black hover:font-bold '>{product}</p>
                                               </div>
                                             )
                                           ))}

@@ -11,6 +11,12 @@ export const getMonthGains = async () => {
         const saleMonth = parseInt(saleDateParts[1], 10); // Convertir a entero
         return saleMonth === currentMonth;
       });
+
+      /*
+       const totalGains = salesOfMonth.reduce((sum, sale) => sum + sale.gananciaNeta, 0);
+       const formattedTotal = (totalGains).toLocaleString('es-AR') + ' ARS';
+       return totalGains;
+      */
   
       const totalGains = salesOfMonth.reduce((sum, sale) => sum + sale.gananciaNeta, 0);
       return totalGains;

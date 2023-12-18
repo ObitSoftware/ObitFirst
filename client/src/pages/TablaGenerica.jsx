@@ -514,7 +514,7 @@ const Tabla = () => {
             aria-label="Selection behavior table example with dynamic content"
             selectionMode="none"
             selectionBehavior={selectionBehavior}
-            className="w-full lg:-w[800px] xl:w-[1100px] 2xl:w-[1400px] h-auto text-center shadow-left-right "
+            className="w-full lg:w-[800px] xl:w-[1100px] 2xl:w-[1400px] h-auto text-center  shadow-left-right max-h-[280px] 2xl:max-h-[none]"
           >
             <TableHeader columns={columns}>
               {(column) => (

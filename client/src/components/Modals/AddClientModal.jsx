@@ -82,11 +82,11 @@ const AddClientModal = ({ type, colorSelected, updateList, refresh }) => {
   return (
     <>
       {type === "sideBar" ? 
-      <small onClick={onOpen} className={`font-bold cursor-pointer ${colorSelected === 'white' ? 'text-black' : 'text-white'}`}>
+      <small onClick={onOpen} className={`font-medium cursor-pointer ${colorSelected === 'white' ? 'text-black' : 'text-white'}`}>
        Crear Cliente
       </small> : 
        type === "table" ? 
-       <Button onClick={onOpen} className="bg-foreground text-background font-bold cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR CLIENTE </Button>
+       <Button onClick={onOpen} className="bg-foreground text-background font-medium cursor-pointer shadow-lg shadow-bottom-lg" style={{backgroundColor:"#60BCFF"}} endContent={<PlusIcon />} size="sm"> AÑADIR CLIENTE </Button>
       : type === "addingSell" ? 
          <small onClick={onOpen} className="text-xs font-medium underline cursor-pointer" style={{color:"E6EEFF"}}>
             Si el cliente no esta registrado, has click aqui.

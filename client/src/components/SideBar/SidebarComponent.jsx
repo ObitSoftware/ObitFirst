@@ -20,12 +20,13 @@ const styles = {
   myMenuItem: {
     marginTop: '20px',
   },
-  activeColor: null,
+  activeColor: "null",
 };
 
 const SidebarComponent = () => {
 
   const [collapsed, setCollapsed] = useState(true);
+  
  
 
 const items = [
@@ -56,14 +57,6 @@ const items = [
         getItem(<Link to="/ventasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ventas</p></Link>, '12'),
       ]),
 
-      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold',}}>Clientes</p>, 'sub3', (
-        <img src={clients} alt="Inicio" style={{ width: '20px', height: '20px' }} />
-      ), [
-        getItem(collapsed ?<AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '15'),
-        getItem(<Link to="/clientData"><p className='cursor-pointer' style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ver Clientes</p></Link>, '16'),
-        getItem(<Link to="/prueba"><p className='cursor-pointer' style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Detalle Clientes</p></Link>, '17'),
-      ]),
-
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Tesoreria</p>, 'sub 3', (
         <img src={tesoreria} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
@@ -76,12 +69,11 @@ const items = [
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos por Producto</p></Link>, '25'),
       ]),
 
-   
-
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Acciones</p>, 'sub 4', (
         <img src={tesoreria} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
-        getItem(<AddCategory/>, "19"),
+        getItem(collapsed ? <AddCategory type="white" /> : <AddCategory type="sideBar"/>, "19"),
+        getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
       ]),
 ];
 
@@ -92,10 +84,9 @@ const items = [
         <Layout  >
           <Sider collapsible collapsed={collapsed}  className=' h-full' onCollapse={(value) => setCollapsed(value)} style={{position: "fixed", top:64,  left: 0, background:"#728EC3" }}>
             <div className="demo-logo-vertical" />
-            <Menu style={{ background: '#728EC3', marginTop:"5px" }} defaultSelectedKeys={['1']} mode="inline" items={items}>
+            <Menu style={{ background: '#728EC3', marginTop:"5px" }} defaultSelectedKeys={['1']} mode="inline" items={items} activeColor="#D12478">
               {items.map((item) => (
                <Menu.Item key={item.key} icon={item.icon} style={styles.myMenuItem}>
-
                 <p >{item.label}</p> 
                </Menu.Item>
               ))}

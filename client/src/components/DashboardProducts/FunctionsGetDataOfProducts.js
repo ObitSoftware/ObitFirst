@@ -107,7 +107,8 @@ export const topProductsWithMoreNetGains = async () => {
     }));
 
     const topFive = newArray.slice(0, 5)
-    return topFive
+    const order = topFive.sort((a, b) => b.netGain - a.netGain)
+    return order
 
   } catch (error) {
     console.log(error);

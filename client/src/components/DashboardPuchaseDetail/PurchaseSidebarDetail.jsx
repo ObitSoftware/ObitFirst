@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {Card, CardBody} from "@nextui-org/react";
-import { getTotalInvertedAmount, getTotalInvertedMonth, getTopCompras, quantityPurchaseOfAllCategorys, getQuantityPurchaseEver } from './FunctionsGetDataOfPurchase';
+import { getTotalInvertedAmount, getTotalInvertedMonth, getTopCompras, quantityPurchaseOfAllCategorys, getQuantityPurchaseEver, getPorcentage, getQuantityPurchaseByMonth } from './FunctionsGetDataOfPurchase';
 import iconProduct from "../../img/productsIcon.png"
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import QuantityCategoryProductsPurchase from '../Graficos/QuantityCategoryProductsPurchase';
@@ -15,54 +15,94 @@ const PurchaseSidebarDetail = () => {
     const [invertedMonthAmount, setInvertedMonthAmount] = useState("")
     const [topFivePurchase, setTopFivePurchase] = useState([])
     const [quantityPurchaseEver, setQuantityPurchaseEver] = useState([])
+    const [quantityPurchaseMonth, setQuantityPurchaseMonth] = useState([])
+    const [showEverPurchase, setShowEverPurchase] = useState(true)
+    const [porcentage, setPorcentage] = useState("")
+    const [monthSelected, setMonthSelected] = useState("")
 
-    useEffect(() => { 
-       const getTotal = async () => { 
+        useEffect(() => { 
+          const getTotal = async () => { 
+            try {
+                const total = await getTotalInvertedAmount()
+                setTotalInvertedAmount(total)
+            } catch (error) {
+                console.error(error);
+            }
+          }
+          getTotal()
+        }, [])
+
+        useEffect(() => { 
+          const getTotalMonth = async () => { 
+          try {
+              const total = await getTotalInvertedMonth()
+              setInvertedMonthAmount(total)
+          } catch (error) {
+              console.error(error);
+          }
+          }
+          getTotalMonth()
+      }, [])
+
+      
+        useEffect(() => { 
+        const getPorcentageGains = async () => { 
         try {
-            const total = await getTotalInvertedAmount()
-            setTotalInvertedAmount(total)
+            const porcentage = await getPorcentage()
+            setPorcentage(porcentage)
         } catch (error) {
             console.error(error);
         }
-       }
-       getTotal()
-    }, [])
+        }
+        getPorcentageGains()
+        }, [])
+
+
+          useEffect(() => { 
+            const getTopFive = async () => { 
+            try {
+                const top = await getTopCompras()
+                setTopFivePurchase(top)
+            } catch (error) {
+                console.error(error);
+            }
+            }
+            getTopFive()
+        }, [])
+
+        useEffect(() => { 
+          const getQuantityEver = async () => { 
+          try {
+              const quantity = await getQuantityPurchaseEver()
+              setQuantityPurchaseEver(quantity)
+          } catch (error) {
+              console.error(error);
+          }
+          }
+          getQuantityEver()
+        }, [])
+
+      
 
     useEffect(() => { 
-      const getTotalMonth = async () => { 
-       try {
-           const total = await getTotalInvertedMonth()
-           setInvertedMonthAmount(total)
-       } catch (error) {
-           console.error(error);
-       }
+      const getQuantityMonth = async () => { 
+      try {
+          const quantityMonth = await getQuantityPurchaseByMonth(monthSelected)
+          setQuantityPurchaseMonth(quantityMonth)
+          if(monthSelected === "") { 
+            setShowEverPurchase(true)
+          } else { 
+            setShowEverPurchase(false)
+          }
+      } catch (error) {
+          console.error(error);
       }
-      getTotalMonth()
-   }, [])
+      }
+      getQuantityMonth()
+    }, [monthSelected])
 
-   useEffect(() => { 
-    const getTopFive = async () => { 
-     try {
-         const top = await getTopCompras()
-         setTopFivePurchase(top)
-     } catch (error) {
-         console.error(error);
-     }
-    }
-    getTopFive()
- }, [])
+  
 
- useEffect(() => { 
-  const getQuantityEver = async () => { 
-   try {
-       const quantity = await getQuantityPurchaseEver()
-       setQuantityPurchaseEver(quantity)
-   } catch (error) {
-       console.error(error);
-   }
-  }
-  getQuantityEver()
-}, [])
 
  
 
@@ -115,7 +155,7 @@ const PurchaseSidebarDetail = () => {
                            <p className='font-bold text-xs'>Porcentaje de Ganancias</p>
                         </div>   
                         <div className='flex items-center justify-center mt-6'>
-                          <p className='text-md font-bold'style={{color:'#728EC3'}}>{totalInvertedAmount}</p>
+                          <p className='text-md font-bold'style={{color:'#728EC3'}}>+ {porcentage} %</p>
                         </div>               
                       </div>
                   </CardBody>
@@ -189,19 +229,41 @@ const PurchaseSidebarDetail = () => {
                      <small className='font-bold text-black'>Total de Compras</small>  
                      <Dropdown>
                         <DropdownTrigger>
-                          <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> Selecciona Mes </p>
+                       {showEverPurchase ? <small  className="text-xs font-bold" >Selecciona el mes</small> :  <small  className="text-xs font-bold" >{monthSelected}</small> }
                         </DropdownTrigger>
-                        <DropdownMenu aria-label="Dynamic Actions" >
-                          <DropdownItem> Enero </DropdownItem>
-                          <DropdownItem> Febrero </DropdownItem>
-                          <DropdownItem> Marzo </DropdownItem>
-                          <DropdownItem> Abril </DropdownItem>
-                          <DropdownItem> Octubre </DropdownItem>                     
+                        <DropdownMenu aria-label="Dynamic Actions" className='max-h-[250px] overflow-y-auto'>
+                          <DropdownItem onClick={() => setMonthSelected("enero")}> Enero </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("febrero")}> Febrero </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("marzo")}> Marzo </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("abril")}> Abril </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("mayo")}> Mayo </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("junio")}> Junio</DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("julio")}> Julio </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("agosto")}> Agosto </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("septiembre")}> Septiembre </DropdownItem>
+                          <DropdownItem onClick={() => setMonthSelected("octubre")}> Octubre </DropdownItem>  
+                          <DropdownItem onClick={() => setMonthSelected("noviembre")}> Noviembre </DropdownItem>           
+                          <DropdownItem onClick={() => setMonthSelected("diciembre")}> Diciembre </DropdownItem>           
                         </DropdownMenu>
                       </Dropdown>  
                   </div>  
                   <div className='flex items-center justify-center mt-12'>
-                  <p className='text-lg font-bold' style={{color:'#728EC3'}}>{quantityPurchaseEver}</p>
+                  <div
+                            style={{ 
+                              width: '150px', 
+                              height: '150px',
+                              borderRadius: '60%',
+                              backgroundColor: '#728EC3', 
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '18px', 
+                              fontWeight: 'bold',
+                              color:"black"
+                            }}
+                           >
+                           {showEverPurchase ? <p className='text-xl'> {quantityPurchaseEver} </p> : <p className='text-xl'> {quantityPurchaseMonth} </p>}
+                            </div>
                   </div>
                 </CardBody>
             </Card>

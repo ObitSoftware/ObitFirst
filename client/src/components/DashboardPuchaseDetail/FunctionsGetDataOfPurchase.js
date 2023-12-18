@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
+import { getMonthGains } from "../DashboardSell/FunctionsGetDataOfSells"
 
 export const getTotalInvertedAmount = async () => {   
       try {
@@ -35,6 +36,22 @@ export const getTotalInvertedMonth = async () =>  {
       throw error;
     }
 }
+
+export const getPorcentage = async () => { 
+   try {
+     const totalMonthInverted = await getTotalInvertedMonth()
+     const totalMonthGains = await getMonthGains()
+     const improvementPercentage = ((totalMonthInverted - totalMonthGains) / Math.abs(totalMonthGains)) * 100;
+     const shortenedPercentage = improvementPercentage.toFixed(1);
+     console.log(parseFloat(shortenedPercentage))
+     return parseFloat(shortenedPercentage); 
+
+   } catch (error) {
+    console.error("Error al calcular el porcentaje de ganancias:", error);
+    throw error;
+   }
+}
+
 
 export const getTopCompras = async () => { 
    try {
@@ -91,3 +108,40 @@ export const getQuantityPurchaseEver = async () => {
      console.log(error)
   }
 }
+
+export const getQuantityPurchaseByMonth = async (monthSelected) => { 
+
+  function getMonthNumber(monthSelected) {
+    const monthNames = [
+      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+    ];
+  
+    return monthNames.indexOf(monthSelected.toLowerCase()) + 1;
+  }
+  
+  try {
+    const response = await axios.get("http://localhost:3000/compras");
+    const monthName = monthSelected.toLowerCase(); 
+    const monthNumber = getMonthNumber(monthName);
+    const allPurchase = response.data
+    const filtrado = allPurchase.filter(venta => {
+            const fechaCompra = venta.fechaCompra;
+            const dateParts = fechaCompra.split("/");
+            if (dateParts.length === 3) {
+              const compraMonth = parseInt(dateParts[1], 10);
+              return compraMonth === monthNumber;
+            } else {
+              console.error(`Fecha de compra con formato inesperado: ${fechaCompra}`);
+              return false;
+            }
+          })
+          console.log("LENGTH", filtrado.length)
+          const totalNumber = filtrado.length
+          return totalNumber
+         
+  } catch (error) {
+     console.log(error)
+  }
+}
+

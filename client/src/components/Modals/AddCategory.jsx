@@ -3,7 +3,7 @@ import axios from "axios"
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Button } from '@nextui-org/react';
 
 
-export default function AddCategory() {
+export default function AddCategory ({type}) {
   const { isOpen, onOpen, onClose } = useDisclosure("");
 
     const [categoryName, setCategoryName] = useState("")
@@ -41,7 +41,7 @@ export default function AddCategory() {
   
     return (
       <>
-        <small onClick={() => onOpen()}>Añadir Categoria</small>
+      {type === "white" ?  <small className="text-black font-medium" onClick={() => onOpen()}>Añadir Categoria</small> : <small className="text-white font-medium" onClick={() => onOpen()}>Añadir Categoria</small>}
         <Modal isOpen={isOpen} onClose={onClose} className='max-w-max bg-white text-black'>
     <ModalContent>
       {(onClose) => (

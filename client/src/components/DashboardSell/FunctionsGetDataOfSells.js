@@ -75,15 +75,13 @@ export const getAllGains = async () => {
 
   export const getImprovementPercentage = async () => {
     try {
-      // Obtener las ganancias del mes actual y del mes anterior
       const currentMonthGains = await getMonthGains();
       const previousMonthGains = await getPreviousMonthGains();
-  
-      // Calcular el porcentaje de mejora
+
       const improvementPercentage = ((currentMonthGains - previousMonthGains) / Math.abs(previousMonthGains)) * 100;
       const shortenedPercentage = improvementPercentage.toFixed(1);
       console.log(parseFloat(shortenedPercentage))
-      return parseFloat(shortenedPercentage); // Convertir de nuevo a número
+      return parseFloat(shortenedPercentage);
   } catch (error) {
       console.error("Error al calcular el porcentaje de mejora:", error);
       throw error;

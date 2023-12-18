@@ -148,9 +148,9 @@ const AddProductModal = ({showLike, updateList}) => {
                           <small>Nombre</small>
                           <input type='text' className='h-8 rounded-lg border border-none w-40' value={productName} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductName(e.target.value)}/>
                        </div>
-                       <div className='flex items-center text-center gap-2'>
+                       <div className='flex items-center justify-center text-center gap-2'>
                           <small>Cantidad</small>
-                          <select className="h-9 rounded-lg border border-none w-40 text-sm" value={productQuantity} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductQuantity(e.target.value)}>
+                          <select className="h-9 rounded-lg border border-none w-40 text-sm  text-center justify-center" value={productQuantity} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProductQuantity(e.target.value)}>
                               <option disabled value="">Cantidad</option>
                               <option>1</option>
                               <option>2</option>
@@ -167,7 +167,7 @@ const AddProductModal = ({showLike, updateList}) => {
                        <div className='flex text-center items-center gap-2'>
                            <small>Categoria</small>
                            <select className="h-9 rounded-lg border border-none w-40 text-sm text-center justify-center" value={productCategory} style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => setProductCategory(e.target.value)}>
-                           <option disabled selected> Categoria </option>
+                            <option disabled value=""> Categoria </option>
                             {allCategorys.map((cat) => (
                               <>
                                 <option key={cat._id}>{cat.nombreCategoria}</option>    
@@ -187,7 +187,7 @@ const AddProductModal = ({showLike, updateList}) => {
                         <div className='flex text-center items-center gap-2'>
                            <small>Proveedor</small>
                            <select className="h-9 rounded-lg border border-none w-40 text-sm text-center justify-center" value={productProvider} style={{backgroundColor:"#E6EEFF"}} display="flex"  onChange={(e) => setProductProvider(e.target.value)}>
-                           <option disabled selected> Proveedor </option>
+                            <option disabled value=""> Proveedor </option>
                             {allProviders.map((provider) => (
                               <>
                                 <option key={provider._id}>{provider.nombre}</option>    

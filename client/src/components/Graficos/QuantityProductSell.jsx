@@ -62,8 +62,8 @@ const QuantityProductSell = () => {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="categoria" />
-      <YAxis />
+      <XAxis dataKey="categoria" tick={{ fill: '#595858', style:{ fontWeight: 'bold' }  }} />
+      <YAxis  />
       <Tooltip />
       <Area type="monotone" dataKey="cantidad" stroke="#728EC3" fill="#728EC3" />
     </AreaChart>

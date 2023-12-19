@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import './App.css'
 import {Routes, Route} from "react-router-dom"
 import Main from './pages/Main'
@@ -14,22 +15,22 @@ import { UserProvider } from './context/userContext'
 import ClientsTable from './components/DashBoardClients/ClientsTable'
 import UsersTable from './components/users/usersTable'
 import PurchaseSidebarDetail from './components/DashboardPuchaseDetail/PurchaseSidebarDetail'
+import PruebaVentas from './components/DashboardSell/PruebaVentas'
 
 
 
 function App() {
- 
+
 
   return (
-    <div>
+   
         <UserProvider>
             <Navbar />
                 <Routes>
                     <Route path="/main" element={<Main/>}></Route>
                     <Route path="/" element={<Login/>}></Route>
                     <Route path="/register" element={<Register/>}></Route> 
-                    <Route path="prueba" element={<ContenedorDeGraficos/>}></Route>
-                    <Route path="tt" element={<Templa/>}></Route>
+                    <Route path="prueba" element={<PruebaVentas/>}></Route>
                     <Route path="productosDashboard" element={<ProductsSidebarDetail/>}></Route>
                     <Route path="ventasDashboard" element={<SellsSidebardDetail/>}></Route>
                     <Route path="comprasDashboard" element={<PurchaseSidebarDetail/>}></Route>
@@ -38,7 +39,7 @@ function App() {
                 </Routes>
           <SidebarComponent/>
         </UserProvider>
-    </div>
+   
   )
 }
 

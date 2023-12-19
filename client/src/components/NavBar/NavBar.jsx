@@ -27,9 +27,10 @@ export default function Navbar() {
   ];
 
   
-
+  {/*className="mx-auto w-full px-2 sm:px-6 lg:px-8 fixed top-0 left-0 right-0 main-content z-50 bg-gray-200"*/}
   return (
-   <div className='fixed inset-x-0 top-0 h-16 w-full' style={{backgroundColor:"#728EC3"}}> {/*75px*/}
+  
+   <div className=' fixed z-50 top-0 left-0 right-0 inset-x-0  h-16 w-full' style={{backgroundColor:"#728EC3"}}> 
         <div className="w-full flex items-center justify-between  red-600 h-12 mt-2">
             <div className="flex ml-6 items-center"> 
                <div className="dropdown block md:hidden">

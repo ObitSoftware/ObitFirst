@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import VentasPorMes from '../Graficos/VentasPorMes';
 import { getMonthGains, getAllGains, getImprovementPercentage, getTotalYearMoneyFactured, getTotalMonthMoneyFactured, bestSells} from './FunctionsGetDataOfSells';
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
+import { formatePrice } from '../../functions/formatPrice';
 
 
 
@@ -30,7 +31,8 @@ const SellsSidebardDetail = () => {
     const fetchData = async () => {
       try {
         const gains = await getMonthGains();
-        setTotalMonthGains(gains);
+        const gainsFormated =  formatePrice(gains)
+        setTotalMonthGains(gainsFormated);
       } catch (error) {
         console.error(error);
       }
@@ -45,6 +47,7 @@ const SellsSidebardDetail = () => {
     const getPorcentage = async () => {
       try {
         const thePorcentage = await getImprovementPercentage();
+
         setPorcentage(thePorcentage);
       } catch (error) {
         console.error(error);
@@ -59,7 +62,8 @@ const SellsSidebardDetail = () => {
     const getEverGains = async () => {
       try {
         const allGains = await getAllGains();
-        setTotalEverGains(allGains);
+        const formatedPrice = formatePrice(allGains)
+        setTotalEverGains(formatedPrice);
       } catch (error) {
         console.error(error);
       }
@@ -73,7 +77,8 @@ const SellsSidebardDetail = () => {
     const getTotalAnualFactured = async () => {
       try {
         const totalAnualFacturedAtTheMoment = await getTotalYearMoneyFactured();
-        setTotalAnualFactured(totalAnualFacturedAtTheMoment);
+        const totalFormated = formatePrice(totalAnualFacturedAtTheMoment)
+        setTotalAnualFactured(totalFormated);
       } catch (error) {
         console.error(error);
       }
@@ -86,7 +91,8 @@ const SellsSidebardDetail = () => {
     const getTotalMonthFacturedNow = async () => {
       try {
         const totalMonthFacturedAtTheMoment = await getTotalMonthMoneyFactured();
-        setTotalMonthFactured(totalMonthFacturedAtTheMoment);
+        const totalFormated = formatePrice(totalMonthFacturedAtTheMoment)
+        setTotalMonthFactured(totalFormated);
       } catch (error) {
         console.error(error);
       }
@@ -164,7 +170,7 @@ const SellsSidebardDetail = () => {
                             </div>
                           </div>
                           <div className='flex items-center justify-center mt-4'>
-                            <p className='text-sm font-bold' style={{color:"#728EC3"}}> {totalMonthGains !== null ? totalMonthGains + " ARS" : 'Cargando...'}</p>
+                            <p className='text-sm font-bold' style={{color:"#728EC3"}}> {totalMonthGains !== null ? totalMonthGains : 'Cargando...'}</p>
                           </div>
                         </div>
                         <div>
@@ -187,7 +193,7 @@ const SellsSidebardDetail = () => {
                       </div>
                     </div>
                     <div className='flex items-center justify-center mt-4'>
-                    <p className='text-sm font-bold' style={{color:"#728EC3"}}> {totalEverGains !== null ? totalEverGains + " ARS" : 'Cargando...'}</p>
+                    <p className='text-sm font-bold' style={{color:"#728EC3"}}> {totalEverGains !== null ? totalEverGains : 'Cargando...'}</p>
                     </div>
                   </div>
                 </CardBody>
@@ -244,7 +250,7 @@ const SellsSidebardDetail = () => {
                             <ul className='flex justify-start items-start text-start gap-2 mt-2 text-xs font-bold' key={index}  style={{color:"#728EC3"}}>
                                 <li>{b.nombreProducto}</li>
                                 <li>{b.nombreCliente}</li>
-                                <li>{b.total}$</li>
+                                <li>{formatePrice(b.total)}</li>
                             </ul>                                            
                         ))}
                     </div>
@@ -308,7 +314,7 @@ const SellsSidebardDetail = () => {
                                   color:"black"
                                 }}
                                >
-                                {totalAnualFactured} ARS
+                                {totalAnualFactured}
                             </div>
                              : 
                              null}
@@ -328,7 +334,7 @@ const SellsSidebardDetail = () => {
                               color:"black"
                             }}
                            >
-                            {totalMonthFactured} ARS
+                            {totalMonthFactured}
                             </div>
                              : 
                              null}

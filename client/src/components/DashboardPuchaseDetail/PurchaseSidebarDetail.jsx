@@ -5,11 +5,36 @@ import iconProduct from "../../img/productsIcon.png"
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import QuantityCategoryProductsPurchase from '../Graficos/QuantityCategoryProductsPurchase';
 import { getQuantityProductsCategory } from '../DashboardProducts/FunctionsGetDataOfProducts';
+import { formatePrice } from '../../functions/formatPrice';
+import axios from 'axios';
 
 
 
 
 const PurchaseSidebarDetail = () => {
+
+   const [products, setProducts] = useState([])
+   const [productId, setProductId] = useState([])
+
+  useEffect(() => { 
+    axios.get(`http://localhost:3000/productos/${productId}`)
+         .then((res) => { 
+          console.log("EL PRODUCTO: ", res.data)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }, [productId])
+
+  useEffect(() => { 
+    axios.get(`http://localhost:3000/productos`)
+         .then((res) => { 
+          setProducts(res.data)
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }, [])
 
     const [totalInvertedAmount, setTotalInvertedAmount] = useState("")
     const [invertedMonthAmount, setInvertedMonthAmount] = useState("")
@@ -24,7 +49,8 @@ const PurchaseSidebarDetail = () => {
           const getTotal = async () => { 
             try {
                 const total = await getTotalInvertedAmount()
-                setTotalInvertedAmount(total)
+                const formatedTotal = formatePrice(total)
+                setTotalInvertedAmount(formatedTotal)
             } catch (error) {
                 console.error(error);
             }
@@ -36,7 +62,8 @@ const PurchaseSidebarDetail = () => {
           const getTotalMonth = async () => { 
           try {
               const total = await getTotalInvertedMonth()
-              setInvertedMonthAmount(total)
+              const formatedTotal = formatePrice(total)
+              setInvertedMonthAmount(formatedTotal)
           } catch (error) {
               console.error(error);
           }
@@ -101,6 +128,13 @@ const PurchaseSidebarDetail = () => {
       getQuantityMonth()
     }, [monthSelected])
 
+    
+    useEffect(() => { 
+    console.log(productId)
+    }, [productId])
+
+
+ 
   
 
 
@@ -125,7 +159,7 @@ const PurchaseSidebarDetail = () => {
                            <p className='font-bold text-xs'>Monto total Invertido en Compras</p>
                         </div>   
                         <div className='flex items-center justify-center mt-6'>
-                          <p className='text-md font-bold'style={{color:'#728EC3'}}>{totalInvertedAmount} ARS</p>
+                          <p className='text-md font-bold'style={{color:'#728EC3'}}>{totalInvertedAmount} </p>
                         </div>               
                       </div>
                       </CardBody>
@@ -140,7 +174,7 @@ const PurchaseSidebarDetail = () => {
                            <p className='font-bold text-xs'>Monto total Invertido del Mes</p>
                         </div>   
                         <div className='flex items-center justify-center mt-6'>
-                          <p className='text-md font-bold'style={{color:'#728EC3'}}>{invertedMonthAmount} ARS</p>
+                          <p className='text-md font-bold'style={{color:'#728EC3'}}>{invertedMonthAmount} </p>
                         </div>               
                       </div>
                 </CardBody>
@@ -186,7 +220,7 @@ const PurchaseSidebarDetail = () => {
                                  <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> {t.proveedor} </p>                           
                                ))}
                                   <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> / </p>
-                                  <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> <b className='text-black font-medium'>Monto:</b> {top.total} ARS</p>
+                                  <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> <b className='text-black font-medium'>Monto:</b> {formatePrice(top.total)} </p>
                             </div>
                           ))}
                         </div>               
@@ -195,15 +229,35 @@ const PurchaseSidebarDetail = () => {
             </Card>
             </div>
     </div>
+
+ 
     
     <div class="col-span-1 ">
             <Card isHoverable={true} className='bg-white h-64 flex items-center justify-center w-full'>
                 <CardBody>
-                    lalala
+                    <div className='flex items-center justify-start'>
+                        <p className='font-bold text-xs'>Historial de Compras por Producto</p>
+                    </div>
+                    <div className='mt-6 text-center justify-center flex'>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <small className="text-xs font-bold">Selecciona el Producto</small>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Dynamic Actions" className='max-h-[250px] overflow-y-auto'>
+                        {products.map((p) => (
+                          <DropdownItem key={p._id} onClick={() => setProductId(p._id)}>
+                            {p.nombre}
+                          </DropdownItem>
+                        ))}
+                      </DropdownMenu>
+                  </Dropdown>
+                    </div>
                 </CardBody>
             </Card>
     </div>
 </div>
+
+                 
 
 <div class="col-span-3 grid grid-cols-4 gap-4" onClick={() => quantityPurchaseOfAllCategorys()}>
     <div class="col-span-3 ">

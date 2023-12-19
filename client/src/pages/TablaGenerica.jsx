@@ -18,6 +18,7 @@ import ChooseBranch from "../components/Branch/ChooseBranch";
 import AddClientModal from "../components/Modals/AddClientModal";
 import ViewBuyDetail from "../components/Modals/ViewBuyDetail";
 import AddBuyModal from "../components/Modals/AddBuyModal";
+import { formatePrice } from "../functions/formatPrice";
 
 const Tabla = () => {
     const tableRef = useRef(null);
@@ -477,18 +478,18 @@ const Tabla = () => {
             <div className="w-full flex justify-start items-start ">
               <ChooseBranch/>
             </div>
-          <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full mt-2 xl:mt-2 3xl:mt-12 " style={{backgroundColor:"#E6EFFF"}}>
+            <div className="flex h-14 justify-between items-center rounded-t-lg rounded-b-none w-full mt-2 xl:mt-8 3xl:mt-12 " style={{backgroundColor:"#E6EFFF"}}>
                <div className="flex justify-start items-center m-4 gap-8">
                   <FiltersModal />
-                  <div className="tabs tabs-boxed gap-4" style={{backgroundColor:"#E6EFFF"}}>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "productos" ? "#728EC3" : "#A6BBE4" }}  onClick={() => setActiveTab("productos") }>Productos</a>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "proveedores" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("proveedores")}>Proveedores</a>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "clientes" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("clientes")}>Clientes</a>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "venta" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("venta")}>Ventas</a>
-                            <a className="tab text-white hover:text-white" style={{ backgroundColor: activeTab === "compras" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("compras")}>Compras</a>
+                        <div className="tabs tabs-boxed gap-8 ml-8" style={{backgroundColor:"#E6EFFF"}}>
+                            <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: activeTab === "productos" ? "#728EC3" : "#A6BBE4" }}  onClick={() => setActiveTab("productos") }>Productos</a>
+                            <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: activeTab === "proveedores" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("proveedores")}>Proveedores</a>
+                            <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: activeTab === "clientes" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("clientes")}>Clientes</a>
+                            <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: activeTab === "venta" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("venta")}>Ventas</a>
+                            <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: activeTab === "compras" ? "#728EC3" : "#A6BBE4" }} onClick={() => setActiveTab("compras")}>Compras</a>
                         </div>
                 </div>    
-                <div className="flex justify-end items-center m-4">
+                <div className="flex justify-end items-center mr-20">
                   {activeTab === "productos" ? 
                   <AddProductModal updateList={showProductsUpdated} showLike={"likeButton"}/>
                    : activeTab === "proveedores" ? <AddProviderModal updateList={showProvidersEdited}/> 
@@ -520,7 +521,7 @@ const Tabla = () => {
               {(column) => (
                 <TableColumn
                   key={column.key}
-                  className="text-center "
+                  className="text-center text-sm"
                   allowsSorting={column.key === "total" || column.key === "precio" || column.key === "stock"}
                   onClick={() => {
                     if (column.key === "total" || column.key === "precio" || column.key === "stock") {
@@ -537,16 +538,31 @@ const Tabla = () => {
             </TableHeader>
 
             <TableBody items={filteredData} className="flex items-start justify-start">
-              {(item) => (
-               <TableRow key={item._id} className="">
-                  {columns.map((column) => (
-                    <TableCell align="center" key={column.key}   className={`text-center text-black dark:text-black ${getStockClass(item.stock, column.key)}`}>
-                      {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              )}
-            </TableBody>
+  {(item) => (
+    <TableRow key={item._id} className="">
+      {columns.map((column) => (
+        <TableCell
+          align="center"
+          key={column.key}
+          className={`text-center text-black dark:text-black ${getStockClass(item.stock, column.key)}`}
+        >
+          {column.cellRenderer ? (
+            column.cellRenderer({ row: { original: item } })
+          ) : (
+            (column.key === "precio" ||
+              column.key === "precioCompra" ||
+              column.key === "total" ||
+              column.key === "gananciaNeta") ? (
+                formatePrice(item[column.key])
+            ) : (
+              item[column.key]
+            )
+          )}
+        </TableCell>
+      ))}
+    </TableRow>
+  )}
+</TableBody>
           </Table>
             <div className="flex items-center justify-center text-center mt-2">
                <PaginationTable firstNumberToSliceData={firstNumSlice} secondNumberToSliceData={secondNumSlice}/>

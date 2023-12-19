@@ -6,6 +6,7 @@ import  HistoricGainsProduct  from '../Graficos/HistoricGainsProduct';
 import RankingVentaProductos from '../Graficos/RankingVentaProductos';
 import VentasPorMes from '../Graficos/VentasPorMes';
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
+import { formatePrice } from '../../functions/formatPrice';
 
 
 
@@ -36,7 +37,8 @@ const ProductsSidebarDetail = () => {
          const getTotalMoneyInverted = async () => { 
             try {
                const total = await calcularMontoTotal()
-               setTotalMoneyInverted(total)
+               const formatedNmber = formatePrice(total)
+               setTotalMoneyInverted(formatedNmber)
             } catch (error) {
                 console.error(error);
             }
@@ -129,7 +131,7 @@ const ProductsSidebarDetail = () => {
                             <p className='font-bold text-xs'>Total Invertido de Stock Actual</p>
                         </div>
                         <div className='flex items-center justify-center mt-6'>
-                            <p className='font-bold text-sm' style={{color:'#728EC3', }}> {totalMoneyInverted} ARS</p>
+                            <p className='font-bold text-sm' style={{color:'#728EC3', }}> {totalMoneyInverted} </p>
                         </div>
                     </CardBody>
                 </Card>
@@ -206,7 +208,7 @@ const ProductsSidebarDetail = () => {
                              <div className='flex flex-col items-start justify-start text-start mt-8 '>
                                 {productsWithMoreNetGains.map((p) => ( 
                                      <ul className='flex gap-2 mt-2'>
-                                     <li className='font-bold text-sm' style={{color:'#728EC3'}}>{p.productName} - {p.netGain} ARS</li>
+                                     <li className='font-bold text-sm' style={{color:'#728EC3'}}>{p.productName} - {formatePrice(p.netGain)}  </li>
                                  </ul>
                                 ))}
                              </div>
@@ -279,3 +281,4 @@ const ProductsSidebarDetail = () => {
 }
 
 export default ProductsSidebarDetail
+

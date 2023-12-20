@@ -33,14 +33,15 @@ const QuantityCategoryProductsPurchase = () => {
 
 
     return (
-
-        <BarChart width={750} height={220}  data={quantityOfCategorys} margin={{top: 15,  right: 30,  left: 20,  bottom: 5,}}>
-          <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="categoriaProducto" />
-              <YAxis />
-               <Tooltip />
-                <Bar dataKey="cantidad" fill="#728EC3" activeBar={<Rectangle fill="#5C77A9" stroke="blue" />} />
-        </BarChart>
+      <ResponsiveContainer width="100%" height={190}>
+          <BarChart width={130} height={220}  data={quantityOfCategorys} margin={{top: 15,  right: 30,  left: 20,  bottom: 5,}}>
+            <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="categoriaProducto" />
+                <YAxis />
+                <Tooltip />
+                  <Bar dataKey="cantidad" fill="#728EC3" activeBar={<Rectangle fill="#5C77A9" stroke="blue" />} />
+          </BarChart>
+        </ResponsiveContainer>
 
 
     );

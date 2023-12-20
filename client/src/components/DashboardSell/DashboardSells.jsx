@@ -17,7 +17,7 @@ import arrowGreen from "../../img/arrowGreen.png"
 
 
 
-const PruebaVentas = () => {
+const DashboardSells = () => {
 
     const [totalMonthGains, setTotalMonthGains] = useState(null);
     const [totalEverGains, setTotalEverGains] = useState(null);
@@ -154,7 +154,7 @@ const PruebaVentas = () => {
 
 
   return ( 
-
+    
      <div className='flex flex-col  text-center items-center justify-center ml-44 mt-24 2xl:mt-2'>
          <div class="grid grid-cols-3 gap-4 ">
             <div class="col-span-2">
@@ -163,7 +163,7 @@ const PruebaVentas = () => {
                           <Card isHoverable={true} className='bg-white h-72 flex flex-col items-center justify-center' style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}> 
                               <CardBody>
                               <div className='flex items-start justify-start ml-4'>
-                                  <p className='font-medium text-gray-500 text-lg'>Ventas Mensuales</p>
+                                  <p className='text-zinc-600  font-medium font-inter text-lg'>Ventas Mensuales</p>
                               </div>
                               <div className='flex items-center justify-center flex-grow mt-4'>
                                   <div className='flex items-center justify-center mt-4  h-full w-full'>                          
@@ -181,7 +181,7 @@ const PruebaVentas = () => {
                                           <DropdownTrigger>                                           
                                             <div className='flex items-center cursor-pointer'> 
                                               <img src={arrowGreen} className='h-2 w-2 mr-2'/> 
-                                              <small className='font-medium text-lg text-gray-500'>{selectedOption}</small> 
+                                              <small className='text-zinc-600  font-medium font-inter text-sm'>{selectedOption}</small> 
                                             </div>
                                           </DropdownTrigger>
                                           <DropdownMenu aria-label="Dynamic Actions">
@@ -197,8 +197,10 @@ const PruebaVentas = () => {
                                   <div className='flex items-center justify-center mt-4'>
                                           {showTotalAnualFactured ?    
                                             <div className='flex flex-col items-center justify-center mt-4 '>
-                                                 <p className='font-medium text-xl border rounded-lg border-green-400' style={{color:"#327D65"}}>{totalAnualFactured} </p>   
-                                                 <img src={factured} className='w-16 h-16 mt-4 object-fit-contain'/>
+                                              <div className='border border-green-400 rounded-lg w-full'>
+                                                <p className='font-medium text-xl  rounded-lg m-1 ml-2 mr-2' style={{color:"#327D65"}}>{totalAnualFactured} </p>
+                                              </div>
+                                                 <img src={factured} className='w-14 h-14 2xl:w-16 2xl:h-16 mt-8 2xl:mt-4 object-fit-contain'/>
                                             </div>                                                                         
                                                                 
                                           :   
@@ -207,7 +209,7 @@ const PruebaVentas = () => {
                                           {showTotalMonthFactured ?                                            
                                              <div className='flex flex-col items-center justify-center mt-4'>
                                                  <p className='font-medium text-xl' style={{color:"#327D65"}}>{totalMonthFactured} </p>   
-                                                 <img src={factured} className='w-16 h-16 mt-4 object-fit-contain'/>
+                                                 <img src={factured} className='w-16 h-16 mt-8 2xl:mt-4 object-fit-contain'/>
                                              </div>                                            
                                           : 
                                           null}
@@ -220,12 +222,11 @@ const PruebaVentas = () => {
 
             <div class="col-span-2 "> 
               <div className='flex '>
-                <div className='w-2/5 '>
+                <div className='w-5/12 2xl:w-4/12'>
                     <div className='flex flex-col items-center justify-center'>
                       <div className='mt-2 w-full'>
                    
-                      <Card isHoverable={true} className=' bg-white h-24 flex items-center justify-center  w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
-
+                      <Card isHoverable={true} className=' bg-white h-24 flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
                               <CardBody className='flex '>              
                                   <div className='flex flex-col '>
                                     <div className='flex w-full justify-between'>
@@ -245,7 +246,7 @@ const PruebaVentas = () => {
                           </Card>
                       </div>
                       <div className='mt-2 w-full'>
-                          <Card isHoverable={true} className=' bg-white h-24 flex items-center justify-center w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
+                          <Card isHoverable={true} className=' bg-white h-24 flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
                               <CardBody className='flex '>
                                 <div className='flex flex-col '>
                                   <div className='flex w-full justify-between '>
@@ -267,9 +268,9 @@ const PruebaVentas = () => {
                           </Card>
                       </div>
                         <div className='mt-2 w-full'>
-                             <Card isHoverable={true} className=' bg-white h-24 rounded-xl flex items-center justify-center w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>
+                             <Card isHoverable={true} className=' bg-white h-24 rounded-xl flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>
                                 <CardBody className="flex">
-                                   <div className='flex items-center justify-start'>
+                                   <div className='flex items-center justify-start'>   
                                       <img src={arrowDash} className='h-2 w-2 object-fit-contain'/>
                                       <p className='text-xs ml-2'>Porcentaje de Crecimiento en Comparacion al mes Pasado</p>   
                                     </div>
@@ -287,13 +288,13 @@ const PruebaVentas = () => {
                          </div>
                     </div>
                 </div>
-                <div className='w-3/5 '>
+                <div className='w-9/12 2xl:w-9/12 '>
                     <Card isHoverable={true} className='bg-white h-full flex items-center justify-center' style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}> 
                         <CardBody>
                             <div className='flex items-center justify-start gap-2'>
-                                <p className='text-md font-medium text-gray-500'>Ventas por Categoria</p>
+                                <p className='text-zinc-600  font-medium font-inter text-lg'>Ventas por Categoria</p>
                             </div>
-                            <div className='flex items-center justify-center mt-4  h-full w-full'>                          
+                            <div className='flex items-center justify-center mt-4  h-full w-auto'>                          
                               <QuantityProductSell/>                            
                             </div>
                         </CardBody>
@@ -305,35 +306,30 @@ const PruebaVentas = () => {
             <div class="col-start-3 row-start-1 row-span-2 w-72 ">
                        <Card  isHoverable={true} 
                               style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)", background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.89) 28.43%, #DAE8FD 100%)' }} 
-                              className=' max-h-full overflow-y-auto flex items-center justify-center w-full'>
+                              className='h-full flex items-center justify-center w-full'>
                             <CardBody>
                                 <div className='flex items-center justify-start gap-2 mt-2'>
                                     <img src={arrowDash} className='h-2 object-fit w-2'/>
-                                    <p className='font-medium text-gray-500 text-sm'>TOP 5 VENTAS</p>
+                                    <p className='font-medium text-zinc-600 font-inter text-sm'>TOP 5 VENTAS</p>
                                 </div>
                                  {bestFiveSells.length !== 0 ?
-                                  <div className='flex flex-col items-center justify-start text-start mt-4'>
-                                      {bestFiveSells.map((b, index) => (                                     
-                                              <div className='flex flex-col items-center justify-start mt-4 '>
-                                                  <div className=' flex flex-col gap-2 mt-2 text-xs font-bold' key={index}  style={{color:"#728EC3"}}>
-                                                      <div className='flex flex-col justify-start items-center gap-2'>
-                                                          <div className='flex gap-2 items-center'>
-                                                              <img src={start} className='h-4 w-4 object-fit-contain'/>
-                                                              <p style={{color:"#728EC3"}} className='text-md'>{b.nombreCliente}</p>
-                                                          </div>
-                                                          <div className='flex flex-col justify-center items-center'>
-                                                              <p className='text-sm' style={{color:"#728EC3"}}>{b.nombreProducto}</p>
-                                                          </div> 
-                                                            <div className='mt-2'>
-                                                              <p className='text-lg font-bold' style={{color:"#4C83EA"}}>{formatePrice(b.total)}</p>
-                                                            </div>                                               
-                                                      </div>
-                                                                                            
-                                                  </div>  
-                                              </div>  
-                                                                                                                                  
-                                      ))}
-                                  </div>
+                                   <div className='flex flex-col items-center justify-center mt-8'>
+                                     <div className='flex flex-col'>
+                                     {bestFiveSells.map((p) => ( 
+                                       <div className=' flex flex-col items-start mt-4'>
+                                         <div className='flex'>
+                                           <img src={start} className='h-4 w-4 object-fit-contain'/>
+                                           <p style={{color:"#728EC3"}} className='text-md'>{p.nombreCliente}</p>
+                                         </div>
+                                         <div className='flex flex-col ml-4'>
+                                           <p className='text-sm' style={{color:"#728EC3"}}>{p.nombreProducto}</p>
+                                           <p className='text-lg font-bold mt-2' style={{color:"#4C83EA"}}>{formatePrice(p.total)}</p>
+                                         </div>                            
+                                       </div>  
+                                     ))}
+                                            
+                                   </div>
+                                </div>
                                 :
                                 <div className='flex items-center justify-center mt-6'>
                                   <p className='font-bold' style={{color:"#728EC3"}}>Cargando..</p>
@@ -345,11 +341,15 @@ const PruebaVentas = () => {
 
          </div>
      </div>
+
+    
+     
+     
   
   )
 }
 
-export default PruebaVentas
+export default DashboardSells
 
 
 /*

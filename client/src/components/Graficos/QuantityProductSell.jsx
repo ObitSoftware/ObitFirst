@@ -14,6 +14,8 @@ import {
 } from 'recharts';
 import axios from 'axios';
 
+
+
 const QuantityProductSell = () => {
   const [data, setData] = useState([]);
 
@@ -49,25 +51,39 @@ const QuantityProductSell = () => {
 
   return (
     <ResponsiveContainer width="100%" height={190}>
-    <AreaChart
-      width={500}
-      height={200}
-      data={data}
-      syncId="anyId"
-      margin={{
-        top: 10,
-        right: 30,
-        left: 0,
-        bottom: 0,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="categoria" tick={{ fill: '#595858', style:{ fontWeight: 'bold' }  }} />
-      <YAxis  />
-      <Tooltip />
-      <Area type="monotone" dataKey="cantidad" stroke="#728EC3" fill="#728EC3" />
-    </AreaChart>
-  </ResponsiveContainer>
+      <AreaChart
+        width={530}
+        height={200}
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+       <XAxis dataKey="categoria"
+          tick={{  fill: '#595858',
+            style: {
+              fontWeight: 'bold',
+              fontSize: window.innerWidth > 1400 ? "13px" : "11px",
+            },
+          }}
+          interval={window.innerWidth > 1400 ? "preserveStartEnd" : 0}
+        />
+        <YAxis
+          tick={{
+            fill: '#595858',
+            style: {
+              fontWeight: 'bold',
+              fontSize: window.innerWidth > 1400 ? "13px" : "11px", // Puedes ajustar esto según tus necesidades
+            },
+          }}
+        />
+        <Tooltip />
+        <Area type="monotone" dataKey="cantidad" stroke="#728EC3" fill="#728EC3" />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 };
 

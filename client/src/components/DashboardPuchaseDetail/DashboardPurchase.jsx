@@ -10,11 +10,13 @@ import axios from 'axios';
 import start from "../../img/star.png"
 import factured from "../../img/factured.png"
 import arrowDash from "../../img/arrowDashboard.png"
+import arrowDown from "../../img/arrowDown.png"
 import arrowGreen from "../../img/arrowGreen.png"
 import VentasPorMes from '../Graficos/VentasPorMes';
 import purchaseIcon from "../../img/purchaseIcon.png"
+import ViewBuyDetail from '../Modals/ViewBuyDetail';
 
-const PruebaCompras = () => {
+const DashboardPurchase = () => {
 
     const [products, setProducts] = useState([])
     const [productId, setProductId] = useState([])
@@ -46,7 +48,7 @@ const PruebaCompras = () => {
      const [quantityPurchaseMonth, setQuantityPurchaseMonth] = useState([])
      const [showEverPurchase, setShowEverPurchase] = useState(true)
      const [porcentage, setPorcentage] = useState("")
-     const [monthSelected, setMonthSelected] = useState("")
+     const [monthSelected, setMonthSelected] = useState("Diciembre")
  
          useEffect(() => { 
            const getTotal = async () => { 
@@ -156,15 +158,15 @@ const PruebaCompras = () => {
                      <Card isHoverable={true} className='bg-white h-72 flex items-center justify-center w-full'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}> 
                          <CardBody>
                             <div className='flex flex-col justify-between items-center'>
-                                           <div className='flex items-center cursor-pointer'> 
+                                           <div className='flex items-center cursor-pointer '> 
                                                 <img src={arrowDash} className='h-2 w-2 mr-2'/> 
                                                 <small className='text-zinc-600  font-medium font-inter text-sm'>Cantidad total de compras</small> 
                                             </div>  
                                  <Dropdown>
                                     <DropdownTrigger>
                                         <div className='flex gap-2 items-center mt-4'>
-                                           <small  className="text-xs font-bold" >Dic</small> 
-                                           <small  className="text-xs font-bold" >2023</small> 
+                                           <small  className="text-xs font-bold" >{monthSelected}</small> 
+                                           <img src={arrowDown} className='w-2 h-2'/>
                                         </div>                                      
                                     </DropdownTrigger>
                                          <DropdownMenu aria-label="Dynamic Actions" className='max-h-[250px] overflow-y-auto'>
@@ -178,8 +180,8 @@ const PruebaCompras = () => {
                                             <DropdownItem onClick={() => setMonthSelected("agosto")}> Agosto </DropdownItem>
                                             <DropdownItem onClick={() => setMonthSelected("septiembre")}> Septiembre </DropdownItem>
                                             <DropdownItem onClick={() => setMonthSelected("octubre")}> Octubre </DropdownItem>  
-                                            <DropdownItem onClick={() => setMonthSelected("noviembre")}> Noviembre </DropdownItem>           
-                                            <DropdownItem onClick={() => setMonthSelected("diciembre")}> Diciembre </DropdownItem>           
+                                            <DropdownItem onClick={() => setMonthSelected("Noviembre")}> Noviembre </DropdownItem>           
+                                            <DropdownItem onClick={() => setMonthSelected("Diciembre")}> Diciembre </DropdownItem>           
                                          </DropdownMenu>
                                  </Dropdown>  
                               </div>  
@@ -276,36 +278,45 @@ const PruebaCompras = () => {
                          style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)", background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.89) 28.43%, #DAE8FD 100%)' }} 
                          className='h-full flex items-center justify-center w-full'>
                        <CardBody>
-                            <div className='flex flex-col'>
-                                <div className='flex items-center justify-start gap-2 mt-2'>
-                                    <img src={arrowDash} className='h-2 object-fit w-2'/>
-                                    <p className='font-medium text-zinc-600 font-inter text-sm'>TOP COMPRAS A PROVEEDORES</p>
-                                </div> 
-                                  <div className='flex flex-col items-center justify-center mt-8'>
-                                     <div className='flex flex-col'>
-                                        {topFivePurchase.map((top) => ( 
-                                               <div className=' flex flex-col items-start mt-4'>
-                                               <div className='flex'>
-                                                 <img src={start} className='h-4 w-4 object-fit-contain'/>
-                                                    {top.productosComprados.map((t) => (         
-                                                        <div className='flex flex-col'> 
-                                                            <div className='flex flex-col items-center '>
-                                                               <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> {t.proveedor} </p> 
-                                                               <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> {t.nombreProducto} </p>  
-                                                            </div>                                                                                                               
-                                                        </div>                                                                                                                                   
-                                                     ))}
-                                               </div>
-                                               <div className='flex flex-col mt-4 ml-4'>
-                                               <p className='text-lg font-bold mt-2' style={{color:"#4C83EA"}}> {formatePrice(top.total)} </p>
-                                               </div>                            
-                                             </div>  
-                                        ))}
-                                     </div>
-                               
-                                  </div>               
-                            </div>
-                       </CardBody>
+                          <div className='flex flex-col'>
+                            <div className='flex items-center justify-start gap-2 mt-2'>
+                              <img src={arrowDash} className='h-2 object-fit w-2'/>
+                              <p className='font-medium text-zinc-600 font-inter text-sm'>TOP COMPRAS A PROVEEDORES</p>
+                            </div> 
+                            <div className='flex flex-col items-center justify-center mt-8'>
+                              <div className='flex flex-col'>
+                                {topFivePurchase.map((top) => ( 
+                                  <div key={top._id} className='flex flex-col items-start mt-4'>
+                                    <div className='flex'>
+                                      <img src={start} className='h-4 w-4 object-fit-contain'/>
+                                      <p className='text-xs'>Proveedores: </p>
+                                      {top.productosComprados.map((t, index) => (         
+                                        <div key={index} className='flex flex-col'> 
+                                          <div className='flex flex-col items-center'>
+                                            <p className='text-xs font-medium ml-2' style={{color:'#728EC3'}}> {t.proveedor} </p>                                                             
+                                          </div>                                                                                                               
+                                        </div>                                                                                                                                   
+                                      ))}
+                                    </div>
+                                    <div className='flex flex-col ml-2'>
+                                      {/* Aquí puedes construir las props para ViewBuyDetail */}
+                                      <ViewBuyDetail
+                                        type={"dashboard"}
+                                        producto={{
+                                          id: top._id,
+                                          detail: top.productosComprados,
+                                          date: top.fechaCompra,
+                                        }}
+                                        totalAmount={top.total}
+                                      />
+                                      <p className='text-lg font-bold mt-4 ml-2' style={{color:"#4C83EA"}}> {formatePrice(top.total)} </p>
+                                    </div>                            
+                                  </div>  
+                                ))}
+                              </div>
+                            </div>               
+                          </div>
+                        </CardBody>
                    </Card>
        </div>
 
@@ -316,7 +327,7 @@ const PruebaCompras = () => {
   )
 }
 
-export default PruebaCompras
+export default DashboardPurchase
 
 
 

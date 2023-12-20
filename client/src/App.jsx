@@ -13,9 +13,10 @@ import ProductsSidebarDetail from './components/DashboardProducts/ProductsSideba
 import { UserProvider } from './context/userContext'
 import ClientsTable from './components/DashBoardClients/ClientsTable'
 import UsersTable from './components/users/usersTable'
-import PurchaseSidebarDetail from './components/DashboardPuchaseDetail/PurchaseSidebarDetail'
+import DashboardPurchase from './components/DashboardPuchaseDetail/DashboardPurchase'
 import DashboardSells from './components/DashboardSell/DashboardSells'
-import PruebaCompras from './components/DashboardPuchaseDetail/PruebaCompras'
+import PruebaProductos from './components/DashboardProducts/PruebaProductos'
+
 
 
 
@@ -23,13 +24,11 @@ function App() {
 
   const location = useLocation();
 
-  useEffect(() => {
-    if (location.pathname === '/ventasDashboard'  || '/prueba') {
-      document.body.style.backgroundColor = '#E6F4FF';
-    }  else {
-      document.body.style.backgroundColor = 'white';
-    }
-  }, [location]);
+  if (location.pathname === '/ventasDashboard' || location.pathname === '/comprasDashboard' || location.pathname === '/prueba') {
+    document.body.style.backgroundColor = '#E6F4FF';
+  } else {
+    document.body.style.backgroundColor = 'white';
+  }
 
   return (
    
@@ -41,10 +40,11 @@ function App() {
                     <Route path="/register" element={<Register/>}></Route> 
                     <Route path="productosDashboard" element={<ProductsSidebarDetail/>}></Route>
                     <Route path="ventasDashboard" element={<DashboardSells/>}></Route>
-                    <Route path="comprasDashboard" element={<PurchaseSidebarDetail/>}></Route>
+                    <Route path="comprasDashboard" element={<DashboardPurchase/>}></Route>
                     <Route path="clientData" element={<ClientsTable/>}></Route>
                     <Route path="usersData" element={<UsersTable/>}></Route>
-                    <Route path="prueba" element={<PruebaCompras/>}></Route>
+                    <Route path="prueba" element={<PruebaProductos/>}></Route>
+            
                 </Routes>
           <SidebarComponent/>
         </UserProvider>

@@ -153,7 +153,7 @@ const Tabla = () => {
               date: dateOfBuy,
             };
         
-            return <ViewBuyDetail producto={producto} totalAmount={total}/> ;
+            return <ViewBuyDetail producto={producto} totalAmount={total} type={"table"}/> ;
           },
         })}
 

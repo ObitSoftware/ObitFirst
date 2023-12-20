@@ -4,7 +4,7 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyV
 
 
 
-const ViewBuyDetail = ({ producto, totalAmount }) => {
+const ViewBuyDetail = ({ producto, totalAmount, type }) => {
   const { isOpen, onOpen, onClose } = useDisclosure("");
   const [successMessage, setSuccessMessage] = useState(false);
   const [columns, setColumns] = useState([]);
@@ -34,9 +34,15 @@ const ViewBuyDetail = ({ producto, totalAmount }) => {
 
   return (
     <>
+        {type === "table" ? 
       <small onClick={onOpen} className="bg-white text-background font-bold cursor-pointer" style={{ color: "#60BCFF" }}>
         Ver Detalle
-      </small>
+      </small> 
+      :
+      type === "dashboard" ? 
+      <p onClick={onOpen} className='text-xs font-medium ml-2 underline cursor-pointer'  style={{color:'#728EC3'}}> Ver Detalle</p>
+      : null
+      }
       <Modal isOpen={isOpen} onClose={onClose} className='max-w-max bg-white text-black'>
         <ModalContent>
           {(onClose) => (
@@ -52,7 +58,7 @@ const ViewBuyDetail = ({ producto, totalAmount }) => {
                 <div className='flex flex-col text-center items-center justify-center mt-6'>
                   {producto && producto.detail && Array.isArray(producto.detail) && producto.detail.length > 0 ? (
                     <>
-                         <Table aria-label="Example table with dynamic content" className="w-full flex items-center justify-center ">
+                         <Table aria-label="Example table with dynamic content" className="w-full flex items-center justify-center">
                               <TableHeader columns={columns}>
                                 {(column) => (
                                   <TableColumn key={column.key} className="text-xs gap-6">

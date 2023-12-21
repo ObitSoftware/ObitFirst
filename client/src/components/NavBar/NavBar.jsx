@@ -31,8 +31,8 @@ export default function Navbar() {
   return (
   
    <div className=' fixed z-50 top-0 left-0 right-0 inset-x-0  h-16 w-full' style={{backgroundColor:"#728EC3"}}> 
-        <div className="w-full flex items-center justify-between  red-600 h-12 mt-2">
-            <div className="flex ml-6 items-center"> 
+        <div className="w-full flex items-center justify-end  red-600 h-12 mt-2">
+            <div className="flex mr-6 items-center"> 
                <div className="dropdown block md:hidden">
                     <label tabIndex={1} className="btn btn-ghost btn-circle">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-black">
@@ -45,10 +45,8 @@ export default function Navbar() {
                         <li><a>.............</a></li>
                     </ul>
                 </div>
-                <div className=" flex text-center justify-center rounded-full" style={{backgroundColor:"#D3D3D3"}}>
-                  <img src={obitLogoSmall} className="h-8 w-8 m-2"/>
-                </div>
-                 <div className="hidden lg:block">
+               <div className="flex items-center gap-4">
+               <div className="hidden lg:block">
                     <div className="flex flex-col ml-4 items-start  justify-center">
                        {userCtx.userId !== null ?
                          <div className="flex flex-col items-start justify-start text-start">
@@ -58,17 +56,15 @@ export default function Navbar() {
                          :
                         <p  className="text-white font-bold text-sm">OBIT SOFTWARE</p>
                       }        
-                    </div>
-                  
+                    </div>                  
                  </div>
+                 <div className=" flex text-center justify-center rounded-full" style={{backgroundColor:"#D3D3D3"}}>
+                  <img src={obitLogoSmall} className="h-8 w-8 m-2"/>
+                </div>
+               </div>
+              
             </div>
-            <div className="flex items-center mr-6">
-                <div className="avatar">
-                <div className="w-6 rounded-full m-2">
-                    <DropDownNavBarOptions/>
-                </div>
-                </div>
-           </div>
+           
         </div>
    </div> 
     

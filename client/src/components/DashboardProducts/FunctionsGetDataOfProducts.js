@@ -179,4 +179,14 @@ export const getHistoricGainsOfProduct = async () => {
   };
 
 
+  export const getCategorys = async () => { 
+    try {
+      const response = await axios.get("http://localhost:3000/getAllCategorys")
+      const data = response.data
+      return data;
+    } catch (error) {
+       console.log(error)
+    }
+  }
+
 

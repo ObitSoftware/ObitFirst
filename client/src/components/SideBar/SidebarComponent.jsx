@@ -11,6 +11,10 @@ import { Link } from 'react-router-dom';
 import AddClientModal from '../Modals/AddClientModal';
 import usersIcon from "../../img/people.png"
 import AddCategory from '../Modals/AddCategory';
+import config from "../../img/confi.png"
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 function getItem(label, key, icon, children) {
   return { key, icon, children, label, };
@@ -26,6 +30,21 @@ const styles = {
 const SidebarComponent = () => {
 
   const [collapsed, setCollapsed] = useState(true);
+
+  const navigate = useNavigate()
+  const userCtx = useContext(UserContext)
+
+  const logOut = () => { 
+    userCtx.updateUser(null)
+    userCtx.updateUserName(null)
+    userCtx.updateUserRol(null)
+    userCtx.updateUserEmail(null)
+  }
+
+  const goToPage = (rute) => { 
+    navigate(rute)
+    logOut()
+}
   
   
  
@@ -51,7 +70,7 @@ const SidebarComponent = () => {
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold',}}>Estadisticas</p>, 'sub2', (
         <img src={estadistics} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
-        getItem(<Link to="/productosDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Proveedores</p></Link>, '10'),
         getItem(<Link to="/comprasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Compras</p></Link>, '11'),
         getItem(<Link to="/ventasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ventas</p></Link>, '12'),
@@ -74,6 +93,14 @@ const SidebarComponent = () => {
       ), [
         getItem(collapsed ? <AddCategory type="white" /> : <AddCategory type="sideBar"/>, "19"),
         getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
+      ]),
+
+      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Configuracion</p>, 'sub 5', (
+        <img src={config} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+      ), [
+        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Mi perfil</p></Link>, "19"),
+        getItem(<Link to="/usersData"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Usuarios</p></Link>, '20'),
+        getItem(<p onClick={() => goToPage("/")} style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Cerrar Sesion</p>, '21'),
       ]),
   ];
 

@@ -16,7 +16,8 @@ import UsersTable from './components/users/usersTable'
 import DashboardPurchase from './components/DashboardPuchaseDetail/DashboardPurchase'
 import DashboardSells from './components/DashboardSell/DashboardSells'
 import PruebaProductos from './components/DashboardProducts/PruebaProductos'
-
+import OtraPrueba from './components/DashboardProducts/OtraPrueba'
+import PruebaTres from './components/DashboardProducts/PruebaTres'
 
 
 
@@ -43,7 +44,7 @@ function App() {
                     <Route path="comprasDashboard" element={<DashboardPurchase/>}></Route>
                     <Route path="clientData" element={<ClientsTable/>}></Route>
                     <Route path="usersData" element={<UsersTable/>}></Route>
-                    <Route path="prueba" element={<PruebaProductos/>}></Route>
+                    <Route path="prueba" element={<OtraPrueba/>}></Route>
             
                 </Routes>
           <SidebarComponent/>

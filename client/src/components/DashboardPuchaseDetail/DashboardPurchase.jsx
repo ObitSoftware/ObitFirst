@@ -140,7 +140,10 @@ const DashboardPurchase = () => {
     
 
   return (
-    <div className='flex flex-col  text-center items-center justify-center ml-44 mt-24 2xl:mt-2'>
+    <div className='flex flex-col  items-center  ml-44 mt-24 2xl:mt-2'>
+             <div className='flex justify-start items-start mb-4 2xl:mb-8 w-full'>
+                <p className='font-medium text-sm 2xl:text-md' style={{color:"#A1ABBF"}}>COMPRAS</p>  
+              </div> 
     <div class="grid grid-cols-3 gap-4 ">
        <div class="col-span-2">
            <div className='flex gap-4'>
@@ -148,7 +151,7 @@ const DashboardPurchase = () => {
                      <Card isHoverable={true} className='bg-white h-72 flex flex-col items-center justify-center' style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}> 
                          <CardBody>
                             <div className='flex items-center justify-start'>
-                                <p className='font-bold text-xs'>Historial de Compras por Producto</p>
+                              <small className='text-zinc-600 font-medium font-inter text-sm 2xl:text-lg'>Cantidad total de Productos Disponibles</small> 
                             </div>
                                 <VentasPorMes/>
                          </CardBody>

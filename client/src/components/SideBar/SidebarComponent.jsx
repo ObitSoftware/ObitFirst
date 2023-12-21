@@ -16,9 +16,20 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 
+import casaAzul from "../../img/casaAzul.png"
+import tesoreriaAzul from "../../img/tesoreriaAzul.png"
+import estadisticasAzul from "../../img/estadisticasAzul.png"
+import finanzasAzul from "../../img/finanzasAzul.png"
+
 function getItem(label, key, icon, children) {
-  return { key, icon, children, label, };
-}
+  return {
+    label,
+    key,
+    icon,
+    children,
+    onClick: () => setSelectedItem(key)
+  };
+ }
 
 const styles = {
   myMenuItem: {
@@ -30,6 +41,8 @@ const styles = {
 const SidebarComponent = () => {
 
   const [collapsed, setCollapsed] = useState(true);
+  const [selectedItem, setSelectedItem] = useState('1'); // Inicializa con el primer elemento
+
 
   const navigate = useNavigate()
   const userCtx = useContext(UserContext)
@@ -46,12 +59,16 @@ const SidebarComponent = () => {
     logOut()
 }
   
-  
- 
+
+
   const items = [
-      getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}> Inicio</p>,'1', (
+      getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }} onClick={() => alert("Inicio")}> Inicio</p>,'1', (
         <Link to="/main">
-            <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+           {selectedItem === "Inicio" ?
+              <img src={casaAzul} style={{ width: '20px', height: '20px', marginRight: '5px' }}/>
+               :
+              <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+            }
         </Link>
       )),
  
@@ -70,7 +87,7 @@ const SidebarComponent = () => {
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold',}}>Estadisticas</p>, 'sub2', (
         <img src={estadistics} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
-        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
+        getItem(<Link to="/productosDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Proveedores</p></Link>, '10'),
         getItem(<Link to="/comprasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Compras</p></Link>, '11'),
         getItem(<Link to="/ventasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ventas</p></Link>, '12'),
@@ -126,3 +143,5 @@ const SidebarComponent = () => {
   );
 };
 export default SidebarComponent;
+
+

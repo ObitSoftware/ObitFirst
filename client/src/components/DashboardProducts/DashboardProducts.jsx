@@ -13,8 +13,9 @@ import arrowDash from "../../img/arrowDashboard.png"
 import arrowGreen from "../../img/arrowGreen.png"
 import purchaseIcon from "../../img/purchaseIcon.png"
 import arrowDown from "../../img/arrowDown.png"
+import TopProductsWithMoreNetGains from '../Graficos/TopProductsWithMoreNetGains';
 
-const OtraPrueba = () => {
+const DashboardProducts = () => {
 
     const [totalQuantityProducts, setTotalQuantityProducts] = useState(null)
     const [totalMoneyInverted, setTotalMoneyInverted] = useState(null)
@@ -22,6 +23,7 @@ const OtraPrueba = () => {
     const [productsMoreBought, setProductsMoreBought] = useState([])
     const [productsWithMoreNetGains, setProductsWithMoreNetGains] = useState([])
     const [productsCategorys, setProductsCategorys] = useState([])
+    const [categorySelected, setCategorySelected] = useState("")
     const [monthSelected, setMonthSelected] = useState("")
 
     useEffect(() => {
@@ -81,6 +83,10 @@ const OtraPrueba = () => {
         getTotalByCategory()
      }, [])
 
+     useEffect(() => { 
+      console.log(quantityProductsOfCategory)
+     }, [quantityProductsOfCategory])
+
      
      useEffect(() => { 
         const getMoreBought = async () => { 
@@ -111,18 +117,23 @@ const OtraPrueba = () => {
 
 
      useEffect(() => { 
-         console.log(quantityProductsOfCategory)
-     }, [quantityProductsOfCategory])
+         console.log(categorySelected)
+     }, [categorySelected])
 
 
   return (
+    <>
+      
     <div className=' flex flex-col items-center ml-28 2xl:ml-0 mt-12 2xl:mt-2'>
-         <div className='flex flex-col '>               
+         <div className='flex flex-col '>   
+             <div className='flex justify-start items-center mb-4 2xl:mb-8'>
+                <p className='font-medium text-sm 2xl:text-md' style={{color:"#A1ABBF"}}>PRODUCTOS</p>  
+              </div>       
                <div className='flex  gap-4 2xl:gap-8 h-full'>
                   <div className='flex flex-col'>
                       <div className='w-96 2xl:w-[400px]'>
                         <div className='flex flex-col '>
-                        <Card isHoverable={true} className='bg-white h-auto 2xl:h-28 flex items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
+                        <Card isHoverable={true} className='bg-white h-24 2xl:h-28 flex items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
                             <CardBody className='flex'>
                                 <div className='flex items-center cursor-pointer'> 
                                     <img src={arrowDash} className='h-2 w-2 mr-2'/> 
@@ -135,9 +146,9 @@ const OtraPrueba = () => {
                         </Card>
                         </div>
                       </div>
-                      <div  className='w-96 2xl:w-[400px] mt-10 2xl:mt-10'>
+                      <div  className='w-96 2xl:w-[400px] mt-8 2xl:mt-8'>
                           <div className='flex flex-col'>
-                            <Card  isHoverable={true} className='bg-white h-auto 2xl:h-28 flex items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
+                            <Card  isHoverable={true} className='bg-white h-24 2xl:h-28 flex items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
                                 <CardBody className='flex'>
                                     <div className='flex justify-between items-center cursor-pointer'> 
                                       <div className='flex items-center gap-2'>
@@ -160,11 +171,16 @@ const OtraPrueba = () => {
                   </div>
                   <div className='h-auto w-full  '>
                     <div className='flex flex-col h-full '>
-                    <Card isHoverable={true} className='bg-white w-auto 2xl:w-[850px] h-auto 2xl:h-[280px] flex flex-col items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
+                    <Card isHoverable={true} className='bg-white w-auto 2xl:w-[840px] h-auto 2xl:h-[280px] flex flex-col items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
                     <CardBody>
                       <div className='flex items-start justify-between'>
                         <div className='flex items-center justify-start gap-2'>
-                           {monthSelected === "" ? <p className='font-medium text-sm 2xl:text-lg text-zinc-600'>Historial de Ventas Historico</p> : <p className='font-bold text-xs'>Historial de Venta por producto del mes de {monthSelected}</p>}
+                           {
+                              monthSelected === "" ?
+                              <p className='font-medium text-sm 2xl:text-lg text-zinc-600'>Historial de Ventas Historico</p>
+                               :
+                               <p className='font-bold text-xs'>Historial de Venta por producto del mes de {monthSelected}</p>
+                              }
                         </div>   
                         <div className='flex items-center justify-end'>
                         <Dropdown >
@@ -206,7 +222,7 @@ const OtraPrueba = () => {
                
                <div className=' flex gap-4 2xl:gap-8 mt-4'>
                    <div className=' flex flex-col w-96 2xl:w-[400px]'>
-                   <Card isHoverable={true} className='bg-white h-60 2xl:h-72 flex items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
+                   <Card isHoverable={true} className='bg-white h-60 2xl:h-72 flex items-center justify-between' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
                       <CardBody>
                            <div className='flex items-center cursor-pointer'> 
                                <img src={arrowDash} className='h-2 w-2 mr-2'/> 
@@ -217,15 +233,15 @@ const OtraPrueba = () => {
                             <DropdownTrigger>
                                 <div className='flex items-center gap-2'>
                                   <div className='flex gap-1 items-center  rounded-lg cursor-pointer' style={{backgroundColor:"#DAEFFF"}}>
-                                     <small className='text-xs text-slate-700 m-1'>Categoria</small>
+                                    {categorySelected === "" ?  <small className='text-xs text-slate-700 m-1'>Categoria</small> :  <small className='text-xs text-slate-700 m-1'>{categorySelected}</small>}
                                      <img src={arrowDown} className='h-2 w-2 mr-2'/>
-                                  </div>                                  
+                                  </div>                             
                                 </div>
                             </DropdownTrigger>
                                {productsCategorys.length !== 0 ?
                                 <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => console.log(key)}>
                                     {productsCategorys.map((c) => ( 
-                                    <DropdownItem key={c._id} >{c.nombreCategoria}</DropdownItem>
+                                    <DropdownItem key={c._id} onClick={() => setCategorySelected(c.nombreCategoria)}>{c.nombreCategoria}</DropdownItem>
                                     ))}                
                                 </DropdownMenu>
                                 :
@@ -233,19 +249,45 @@ const OtraPrueba = () => {
                             }
                             </Dropdown>
                            </div>
-                        <div className='flex items-center justify-center'>
-                            {quantityProductsOfCategory.length !== 0 ? 
-                            <div className='flex flex-col items-start justify-start text-start mt-8 '>
-                              {quantityProductsOfCategory.map((p) => ( 
-                                <ul className='flex gap-2'>
-                                    <li className='font-bold text-sm' style={{color:'#728EC3'}}>{p.categoria} - {p.cantidad}</li>
-                                </ul>
-                               ))} 
-                            </div>
-                            :
-                            <p  className='font-bold text-sm' style={{color:'#728EC3'}}>Cargando..</p>
-                            }
-                        </div>
+                           <div className='flex items-center justify-center'>
+                                  {quantityProductsOfCategory.length !== 0 ? (
+                                    <div className='flex flex-col items-start justify-start text-start mt-8 '>
+                                      {categorySelected === "" ? (                                      
+                                            quantityProductsOfCategory.map((p) => (
+                                              <div key={p.categoria} className='flex items-center justify-evenly w-full'>
+                                                <div>
+                                                  <p className='font-medium text-zinc-600'>{p.categoria}: </p>
+                                                </div>
+                                                  <div className='flex'>
+                                                      <p className='ml-4 text-zinc-600'>
+                                                         {p.cantidad === 1 ? `${p.cantidad} Unidad` : `${p.cantidad} Unidades`}
+                                                      </p>
+                                                  </div>                                            
+                                              </div>
+                                            ))                                                                                
+                                      ) : (
+                                        quantityProductsOfCategory
+                                          .filter((p) => p.categoria === categorySelected)
+                                          .map((p) => ( 
+                                            <ul className='flex flex-col' key={p.categoria}>
+                                              {p.productos.map((producto, index) => (
+                                                <div key={index} className='flex justify-between items-center  w-full'>
+                                                  <div><li className='font-medium text-zinc-600 text-xs 2xl:text-sm'>{producto}: </li></div>
+                                                    <div> 
+                                                      <li className='ml-4  text-zinc-600'>
+                                                          {p.cantidad === 1 ? `${p.cantidad} Unidad` : `${p.cantidad} Unidades`}
+                                                       </li>
+                                                    </div>                                            
+                                                </div>
+                                              ))}
+                                            </ul>
+                                          ))
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <p className='font-bold text-sm' style={{color:'#728EC3'}}>Cargando..</p>
+                                  )}
+                                </div>
                     </CardBody>
                 </Card>
                    </div>
@@ -279,26 +321,19 @@ const OtraPrueba = () => {
                             <img src={arrowDash} className='h-2 object-fit-contain w-2'/>
                             <p className='font-medium text-zinc-600 text-xs 2xl:text-sm'>Productos Que Dieron Mayor Ganancia Neta</p>
                         </div>
-                        <div className='flex items-center justify-center'>
-                          {productsWithMoreNetGains.length !== 0 ? 
-                             <div className='flex flex-col items-start justify-start text-start mt-8 '>
-                                {productsWithMoreNetGains.map((p) => ( 
-                                     <ul className='flex gap-2 mt-2'>
-                                     <li className='font-bold text-sm' style={{color:'#728EC3'}}>{p.productName} - {formatePrice(p.netGain)}  </li>
-                                 </ul>
-                                ))}
-                             </div>
-                             :
-                             <p  className='font-bold text-sm' style={{color:'#728EC3'}}>Cargando..</p>
-                          }
-                        </div>
+              
+                            <TopProductsWithMoreNetGains/>
+                      
                     </CardBody>
                 </Card>
                    </div>
                </div>
          </div>
-    </div>
+    </div>  
+   
+    </>
+  
   )
 }
 
-export default OtraPrueba
+export default DashboardProducts

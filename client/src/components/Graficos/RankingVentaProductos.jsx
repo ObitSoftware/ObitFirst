@@ -1,6 +1,6 @@
-import { Tooltip } from 'flowbite'
 import React, { useEffect, useState } from 'react'
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, Rectangle, CartesianGrid, Legend, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+
 import axios from "axios"
 
 
@@ -105,24 +105,34 @@ const RankingVentaProductos = (props) => {
 
       <BarChart data={rankingGral}>
         <CartesianGrid strokeDasharray="4 1 2" />
-        <XAxis dataKey="NombreProducto" />
-        <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
-        <Tooltip />
-        <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs'/>
+        <XAxis
+              dataKey="NombreProducto"
+              tick={{
+                fill: '#595858',
+                style: {
+                  fontWeight: 'bold',
+                  fontSize: window.innerWidth > 1400 ? "10px" : "8px",
+                },
+              }}
+              interval={window.innerWidth > 1400 ? "preserveStartEnd" : 0}
+              angle={window.innerWidth > 1400 ? 0 : -10} 
+            />
+          <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
+          <Tooltip />
+        <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs' activeBar={<Rectangle fill="#5C77A9" stroke="blue" />}/>
       </BarChart>
       :
-
       <BarChart data={rankingProductos}>
-        <CartesianGrid strokeDasharray="4 1 2" />
-        <XAxis dataKey="NombreProducto" />
-        <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
-        <Tooltip />
+         <CartesianGrid strokeDasharray="4 1 2" />
+           <XAxis dataKey="NombreProducto" />
+           <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
+           <Tooltip />
+         <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs' activeBar={<Rectangle fill="#5C77A9" stroke="blue" />}/>
+        
         {rankingProductos.length === 0 ? 
-
           <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" className="text-2xl">No hay ventas</text>
           :
-
-          <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs'/>
+         null
         }
       </BarChart>
     }
@@ -134,67 +144,3 @@ const RankingVentaProductos = (props) => {
 export default RankingVentaProductos
 
 
-
-
-/*import { Tooltip } from 'flowbite'
-import React, { useEffect, useState } from 'react'
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import axios from "axios"
-
-const RankingVentaProductos = ({width, height}) => {
-
-    const [rankingProductos, setRankingProductos] = useState([]);
-
-
-    useEffect(() => {
-        axios.get("http://localhost:3000/venta")
-          .then((res) => {
-            const productosVendidos = res.data.reduce((acc, venta) => {
-              const nombreProducto = venta.nombreProducto;
-              const cantidadVendida = venta.cantidad || 0; // Utilizar la propiedad correcta
-    
-              const index = acc.findIndex((producto) => producto.NombreProducto === nombreProducto);
-    
-              if (index !== -1) {
-                acc[index].CantidadVendida += cantidadVendida;
-              } else {
-                acc.push({
-                  NombreProducto: nombreProducto,
-                  CantidadVendida: cantidadVendida
-                });
-              }
-    
-              return acc;
-            }, []);
-    
-            productosVendidos.sort((a, b) => b.CantidadVendida - a.CantidadVendida);
-    
-            setRankingProductos(productosVendidos);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }, []);
-
-  useEffect(() => { 
-   console.log(rankingProductos)
-  }, [rankingProductos])
-
-
-  return (
-    <div className='flex items-center justify-center flex-grow '>
-    <ResponsiveContainer width="100%" height="100%" aspect={5.2} className="max-h-fit-contain- max-w-fit-contain">
-    <BarChart data={rankingProductos}>
-      <CartesianGrid strokeDasharray="4 1 2" />
-        <XAxis dataKey="NombreProducto" />
-        <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
-        <Tooltip />
-        <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs'/>
-    </BarChart>
-    </ResponsiveContainer>
-</div>
-  )
-}
-
-export default RankingVentaProductos
-*/

@@ -156,6 +156,9 @@ const DashboardSells = () => {
   return ( 
     
      <div className='flex flex-col  text-center items-center justify-center ml-44 mt-24 2xl:mt-2'>
+            <div className='flex justify-start items-start mb-4 2xl:mb-8 w-full'>
+                <p className='font-medium text-sm 2xl:text-md' style={{color:"#A1ABBF"}}>VENTAS</p>  
+            </div> 
          <div class="grid grid-cols-3 gap-4 ">
             <div class="col-span-2">
                 <div className='flex gap-4'>

@@ -106,8 +106,9 @@ export const topProductsWithMoreNetGains = async () => {
       netGain: productsNetGains[productName]
     }));
 
-    const topFive = newArray.slice(0, 5)
+    const topFive = newArray.slice(0, 4)
     const order = topFive.sort((a, b) => b.netGain - a.netGain)
+    console.log(order)
     return order
 
   } catch (error) {
@@ -117,33 +118,41 @@ export const topProductsWithMoreNetGains = async () => {
 
 
 
-export const getQuantityProductsCategory  = async () => { 
+export const getQuantityProductsCategory = async () => {
   try {
     const productsQuery = await axios.get("http://localhost:3000/productos");
     const allProducts = productsQuery.data;
-    console.log(allProducts);
-    
+    console.log("TODOS LOS PRODUCTOS", allProducts);
+
     const categoryCount = {};
 
-    allProducts.forEach((p) => { 
+    allProducts.forEach((p) => {
       const productCategory = p.categoria;
+      const nombre = p.nombre;
+
       if (categoryCount[productCategory]) {
-        categoryCount[productCategory]++;
+        categoryCount[productCategory].cantidad++;
+        categoryCount[productCategory].productos.push(nombre);
       } else {
-        categoryCount[productCategory] = 1;
+        categoryCount[productCategory] = {
+          cantidad: 1,
+          productos: [nombre],
+        };
       }
     });
 
     const newArray = Object.keys(categoryCount).map((categoria) => ({
       categoria,
-      cantidad: categoryCount[categoria],
+      cantidad: categoryCount[categoria].cantidad,
+      productos: categoryCount[categoria].productos,
     }));
 
-    return(newArray);
+    console.log(newArray);
+    return newArray;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 
 

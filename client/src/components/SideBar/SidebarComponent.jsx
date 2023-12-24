@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined,} from '@ant-design/icons';
 import { ConfigProvider, Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
@@ -20,14 +20,14 @@ import casaAzul from "../../img/casaAzul.png"
 import tesoreriaAzul from "../../img/tesoreriaAzul.png"
 import estadisticasAzul from "../../img/estadisticasAzul.png"
 import finanzasAzul from "../../img/finanzasAzul.png"
+import lapizBlanco from "../../img/lapizBlanco.png"
 
 function getItem(label, key, icon, children) {
   return {
     label,
     key,
     icon,
-    children,
-    onClick: () => setSelectedItem(key)
+    children
   };
  }
 
@@ -41,7 +41,7 @@ const styles = {
 const SidebarComponent = () => {
 
   const [collapsed, setCollapsed] = useState(true);
-  const [selectedItem, setSelectedItem] = useState('1'); // Inicializa con el primer elemento
+  const [selectedItem, setSelectedItem] = useState(""); // Inicializa con el primer elemento
 
 
   const navigate = useNavigate()
@@ -59,15 +59,18 @@ const SidebarComponent = () => {
     logOut()
 }
   
+useEffect(() => { 
+  console.log(selectedItem)
+}, [selectedItem])
 
 
   const items = [
-      getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }} onClick={() => alert("Inicio")}> Inicio</p>,'1', (
+      getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}   onMouseOver={() => setSelectedItem("Inicio")}  onMouseLeave={() => setSelectedItem("")}> Inicio</p>,'1', (
         <Link to="/main">
            {selectedItem === "Inicio" ?
-              <img src={casaAzul} style={{ width: '20px', height: '20px', marginRight: '5px' }}/>
+              <img src={casaAzul} style={{ width: '20px', height: '20px', marginRight: '5px' }}  />
                :
-              <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
+              <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }}  onMouseOver={() => setSelectedItem("Inicio")}  onMouseLeave={() => setSelectedItem("")} />
             }
         </Link>
       )),
@@ -106,14 +109,16 @@ const SidebarComponent = () => {
       ]),
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Acciones</p>, 'sub 4', (
-        <img src={tesoreria} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+        <img src={lapizBlanco} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
         getItem(collapsed ? <AddCategory type="white" /> : <AddCategory type="sideBar"/>, "19"),
         getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
       ]),
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Configuracion</p>, 'sub 5', (
-        <img src={config} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+        <div>
+          <img src={config} alt="Inicio" className='object-fit-contain' style={{ width: '20px', height: '20px' }} />
+        </div>
       ), [
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Mi perfil</p></Link>, "19"),
         getItem(<Link to="/usersData"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Usuarios</p></Link>, '20'),

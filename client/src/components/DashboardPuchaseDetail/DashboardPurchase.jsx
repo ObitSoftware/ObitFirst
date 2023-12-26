@@ -15,6 +15,8 @@ import arrowGreen from "../../img/arrowGreen.png"
 import VentasPorMes from '../Graficos/VentasPorMes';
 import purchaseIcon from "../../img/purchaseIcon.png"
 import ViewBuyDetail from '../Modals/ViewBuyDetail';
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+
 
 
 const DashboardPurchase = () => {

@@ -13,6 +13,10 @@ const ventaSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  proveedorProducto: { 
+    type: String,
+    require: true,
+  },
   nombreCliente: {
     type: String,
     required: true

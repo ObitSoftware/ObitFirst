@@ -34,6 +34,7 @@ export const crearVenta = async (req, res) => {
   
     nombreProducto,
     categoriaProducto,
+    proveedorProducto,
     nombreCliente,
     precio,
     cantidad,
@@ -61,6 +62,7 @@ export const crearVenta = async (req, res) => {
           idProducto,
           nombreProducto,
           categoriaProducto,
+          proveedorProducto,
           nombreCliente,
           precio,
           cantidad,

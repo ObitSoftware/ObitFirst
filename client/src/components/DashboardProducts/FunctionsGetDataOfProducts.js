@@ -116,8 +116,6 @@ export const topProductsWithMoreNetGains = async () => {
   }
 }
 
-
-
 export const getQuantityProductsCategory = async () => {
   try {
     const productsQuery = await axios.get("http://localhost:3000/productos");

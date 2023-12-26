@@ -15,6 +15,7 @@ import UsersTable from './components/users/usersTable'
 import DashboardPurchase from './components/DashboardPuchaseDetail/DashboardPurchase'
 import DashboardSells from './components/DashboardSell/DashboardSells'
 import DashboardProducts from './components/DashboardProducts/DashboardProducts'
+import DashboardProviders from './components/DashboardProviders/DashboardProviders'
 
 
 
@@ -23,7 +24,7 @@ function App() {
 
   const location = useLocation();
 
-  if (location.pathname === '/ventasDashboard' || location.pathname === '/comprasDashboard' || location.pathname === '/productosDashboard') {
+  if (location.pathname === '/ventasDashboard' || location.pathname === '/comprasDashboard' || location.pathname === '/productosDashboard' || location.pathname === '/proveedoresDashboard') {
     document.body.style.backgroundColor = '#E6F4FF';
   } else {
     document.body.style.backgroundColor = 'white';
@@ -39,10 +40,11 @@ function App() {
                     <Route path="/register" element={<Register/>}></Route> 
                     <Route path="ventasDashboard" element={<DashboardSells/>}></Route>
                     <Route path="comprasDashboard" element={<DashboardPurchase/>}></Route>
+                    <Route path="productosDashboard" element={<DashboardProducts/>}></Route>    
+                    <Route path="proveedoresDashboard" element={<DashboardProviders/>}></Route>    
                     <Route path="clientData" element={<ClientsTable/>}></Route>
-                    <Route path="usersData" element={<UsersTable/>}></Route>
-                    <Route path="productosDashboard" element={<DashboardProducts/>}></Route>
-            
+                    <Route path="usersData" element={<UsersTable/>}></Route>    
+                    
                 </Routes>
           <SidebarComponent/>
         </UserProvider>

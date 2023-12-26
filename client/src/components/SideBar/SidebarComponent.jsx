@@ -91,7 +91,7 @@ useEffect(() => {
         <img src={estadistics} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
         getItem(<Link to="/productosDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
-        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Proveedores</p></Link>, '10'),
+        getItem(<Link to="/proveedoresDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Proveedores</p></Link>, '10'),
         getItem(<Link to="/comprasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Compras</p></Link>, '11'),
         getItem(<Link to="/ventasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ventas</p></Link>, '12'),
       ]),

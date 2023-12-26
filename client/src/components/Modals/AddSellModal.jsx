@@ -192,6 +192,7 @@ const AddSellModal = ({updateList}) => {
             nombreCliente: selectedClient,
             precio: productSelectedData.precio,
             categoriaProducto: productSelectedData.categoria,
+            proveedorProducto: productSelectedData.proveedor[0],
             cantidad: quantity,
             total: quantity * productSelectedData.precio,
             gananciaNeta: calcularGananciaNeta(productSelectedData.precio, productSelectedData.precioCompra, quantity),

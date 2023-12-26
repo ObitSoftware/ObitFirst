@@ -177,9 +177,9 @@ const DashboardProducts = () => {
                         <div className='flex items-center justify-start gap-2'>
                            {
                               monthSelected === "" ?
-                              <p className='font-medium text-sm 2xl:text-lg text-zinc-600'>Historial de Ventas Historico</p>
+                              <p className='font-medium text-sm 2xl:text-lg text-zinc-600'>Cantidad vendida por Producto</p>
                                :
-                               <p className='font-bold text-xs'>Historial de Venta por producto del mes de {monthSelected}</p>
+                               <p className='font-bold text-xs'>Cantidad vendida por Producto en {monthSelected}</p>
                               }
                         </div>   
                         <div className='flex items-center justify-end'>

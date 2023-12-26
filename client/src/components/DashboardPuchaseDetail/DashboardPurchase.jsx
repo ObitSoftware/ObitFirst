@@ -16,6 +16,7 @@ import VentasPorMes from '../Graficos/VentasPorMes';
 import purchaseIcon from "../../img/purchaseIcon.png"
 import ViewBuyDetail from '../Modals/ViewBuyDetail';
 
+
 const DashboardPurchase = () => {
 
     const [products, setProducts] = useState([])
@@ -150,8 +151,13 @@ const DashboardPurchase = () => {
                  <div className='w-4/5 '>
                      <Card isHoverable={true} className='bg-white h-72 flex flex-col items-center justify-center' style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}> 
                          <CardBody>
-                            <div className='flex items-center justify-start'>
-                              <small className='text-zinc-600 font-medium font-inter text-sm 2xl:text-lg'>Cantidad total de Productos Disponibles</small> 
+                            <div className='flex items-center justify-between'>
+                              <div className='flex justify-start items-center'>
+                                 <small className='text-zinc-600 font-medium font-inter text-sm 2xl:text-lg'>Historial de Compras por producto</small> 
+                              </div>
+                              <div className='flex justify-end items-center'>
+                                <input className='border border-zinc-300 rounded-md w-40 2xl:w-48 h-6 text-xs focus:outline-none  focus:ring-0' type="text" placeholder='Producto..'/>
+                              </div>                     
                             </div>
                                 <VentasPorMes/>
                          </CardBody>

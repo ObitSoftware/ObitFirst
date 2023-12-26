@@ -191,7 +191,7 @@ const DashboardProducts = () => {
                                 </div>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => console.log(key)}> 
-                            
+                                <DropdownItem key="new"  onClick={() => setMonthSelected("")}>Historico Total</DropdownItem>
                                 <DropdownItem key="new"  onClick={() => setMonthSelected("enero")}>Enero</DropdownItem>
                                 <DropdownItem key="copy" onClick={() => setMonthSelected("febrero")}>Febrero</DropdownItem>
                                 <DropdownItem key="edit" onClick={() => setMonthSelected("marzo")}>Marzo</DropdownItem>
@@ -233,15 +233,16 @@ const DashboardProducts = () => {
                             <DropdownTrigger>
                                 <div className='flex items-center gap-2'>
                                   <div className='flex gap-1 items-center  rounded-lg cursor-pointer' style={{backgroundColor:"#DAEFFF"}}>
-                                    {categorySelected === "" ?  <small className='text-xs text-slate-700 m-1'>Categoria</small> :  <small className='text-xs text-slate-700 m-1'>{categorySelected}</small>}
+                                    {categorySelected === "" ?  <small className='text-xs text-slate-700 m-1'>Ver todas</small> :  <small className='text-xs text-slate-700 m-1'>{categorySelected}</small>}
                                      <img src={arrowDown} className='h-2 w-2 mr-2'/>
                                   </div>                             
                                 </div>
                             </DropdownTrigger>
                                {productsCategorys.length !== 0 ?
                                 <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => console.log(key)}>
+                                    <DropdownItem onClick={() => setCategorySelected("")}>Ver todas</DropdownItem>
                                     {productsCategorys.map((c) => ( 
-                                    <DropdownItem key={c._id} onClick={() => setCategorySelected(c.nombreCategoria)}>{c.nombreCategoria}</DropdownItem>
+                                          <DropdownItem key={c._id} onClick={() => setCategorySelected(c.nombreCategoria)}>{c.nombreCategoria}</DropdownItem>
                                     ))}                
                                 </DropdownMenu>
                                 :
@@ -251,10 +252,10 @@ const DashboardProducts = () => {
                            </div>
                            <div className='flex items-center justify-center'>
                                   {quantityProductsOfCategory.length !== 0 ? (
-                                    <div className='flex flex-col items-start justify-start text-start mt-8 '>
+                                    <div className='flex flex-col mt-4 '>
                                       {categorySelected === "" ? (                                      
                                             quantityProductsOfCategory.map((p) => (
-                                              <div key={p.categoria} className='flex items-center justify-evenly w-full'>
+                                              <div key={p.categoria} className='flex items-center justify-between w-full'>
                                                 <div>
                                                   <p className='font-medium text-zinc-600'>{p.categoria}: </p>
                                                 </div>
@@ -272,9 +273,11 @@ const DashboardProducts = () => {
                                             <ul className='flex flex-col' key={p.categoria}>
                                               {p.productos.map((producto, index) => (
                                                 <div key={index} className='flex justify-between items-center  w-full'>
-                                                  <div><li className='font-medium text-zinc-600 text-xs 2xl:text-sm'>{producto}: </li></div>
+                                                    <div>
+                                                      <li className='font-medium text-zinc-600 text-xs 2xl:text-sm'>{producto}: </li>
+                                                    </div>
                                                     <div> 
-                                                      <li className='ml-4  text-zinc-600'>
+                                                      <li className='ml-4 text-xs 2xl:text-sm text-zinc-600'>
                                                           {p.cantidad === 1 ? `${p.cantidad} Unidad` : `${p.cantidad} Unidades`}
                                                        </li>
                                                     </div>                                            

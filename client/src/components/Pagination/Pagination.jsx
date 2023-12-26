@@ -35,9 +35,9 @@ export default function PaginationTable({firstNumberToSliceData, secondNumberToS
 
   return (
     <div className="join">
-      <button className="  border border-none focus:outline-none hover:border-none bg-white text-black" onClick={() => changePageToBack()}>«</button>
-      <button className="  border border-none hover:bg-white bg-white text-black">{actualPage}</button>
-      <button className="  border border-none focus:outline-none bg-white text-black" onClick={() => changePageToNext()}>»</button>
+      <button className="border border-none focus:outline-none hover:border-none bg-white text-black" onClick={() => changePageToBack()}>«</button>
+      <button className="border border-none hover:bg-white bg-white text-black">{actualPage}</button>
+      <button className="border border-none focus:outline-none bg-white text-black" onClick={() => changePageToNext()}>»</button>
   </div>
   );
 }

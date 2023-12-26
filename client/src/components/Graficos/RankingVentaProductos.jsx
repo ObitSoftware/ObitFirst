@@ -114,8 +114,8 @@ const RankingVentaProductos = (props) => {
                   fontSize: window.innerWidth > 1400 ? "10px" : "8px",
                 },
               }}
-              interval={window.innerWidth > 1400 ? "preserveStartEnd" : 0}
-              angle={window.innerWidth > 1400 ? 0 : -10} 
+              interval={0}
+              angle={window.innerWidth > 1400 ? -12 : -10} 
             />
           <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
           <Tooltip />
@@ -124,7 +124,19 @@ const RankingVentaProductos = (props) => {
       :
       <BarChart data={rankingProductos}>
          <CartesianGrid strokeDasharray="4 1 2" />
-           <XAxis dataKey="NombreProducto" />
+            <XAxis
+              dataKey="NombreProducto"
+              tick={{
+                fill: '#595858',
+                style: {
+                  fontWeight: 'bold',
+                  fontSize: window.innerWidth > 1400 ? "10px" : "8px",
+                },
+              }}
+              interval={0}
+              angle={window.innerWidth > 1400 ? -12 : -10} 
+
+            />
            <YAxis type="number"  domain={[0, 3]} ticks={[0, 5, 15]} className='text-sm' />
            <Tooltip />
          <Bar dataKey="CantidadVendida" fill="#728EC3" className='text-xs' activeBar={<Rectangle fill="#5C77A9" stroke="blue" />}/>

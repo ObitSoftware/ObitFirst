@@ -108,79 +108,77 @@ const Tabla = () => {
                 allowsSorting: true
           }));
 
-          {activeTab === "compras" ? 
-          columnObjects.push({
-            key: 'Vendedor',
-            label: 'Proveedores',
-            cellRenderer: (cell) => { 
-              const filaActual = cell.row;
-              const id = filaActual.original._id;
-              const buyDetail = filaActual.original.productosComprados;
-              const dateOfBuy = filaActual.original.fechaCompra;
-              const total = filaActual.original.total;
-              const purchasedProducts = filaActual.original.productosComprados;
-              const getProviders = purchasedProducts.map((prod) => prod.proveedor)
-              const providers = getProviders
-              const producto = {
-                id: id,
-                detail: buyDetail,
-                date: dateOfBuy,
-              };
-              console.log(providers);
-              return (
-                <p>
-                  {providers.length === 1 ? providers[0] : 
-                  providers.length === 2 ? [providers[0], " - " ,providers[1]] :  
-                  providers.length >= 3 ? <ViewBuyDetail  producto={producto} totalAmount={total}/>  : null}
-                </p>
-              );
-            },
-          }) 
-        : null}
+                {activeTab === "compras" ? 
+                columnObjects.push({
+                  key: 'Vendedor',
+                  label: 'Proveedores',
+                  cellRenderer: (cell) => { 
+                    const filaActual = cell.row;
+                    const id = filaActual.original._id;
+                    const buyDetail = filaActual.original.productosComprados;
+                    const dateOfBuy = filaActual.original.fechaCompra;
+                    const total = filaActual.original.total;
+                    const purchasedProducts = filaActual.original.productosComprados;
+                    const getProviders = purchasedProducts.map((prod) => prod.proveedor)
+                    const providers = getProviders
+                    const producto = {
+                      id: id,
+                      detail: buyDetail,
+                      date: dateOfBuy,
+                    };
+                    console.log(providers);
+                    return (
+                      <p>
+                        {providers.length === 1 ? providers[0] : 
+                        providers.length === 2 ? [providers[0], " - " ,providers[1]] :  
+                        providers.length >= 3 ? <ViewBuyDetail  producto={producto} totalAmount={total}/>  : null}
+                      </p>
+                    );
+                  },
+                }) 
+              : null}
 
-        {activeTab === "compras" && columnObjects.push({
-          key: 'VerDetalle',
-          label: 'Detalle de Compra',
-          cellRenderer: (cell) => { 
-            const filaActual = cell.row;
-            const id = filaActual.original._id;
-            const buyDetail = filaActual.original.productosComprados;
-            const dateOfBuy = filaActual.original.fechaCompra;
-            const total = filaActual.original.total;
-            const producto = {
-              id: id,
-              detail: buyDetail,
-              date: dateOfBuy,
-            };
-        
-            return <ViewBuyDetail producto={producto} totalAmount={total} type={"table"}/> ;
-          },
-        })}
-
-        
-        {activeTab === "compras" && columnObjects.push({
-          key: 'Editar',
-          label: 'Editar',
-          cellRenderer: (cell) => {
-            const filaActual = cell.row;
-            const compraId = filaActual.original.compraId;
-            const productosComprados = filaActual.original.productosComprados;
-            const fechaCompra = filaActual.original.fechaCompra;
-            const total = filaActual.original.total;
-            const id = filaActual.original._id;
-        
-            const producto = {
-              compraId: compraId,
-              productosComprados: productosComprados,
-              fechaCompra: fechaCompra,
-              total: total,
-              id: id,
-            };
-        
-            return <EditModal producto={producto} type={"compras"} />;
-          },
-        })}
-
+              {activeTab === "compras" && columnObjects.push({
+                key: 'VerDetalle',
+                label: 'Detalle de Compra',
+                cellRenderer: (cell) => { 
+                  const filaActual = cell.row;
+                  const id = filaActual.original._id;
+                  const buyDetail = filaActual.original.productosComprados;
+                  const dateOfBuy = filaActual.original.fechaCompra;
+                  const total = filaActual.original.total;
+                  const producto = {
+                    id: id,
+                    detail: buyDetail,
+                    date: dateOfBuy,
+                  };
+              
+                  return <ViewBuyDetail producto={producto} totalAmount={total} type={"table"}/> ;
+                },
+              })}
+              
+              {activeTab === "compras" && columnObjects.push({
+                key: 'Editar',
+                label: 'Editar',
+                cellRenderer: (cell) => {
+                  const filaActual = cell.row;
+                  const compraId = filaActual.original.compraId;
+                  const productosComprados = filaActual.original.productosComprados;
+                  const fechaCompra = filaActual.original.fechaCompra;
+                  const total = filaActual.original.total;
+                  const id = filaActual.original._id;
+              
+                  const producto = {
+                    compraId: compraId,
+                    productosComprados: productosComprados,
+                    fechaCompra: fechaCompra,
+                    total: total,
+                    id: id,
+                  };
+              
+                  return <EditModal producto={producto} type={"compras"} />;
+                },
+              })}
 
               {activeTab === "compras" ?    
                 columnObjects.push({
@@ -199,31 +197,24 @@ const Tabla = () => {
                     }) :
                 null}
 
-               
-
-
-                 
-
-
-
-            {activeTab === "productos" ?    
-            columnObjects.push({
-                  key: 'Eliminar',
-                  label: 'Eliminar',
-                  cellRenderer: (cell) => { 
-                    const filaActual = cell.row;
-                    const name = filaActual.original.nombre;
-                    const id = filaActual.original._id;
-                    const producto = {
-                    nombre: name,
-                    productId: id
-                    };
-                    return (
-                      <DeleteProductModal producto={producto} type={"productos"} showProductsUpdated={showProductsUpdated}/>
-                      );
-                },
-                  }) :
-              null}
+              {activeTab === "productos" ?    
+              columnObjects.push({
+                    key: 'Eliminar',
+                    label: 'Eliminar',
+                    cellRenderer: (cell) => { 
+                      const filaActual = cell.row;
+                      const name = filaActual.original.nombre;
+                      const id = filaActual.original._id;
+                      const producto = {
+                      nombre: name,
+                      productId: id
+                      };
+                      return (
+                        <DeleteProductModal producto={producto} type={"productos"} showProductsUpdated={showProductsUpdated}/>
+                        );
+                  },
+                    }) :
+                null}
 
               {activeTab === "clientes" ?    
               columnObjects.push({
@@ -244,26 +235,26 @@ const Tabla = () => {
                     }) :
                 null}
 
-            {activeTab === "proveedores" ?    
-              columnObjects.push({
-                    key: 'Eliminar',
-                    label: 'Eliminar',
-                    cellRenderer: (cell) => { 
-                      const filaActual = cell.row;
-                      const nombre = filaActual.original.nombre;
-                      const id = filaActual.original._id;
-                      const producto = {
-                      nombre: nombre,
-                      proveedorId: id
-                      };
-                      return (
-                        <DeleteProductModal producto={producto} type={"proveedores"} showProvidersUpdated={showProvidersEdited}/>
-                        );
-                  },
-                    }) :
-                null}
+              {activeTab === "proveedores" ?    
+                columnObjects.push({
+                      key: 'Eliminar',
+                      label: 'Eliminar',
+                      cellRenderer: (cell) => { 
+                        const filaActual = cell.row;
+                        const nombre = filaActual.original.nombre;
+                        const id = filaActual.original._id;
+                        const producto = {
+                        nombre: nombre,
+                        proveedorId: id
+                        };
+                        return (
+                          <DeleteProductModal producto={producto} type={"proveedores"} showProvidersUpdated={showProvidersEdited}/>
+                          );
+                    },
+                      }) :
+                  null}
 
-                {activeTab === "venta" ?    
+              {activeTab === "venta" ?    
                 columnObjects.push({
                       key: 'Eliminar',
                       label: 'Eliminar',
@@ -278,7 +269,7 @@ const Tabla = () => {
                           );
                     },
                       }) :
-                  null}
+                null}
 
                   
 

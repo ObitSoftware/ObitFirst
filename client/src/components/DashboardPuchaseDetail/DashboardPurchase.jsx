@@ -172,23 +172,6 @@ const DashboardPurchase = () => {
               });
           }, []);
 
-          const handleChange = (e) => {
-            const inputValue = e.target.value;
-            setSearchValue(inputValue);
-          
-            // Filtra los productos basándose en la entrada del usuario
-            const filteredData = allPurchase.filter((item) =>
-              item.nombreProducto.toLowerCase().includes(inputValue.toLowerCase())
-            );
-          
-            // Imprime los productos filtrados y el valor de searchValue
-            console.log('Filtered Data:', filteredData);
-            console.log('Search Value:', inputValue);
-          
-            // Actualiza los datos filtrados
-            setFilteredData(filteredData);
-          };
-  
           useEffect(() => { 
             const getTotal = async () => { 
               try {
@@ -272,12 +255,6 @@ const DashboardPurchase = () => {
           console.log(productId)
           }, [productId])
 
-        
-            const filteredData = allPurchase.filter((item) => {
-              return Object.values(item).some((value) =>
-                value.toString().toLowerCase().includes(searchValue.toLowerCase())
-              );
-            });
     
 
   return (

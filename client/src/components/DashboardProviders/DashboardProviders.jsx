@@ -193,35 +193,53 @@ const DashboardProviders = () => {
                                           <DropdownTrigger>                                           
                                             <div className='flex items-center cursor-pointer'> 
                                               <img src={arrowGreen} className='h-2 w-2 mr-2'/> 
-                                              <small className='text-zinc-600  font-medium font-inter text-sm'>Monto total Anual Facturado</small> 
+                                           {providerSelected === "" ?
+                                             <small className='text-zinc-600  font-medium font-inter text-sm'>Monto total de Inversion</small> 
+                                             : 
+                                              <small className='text-zinc-600  font-medium font-inter text-sm'>Monto total Invertido en  <b>{providerSelected}</b></small> 
+                                            }
                                             </div>
                                           </DropdownTrigger>
-                                          <DropdownMenu aria-label="Dynamic Actions">
-                                            <DropdownItem onClick={() => { handleClick('Monto total Anual Facturado'); showOneData(true, false); }}>                                  
-                                               Top Proveedores por Rentabilidad                                    
-                                            </DropdownItem>                                            
-                                          </DropdownMenu>
+                                          {providersName.length !== 0 ?
+                                                    <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => console.log(key)}>
+                                                       <DropdownItem onClick={() => setProviderSelected("")}>Ver Total Invertido</DropdownItem>
+                                                        {providersName.map((p) => ( 
+                                                            <DropdownItem key={p._id} onClick={() => setProviderSelected(p.nombre)}>{p.nombre}</DropdownItem>
+                                                        ))}                
+                                                    </DropdownMenu>
+                                                    :
+                                                <p>Cargando</p>   
+                                                }                                           
                                         </Dropdown>
                                       </div>
-                                  <div className='flex items-center justify-center mt-4'>
-                                          {showTotalAnualFactured ?    
-                                            <div className='flex flex-col items-center justify-center mt-4 '>
-                                              <div className='border border-green-400 rounded-lg w-full'>
-                                                <p className='font-medium text-xl  rounded-lg m-1 ml-2 mr-2' style={{color:"#327D65"}}>{totalAnualFactured} </p>
-                                              </div>
-                                                 <img src={factured} className='w-14 h-14 2xl:w-16 2xl:h-16 mt-8 2xl:mt-4 object-fit-contain'/>
-                                            </div>                                                                         
-                                                                
-                                          :   
-                                          null}
+                                  <div className='flex flex-col items-center justify-center mt-12 2xl:mt-8'>
+                                             {providerSelected === "" ? 
+                                                  <div className='flex flex-col items-center justify-center'>
+                                                      <p className='text-xl font-bold' style={{color:"#317C65"}}>{totalInvertedEver}</p>  
+                                                      <img src={factured} className='h-11 w-11 2xl:h-16 2xl:w-16 object-fit-contain mt-4'/>
+                                                  </div>                                           
+                                                 :
+                                            <div className='flex flex-col items-center justify-center'>
+                                                <div className='flex flex-col items-center justify-between mt-2'>
+                                                    {totalInvertedByProvider.filter((t) => t.nombre[0] === providerSelected).map((total) => ( 
+                                                        <p className='font-medium text-xs 2xl:text-sm' style={{color:"#568CCB"}}>Inversion: {formatePrice(total.monto)}</p>
+                                                      ))}
 
-                                          {showTotalMonthFactured ?                                            
-                                             <div className='flex flex-col items-center justify-center mt-4'>
-                                                 <p className='font-medium text-xl' style={{color:"#327D65"}}>{totalMonthFactured} </p>   
-                                                 <img src={factured} className='w-16 h-16 mt-8 2xl:mt-4 object-fit-contain'/>
-                                             </div>                                            
-                                          : 
-                                          null}
+                                                      {topFiveProvidersNetGain.filter((t) => t.nombre === providerSelected).map((prov) => ( 
+                                                        <p className='font-medium text-xs 2xl:text-sm' style={{color:"#568CCB"}}>Ganancia: {formatePrice(prov.gananciaNeta)} </p>
+                                                      ))}                                         
+                                                  </div>
+                                                  <div className='flex justify-center items-center '>
+                                                    <p  style={{color:"#568CCB"}} className='font-bold text-xs 2xl:text-sm'>
+                                                      Estadistica:
+                                                      {(((topFiveProvidersNetGain.find((t) => t.nombre === providerSelected)?.gananciaNeta || 0) -
+                                                        (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 0)) /
+                                                        (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 1) * 100).toFixed(2)} %
+                                                    </p>
+                                                  </div>
+                                            </div>
+                                         
+                                        }
                                   </div>                 
                               </CardBody>
                           </Card>
@@ -230,10 +248,7 @@ const DashboardProviders = () => {
             </div>
 
             <div class="col-span-2 "> 
-              <div className='flex '>
-
-
-                {/* Inversion por Proveedor */}
+              <div className='flex gap-0 2xl:gap-4'>
                  <div className='w-5/12 2xl:w-4/12'>
                     <div className='flex flex-col items-center justify-center'>
                       <div className='mt-2 w-full'>                
@@ -269,7 +284,7 @@ const DashboardProviders = () => {
                                           </div>
                                     </div>
                                     <div className='flex items-center justify-center mt-4'>
-                                       {providerSelected === "" ? (
+                                              {providerSelected === "" ? (
                                                  <p className='text-xl font-bold' style={{color:"#568CCB"}}>{totalInvertedEver}</p>
                                                 ) : (
                                                 totalInvertedByProvider
@@ -278,6 +293,7 @@ const DashboardProviders = () => {
                                                         <p className='text-xl font-bold' style={{color:"#568CCB"}} key={index}> {formatePrice(p.monto)} </p>
                                                     ))
                                                 )}
+                                                
                                     </div>
                                   </div>
                                 </CardBody>

@@ -102,19 +102,18 @@ const AddSellModal = ({updateList}) => {
          setInputValue(event.target.value);
          if(event.target.value.length === 0) { 
           setShowProductData(false)
-         }
-         
+         }  
     };
 
     const handleUserChange = (event) => {
-      setInputClientsValue(event.target.value); 
- };
+        setInputClientsValue(event.target.value); 
+    };
 
- const handleItemClickClient = (client) => {
-  console.log(`Cliente Seleccionado: ${client}`);
-  setInputClientsValue(client)
-  setSelectedClient(client)
-};
+    const handleItemClickClient = (client) => {
+      console.log(`Cliente Seleccionado: ${client}`);
+      setInputClientsValue(client)
+      setSelectedClient(client)
+    };
   
   
     const handleItemClick = (product) => {

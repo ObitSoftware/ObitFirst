@@ -116,14 +116,11 @@ const DashboardProviders = () => {
         fetchData();
       }, []); 
     
-    
-    
+  
       useEffect(() => {
-        
         const getPorcentage = async () => {
           try {
             const thePorcentage = await getImprovementPercentage();
-    
             setPorcentage(thePorcentage);
           } catch (error) {
             console.error(error);
@@ -132,12 +129,7 @@ const DashboardProviders = () => {
         getPorcentage();
       }, []); 
     
-    
-    
-     
-    
-    
-    
+
       useEffect(() => {
         const getTotalAnualFactured = async () => {
           try {
@@ -396,7 +388,7 @@ const DashboardProviders = () => {
                                 <CardBody className="flex">
                                    <div className='flex items-center justify-start'>   
                                       <img src={arrowDash} className='h-2 w-2 object-fit-contain'/>
-                                      <p className='text-xs ml-2'>Porcentaje de Crecimiento en Comparacion al mes Pasado</p>   
+                                      <p className='text-xs ml-2 font-bold underline'>Retorno de Inversion del Proveedor</p>   
                                     </div>
                                     {porcentage === null ? 
                                       <div className='flex items-center justify-center mt-4'>
@@ -417,7 +409,7 @@ const DashboardProviders = () => {
                     <Card isHoverable={true} className='bg-white h-full flex items-center justify-center' style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}> 
                         <CardBody>
                             <div className='flex items-center justify-start gap-2'>
-                                <p className='text-zinc-600  font-medium font-inter text-lg'>Cantidad de Ventas por Proveedor</p>
+                                <p className='text-zinc-600  font-medium font-inter text-lg'>Cantidad de productos vendidos por Proveedor</p>
                             </div>
                             <div className='flex items-center justify-center mt-4  h-full w-auto'>                          
                               <ProvidersSells/>                          
@@ -447,7 +439,7 @@ const DashboardProviders = () => {
                                            <p style={{color:"#728EC3"}} className='text-md'>{p.nombre}</p>
                                          </div>
                                          <div className='flex flex-col ml-2'>
-                                           <ProviderPurchaseDetail detail={p.detalleVenta}/>
+                                           <ProviderPurchaseDetail detail={p.detalleVenta} totalNetGain={p.gananciaNeta}/>
                                            <p className='text-lg font-bold mt-2' style={{color:"#4C83EA"}}>{formatePrice(p.gananciaNeta)}</p>
                                          </div>                            
                                        </div>  

@@ -30,10 +30,10 @@ const ProvidersPurchaseRanking = () => {
               tick={{  fill: '#595858',
                 style: {
                   fontWeight: 'bold',
-                  fontSize: window.innerWidth > 1400 ? "13px" : "9px",
+                  fontSize: window.innerWidth > 1400 ? "11px" : "9px",
                 },
               }}
-              interval={window.innerWidth > 1400 ? "preserveStartEnd" : 0}
+              interval={window.innerWidth > 1400 ? 0 : 0}
             />
           <YAxis />
             <Tooltip />

@@ -15,35 +15,85 @@ import arrowGreen from "../../img/arrowGreen.png"
 import VentasPorMes from '../Graficos/VentasPorMes';
 import purchaseIcon from "../../img/purchaseIcon.png"
 import ViewBuyDetail from '../Modals/ViewBuyDetail';
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue} from "@nextui-org/react";
+
+
+const rows = [
+  {
+    key: "1",
+    name: "Tony Reichert",
+    role: "CEO",
+    status: "Active",
+    nose : "lalala",
+    tampocoSe: "lalalalala",
+    tampoco: "lalalalala"
+  },
+  {
+    key: "2",
+    name: "Zoey Lang",
+    role: "Technical Lead",
+    status: "Paused",
+    nose : "lalala",
+    tampocoSe: "lalalalala",
+    tampoco: "lalalalala"
+  },
+  {
+    key: "3",
+    name: "Jane Fisher",
+    role: "Senior Developer",
+    status: "Active",
+    nose : "lalala",
+    tampocoSe: "lalalalala",
+    tampoco: "lalalalala"
+  },
+  {
+    key: "4",
+    name: "William Howard",
+    role: "Community Manager",
+    status: "Vacation",
+    nose : "lalala",
+    tampocoSe: "lalalalala",
+    tampoco: "lalalalala"
+  },
+];
+
+const columns = [
+  {
+    key: "name",
+    label: "NAME",
+  },
+  {
+    key: "role",
+    label: "ROLE",
+  },
+  {
+    key: "status",
+    label: "STATUS",
+  },
+  {
+    key: "nose",
+    label: "NOSE",
+  },
+  {
+    key: "tampocoSe",
+    label: "TAMPOCOSE",
+  },
+  {
+    key: "tampoco",
+    label: "TAMPOCO",
+  },
+];
 
 
 
 const DashboardPurchase = () => {
 
-    const [products, setProducts] = useState([])
-    const [productId, setProductId] = useState([])
- 
-   useEffect(() => { 
-     axios.get(`http://localhost:3000/productos/${productId}`)
-          .then((res) => { 
-           console.log("EL PRODUCTO: ", res.data)
-          })
-          .catch((err) => { 
-           console.log(err)
-          })
-   }, [productId])
- 
-   useEffect(() => { 
-     axios.get(`http://localhost:3000/productos`)
-          .then((res) => { 
-           setProducts(res.data)
-          })
-          .catch((err) => { 
-           console.log(err)
-          })
-   }, [])
- 
+     const [products, setProducts] = useState([])
+     const [productId, setProductId] = useState([])
+     const [searchValue, setSearchValue] = useState('');
+     const [suggestions, setSuggestions] = useState([]);
+     const [allProducts, setAllProducts] = useState([]);
+     const [allPurchase, setAllPurchase] = useState([]);
      const [totalInvertedAmount, setTotalInvertedAmount] = useState("")
      const [invertedMonthAmount, setInvertedMonthAmount] = useState("")
      const [topFivePurchase, setTopFivePurchase] = useState([])
@@ -52,94 +102,182 @@ const DashboardPurchase = () => {
      const [showEverPurchase, setShowEverPurchase] = useState(true)
      const [porcentage, setPorcentage] = useState("")
      const [monthSelected, setMonthSelected] = useState("")
- 
-         useEffect(() => { 
-           const getTotal = async () => { 
-             try {
-                 const total = await getTotalInvertedAmount()
-                 const formatedTotal = formatePrice(total)
-                 setTotalInvertedAmount(formatedTotal)
-             } catch (error) {
-                 console.error(error);
-             }
-           }
-           getTotal()
-         }, [])
- 
-         useEffect(() => { 
-           const getTotalMonth = async () => { 
-           try {
-               const total = await getTotalInvertedMonth()
-               const formatedTotal = formatePrice(total)
-               setInvertedMonthAmount(formatedTotal)
-           } catch (error) {
-               console.error(error);
-           }
-           }
-           getTotalMonth()
-       }, [])
- 
-       
-         useEffect(() => { 
-         const getPorcentageGains = async () => { 
-         try {
-             const porcentage = await getPorcentage()
-             setPorcentage(porcentage)
-         } catch (error) {
-             console.error(error);
-         }
-         }
-         getPorcentageGains()
-         }, [])
- 
- 
-           useEffect(() => { 
-             const getTopFive = async () => { 
-             try {
-                 const top = await getTopCompras()
-                 setTopFivePurchase(top)
-             } catch (error) {
-                 console.error(error);
-             }
-             }
-             getTopFive()
-         }, [])
- 
-         useEffect(() => { 
-           const getQuantityEver = async () => { 
-           try {
-               const quantity = await getQuantityPurchaseEver()
-               setQuantityPurchaseEver(quantity)
-           } catch (error) {
-               console.error(error);
-           }
-           }
-           getQuantityEver()
-         }, [])
- 
-       
- 
-     useEffect(() => { 
-       const getQuantityMonth = async () => { 
-       try {
-           const quantityMonth = await getQuantityPurchaseByMonth(monthSelected)
-           setQuantityPurchaseMonth(quantityMonth)
-           if(monthSelected === "") { 
-             setShowEverPurchase(true)
-           } else { 
-             setShowEverPurchase(false)
-           }
-       } catch (error) {
-           console.error(error);
-       }
-       }
-       getQuantityMonth()
-     }, [monthSelected])
- 
+     const [columns, setColumns] = useState("")
      
-     useEffect(() => { 
-     console.log(productId)
-     }, [productId])
+
+      
+     useEffect(() =>  { 
+      axios.get("http://localhost:3000/compras")
+        .then((res) => { 
+          const compras = res.data;
+          const productos = compras.reduce((acc, compra) => {
+            return acc.concat(compra.productosComprados.map(producto => ({
+              ...compra,
+              nombreProducto: producto.nombreProducto,
+              cantidad: producto.cantidad,
+              precioProducto: producto.precioProducto,
+              // Agrega aquí cualquier otra propiedad que desees incluir
+            })));
+          }, []);
+        
+          setAllPurchase(productos);
+          console.log(productos.length)
+    
+          const columnLabelsMap = {
+            fechaCompra: 'Fecha',
+            total: 'Monto',
+            nombreProducto: 'Producto',
+            // Agrega otros mapeos según sea necesario
+          };
+    
+          const propiedades = Object.keys(productos[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados'  && propiedad !== 'compraId' && propiedad !== 'precioProducto' && propiedad !== 'producto');
+          const columnObjects = propiedades.map(propiedad => ({
+            key: propiedad,
+            label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
+            allowsSorting: true
+          }));             
+          
+          // Verifica si la columna "nombreProducto" ya está presente antes de agregarla
+          if (!columnObjects.some(column => column.key === 'nombreProducto')) {
+            columnObjects.push({
+              key: 'nombreProducto',
+              label: columnLabelsMap['nombreProducto'] || 'Producto',
+              allowsSorting: true,
+            });
+          }
+    
+          setColumns(columnObjects);
+        })
+        .catch((err) => console.log(err));
+    }, []);
+
+          useEffect(() => { 
+            axios.get(`http://localhost:3000/productos/${productId}`)
+                  .then((res) => { 
+                  console.log("EL PRODUCTO: ", res.data)
+                  })
+                  .catch((err) => { 
+                  console.log(err)
+                  })
+          }, [productId])
+        
+          useEffect(() => {
+            axios.get(`http://localhost:3000/productos`)
+              .then((res) => {
+                setProducts(res.data);
+                setAllProducts(res.data.map((d) => d.nombre));
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }, []);
+
+          const handleChange = (e) => {
+            const inputValue = e.target.value;
+            setSearchValue(inputValue);
+          
+            // Filtra los productos basándose en la entrada del usuario
+            const filteredData = allPurchase.filter((item) =>
+              item.nombreProducto.toLowerCase().includes(inputValue.toLowerCase())
+            );
+          
+            // Imprime los productos filtrados y el valor de searchValue
+            console.log('Filtered Data:', filteredData);
+            console.log('Search Value:', inputValue);
+          
+            // Actualiza los datos filtrados
+            setFilteredData(filteredData);
+          };
+  
+          useEffect(() => { 
+            const getTotal = async () => { 
+              try {
+                  const total = await getTotalInvertedAmount()
+                  const formatedTotal = formatePrice(total)
+                  setTotalInvertedAmount(formatedTotal)
+              } catch (error) {
+                  console.error(error);
+              }
+            }
+            getTotal()
+          }, [])
+  
+          useEffect(() => { 
+            const getTotalMonth = async () => { 
+            try {
+                const total = await getTotalInvertedMonth()
+                const formatedTotal = formatePrice(total)
+                setInvertedMonthAmount(formatedTotal)
+            } catch (error) {
+                console.error(error);
+            }
+            }
+          getTotalMonth()
+          }, [])
+        
+          useEffect(() => { 
+          const getPorcentageGains = async () => { 
+          try {
+              const porcentage = await getPorcentage()
+              setPorcentage(porcentage)
+          } catch (error) {
+              console.error(error);
+          }
+          }
+          getPorcentageGains()
+          }, [])
+  
+            useEffect(() => { 
+              const getTopFive = async () => { 
+              try {
+                  const top = await getTopCompras()
+                  setTopFivePurchase(top)
+              } catch (error) {
+                  console.error(error);
+              }
+              }
+              getTopFive()
+          }, [])
+  
+          useEffect(() => { 
+            const getQuantityEver = async () => { 
+            try {
+                const quantity = await getQuantityPurchaseEver()
+                setQuantityPurchaseEver(quantity)
+            } catch (error) {
+                console.error(error);
+            }
+            }
+            getQuantityEver()
+          }, [])
+  
+          useEffect(() => { 
+            const getQuantityMonth = async () => { 
+            try {
+                const quantityMonth = await getQuantityPurchaseByMonth(monthSelected)
+                setQuantityPurchaseMonth(quantityMonth)
+                if(monthSelected === "") { 
+                  setShowEverPurchase(true)
+                } else { 
+                  setShowEverPurchase(false)
+                }
+            } catch (error) {
+                console.error(error);
+            }
+            }
+            getQuantityMonth()
+          }, [monthSelected])
+        
+          useEffect(() => { 
+          console.log(productId)
+          }, [productId])
+
+        
+            const filteredData = allPurchase.filter((item) => {
+              return Object.values(item).some((value) =>
+                value.toString().toLowerCase().includes(searchValue.toLowerCase())
+              );
+            });
     
 
   return (
@@ -157,11 +295,50 @@ const DashboardPurchase = () => {
                               <div className='flex justify-start items-center'>
                                  <small className='text-zinc-600 font-medium font-inter text-sm 2xl:text-lg'>Historial de Compras por producto</small> 
                               </div>
-                              <div className='flex justify-end items-center'>
-                                <input className='border border-zinc-300 rounded-md w-40 2xl:w-48 h-6 text-xs focus:outline-none  focus:ring-0' type="text" placeholder='Producto..'/>
-                              </div>                     
+                          <div className='flex justify-end items-center relative'>
+                              <div>
+                                <input
+                                  className='border border-zinc-300 rounded-md w-40 2xl:w-48 h-6 text-xs focus:outline-none focus:ring-0'
+                                  type="text"
+                                  placeholder='Producto..'
+                                  value={searchValue}
+                                  onChange={handleChange}
+                                />
+
+                                {/* Muestra las sugerencias en un menú desplegable */}
+                                {searchValue.length > 0 && (
+                                  <ul className='absolute mt-2 bg-white border border-gray-300 rounded-md shadow-md z-10'>
+                                    {suggestions.map((product, index) => (
+                                      <li key={index} className='px-4 py-2 cursor-pointer hover:bg-gray-200'>
+                                        {product}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
                             </div>
-                                <VentasPorMes/>
+                            </div>
+                             {allPurchase.length !== 0 ?
+                             <Table aria-label="Example table with dynamic content" className="w-max-w max-h-[200px] 2xl:max-[400px] overflow-y-auto flex items-center justify-center mt-4">
+                             <TableHeader columns={columns}>
+                               {(column) => (
+                                 <TableColumn key={column.key} className="text-xs gap-6">
+                                   {column.label}
+                                 </TableColumn>
+                               )}
+                             </TableHeader>
+                             <TableBody items={allPurchase}>
+                               {(item) => (
+                                 <TableRow key={item.total}>
+                                   {columns.map(column => (
+                                     <TableCell key={column.key} className="text-start items-start">
+                                       {item[column.key]}
+                                     </TableCell>
+                                   ))}
+                                 </TableRow>
+                               )}
+                             </TableBody>
+                           </Table> : null}
                          </CardBody>
                      </Card>
                  </div>
@@ -223,11 +400,10 @@ const DashboardPurchase = () => {
        </div>
 
        <div class="col-span-2 "> 
-         <div className='flex '>
+         <div className='flex gap-2 2xl:gap-4'>
            <div className='w-5/12 2xl:w-4/12'>
                <div className='flex flex-col items-center justify-center'>
-                 <div className='mt-2 w-full'>
-              
+                 <div className='mt-2 w-full'>      
                  <Card isHoverable={true} className=' bg-white h-24 flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
                          <CardBody className='flex '>              
                                 <div className='flex flex-col'>

@@ -44,20 +44,22 @@ const DashboardProviders = () => {
     const [topFiveProvidersNetGain, setTopFiveProvidersNetGain] = useState(null)
     const [monthSelected, setMonthSelected] = useState("")
 
-    useEffect(() => {
-        topProvidersByNetGains()
-        const allProvidersName = async () => {
+      useEffect(() => {
+        const fetchData = async () => {
           try {
+            const topFive = await topProvidersByNetGains();
+            setTopFiveProvidersNetGain(topFive);
+      
             const allProviders = await getAllProviders();
             setProvidersName(allProviders);
           } catch (error) {
             console.error(error);
           }
         };
-        allProvidersName();
-      }, []); 
-
-      useEffect(() => {
+      
+        fetchData();
+      
+        
         const totalInvertedInOneProvider = async () => {
           try {
             const amountInverted = await totalMoneySpentBySupplier();
@@ -65,117 +67,40 @@ const DashboardProviders = () => {
           } catch (error) {
             console.error(error);
           }
-        };
+        }; 
         totalInvertedInOneProvider();
-      }, []); 
-
-      useEffect(() => {
-        const getTopFive = async () => {
-          try {
-            const topFive = await topProvidersByNetGains();
-            setTopFiveProvidersNetGain(topFive);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getTopFive();
-      }, []); 
-
-
-    
-
-    //1
-    useEffect(() => {
-        getAllProviders()
-        const getEverInvertedAmount = async () => {
+        
+        const fetchOtherData = async () => {
           try {
             const totalInverted = await getTotalInvertedAmount();
-            const formatedPrice = formatePrice(totalInverted)
+            const formatedPrice = formatePrice(totalInverted);
             setTotalInvertedEver(formatedPrice);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getEverInvertedAmount();
-      }, []); 
-
-      //2 
-
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
+      
             const gains = await getMonthGains();
-            const gainsFormated =  formatePrice(gains)
+            const gainsFormated = formatePrice(gains);
             setTotalMonthGains(gainsFormated);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        fetchData();
-      }, []); 
-    
-  
-      useEffect(() => {
-        const getPorcentage = async () => {
-          try {
+      
             const thePorcentage = await getImprovementPercentage();
             setPorcentage(thePorcentage);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getPorcentage();
-      }, []); 
-    
-
-      useEffect(() => {
-        const getTotalAnualFactured = async () => {
-          try {
-            const totalAnualFacturedAtTheMoment = await getTotalYearMoneyFactured();
-            const totalFormated = formatePrice(totalAnualFacturedAtTheMoment)
-            setTotalAnualFactured(totalFormated);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getTotalAnualFactured();
-      }, []); 
-    
-    
-      useEffect(() => {
-        const getTotalMonthFacturedNow = async () => {
-          try {
-            const totalMonthFacturedAtTheMoment = await getTotalMonthMoneyFactured();
-            const totalFormated = formatePrice(totalMonthFacturedAtTheMoment)
-            setTotalMonthFactured(totalFormated);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getTotalMonthFacturedNow();
-      }, []); 
-    
       
-      useEffect(() => {
-        const getBestSells = async () => {
-          try {
+            const totalAnualFacturedAtTheMoment = await getTotalYearMoneyFactured();
+            const totalFormatedAnual = formatePrice(totalAnualFacturedAtTheMoment);
+            setTotalAnualFactured(totalFormatedAnual);
+      
+            const totalMonthFacturedAtTheMoment = await getTotalMonthMoneyFactured();
+            const totalFormatedMonth = formatePrice(totalMonthFacturedAtTheMoment);
+            setTotalMonthFactured(totalFormatedMonth);
+      
             const bestFive = await bestSells();
             setBestFiveSells(bestFive);
           } catch (error) {
             console.error(error);
           }
         };
-        getBestSells();
+      
+        fetchOtherData();
       }, []); 
-    
        
-      useEffect(() => {
-          console.log(bestFiveSells)
-      }, [bestFiveSells]); 
-    
-    
       const showOneData = (first, second) => { 
         setShowTotalAnualFactured(first)
         setShowTotalMonthFactured(second)
@@ -185,7 +110,6 @@ const DashboardProviders = () => {
       const handleClick = (opcion) => {
         setSelectedOption(opcion);
       };
-    
     
     
       const getMonthName = () => {
@@ -388,16 +312,32 @@ const DashboardProviders = () => {
                                 <CardBody className="flex">
                                    <div className='flex items-center justify-start'>   
                                       <img src={arrowDash} className='h-2 w-2 object-fit-contain'/>
-                                      <p className='text-xs ml-2 font-bold underline'>Retorno de Inversion del Proveedor</p>   
+                                      <p className='text-xs ml-2 '>Retorno de Inversion del Proveedor</p>   
                                     </div>
-                                    {porcentage === null ? 
+                                    {providerSelected === "" ? 
                                       <div className='flex items-center justify-center mt-4'>
-                                          <p className='font-bold' style={{color:"#728EC3"}}>Cargando</p>
+                                          <p className='font-medium text-xs' style={{color:"#728EC3"}}>Sin Proveedor Seleccionado</p>
                                       </div>
                                             :
-                                        <div className='flex items-center justify-center mt-2'>
-                                            <p className='text-xl font-bold' style={{color:"#56CB69"}}>+ {porcentage} %</p>
-                                          </div>
+                                            <div className='flex flex-col '>
+                                               <div className='flex items-center justify-between mt-2'>
+                                                  {totalInvertedByProvider.filter((t) => t.nombre[0] === providerSelected).map((total) => ( 
+                                                      <p className='font-medium text-sm' style={{color:"#568CCB"}}>Inversion: {formatePrice(total.monto)}</p>
+                                                    ))}
+
+                                                    {topFiveProvidersNetGain.filter((t) => t.nombre === providerSelected).map((prov) => ( 
+                                                      <p className='font-medium text-sm' style={{color:"#568CCB"}}>Ganancia: {formatePrice(prov.gananciaNeta)} </p>
+                                                    ))}                                         
+                                                </div>
+                                                <div className='flex justify-center items-center '>
+                                                   <p  style={{color:"#568CCB"}} className='font-bold text-sm'>
+                                                     {(((topFiveProvidersNetGain.find((t) => t.nombre === providerSelected)?.gananciaNeta || 0) -
+                                                      (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 0)) /
+                                                      (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 1) * 100).toFixed(2)} %
+                                                   </p>
+                                                </div>
+                                            </div>
+                                         
                                         }
                                   </CardBody>
                                </Card>
@@ -432,7 +372,7 @@ const DashboardProviders = () => {
                                  {topFiveProvidersNetGain !== null ?
                                    <div className='flex flex-col items-center justify-center mt-8'>
                                      <div className='flex flex-col'>
-                                     {topFiveProvidersNetGain.map((p) => ( 
+                                     {topFiveProvidersNetGain.slice(0, 5).map((p) => ( 
                                        <div className=' flex flex-col items-start mt-4'>
                                          <div className='flex'>
                                            <img src={start} className='h-4 w-4 object-fit-contain'/>

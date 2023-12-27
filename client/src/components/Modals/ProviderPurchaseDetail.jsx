@@ -36,7 +36,7 @@ export default function ProviderPurchaseDetail({detail, totalNetGain}) {
   return (
     <>
        <p onClick={onOpen} className='text-xs font-medium ml-2 underline cursor-pointer'  style={{color:'#728EC3'}}> Ver Detalle</p>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="max-w-max">
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="max-w-max bg-white font-medium" style={{color:"#728EC3"}}>
             <ModalContent>
             {(onClose) => (
                 <>
@@ -45,7 +45,7 @@ export default function ProviderPurchaseDetail({detail, totalNetGain}) {
                      <Table aria-label="Example table with dynamic content" className="max-w-fit-contain flex items-center justify-center max-h-[400px] overflow-y-auto">
                               <TableHeader columns={columns}>
                                 {(column) => (
-                                  <TableColumn key={column.key} className="text-xs gap-6">
+                                  <TableColumn key={column.key} className="text-xs gap-6 text-zinc-600 font-bold">
                                     {column.label}
                                   </TableColumn>
                                 )}
@@ -62,7 +62,7 @@ export default function ProviderPurchaseDetail({detail, totalNetGain}) {
                               )}
                             </TableBody>
                         </Table>        
-                         <div className='flex justify-end items-center w-full  mt-4 mr-6'>
+                         <div className='flex justify-end items-center w-full  mt-4 mr-6 mb-4'>
                             <p className='text-xs font-bold' style={{color:'#728EC3'}}>Ganancia Neta Total: {totalNetGain} $</p>
                           </div>           
                        

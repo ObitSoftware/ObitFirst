@@ -1,10 +1,6 @@
 import React from 'react'
 import {Card, CardBody} from "@nextui-org/react";
-import iconProduct from "../../img/productsIcon.png"
 import QuantityProductSell from '../Graficos/QuantityProductSell';
-import RankingVentaProductos from '../Graficos/RankingVentaProductos';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import VentasPorMes from '../Graficos/VentasPorMes';
 import { getMonthGains, getAllGains, getImprovementPercentage, getTotalYearMoneyFactured, getTotalMonthMoneyFactured, bestSells} from './FunctionsGetDataOfSells';
@@ -30,98 +26,37 @@ const DashboardSells = () => {
     const [selectedOption, setSelectedOption] = useState(" Monto total Anual Facturado ")
 
 
-    useEffect(() => {
+      useEffect(() => {
         const fetchData = async () => {
-          try {
+          try {          
             const gains = await getMonthGains();
-            const gainsFormated =  formatePrice(gains)
+            const gainsFormated = formatePrice(gains);
             setTotalMonthGains(gainsFormated);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        fetchData();
-      }, []); 
-    
-    
-    
-      useEffect(() => {
-        
-        const getPorcentage = async () => {
-          try {
+            
             const thePorcentage = await getImprovementPercentage();
-    
-            setPorcentage(thePorcentage);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getPorcentage();
-      }, []); 
-    
-    
-    
-      useEffect(() => {
-        const getEverGains = async () => {
-          try {
+            setPorcentage(thePorcentage);   
+            
             const allGains = await getAllGains();
-            const formatedPrice = formatePrice(allGains)
-            setTotalEverGains(formatedPrice);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getEverGains();
-      }, []); 
-    
-    
-    
-      useEffect(() => {
-        const getTotalAnualFactured = async () => {
-          try {
+            const formatedPrice = formatePrice(allGains);
+            setTotalEverGains(formatedPrice); 
+            
             const totalAnualFacturedAtTheMoment = await getTotalYearMoneyFactured();
-            const totalFormated = formatePrice(totalAnualFacturedAtTheMoment)
-            setTotalAnualFactured(totalFormated);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getTotalAnualFactured();
-      }, []); 
-    
-    
-      useEffect(() => {
-        const getTotalMonthFacturedNow = async () => {
-          try {
+            const totalFormatedAnual = formatePrice(totalAnualFacturedAtTheMoment);
+            setTotalAnualFactured(totalFormatedAnual);
+        
             const totalMonthFacturedAtTheMoment = await getTotalMonthMoneyFactured();
-            const totalFormated = formatePrice(totalMonthFacturedAtTheMoment)
-            setTotalMonthFactured(totalFormated);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getTotalMonthFacturedNow();
-      }, []); 
-    
+            const totalFormatedMonth = formatePrice(totalMonthFacturedAtTheMoment);
+            setTotalMonthFactured(totalFormatedMonth);
       
-      useEffect(() => {
-        const getBestSells = async () => {
-          try {
             const bestFive = await bestSells();
             setBestFiveSells(bestFive);
           } catch (error) {
             console.error(error);
           }
-        };
-        getBestSells();
-      }, []); 
-    
-       
-      useEffect(() => {
-          console.log(bestFiveSells)
-      }, [bestFiveSells]); 
-    
-    
+        }; 
+        fetchData();
+      }, []);
+  
       const showOneData = (first, second) => { 
         setShowTotalAnualFactured(first)
         setShowTotalMonthFactured(second)
@@ -131,9 +66,7 @@ const DashboardSells = () => {
       const handleClick = (opcion) => {
         setSelectedOption(opcion);
       };
-    
-    
-    
+       
       const getMonthName = () => {
         const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
         const fechaActual = new Date();

@@ -21,6 +21,7 @@ import tesoreriaAzul from "../../img/tesoreriaAzul.png"
 import estadisticasAzul from "../../img/estadisticasAzul.png"
 import finanzasAzul from "../../img/finanzasAzul.png"
 import lapizBlanco from "../../img/lapizBlanco.png"
+import EmailToProvider from '../Modals/EmailToProvider';
 
 function getItem(label, key, icon, children) {
   return {
@@ -113,6 +114,7 @@ useEffect(() => {
       ), [
         getItem(collapsed ? <AddCategory type="white" /> : <AddCategory type="sideBar"/>, "19"),
         getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
+        getItem(<EmailToProvider/>, 21)
       ]),
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Configuracion</p>, 'sub 5', (

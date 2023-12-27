@@ -27,98 +27,33 @@ const DashboardProducts = () => {
     const [monthSelected, setMonthSelected] = useState("")
 
     useEffect(() => {
-        const getTotalQuantity = async () => {
-          try {
-            const quantity = await quantityOfProducts();
-            setTotalQuantityProducts(quantity);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        getTotalQuantity();
-      }, []); 
+      const fetchData = async () => {
+        try {
+          const quantity = await quantityOfProducts();
+          setTotalQuantityProducts(quantity);
+    
+          const categorysUpdated = await getCategorys();
+          setProductsCategorys(categorysUpdated);
+    
+          const total = await calcularMontoTotal();
+          const formatedNmber = formatePrice(total);
+          setTotalMoneyInverted(formatedNmber);
 
-      useEffect(() => { 
-        const getAllCategorys = async () => { 
-           try {
-              const categorysUpdated = await getCategorys()
-              const theResult = categorysUpdated
-              setProductsCategorys(theResult)
-           } catch (error) {
-               console.error(error);
-           }
+          const totalByCategory = await getQuantityProductsCategory();
+          setQuantityProductsOfCategory(totalByCategory);
+    
+          const moreBought = await topMoreBoughtProducts();
+          setProductsMoreBought(moreBought);
+    
+          const moreGains = await topProductsWithMoreNetGains();
+          setProductsWithMoreNetGains(moreGains);
+        } catch (error) {
+          console.error(error);
         }
-        getAllCategorys()
-     }, [])
-
-     
-     useEffect(() => { 
-        console.log("La cates:" ,productsCategorys)
-     }, [productsCategorys])
-
-
-      useEffect(() => { 
-         const getTotalMoneyInverted = async () => { 
-            try {
-               const total = await calcularMontoTotal()
-               const formatedNmber = formatePrice(total)
-               setTotalMoneyInverted(formatedNmber)
-            } catch (error) {
-                console.error(error);
-            }
-         }
-         getTotalMoneyInverted()
-      }, [])
-
-
-      useEffect(() => { 
-        const getTotalByCategory = async () => { 
-           try {
-              const total = await getQuantityProductsCategory()
-              setQuantityProductsOfCategory(total)
-           } catch (error) {
-               console.error(error);
-           }
-        }
-        getTotalByCategory()
-     }, [])
-
-     useEffect(() => { 
-      console.log(quantityProductsOfCategory)
-     }, [quantityProductsOfCategory])
-
-     
-     useEffect(() => { 
-        const getMoreBought = async () => { 
-           try {
-              const moreBought = await topMoreBoughtProducts()
-              setProductsMoreBought(moreBought)
-           } catch (error) {
-               console.error(error);
-           }
-        }
-        getMoreBought()
-     }, [])
-
-         
-     useEffect(() => { 
-        const getMoreNetGains = async () => { 
-           try {
-              const moreGains = await topProductsWithMoreNetGains()
-              setProductsWithMoreNetGains(moreGains)
-           } catch (error) {
-               console.error(error);
-           }
-        }
-        getMoreNetGains()
-     }, [])
-
-
-
-
-     useEffect(() => { 
-         console.log(categorySelected)
-     }, [categorySelected])
+      };
+      fetchData();
+    }, []);
+    
 
 
   return (

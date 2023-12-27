@@ -35,7 +35,7 @@ export const totalMoneySpentBySupplier = async () => {
       });
   
       const resultArray = Object.values(supplierTotalSpent);
-      console.log("TOTAL SPENT BY SUPPLIER", resultArray);
+      console.log("TOTAL GASTADO POR PROVEEDOR", resultArray);
       return resultArray;
   
     } catch (error) {
@@ -69,9 +69,7 @@ export const totalMoneySpentBySupplier = async () => {
 
         const resultArray = Object.values(supplierTotalGain);
         const orderByAmount = resultArray.sort((a, b) => b.gananciaNeta - a.gananciaNeta);
-        const topFive = orderByAmount.slice(0, 5);
-        console.log("JUJUJU:", topFive);
-        return topFive;
+        return orderByAmount;
     
     } catch (error) {
         console.log(error);
@@ -147,46 +145,32 @@ export const quantityPurchaseOfAllProvidersByMonth = async (month) => {
   }
 }
 
+export const getQuantityInvertedAndQuantityGains = async () => { 
+  try {
+    const response = await axios.get("http://localhost:3000/compras");
+    const allPurchase = response.data;
+    console.log(allPurchase);
 
-/*
- const fetchVentaData = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/venta");
-        const monthName = props.month.toLowerCase(); // Convertir a minúsculas
-        const monthNumber = getMonthNumber(monthName);
-  
-        const productosVendidos = res.data
-          .filter(venta => {
-            const fechaVenta = venta.fechaCreacion;
-            const dateParts = fechaVenta.split("/");
-            if (dateParts.length === 3) {
-              const ventaMonth = parseInt(dateParts[1], 10);
-              return ventaMonth === monthNumber;
-            } else {
-              console.error(`Fecha de venta con formato inesperado: ${fechaVenta}`);
-              return false;
-            }
-          })
-          .reduce((acc, venta) => {
-            const nombreProducto = venta.nombreProducto;
-            const cantidadVendida = venta.cantidad || 0;
-            const index = acc.findIndex((producto) => producto.NombreProducto === nombreProducto);
-            if (index !== -1) {
-              acc[index].CantidadVendida += cantidadVendida;
-            } else {
-              acc.push({
-                NombreProducto: nombreProducto,
-                CantidadVendida: cantidadVendida
-              });
-            }
-            return acc;
-          }, []);
-  
-        productosVendidos.sort((a, b) => b.CantidadVendida - a.CantidadVendida);
-        setRankingProductos(productosVendidos);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-  
-    fetchVentaData();*/
+    const providerAmount = {};
+
+    allPurchase.forEach((purchase) => { 
+      purchase.productosComprados.forEach((p) => { 
+        const providerName = p.proveedor[0]
+        const amountInverted = p["total"];
+
+        if(providerAmount[providerName]) { 
+          providerAmount[providerName].total += amountInverted
+        } else { 
+          providerAmount[providerName] = {nombre: providerName, monto: amountInverted}
+        }
+      })
+    })
+
+      const resultArray = Object.values(providerName)
+      console.log("INVERSION POR PROVEEDOR", resultArray);
+      return resultArray;
+    
+  } catch (error) {
+    console.log(error);
+  }
+}

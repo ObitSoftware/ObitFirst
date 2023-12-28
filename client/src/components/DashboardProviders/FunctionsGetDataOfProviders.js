@@ -1,5 +1,23 @@
 import axios from "axios"
 
+function obtenerFechaActual() {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+  const yyyy = today.getFullYear();
+  return dd + '/' + mm + '/' + yyyy;
+}
+
+// Función para obtener todas las compras
+const allPurchaseNow = async () => { 
+  try {
+    const response = await axios.get("http://localhost:3000/compras");
+    const allPurchase = response.data;
+    return allPurchase;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
 export const getAllProviders = async () => { 
@@ -175,39 +193,35 @@ export const getQuantityInvertedAndQuantityGains = async () => {
   }
 }
 
-export const nextPaymentDates = async () => {
-  try {
-    const response = await axios.get("http://localhost:3000/compras");
-    const allPurchase = response.data;
-    const paymentData = {};
 
-    allPurchase.forEach((purchase) => {
-      purchase.productosComprados.forEach((p) => {
-        const providerName = p.proveedor[0];
-        const paymentDate = p.fechaPago;
+export async function nextPaymentDates() {
+  const allPurchase = await allPurchaseNow(); 
+  const actualDate = obtenerFechaActual(); 
 
-        if (!paymentData[providerName]) {
-          // If the provider doesn't exist in paymentData, initialize it
-          paymentData[providerName] = {
-            provider: providerName,
-            product: p.nombreProducto,
-            paymentDates: [],
-          };
-        }
+  const currentDate = new Date(actualDate.split('/').reverse().join('-'));
 
-        // Add payment date to the provider's paymentDates array
-        paymentData[providerName].paymentDates.push(paymentDate);
-      });
-    });
 
-    // Now paymentData contains the desired structure
-    // You can convert it to an array if needed
-    const result = Object.values(paymentData);
+  const comprasOrdenadas = allPurchase.sort((a, b) => {
+    const fechaPagoA = new Date(a.productosComprados[0].fechaPago);
+    const fechaPagoB = new Date(b.productosComprados[0].fechaPago);
+    return fechaPagoA - fechaPagoB;
+  });
 
-    console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", result);
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+  const comprasProximas = comprasOrdenadas
+    .filter(compra => {
+      const fechaPago = new Date(compra.productosComprados[0].fechaPago);
+      return fechaPago >= currentDate;
+    })
+    .slice(0, 5);
+
+  const resultados = comprasProximas.map(compra => ({
+    proveedor: compra.productosComprados[0].proveedor[0],
+    producto: compra.productosComprados[0].nombreProducto,
+    fechadepago: compra.productosComprados[0].fechaPago,
+    cantidad: compra.productosComprados[0].cantidad
+  }));
+
+  console.log(resultados)
+  return resultados;
+}
+

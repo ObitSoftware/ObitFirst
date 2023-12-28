@@ -17,75 +17,6 @@ import purchaseIcon from "../../img/purchaseIcon.png"
 import ViewBuyDetail from '../Modals/ViewBuyDetail';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue} from "@nextui-org/react";
 
-
-const rows = [
-  {
-    key: "1",
-    name: "Tony Reichert",
-    role: "CEO",
-    status: "Active",
-    nose : "lalala",
-    tampocoSe: "lalalalala",
-    tampoco: "lalalalala"
-  },
-  {
-    key: "2",
-    name: "Zoey Lang",
-    role: "Technical Lead",
-    status: "Paused",
-    nose : "lalala",
-    tampocoSe: "lalalalala",
-    tampoco: "lalalalala"
-  },
-  {
-    key: "3",
-    name: "Jane Fisher",
-    role: "Senior Developer",
-    status: "Active",
-    nose : "lalala",
-    tampocoSe: "lalalalala",
-    tampoco: "lalalalala"
-  },
-  {
-    key: "4",
-    name: "William Howard",
-    role: "Community Manager",
-    status: "Vacation",
-    nose : "lalala",
-    tampocoSe: "lalalalala",
-    tampoco: "lalalalala"
-  },
-];
-
-const columns = [
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "role",
-    label: "ROLE",
-  },
-  {
-    key: "status",
-    label: "STATUS",
-  },
-  {
-    key: "nose",
-    label: "NOSE",
-  },
-  {
-    key: "tampocoSe",
-    label: "TAMPOCOSE",
-  },
-  {
-    key: "tampoco",
-    label: "TAMPOCO",
-  },
-];
-
-
-
 const DashboardPurchase = () => {
 
      const [products, setProducts] = useState([])
@@ -104,8 +35,6 @@ const DashboardPurchase = () => {
      const [monthSelected, setMonthSelected] = useState("")
      const [columns, setColumns] = useState("")
      
-
-      
      useEffect(() =>  { 
       axios.get("http://localhost:3000/compras")
         .then((res) => { 
@@ -116,7 +45,6 @@ const DashboardPurchase = () => {
               nombreProducto: producto.nombreProducto,
               cantidad: producto.cantidad,
               precioProducto: producto.precioProducto,
-              // Agrega aquí cualquier otra propiedad que desees incluir
             })));
           }, []);
         
@@ -127,7 +55,6 @@ const DashboardPurchase = () => {
             fechaCompra: 'Fecha',
             total: 'Monto',
             nombreProducto: 'Producto',
-            // Agrega otros mapeos según sea necesario
           };
     
           const propiedades = Object.keys(productos[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados'  && propiedad !== 'compraId' && propiedad !== 'precioProducto' && propiedad !== 'producto');
@@ -137,7 +64,6 @@ const DashboardPurchase = () => {
             allowsSorting: true
           }));             
           
-          // Verifica si la columna "nombreProducto" ya está presente antes de agregarla
           if (!columnObjects.some(column => column.key === 'nombreProducto')) {
             columnObjects.push({
               key: 'nombreProducto',
@@ -172,6 +98,23 @@ const DashboardPurchase = () => {
               });
           }, []);
 
+          const handleChange = (e) => {
+            const inputValue = e.target.value;
+            setSearchValue(inputValue);
+          
+            // Filtra los productos basándose en la entrada del usuario
+            const filteredData = allPurchase.filter((item) =>
+              item.nombreProducto.toLowerCase().includes(inputValue.toLowerCase())
+            );
+          
+            // Imprime los productos filtrados y el valor de searchValue
+            console.log('Filtered Data:', filteredData);
+            console.log('Search Value:', inputValue);
+          
+            // Actualiza los datos filtrados
+            setFilteredData(filteredData);
+          };
+  
           useEffect(() => { 
             const getTotal = async () => { 
               try {
@@ -255,6 +198,12 @@ const DashboardPurchase = () => {
           console.log(productId)
           }, [productId])
 
+        
+            const filteredData = allPurchase.filter((item) => {
+              return Object.values(item).some((value) =>
+                value.toString().toLowerCase().includes(searchValue.toLowerCase())
+              );
+            });
     
 
   return (
@@ -279,7 +228,7 @@ const DashboardPurchase = () => {
                                   type="text"
                                   placeholder='Producto..'
                                   value={searchValue}
-                                
+                                  onChange={handleChange}
                                 />
 
                                 {/* Muestra las sugerencias en un menú desplegable */}

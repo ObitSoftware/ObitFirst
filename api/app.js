@@ -9,6 +9,7 @@ import  comprasRoutes from './routes/comprasRoutes.js';
 import  connectDataBase from './database/connectdb.js';
 import clientsRoutes from "./routes/clientsRoutes.js";
 import categorysRoutes from "./routes/categorysRoutes.js";
+import emailRoutes from "./routes/emailsRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,6 +31,7 @@ app.use('/proveedores', proveedorRoutes);
 app.use('/clientes', clientsRoutes);
 app.use('/compras', comprasRoutes);
 app.use(categorysRoutes);
+app.use(emailRoutes)
 
 
 app.get('/', (req, res) => {

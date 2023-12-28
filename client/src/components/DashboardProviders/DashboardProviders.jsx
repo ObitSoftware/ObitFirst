@@ -40,7 +40,6 @@ const DashboardProviders = () => {
     const [actualDate, setActualDate] = useState(obtenerFechaActual())
 
       useEffect(() => {
-
         const fetchData = async () => {
           try {
             const topFive = await topProvidersByNetGains();
@@ -67,7 +66,6 @@ const DashboardProviders = () => {
         totalInvertedInOneProvider();
         
         const fetchOtherData = async () => {
-          console.log("FEEEEEEEEEEEEEEECHA", actualDate)
           try {
             const totalInverted = await getTotalInvertedAmount();
             const formatedPrice = formatePrice(totalInverted);
@@ -129,6 +127,9 @@ const DashboardProviders = () => {
       
       const actualYear = getActualYear();
 
+      useEffect(() => { 
+       console.log("ACA BRO", nextPayments)
+      }, [nextPayments])
 
 
   return ( 
@@ -237,8 +238,7 @@ const DashboardProviders = () => {
                                                         (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 1) * 100).toFixed(2)} %
                                                     </p>
                                                   </div>
-                                            </div>
-                                         
+                                            </div>                                       
                                         }
                                   </div>                 
                               </CardBody>
@@ -252,11 +252,27 @@ const DashboardProviders = () => {
                  <div className='w-5/12 2xl:w-4/12'>
                     <div className='flex flex-col items-center justify-center  h-full'>
                       <div className='mt-2 h-full w-full '>                
-                        <Card isHoverable={true} className=' bg-white h-full flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
-                              <CardBody className='flex '>              
-                                  <div className='flex flex-col '>
-                                   
+                        <Card isHoverable={true} className=' bg-white h-full flex  w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
+                              <CardBody>          
+                                <div className='flex items-center justify-start gap-2'>
+                                   <img src={arrowDash} className='h-2 object-fit w-2'/>
+                                   <p className='text-xs text-zinc-600'>Proximas Fechas de Pago:</p>
+                                </div>    
+                                 {nextPayments.length !== 0 ? 
+                                  <div className='flex flex-col justify-start  mt-6 ml-4'>
+                                     {nextPayments.map((p) => ( 
+                                      <div className='flex mt-2 gap-2'  key={p.proveedor + p.producto + p.fechadepago}>
+                                        <ul className='flex mt-2 gap-2 list-disc'>
+                                          <li className='font-medium text-xs'  style={{color:"#728EC3"}}>{p.proveedor} - {p.cantidad} {p.producto} - {p.fechadepago}</li>
+                                        </ul>                                         
+                                      </div>
+                                     ))}
                                   </div>
+                                  :
+                                  <div className='flex items-center justify-center mt-8'>
+                                    <p className='text-xs 2xl:text-sm font-medium'  style={{color:"#728EC3"}}>Cargando..</p>
+                                  </div>
+                                  }
                                 </CardBody>
                           </Card>
                       </div>

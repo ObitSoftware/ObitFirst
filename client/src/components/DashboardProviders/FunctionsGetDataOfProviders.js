@@ -174,3 +174,40 @@ export const getQuantityInvertedAndQuantityGains = async () => {
     console.log(error);
   }
 }
+
+export const nextPaymentDates = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/compras");
+    const allPurchase = response.data;
+    const paymentData = {};
+
+    allPurchase.forEach((purchase) => {
+      purchase.productosComprados.forEach((p) => {
+        const providerName = p.proveedor[0];
+        const paymentDate = p.fechaPago;
+
+        if (!paymentData[providerName]) {
+          // If the provider doesn't exist in paymentData, initialize it
+          paymentData[providerName] = {
+            provider: providerName,
+            product: p.nombreProducto,
+            paymentDates: [],
+          };
+        }
+
+        // Add payment date to the provider's paymentDates array
+        paymentData[providerName].paymentDates.push(paymentDate);
+      });
+    });
+
+    // Now paymentData contains the desired structure
+    // You can convert it to an array if needed
+    const result = Object.values(paymentData);
+
+    console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", result);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

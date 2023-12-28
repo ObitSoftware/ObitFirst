@@ -279,7 +279,7 @@ const DashboardPurchase = () => {
                                   type="text"
                                   placeholder='Producto..'
                                   value={searchValue}
-                                  onChange={handleChange}
+                                
                                 />
 
                                 {/* Muestra las sugerencias en un menú desplegable */}

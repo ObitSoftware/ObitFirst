@@ -1,23 +1,16 @@
 import React from 'react'
 import {Card, CardBody} from "@nextui-org/react";
-import iconProduct from "../../img/productsIcon.png"
-import QuantityProductSell from '../Graficos/QuantityProductSell';
-import RankingVentaProductos from '../Graficos/RankingVentaProductos';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import axios from 'axios';
 import { useState, useEffect } from 'react';
-import VentasPorMes from '../Graficos/VentasPorMes';
 import { getMonthGains, getAllGains, getImprovementPercentage, getTotalYearMoneyFactured, getTotalMonthMoneyFactured, bestSells} from '../DashboardSell/FunctionsGetDataOfSells';
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import { formatePrice } from '../../functions/formatPrice';
 import start from "../../img/star.png"
 import factured from "../../img/factured.png"
 import arrowDash from "../../img/arrowDashboard.png"
-import arrowGreen from "../../img/arrowGreen.png"
 import arrowDown from "../../img/arrowDown.png"
-
+import obtenerFechaActual from '../../functions/actualDate';
 import { getTotalInvertedAmount } from '../DashboardPuchaseDetail/FunctionsGetDataOfPurchase';
-import { getAllProviders, totalMoneySpentBySupplier, topProvidersByNetGains } from './FunctionsGetDataOfProviders';
+import { getAllProviders, totalMoneySpentBySupplier, topProvidersByNetGains, nextPaymentDates } from './FunctionsGetDataOfProviders';
 import ProvidersSells from '../Graficos/ProvidersSells';
 import ProvidersPurchaseRanking from '../Graficos/ProvidersPurchase';
 import ProviderPurchaseDetail from '../Modals/ProviderPurchaseDetail';
@@ -42,9 +35,12 @@ const DashboardProviders = () => {
     const [providersName, setProvidersName] = useState("")
     const [providerSelected, setProviderSelected] = useState("")
     const [topFiveProvidersNetGain, setTopFiveProvidersNetGain] = useState(null)
-    const [monthSelected, setMonthSelected] = useState("")
+    const [nextPayments, setNextPayments] = useState("")
+    const [monthSelected, setMonthSelected] = useState("") 
+    const [actualDate, setActualDate] = useState(obtenerFechaActual())
 
       useEffect(() => {
+
         const fetchData = async () => {
           try {
             const topFive = await topProvidersByNetGains();
@@ -71,6 +67,7 @@ const DashboardProviders = () => {
         totalInvertedInOneProvider();
         
         const fetchOtherData = async () => {
+          console.log("FEEEEEEEEEEEEEEECHA", actualDate)
           try {
             const totalInverted = await getTotalInvertedAmount();
             const formatedPrice = formatePrice(totalInverted);
@@ -82,6 +79,9 @@ const DashboardProviders = () => {
       
             const thePorcentage = await getImprovementPercentage();
             setPorcentage(thePorcentage);
+            
+            const nextPaymentsData = await nextPaymentDates()
+            setNextPayments(nextPaymentsData)
       
             const totalAnualFacturedAtTheMoment = await getTotalYearMoneyFactured();
             const totalFormatedAnual = formatePrice(totalAnualFacturedAtTheMoment);
@@ -192,7 +192,7 @@ const DashboardProviders = () => {
                                         <Dropdown>                                      
                                           <DropdownTrigger>                                           
                                             <div className='flex items-center cursor-pointer'> 
-                                              <img src={arrowGreen} className='h-2 w-2 mr-2'/> 
+                                              <img src={arrowDown} className='h-2 w-2 mr-2'/> 
                                            {providerSelected === "" ?
                                              <small className='text-zinc-600  font-medium font-inter text-sm'>Monto total de Inversion</small> 
                                              : 
@@ -250,114 +250,19 @@ const DashboardProviders = () => {
             <div class="col-span-2 "> 
               <div className='flex gap-0 2xl:gap-4'>
                  <div className='w-5/12 2xl:w-4/12'>
-                    <div className='flex flex-col items-center justify-center'>
-                      <div className='mt-2 w-full'>                
-                        <Card isHoverable={true} className=' bg-white h-24 flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
+                    <div className='flex flex-col items-center justify-center  h-full'>
+                      <div className='mt-2 h-full w-full '>                
+                        <Card isHoverable={true} className=' bg-white h-full flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
                               <CardBody className='flex '>              
                                   <div className='flex flex-col '>
-                                    <div className='flex w-full justify-between'>
-                                        <div className='flex items-center justify-start'>
-                                            <img src={arrowDash} className='h-2 w-2 object-fit-contain'/>
-                                            <p className='text-xs ml-2'>Inversion por proveedor:</p>   
-                                         </div>
-                                         <div className='flex items-center justify-end'>
-                                         <Dropdown >
-                                                <DropdownTrigger>
-                                                    <div className='flex items-center gap-2'>
-                                                    <div className='flex gap-1 items-center  rounded-lg cursor-pointer' style={{backgroundColor:"#DAEFFF"}}>
-                                                        {providerSelected === "" ?  <small className='text-xs text-slate-700 m-1'>Todos</small> :  <small className='text-xs text-slate-700 m-1'>{providerSelected}</small>}
-                                                        <img src={arrowDown} className='h-2 w-2 mr-2'/>
-                                                    </div>                             
-                                                    </div>
-                                                </DropdownTrigger>
-                                                {providersName.length !== 0 ?
-                                                    <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => console.log(key)}>
-                                                        <DropdownItem onClick={() => setProviderSelected("")}>Ver Total</DropdownItem>
-                                                        {providersName.map((p) => ( 
-                                                            <DropdownItem key={p._id} onClick={() => setProviderSelected(p.nombre)}>{p.nombre}</DropdownItem>
-                                                        ))}                
-                                                    </DropdownMenu>
-                                                    :
-                                                <p>Cargando</p>   
-                                                }
-                                                </Dropdown>
-                                          </div>
-                                    </div>
-                                    <div className='flex items-center justify-center mt-4'>
-                                              {providerSelected === "" ? (
-                                                 <p className='text-xl font-bold' style={{color:"#568CCB"}}>{totalInvertedEver}</p>
-                                                ) : (
-                                                totalInvertedByProvider
-                                                    .filter((p) => p.nombre.includes(providerSelected))
-                                                    .map((p, index) => (
-                                                        <p className='text-xl font-bold' style={{color:"#568CCB"}} key={index}> {formatePrice(p.monto)} </p>
-                                                    ))
-                                                )}
-                                                
-                                    </div>
+                                   
                                   </div>
                                 </CardBody>
                           </Card>
                       </div>
 
 
-                      <div className='mt-2 w-full'>
-                          <Card isHoverable={true} className=' bg-white h-24 flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>  
-                              <CardBody className='flex '>
-                                <div className='flex flex-col '>
-                                  <div className='flex w-full justify-between '>
-                                    <div className='flex items-center justify-start'>
-                                      <img src={arrowDash} className='h-2 w-2 object-fit-contain'/>
-                                      <p className='text-xs ml-2'>Monto Invertido a cada proveedor:</p>   
-                                    </div>
-                                    <div className='flex items-center justify-end'>
-                                      <p className='text-xs'>{actualYear}</p>
-                                    </div>
-                                  </div>
-                                  <div className='flex items-center justify-center mt-4'>
-                                    <p className='text-xl font-bold' style={{color:"#568CCB"}}> {totalMonthGains !== null ? totalMonthGains : 'Cargando...'}</p>
-                                  </div>
-                                </div>
-                                <div>
-                                </div>
-                              </CardBody>
-                          </Card>
-                      </div>
-                        <div className='mt-2 w-full'>
-                             <Card isHoverable={true} className=' bg-white h-24 rounded-xl flex items-center justify-center w-60 2xl:w-80'  style={{ boxShadow:"0px 0px 25px 8px rgba(37, 79, 159, 0.14)"}}>
-                                <CardBody className="flex">
-                                   <div className='flex items-center justify-start'>   
-                                      <img src={arrowDash} className='h-2 w-2 object-fit-contain'/>
-                                      <p className='text-xs ml-2 '>Retorno de Inversion del Proveedor</p>   
-                                    </div>
-                                    {providerSelected === "" ? 
-                                      <div className='flex items-center justify-center mt-4'>
-                                          <p className='font-medium text-xs' style={{color:"#728EC3"}}>Sin Proveedor Seleccionado</p>
-                                      </div>
-                                            :
-                                            <div className='flex flex-col '>
-                                               <div className='flex items-center justify-between mt-2'>
-                                                  {totalInvertedByProvider.filter((t) => t.nombre[0] === providerSelected).map((total) => ( 
-                                                      <p className='font-medium text-sm' style={{color:"#568CCB"}}>Inversion: {formatePrice(total.monto)}</p>
-                                                    ))}
-
-                                                    {topFiveProvidersNetGain.filter((t) => t.nombre === providerSelected).map((prov) => ( 
-                                                      <p className='font-medium text-sm' style={{color:"#568CCB"}}>Ganancia: {formatePrice(prov.gananciaNeta)} </p>
-                                                    ))}                                         
-                                                </div>
-                                                <div className='flex justify-center items-center '>
-                                                   <p  style={{color:"#568CCB"}} className='font-bold text-sm'>
-                                                     {(((topFiveProvidersNetGain.find((t) => t.nombre === providerSelected)?.gananciaNeta || 0) -
-                                                      (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 0)) /
-                                                      (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 1) * 100).toFixed(2)} %
-                                                   </p>
-                                                </div>
-                                            </div>
-                                         
-                                        }
-                                  </CardBody>
-                               </Card>
-                         </div>
+                    
                     </div>
                  </div>
 

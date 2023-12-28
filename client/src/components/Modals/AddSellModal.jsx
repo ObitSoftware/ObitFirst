@@ -5,7 +5,6 @@ import { PlusIcon } from '../icons/PlusIcon'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import obtenerFechaActual from "../../functions/actualDate.js"
-import { v4 as uuidv4 } from 'uuid';
 import AddClientModal from "../Modals/AddClientModal"
 
 
@@ -16,12 +15,10 @@ const AddSellModal = ({updateList}) => {
     const [clientsAvailable, setClientsAvailable] = useState([])
     const [productId, setProductId] = useState("")
     const [productSelectedData, setProductSelectedData] = useState([])
-
     const [showProductData, setShowProductData] = useState(false)
     const [quantity, setQuantity] = useState(null)
     const [totalToPay, setTotalToPay] = useState(null)
     const [succesMessage, setSuccesMessage] = useState(false)
-
     const [allProducts, setAllProducts] = useState([])
     const [allClients, setAllClients] = useState([])
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -30,7 +27,6 @@ const AddSellModal = ({updateList}) => {
     const [inputClientsValue, setInputClientsValue] = useState('');
     const [productoSeleccionado, setProductoSeleccionado] = useState("")
     const [selectedClient, setSelectedClient] = useState("")
-
     const [missedData, setMissedData] = useState(false)
     const [textMissedData, setTextMissedData] = useState("")
 

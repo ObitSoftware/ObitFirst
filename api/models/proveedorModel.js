@@ -13,6 +13,10 @@ const proveedorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
 });
 
 const Proveedor = mongoose.model('Proveedor', proveedorSchema);

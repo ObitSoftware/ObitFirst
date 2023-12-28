@@ -18,6 +18,7 @@ const AddProviderModal = ({updateList}) => {
   const [providerName, setProviderName] = useState("")
   const [providerPhone, setProviderPhone] = useState(null)
   const [providerId, setProviderId] = useState(null)
+  const [providerEmail, setProviderEmail] = useState("")
 
   const showMissedData = (text) => { 
     setMissedData(true)
@@ -30,18 +31,20 @@ const AddProviderModal = ({updateList}) => {
   }
  
   const addProvider = () => { 
-    if(providerName.length === 0 || providerPhone.length === 0 || providerId.length === 0 ) { 
+    if(providerName.length === 0 || providerPhone.length === 0 || providerId.length === 0 || providerId.email === 0) { 
       showMissedData("Faltan datos para poder agregar el Proveedor. Por favor, completa todos los campos")
       setTimeout(() => { 
         setProviderName("")
         setProviderPhone("")
         setProviderId("")
+        setProviderEmail("")
       }, 3500) 
     } else { 
       const newProvider = ({ 
         proveedorId: providerId,
         nombre: providerName,
         telefono: providerPhone,
+        email: providerEmail
       })
       axios.post("http://localhost:3000/proveedores", newProvider)
             .then((res) => {
@@ -50,6 +53,7 @@ const AddProviderModal = ({updateList}) => {
              setProviderId("")
              setProviderName("")
              setProviderPhone("")
+             setProviderEmail("")
              setTimeout(() => { 
               document.getElementById('my_modal_3').close();
               updateList()
@@ -82,6 +86,7 @@ const AddProviderModal = ({updateList}) => {
                      <input placeholder='Numero de Identificacion' className='w-72 text-sm mt-6 rounded-lg' value={providerId} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProviderId(e.target.value)}/>
                      <input placeholder='Nombre' className='w-72 text-sm mt-6 rounded-lg' value={providerName} style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setProviderName(e.target.value)}/>
                      <input placeholder='Telefono' className='w-72 text-sm mt-4 rounded-lg' value={providerPhone} style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setProviderPhone(e.target.value)}/>
+                     <input placeholder='Email' className='w-72 text-sm mt-4 rounded-lg' value={providerEmail} style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setProviderEmail(e.target.value)}/>
                 </div>
 
                    <div className='flex justify-end w-full mt-4'>

@@ -35,47 +35,47 @@ const DashboardPurchase = () => {
      const [monthSelected, setMonthSelected] = useState("")
      const [columns, setColumns] = useState("")
      
-     useEffect(() =>  { 
-      axios.get("http://localhost:3000/compras")
-        .then((res) => { 
-          const compras = res.data;
-          const productos = compras.reduce((acc, compra) => {
-            return acc.concat(compra.productosComprados.map(producto => ({
-              ...compra,
-              nombreProducto: producto.nombreProducto,
-              cantidad: producto.cantidad,
-              precioProducto: producto.precioProducto,
-            })));
-          }, []);
-        
-          setAllPurchase(productos);
-          console.log(productos.length)
-    
-          const columnLabelsMap = {
-            fechaCompra: 'Fecha',
-            total: 'Monto',
-            nombreProducto: 'Producto',
-          };
-    
-          const propiedades = Object.keys(productos[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados'  && propiedad !== 'compraId' && propiedad !== 'precioProducto' && propiedad !== 'producto');
-          const columnObjects = propiedades.map(propiedad => ({
-            key: propiedad,
-            label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
-            allowsSorting: true
-          }));             
+          useEffect(() =>  { 
+            axios.get("http://localhost:3000/compras")
+              .then((res) => { 
+                const compras = res.data;
+                const productos = compras.reduce((acc, compra) => {
+                  return acc.concat(compra.productosComprados.map(producto => ({
+                    ...compra,
+                    nombreProducto: producto.nombreProducto,
+                    cantidad: producto.cantidad,
+                    precioProducto: producto.precioProducto,
+                  })));
+                }, []);
+              
+                setAllPurchase(productos);
+                console.log(productos.length)
           
-          if (!columnObjects.some(column => column.key === 'nombreProducto')) {
-            columnObjects.push({
-              key: 'nombreProducto',
-              label: columnLabelsMap['nombreProducto'] || 'Producto',
-              allowsSorting: true,
-            });
-          }
-    
-          setColumns(columnObjects);
-        })
-        .catch((err) => console.log(err));
-    }, []);
+                const columnLabelsMap = {
+                  fechaCompra: 'Fecha',
+                  total: 'Monto',
+                  nombreProducto: 'Producto',
+                };
+          
+                const propiedades = Object.keys(productos[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id' && propiedad !== 'productosComprados'  && propiedad !== 'compraId' && propiedad !== 'precioProducto' && propiedad !== 'producto');
+                const columnObjects = propiedades.map(propiedad => ({
+                  key: propiedad,
+                  label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
+                  allowsSorting: true
+                }));             
+                
+                if (!columnObjects.some(column => column.key === 'nombreProducto')) {
+                  columnObjects.push({
+                    key: 'nombreProducto',
+                    label: columnLabelsMap['nombreProducto'] || 'Producto',
+                    allowsSorting: true,
+                  });
+                }
+          
+                setColumns(columnObjects);
+              })
+              .catch((err) => console.log(err));
+          }, []);
 
           useEffect(() => { 
             axios.get(`http://localhost:3000/productos/${productId}`)
@@ -98,22 +98,7 @@ const DashboardPurchase = () => {
               });
           }, []);
 
-          const handleChange = (e) => {
-            const inputValue = e.target.value;
-            setSearchValue(inputValue);
-          
-            // Filtra los productos basándose en la entrada del usuario
-            const filteredData = allPurchase.filter((item) =>
-              item.nombreProducto.toLowerCase().includes(inputValue.toLowerCase())
-            );
-          
-            // Imprime los productos filtrados y el valor de searchValue
-            console.log('Filtered Data:', filteredData);
-            console.log('Search Value:', inputValue);
-          
-            // Actualiza los datos filtrados
-            setFilteredData(filteredData);
-          };
+         
   
           useEffect(() => { 
             const getTotal = async () => { 
@@ -199,13 +184,7 @@ const DashboardPurchase = () => {
           }, [productId])
 
         
-            const filteredData = allPurchase.filter((item) => {
-              return Object.values(item).some((value) =>
-                value.toString().toLowerCase().includes(searchValue.toLowerCase())
-              );
-            });
-    
-
+          
   return (
     <div className='flex flex-col  items-center  ml-44 mt-24 2xl:mt-2'>
              <div className='flex justify-start items-start mb-4 2xl:mb-8 w-full'>
@@ -226,21 +205,8 @@ const DashboardPurchase = () => {
                                 <input
                                   className='border border-zinc-300 rounded-md w-40 2xl:w-48 h-6 text-xs focus:outline-none focus:ring-0'
                                   type="text"
-                                  placeholder='Producto..'
-                                  value={searchValue}
-                                  onChange={handleChange}
+                                  placeholder='Producto..'                              
                                 />
-
-                                {/* Muestra las sugerencias en un menú desplegable */}
-                                {searchValue.length > 0 && (
-                                  <ul className='absolute mt-2 bg-white border border-gray-300 rounded-md shadow-md z-10'>
-                                    {suggestions.map((product, index) => (
-                                      <li key={index} className='px-4 py-2 cursor-pointer hover:bg-gray-200'>
-                                        {product}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                )}
                               </div>
                             </div>
                             </div>

@@ -193,35 +193,32 @@ export const getQuantityInvertedAndQuantityGains = async () => {
   }
 }
 
+export const nextPaymentDates = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/compras");
+    const allPurchase = response.data;
+    const paymentData = {};
 
-export async function nextPaymentDates() {
-  const allPurchase = await allPurchaseNow(); 
-  const actualDate = obtenerFechaActual(); 
+    allPurchase.forEach((purchase) => {
+      purchase.productosComprados.forEach((p) => {
+        const providerName = p.proveedor[0];
+        const paymentDate = p.fechaPago;
 
-  const currentDate = new Date(actualDate.split('/').reverse().join('-'));
-
-
-  const comprasOrdenadas = allPurchase.sort((a, b) => {
-    const fechaPagoA = new Date(a.productosComprados[0].fechaPago);
-    const fechaPagoB = new Date(b.productosComprados[0].fechaPago);
-    return fechaPagoA - fechaPagoB;
-  });
-
-  const comprasProximas = comprasOrdenadas
-    .filter(compra => {
-      const fechaPago = new Date(compra.productosComprados[0].fechaPago);
-      return fechaPago >= currentDate;
-    })
-    .slice(0, 5);
-
-  const resultados = comprasProximas.map(compra => ({
-    proveedor: compra.productosComprados[0].proveedor[0],
-    producto: compra.productosComprados[0].nombreProducto,
-    fechadepago: compra.productosComprados[0].fechaPago,
-    cantidad: compra.productosComprados[0].cantidad
-  }));
-
-  console.log(resultados)
-  return resultados;
-}
-
+        if (!paymentData[providerName]) {
+          paymentData[providerName] = {
+            provider: providerName,
+            product: p.nombreProducto,
+            paymentDates: [],
+          };
+        }
+         paymentData[providerName].paymentDates.push(paymentDate);
+      });
+    });
+    const result = Object.values(paymentData);
+    console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", result);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

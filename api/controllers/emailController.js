@@ -8,14 +8,16 @@ export const sendEmailToProvider = async (req, res) => {
 
         const newEmailToBeSaved = new Email(req.body);
         const savedEmail = await newEmailToBeSaved.save();
-    
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
             user: 'obitsoftware@gmail.com', 
             pass: 'jghl xhdk bqju xtpj' 
+          },
+          tls: {
+            rejectUnauthorized: false
           }
-        });
+         });
            
         const mailOptions = {
           from: 'obitsoftware@gmail.com', 

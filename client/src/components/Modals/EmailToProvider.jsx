@@ -73,9 +73,6 @@ export default function EmailToProvider() {
 
     const handleChange = (e) => {
       setEmail(e);
-      if(e.length === 0) { 
-        setEmail("")
-      }  
     };
 
     const handleItemClick = (email) => {
@@ -130,7 +127,7 @@ export default function EmailToProvider() {
                           <button  
                               className="h-7 w-20 text-xs border-none focus:outline-none  focus:ring-0 text-center items-center text-white"
                               style={{backgroundColor:"#728EC3"}}
-                              onClick={() => addNewEmail()}>
+                              onClick={() => handleItemClick(email)}>
                                 Agregar
                           </button>                    
                       </div>

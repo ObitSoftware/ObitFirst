@@ -67,7 +67,7 @@ useEffect(() => {
 
   const items = [
       getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}   onMouseOver={() => setSelectedItem("Inicio")}  onMouseLeave={() => setSelectedItem("")}> Inicio</p>,'1', (
-        <Link to="/main">
+        <Link to="/tables">
            {selectedItem === "Inicio" ?
               <img src={casaAzul} style={{ width: '20px', height: '20px', marginRight: '5px' }}  />
                :

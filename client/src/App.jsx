@@ -21,6 +21,8 @@ import bgInicio from "./img/bgInicio.png"
 
 function App() {
   const location = useLocation();
+  const [backgroundColor, setBackgroundColor] = useState('');
+
 
   useEffect(() => {
     if (
@@ -36,9 +38,9 @@ function App() {
       document.body.style.backgroundRepeat = 'no-repeat'; 
       document.body.style.backgroundColor = ''; 
     } else {
-      document.body.style.backgroundColor = 'white';
+      document.body.style.backgroundColor = `${backgroundColor}`;
     }
-  }, [location.pathname]);
+  }, [location.pathname, backgroundColor]);
 
   const renderSidebar = () => {
     // Ocultar el Sidebar en la ruta /inicio
@@ -49,12 +51,16 @@ function App() {
     return <SidebarComponent />;
   };
 
+  const updateBackgroundColor = (color) => {
+    setBackgroundColor(color);
+  };
+
   return (
     <UserProvider>
       <Navbar />
       {renderSidebar()}
       <Routes>
-        <Route path="/main" element={<Inicio />} />
+        <Route path="/main" element={<Inicio updateBackgroundColor={updateBackgroundColor}/>} />
         <Route path="/tables" element={<Main />} />
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />

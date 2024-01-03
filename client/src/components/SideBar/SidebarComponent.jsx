@@ -76,8 +76,8 @@ useEffect(() => {
         </Link>
       )),
  
-    getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Finanzas</p>, 'sub1', (
-      <img src={finance} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+    getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Finanzas</p>, 'sub1', ( 
+      <img src={finance} alt="Inicio" className='object-contain' style={{ width: '20px', height: '20px' }} />
     ), [
       getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Mensuales</p></Link>, "2"),
       getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Anuales</p></Link>, '3'),

@@ -45,3 +45,17 @@ export const getEmails = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+export const deleteEmail = async (req, res) => {
+  const { emailId } = req.params;
+  try {
+    const deletedEmail = await Email.findByIdAndDelete({_id: emailId});
+    if (!deletedEmail) {
+      return res.status(404).json({ mensaje: 'Email no encontrado' });
+    }
+    res.status(200).json({ mensaje: 'Email eliminado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

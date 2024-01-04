@@ -126,17 +126,15 @@ const Login = () => {
                 </div>
         </div>
 
-        {succesMessagge ? 
-       
-          <div className='mt-8'>
-            <p className='text-sm font-bold' style={{color:"#728EC3"}}>Iniciando sesion</p>
-          </div>    
-          :
-          <>
+
             <div className='mt-6'>
-                    <button  type="submit" className="flex  justify-center rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm cus-visible:outline w-72" style={{backgroundColor:"#4C70A5"}} onClick={() => loginMySession()}>
-                    INICIAR SESION
-                    </button>
+                 <button  
+                 type="submit" 
+                 className="flex  justify-center rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm cus-visible:outline w-72"
+                 style={{backgroundColor:"#4C70A5"}} 
+                 onClick={() => loginMySession()}>
+                 INICIAR SESION
+                </button>
             </div>
 
         <div className='mt-6'>
@@ -146,8 +144,12 @@ const Login = () => {
             </button> 
           </Link> 
         </div>
-        </>
-      }
+        
+          {succesMessagge ?  
+                <div className='mt-8'>
+                  <p className='text-sm font-bold' style={{color:"#728EC3"}}>Iniciando sesion</p>
+                </div>    
+           : null}
 
       {errorMessage ? <p className='mt-8 font-bold text-xs' style={{color:"#728EC3"}} >{textMessage}</p> : null}
 

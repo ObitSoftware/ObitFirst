@@ -14,6 +14,19 @@ export default function Emails() {
   const [columns, setColumns] = useState([]);
   const [typeOfEmail, setTypeOfEmail] = useState("Proveedor")
 
+  const showEmailsUpdated = () => {
+    axios.get("http://localhost:3000/email")
+         .then((res) => {
+          const allData = res.data
+          setData(allData)
+          setTypeOfEmail("Proveedor")
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  };
+
+
   useEffect(() => { 
     axios.get("http://localhost:3000/email")
          .then((res) => { 
@@ -69,7 +82,7 @@ export default function Emails() {
                     id: id
                     };
                     return (
-                      <DeleteProductModal  key={id} producto={producto} type={"compras"} />
+                      <DeleteProductModal  producto={producto} type={"email"} showEmailsUpdated={showEmailsUpdated}/>
                     );
                   },
                   })                

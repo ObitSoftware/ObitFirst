@@ -80,9 +80,6 @@ export default function EmailToProvider() {
       addNewEmail(email)
     };
 
-    useEffect(() => { 
-   console.log(selectedEmails)
-    }, [selectedEmails])
 
 
 

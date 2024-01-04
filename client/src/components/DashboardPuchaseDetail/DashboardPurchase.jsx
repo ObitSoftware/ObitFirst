@@ -20,10 +20,9 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyV
 const DashboardPurchase = () => {
 
      const [products, setProducts] = useState([])
+     const [inputValue, setInputValue] = useState("")
+     const [product, setProduct] = useState("")
      const [productId, setProductId] = useState([])
-     const [searchValue, setSearchValue] = useState('');
-     const [suggestions, setSuggestions] = useState([]);
-     const [allProducts, setAllProducts] = useState([]);
      const [allPurchase, setAllPurchase] = useState([]);
      const [totalInvertedAmount, setTotalInvertedAmount] = useState("")
      const [invertedMonthAmount, setInvertedMonthAmount] = useState("")
@@ -34,6 +33,7 @@ const DashboardPurchase = () => {
      const [porcentage, setPorcentage] = useState("")
      const [monthSelected, setMonthSelected] = useState("")
      const [columns, setColumns] = useState("")
+
      
           useEffect(() =>  { 
             axios.get("http://localhost:3000/compras")
@@ -87,101 +87,51 @@ const DashboardPurchase = () => {
                   })
           }, [productId])
         
-          useEffect(() => {
-            axios.get(`http://localhost:3000/productos`)
-              .then((res) => {
-                setProducts(res.data);
-                setAllProducts(res.data.map((d) => d.nombre));
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }, []);
-
-         
-  
-          useEffect(() => { 
-            const getTotal = async () => { 
-              try {
-                  const total = await getTotalInvertedAmount()
-                  const formatedTotal = formatePrice(total)
-                  setTotalInvertedAmount(formatedTotal)
-              } catch (error) {
-                  console.error(error);
-              }
-            }
-            getTotal()
-          }, [])
-  
-          useEffect(() => { 
-            const getTotalMonth = async () => { 
+          const fetchData = async () => {
             try {
-                const total = await getTotalInvertedMonth()
-                const formatedTotal = formatePrice(total)
-                setInvertedMonthAmount(formatedTotal)
+              const [productsRes, totalRes, totalMonthRes, porcentageRes, topFiveRes, quantityEverRes] = await Promise.all([
+                axios.get('http://localhost:3000/productos'),
+                getTotalInvertedAmount(),
+                getTotalInvertedMonth(),
+                getPorcentage(),
+                getTopCompras(),
+                getQuantityPurchaseEver(),
+              ]);
+          
+              const productsData = productsRes.data;
+              const total = formatePrice(totalRes);
+              const invertedMonthAmount = formatePrice(totalMonthRes);
+              const porcentage = porcentageRes;
+              const topFivePurchase = topFiveRes;
+              const quantityPurchaseEver = quantityEverRes;
+          
+              // Set state variables
+              setProducts(productsData);
+              setTotalInvertedAmount(total);
+              setInvertedMonthAmount(invertedMonthAmount);
+              setPorcentage(porcentage);
+              setTopFivePurchase(topFivePurchase);
+              setQuantityPurchaseEver(quantityPurchaseEver);
             } catch (error) {
-                console.error(error);
-            }
-            }
-          getTotalMonth()
-          }, [])
-        
-          useEffect(() => { 
-          const getPorcentageGains = async () => { 
-          try {
-              const porcentage = await getPorcentage()
-              setPorcentage(porcentage)
-          } catch (error) {
               console.error(error);
-          }
-          }
-          getPorcentageGains()
-          }, [])
-  
-            useEffect(() => { 
-              const getTopFive = async () => { 
-              try {
-                  const top = await getTopCompras()
-                  setTopFivePurchase(top)
-              } catch (error) {
-                  console.error(error);
-              }
-              }
-              getTopFive()
-          }, [])
-  
+            }
+          };
+          
+          useEffect(() => {
+            fetchData();
+          }, [monthSelected, productId]);
+ 
           useEffect(() => { 
-            const getQuantityEver = async () => { 
-            try {
-                const quantity = await getQuantityPurchaseEver()
-                setQuantityPurchaseEver(quantity)
-            } catch (error) {
-                console.error(error);
-            }
-            }
-            getQuantityEver()
-          }, [])
-  
-          useEffect(() => { 
-            const getQuantityMonth = async () => { 
-            try {
-                const quantityMonth = await getQuantityPurchaseByMonth(monthSelected)
-                setQuantityPurchaseMonth(quantityMonth)
-                if(monthSelected === "") { 
-                  setShowEverPurchase(true)
-                } else { 
-                  setShowEverPurchase(false)
-                }
-            } catch (error) {
-                console.error(error);
-            }
-            }
-            getQuantityMonth()
-          }, [monthSelected])
-        
-          useEffect(() => { 
-          console.log(productId)
-          }, [productId])
+            console.log("aa", products)
+          }, [products])
+
+          
+          const filteredData = allPurchase.filter((item) => {
+            return Object.values(item).some((value) =>
+              value.toString().toLowerCase().includes(inputValue.toLowerCase())
+            );
+          });
+
 
         
           
@@ -205,8 +155,10 @@ const DashboardPurchase = () => {
                                 <input
                                   className='border border-zinc-300 rounded-md w-40 2xl:w-48 h-6 text-xs focus:outline-none focus:ring-0'
                                   type="text"
-                                  placeholder='Producto..'                              
-                                />
+                                  placeholder='Producto..'    
+                                  value={inputValue}
+                                  onChange={(e) => setInputValue(e.target.value)}
+                                />                             
                               </div>
                             </div>
                             </div>
@@ -219,7 +171,7 @@ const DashboardPurchase = () => {
                                  </TableColumn>
                                )}
                              </TableHeader>
-                             <TableBody items={allPurchase}>
+                             <TableBody items={filteredData}>
                                {(item) => (
                                  <TableRow key={item.total}>
                                    {columns.map(column => (

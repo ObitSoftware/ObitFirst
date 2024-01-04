@@ -4,7 +4,7 @@ import alertLogo from "../../img/alertLogo.png"
 import axios from "axios"; 
 import deleteIcon from "../../img/deleteIcon.png"
 
-export default function DeleteProductModal ({type, producto, showProvidersUpdated, showSaleUpdated,  updateBuyList,  showProductsUpdated, updateBuysList, showClientsUpdated, showUsersUpdated})  {
+export default function DeleteProductModal ({type, producto, showProvidersUpdated, showSaleUpdated,  updateBuyList,  showProductsUpdated, updateBuysList, showClientsUpdated, showUsersUpdated, showEmailsUpdated})  {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure("");
   const [productId, setProductId] = useState("")
@@ -17,6 +17,7 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
   const [salesQuestionSell, setSalesQuestionSell] = useState(false)
   const [salesQuestionBuy, setSalesQuestionBuy] = useState(false)
   const [replenishStockSell, setReplenishStockSell] = useState("")
+  const [emailId, setEmailId] = useState("")
 
   const deleteProduct = () => { 
     axios.delete(`http://localhost:3000/productos/${productId}`)
@@ -128,6 +129,21 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
          })
   }
 
+  
+  const deleteEmail = () => { 
+    axios.delete(`http://localhost:3000/email/${emailId}`)
+         .then((res) => { 
+          console.log(res.data)
+          setSuccesMessage(true)
+          setTimeout(() => { 
+            showEmailsUpdated()
+          }, 1800)       
+         })
+         .catch((err) => { 
+          console.log(err)
+         })
+  }
+
 
 
   useEffect(() => { 
@@ -143,6 +159,8 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
       setClientId(producto.productId)
     } else if (type === "users") { 
       setUserId(producto.userId)
+    } else if (type === "email") { 
+      setEmailId(producto.id)
     }
     
   }, [producto])
@@ -169,13 +187,19 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
                   {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta? </small> : null}
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   {type === "users" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar este Usuario?</small> : null}
+                  {type === "email" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el correo Electronico? {emailId}</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
-                      {type === "productos" || type === "proveedores" || type === "clientes" || type === "users"? 
+                      {type === "productos" || type === "proveedores" || type === "clientes" || type === "users"  || type === "email"? 
                        <div className="flex gap-6 items-center justify-center">
                           <button className='h-10 w-42 rounded-lg font-bold text-white items-center text-center flex border border-none' style={{backgroundColor:"#728EC3"}}  
                          onClick={() => 
-                         {type === "productos" ? deleteProduct() : type === "proveedores" ? deleteProvider() : type === "clientes" ? deleteClient() : type === "users" ? deleteUser() : null}}>                           
+                             {type === "productos" ? deleteProduct() :
+                              type === "proveedores" ? deleteProvider() : 
+                              type === "clientes" ? deleteClient() :
+                              type === "users" ? deleteUser() :
+                              type === "email" ? deleteEmail() : 
+                              null}}>                           
                             Si, estoy seguro
                         </button>
                         <button className='h-10 w-36 rounded-lg bg-white flex text-center border justify-center' style={{color:"#728EC3", borderColor:"#728EC3"}} onClick={onClose}>No, cancelar</button> 
@@ -222,7 +246,7 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
 
                  {succesMessage ? 
                    <div className="flex flex-col items-center text-center justify-center mt-6">
-                        <p style={{color:"#728EC3"}} className="text-sm font-bold">Eliminado correctamente</p>
+                        <p style={{color:"#728EC3"}} className="text-xs 2xl:text-sm font-bold">Eliminado correctamente</p>
                     </div> 
                   : null}
                 </div>

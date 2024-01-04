@@ -193,6 +193,7 @@ export const getQuantityInvertedAndQuantityGains = async () => {
   }
 }
 
+
 export const nextPaymentDates = async () => {
   try {
     const response = await axios.get("http://localhost:3000/compras");
@@ -211,9 +212,26 @@ export const nextPaymentDates = async () => {
             paymentDates: [],
           };
         }
-         paymentData[providerName].paymentDates.push(paymentDate);
+        paymentData[providerName].paymentDates.push(paymentDate);
       });
     });
+
+    // Calcular la diferencia entre la fecha actual y las fechas de pago
+    const currentDate = new Date();
+
+    // Ordenar las fechas de pago para cada compra según su proximidad a la fecha actual
+    Object.values(paymentData).forEach((data) => {
+      data.paymentDates.sort((a, b) => {
+        const dateA = new Date(a);
+        const dateB = new Date(b);
+
+        return Math.abs(dateA - currentDate) - Math.abs(dateB - currentDate);
+      });
+
+      // Seleccionar las 5 fechas más cercanas
+      data.paymentDates = data.paymentDates.slice(0, 5);
+    });
+
     const result = Object.values(paymentData);
     console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", result);
     return result;
@@ -222,3 +240,4 @@ export const nextPaymentDates = async () => {
     throw error;
   }
 };
+

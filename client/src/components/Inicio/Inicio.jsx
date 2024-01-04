@@ -33,7 +33,7 @@ const Inicio = ({updateBackgroundColor}) => {
       navigate(`${route}`)
       setTimeout(() => { 
         window.location.reload()
-      }, 200)
+      }, 50)
     }
 
    
@@ -55,7 +55,7 @@ const Inicio = ({updateBackgroundColor}) => {
             </div>
             <div className='flex justify-start mt-6 2xl:mt-8'>
                 <div className='flex flex-col w-full'> 
-                       <div className='flex gap-4 mt-2 2xl:mt-10 items-center 2xl:gap-8 w-full cursor-pointer' onClick={() => goToPage("/tables")}  style={isHoveredHome ? divStyles : {}} onMouseEnter={() => setIsHoveredHome(true)} onMouseLeave={() => setIsHoveredHome(false)} >
+                   <div className='flex gap-4 mt-2 2xl:mt-10 items-center 2xl:gap-8 w-full cursor-pointer' onClick={() => goToPage("/tables")}  style={isHoveredHome ? divStyles : {}} onMouseEnter={() => setIsHoveredHome(true)} onMouseLeave={() => setIsHoveredHome(false)} >
                           <div className='flex gap-6 items-center m-2'>
                               <img className=' h-8 w-8 object-contain' src={homeicon}/>
                               {isHoveredHome ? <p className='font-medium text-sm 2xl:text-md text-white'>TABLERO PERSONAL / INICIO</p> : null}
@@ -71,7 +71,7 @@ const Inicio = ({updateBackgroundColor}) => {
                                 </div>
                              </div>                   
                           : null}
-                      </div>             
+                   </div>             
                    <div className='flex gap-4 mt-2 2xl:mt-10 items-center 2xl:gap-8 w-full cursor-pointer' style={isHoveredLapiz ? divStyles : {}} onMouseEnter={() => setIsHoveredLapiz(true)} onMouseLeave={() => setIsHoveredLapiz(false)} >
                     <div className='flex gap-6 items-center m-2'>
                         <img className=' h-8 w-8 object-contain' src={lapizicon}/>

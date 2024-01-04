@@ -66,13 +66,13 @@ const DashboardProducts = () => {
               </div>       
                <div className='flex  gap-4 2xl:gap-8 h-full'>
                   <div className='flex flex-col'>
-                      <div className='w-96 2xl:w-[400px]'>
+                      <div className='w-64 2xl:w-[400px]'>
                         <div className='flex flex-col '>
                         <Card isHoverable={true} className='bg-white h-24 2xl:h-28 flex items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
                             <CardBody className='flex'>
                                 <div className='flex items-center cursor-pointer'> 
                                     <img src={arrowDash} className='h-2 w-2 mr-2'/> 
-                                    <small className='text-zinc-600 font-medium font-inter text-sm 2xl:text-md'>Cantidad total de Productos Disponibles</small> 
+                                    <small className='text-zinc-600 font-medium font-inter text-xs 2xl:text-sm '>Cantidad total de Productos Disponibles</small> 
                                 </div>  
                                 <div className='flex items-center justify-center mt-2'>
                                 <p style={{color:"#305C9F "}} className='text-center text-xl font-medium font-inter'>{totalQuantityProducts}</p>                          
@@ -81,14 +81,14 @@ const DashboardProducts = () => {
                         </Card>
                         </div>
                       </div>
-                      <div  className='w-96 2xl:w-[400px] mt-8 2xl:mt-8'>
+                      <div  className='w-64 2xl:w-[400px] mt-8 2xl:mt-8'>
                           <div className='flex flex-col'>
                             <Card  isHoverable={true} className='bg-white h-24 2xl:h-28 flex items-center justify-center' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
                                 <CardBody className='flex'>
                                     <div className='flex justify-between items-center cursor-pointer'> 
                                       <div className='flex items-center gap-2'>
                                         <img src={arrowDash} className='h-2 w-2 mr-2'/> 
-                                        <small className='text-zinc-600  font-medium font-inter text-sm 2xl:text-md'>Cantidad Invertido de Stock Anual</small> 
+                                        <small className='text-zinc-600  font-medium font-inter text-xs 2xl:text-sm '>Cantidad Invertido de Stock Anual</small> 
                                       </div>
                                       <div className='flex items-center gap-1'>                                     
                                         <small className='text-xs font-bold'>2023</small>
@@ -96,7 +96,7 @@ const DashboardProducts = () => {
                                       </div>
                                     
                                     </div> 
-                                    <div className='flex items-center justify-center mt-6'>
+                                    <div className='flex items-center justify-center mt-2 2xl:mt-6'>
                                     <p className='text-xl font-bold' style={{color:"#327D65"}}> {totalMoneyInverted} </p>
                                     </div>
                                 </CardBody>
@@ -156,18 +156,18 @@ const DashboardProducts = () => {
                </div>
                
                <div className=' flex gap-4 2xl:gap-8 mt-4'>
-                   <div className=' flex flex-col w-96 2xl:w-[400px]'>
+                   <div className=' flex flex-col w-64 2xl:w-[400px]'>
                    <Card isHoverable={true} className='bg-white h-60 2xl:h-72 flex items-center justify-between' style={{ boxShadow: "0px 0px 25px 8px rgba(31, 95, 217, 0.16)"}}>
                       <CardBody>
                            <div className='flex items-center cursor-pointer'> 
                                <img src={arrowDash} className='h-2 w-2 mr-2'/> 
-                               <small className='text-zinc-600  font-medium font-inter text-sm'>Cantidad de Productos por Categoria</small> 
+                               <small className='text-zinc-600  font-medium font-inter text-xs 2xl:text-sm'>Cantidad de Productos por Categoria</small> 
                            </div> 
                            <div className='flex justify-end items-center'>
                            <Dropdown >
                             <DropdownTrigger>
                                 <div className='flex items-center gap-2'>
-                                  <div className='flex gap-1 items-center  rounded-lg cursor-pointer' style={{backgroundColor:"#DAEFFF"}}>
+                                  <div className='flex gap-1 items-center  rounded-lg cursor-pointer mt-2 2xl:mt-0' style={{backgroundColor:"#DAEFFF"}}>
                                     {categorySelected === "" ?  <small className='text-xs text-slate-700 m-1'>Ver todas</small> :  <small className='text-xs text-slate-700 m-1'>{categorySelected}</small>}
                                      <img src={arrowDown} className='h-2 w-2 mr-2'/>
                                   </div>                             
@@ -175,7 +175,7 @@ const DashboardProducts = () => {
                             </DropdownTrigger>
                                {productsCategorys.length !== 0 ?
                                 <DropdownMenu aria-label="Action event example" className='max-h-96 overflow-y-auto'  onAction={(key) => console.log(key)}>
-                                    <DropdownItem onClick={() => setCategorySelected("")}>Ver todas</DropdownItem>
+                                    <DropdownItem  onClick={() => setCategorySelected("")}>Ver todas</DropdownItem>
                                     {productsCategorys.map((c) => ( 
                                           <DropdownItem key={c._id} onClick={() => setCategorySelected(c.nombreCategoria)}>{c.nombreCategoria}</DropdownItem>
                                     ))}                
@@ -187,15 +187,15 @@ const DashboardProducts = () => {
                            </div>
                            <div className='flex items-center justify-center'>
                                   {quantityProductsOfCategory.length !== 0 ? (
-                                    <div className='flex flex-col mt-4 '>
+                                    <div className='flex flex-col mt-2 2xl:mt-4 '>
                                       {categorySelected === "" ? (                                      
                                             quantityProductsOfCategory.map((p) => (
                                               <div key={p.categoria} className='flex items-center justify-between w-full'>
                                                 <div>
-                                                  <p className='font-medium text-zinc-600'>{p.categoria}: </p>
+                                                  <p className='font-medium text-zinc-600 text-sm 2xl:text-md'>{p.categoria}: </p>
                                                 </div>
                                                   <div className='flex'>
-                                                      <p className='ml-4 text-zinc-600'>
+                                                      <p className='ml-4 text-zinc-600 text-sm 2xl:text-md'>
                                                          {p.cantidad === 1 ? `${p.cantidad} Unidad` : `${p.cantidad} Unidades`}
                                                       </p>
                                                   </div>                                            

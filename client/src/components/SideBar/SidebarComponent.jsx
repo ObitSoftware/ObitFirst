@@ -22,6 +22,9 @@ import estadisticasAzul from "../../img/estadisticasAzul.png"
 import finanzasAzul from "../../img/finanzasAzul.png"
 import lapizBlanco from "../../img/lapizBlanco.png"
 import EmailToProvider from '../Modals/EmailToProvider';
+import emailIcon from "../../img/emailIcon.png"
+import Emails from '../EmailsTable/Emails';
+import EmailToClients from '../Modals/EmailToClients';
 
 function getItem(label, key, icon, children) {
   return {
@@ -114,10 +117,17 @@ useEffect(() => {
       ), [
         getItem(collapsed ? <AddCategory type="white" /> : <AddCategory type="sideBar"/>, "19"),
         getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
-        getItem(<EmailToProvider/>, 21)
+        getItem(<EmailToProvider/>, 21),
+        getItem(<EmailToClients/>, 22)
       ]),
 
-      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Configuracion</p>, 'sub 5', (
+      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Emails</p>, 'sub 5', (
+        <img src={emailIcon} alt="Inicio" style={{ width: '20px', height: '20px' }} />
+      ), [
+        getItem(<Emails  />, "30"),     
+      ]),
+
+      getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Configuracion</p>, 'sub 6', (
         <div>
           <img src={config} alt="Inicio" className='object-fit-contain' style={{ width: '20px', height: '20px' }} />
         </div>

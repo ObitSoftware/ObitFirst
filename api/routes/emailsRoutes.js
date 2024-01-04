@@ -1,8 +1,9 @@
 import express from 'express';
 const emailRoutes = express.Router();
-import { sendEmailToProvider } from '../controllers/emailController.js';
+import { sendEmailToProvider, getEmails } from '../controllers/emailController.js';
 
 emailRoutes.post('/email', sendEmailToProvider);
+emailRoutes.get('/email', getEmails);
 
 
 export default emailRoutes;

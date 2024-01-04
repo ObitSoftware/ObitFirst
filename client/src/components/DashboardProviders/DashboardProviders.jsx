@@ -260,7 +260,7 @@ const DashboardProviders = () => {
                                 </div>    
                                  {nextPayments.length !== 0 ? 
                                   <div className='flex flex-col justify-start  mt-6 ml-4'>
-                                     {nextPayments.map((p) => ( 
+                                     {nextPayments.slice(0, 5).map((p) => ( 
                                       <div className='flex mt-2 gap-2'  key={p.proveedor + p.producto + p.fechadepago}>
                                         <ul className='flex mt-2 gap-2 list-disc'>
                                           <li className='font-medium text-xs'  style={{color:"#728EC3"}}>{p.proveedor} - {p.cantidad} {p.producto} - {p.fechadepago}</li>

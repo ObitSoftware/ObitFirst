@@ -4,7 +4,8 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import DeleteProductModal from "../Modals/DeleteProductModal";
-
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 export default function Emails() {
 
@@ -13,6 +14,7 @@ export default function Emails() {
   const [data, setData] = useState([])
   const [columns, setColumns] = useState([]);
   const [typeOfEmail, setTypeOfEmail] = useState("Proveedor")
+  const userCtx = useContext(UserContext)
 
   const showEmailsUpdated = () => {
     axios.get("http://localhost:3000/email")
@@ -114,39 +116,38 @@ export default function Emails() {
             <>
               <ModalHeader className="flex flex-col gap-1 font-medium" styler={{color:"#728EC3"}}>Emails Enviados</ModalHeader>
               <ModalBody>
-                   <div>
-                       {data.length !== 0 ?  
-                       <div>   
-                                <div className="flex h-14 justify-between items-start rounded-t-lg rounded-b-none w-full " style={{backgroundColor:"#E6EFFF"}}>
-                                     <div className="flex justify-start items-center mt-4 ml-4 gap-8">
-                                            <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: typeOfEmail === "Proveedor" ? "#728EC3" : "#A6BBE4" }} onClick={() => setTypeOfEmail("Proveedor")}>Proveedores</a>  
-                                            <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: typeOfEmail === "Cliente" ? "#728EC3" : "#A6BBE4" }} onClick={() => setTypeOfEmail("Cliente")}>Clientes</a>                    
-                                     </div>                                          
-                                </div>                 
-                                <Table aria-label="Example table with dynamic content" className="w-max-w max-h-[400px] 2xl:max-[600px] overflow-y-auto flex items-center text-center justify-center mt-4">
-                                    <TableHeader columns={columns}>
-                                    {(column) => (
-                                        <TableColumn key={column.key} className="text-xs text-center items-center justify-center gap-6 ">
-                                          {column.label}
-                                        </TableColumn>
-                                    )}
-                                    </TableHeader>
-                                    <TableBody items={data}>
-                                    {(item) => (
-                                        <TableRow key={item._id}>
-                                        {columns.map(column => (
-                                            <TableCell align="center" key={column.key}   className={`text-center text-black dark:text-black`}>
-                                               {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
-                                            </TableCell>
-                                        ))}
-                                        </TableRow>
-                                    )}
-                                    </TableBody>
-                            </Table> 
-                        </div>
-                        : null}
-                    </div>
-             
+                  <div>
+                  {userCtx.userId && userCtx.userId.length >= 10 ? (
+                            <div>   
+                              <div className="flex h-14 justify-between items-start rounded-t-lg rounded-b-none w-full" style={{ backgroundColor: "#E6EFFF" }}>
+                                <div className="flex justify-start items-center mt-4 ml-4 gap-8">
+                                  <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: typeOfEmail === "Proveedor" ? "#728EC3" : "#A6BBE4" }} onClick={() => setTypeOfEmail("Proveedor")}>Proveedores</a>  
+                                  <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: typeOfEmail === "Cliente" ? "#728EC3" : "#A6BBE4" }} onClick={() => setTypeOfEmail("Cliente")}>Clientes</a>                    
+                                </div>                                          
+                              </div>                 
+                              <Table aria-label="Example table with dynamic content" className="w-max-w max-h-[400px] 2xl:max-[600px] overflow-y-auto flex items-center text-center justify-center mt-4">
+                                <TableHeader columns={columns}>
+                                  {(column) => (
+                                    <TableColumn key={column.key} className="text-xs text-center items-center justify-center gap-6">
+                                      {column.label}
+                                    </TableColumn>
+                                  )}
+                                </TableHeader>
+                                <TableBody items={data}>
+                                  {(item) => (
+                                    <TableRow key={item._id}>
+                                      {columns.map(column => (
+                                        <TableCell align="center" key={column.key} className={`text-center text-black dark:text-black`}>
+                                          {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
+                                        </TableCell>
+                                      ))}
+                                    </TableRow>
+                                  )}
+                                </TableBody>
+                              </Table> 
+                            </div>
+                          ) : null}
+                 </div>          
               </ModalBody>
               <ModalFooter>
                 <p className="font-medium text-black text-sm ">Cantidad de Emails: {data.length}</p>

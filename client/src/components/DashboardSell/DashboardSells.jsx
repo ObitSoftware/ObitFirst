@@ -10,7 +10,9 @@ import start from "../../img/star.png"
 import factured from "../../img/factured.png"
 import arrowDash from "../../img/arrowDashboard.png"
 import arrowGreen from "../../img/arrowGreen.png"
-
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
+import {Link} from "react-router-dom"
 
 
 const DashboardSells = () => {
@@ -24,6 +26,8 @@ const DashboardSells = () => {
     const [showTotalAnualFactured, setShowTotalAnualFactured] = useState(true)
     const [showTotalMonthFactured, setShowTotalMonthFactured] = useState(false)
     const [selectedOption, setSelectedOption] = useState(" Monto total Anual Facturado ")
+    const userCtx = useContext(UserContext)
+
 
 
       useEffect(() => {
@@ -87,7 +91,8 @@ const DashboardSells = () => {
 
 
   return ( 
-    
+    <>
+    {userCtx.userId && userCtx.userId.length >= 10 ? 
      <div className='flex flex-col  text-center items-center justify-center ml-44 mt-24 2xl:mt-2'>
             <div className='flex justify-start items-start mb-4 2xl:mb-8 w-full'>
                 <p className='font-medium text-sm 2xl:text-md' style={{color:"#A1ABBF"}}>VENTAS</p>  
@@ -277,6 +282,14 @@ const DashboardSells = () => {
 
          </div>
      </div>
+      : 
+      <div>
+         <p style={{color:"#728EC3"}} className='text-lg font-medium'>Debes iniciar Sesion</p>     
+        <Link to={"/"}><p className='text-sm font-bold mt-8' style={{color:"#728EC3"}}> Iniciar sesion </p></Link>   
+     </div>
+     }
+    </>
+    
 
     
      

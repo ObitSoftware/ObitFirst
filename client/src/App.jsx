@@ -77,24 +77,3 @@ function App() {
 
 
 export default App;
-/*
-import fondoinicio from './ruta/a/tu/fondoinicio.jpg'; // Ajusta la ruta de acuerdo a tu estructura de archivos
-
-function App() {
-  const location = useLocation();
-  const [backgroundStyle, setBackgroundStyle] = useState({});
-
-  useEffect(() => {
-    if (location.pathname === '/inicio') {
-      // Establecer fondo de imagen para la ruta /inicio
-      setBackgroundStyle({
-        backgroundImage: `url(${fondoinicio})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        // Otros estilos según sea necesario
-      });
-    } else {
-      // Restablecer los estilos por defecto para otras rutas
-      setBackgroundStyle({});
-    }
-  }, [location.pathname]);*/

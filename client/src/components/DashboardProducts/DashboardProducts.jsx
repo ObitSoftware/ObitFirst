@@ -14,6 +14,10 @@ import arrowGreen from "../../img/arrowGreen.png"
 import purchaseIcon from "../../img/purchaseIcon.png"
 import arrowDown from "../../img/arrowDown.png"
 import TopProductsWithMoreNetGains from '../Graficos/TopProductsWithMoreNetGains';
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
+import {Link} from "react-router-dom"
+
 
 const DashboardProducts = () => {
 
@@ -25,6 +29,7 @@ const DashboardProducts = () => {
     const [productsCategorys, setProductsCategorys] = useState([])
     const [categorySelected, setCategorySelected] = useState("")
     const [monthSelected, setMonthSelected] = useState("")
+    const userCtx = useContext(UserContext)
 
     useEffect(() => {
       const fetchData = async () => {
@@ -58,8 +63,8 @@ const DashboardProducts = () => {
 
   return (
     <>
-      
-    <div className=' flex flex-col items-center ml-28 2xl:ml-0 mt-12 2xl:mt-2'>
+   {userCtx.userId && userCtx.userId.length >= 10 ? 
+     <div className=' flex flex-col items-center ml-28 2xl:ml-0 mt-12 2xl:mt-2'>
          <div className='flex flex-col '>   
              <div className='flex justify-start items-center mb-4 2xl:mb-8'>
                 <p className='font-medium text-sm 2xl:text-md' style={{color:"#A1ABBF"}}>PRODUCTOS</p>  
@@ -267,7 +272,13 @@ const DashboardProducts = () => {
                    </div>
                </div>
          </div>
-    </div>  
+    </div> 
+     : 
+     <div>
+        <p style={{color:"#728EC3"}} className='text-lg font-medium'>Debes iniciar Sesion</p>     
+       <Link to={"/"}><p className='text-sm font-bold mt-8' style={{color:"#728EC3"}}> Iniciar sesion </p></Link>   
+    </div>
+    }
    
     </>
   

@@ -15,7 +15,6 @@ import config from "../../img/confi.png"
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
-
 import casaAzul from "../../img/casaAzul.png"
 import tesoreriaAzul from "../../img/tesoreriaAzul.png"
 import estadisticasAzul from "../../img/estadisticasAzul.png"
@@ -47,7 +46,6 @@ const SidebarComponent = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [selectedItem, setSelectedItem] = useState(""); // Inicializa con el primer elemento
 
-
   const navigate = useNavigate()
   const userCtx = useContext(UserContext)
 
@@ -63,20 +61,16 @@ const SidebarComponent = () => {
     logOut()
 }
   
-useEffect(() => { 
-  console.log(selectedItem)
-}, [selectedItem])
-
 
   const items = [
       getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}   onMouseOver={() => setSelectedItem("Inicio")}  onMouseLeave={() => setSelectedItem("")}> Inicio</p>,'1', (
-        <Link to="/tables">
+         <Link to= "/tables">
            {selectedItem === "Inicio" ?
               <img src={casaAzul} style={{ width: '20px', height: '20px', marginRight: '5px' }}  />
                :
               <img src={home} alt="Inicio" style={{ width: '20px', height: '20px', marginRight: '5px' }}  onMouseOver={() => setSelectedItem("Inicio")}  onMouseLeave={() => setSelectedItem("")} />
             }
-        </Link>
+        </Link> 
       )),
  
     getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Finanzas</p>, 'sub1', ( 

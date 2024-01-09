@@ -69,7 +69,7 @@ function App() {
         <Route path="proveedoresDashboard" element={<DashboardProviders />} />
         <Route path="clientData" element={<ClientsTable />} />
         <Route path="usersData" element={<UsersTable />} />
-        <Route path="profile/:selectedClientId" element={<Profile />} />
+        <Route path="profile/:clientId" element={<Profile />} />
 
       </Routes>
     </UserProvider>

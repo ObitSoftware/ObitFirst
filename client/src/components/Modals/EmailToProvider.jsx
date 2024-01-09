@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import obtenerFechaActual from "../../functions/actualDate";
+import obtenerHoraExacta from "../../functions/actualHour";
+import clip from "../../img/clip.png"
 
 export default function EmailToProvider() {
 
@@ -10,10 +12,13 @@ export default function EmailToProvider() {
   const [email, setEmail] = useState("")
   const [selectedEmails, setSelectedEmails] = useState([])
   const [message, setMessage] = useState("") 
+  const [title, setTitle] = useState("") 
   const [noShowSucces, setNoShowSucces] = useState(true)
   const [actualDate, setActualDate] = useState(obtenerFechaActual())
+  const [actualHour, setActualHour] = useState(obtenerHoraExacta())
   const [providersEmail, setProvidersEmail] = useState([])
   const [filteredEmails, setFilteredEmails] = useState([])
+  const [viewAllEmails, setViewAllEmails] = useState(false)
 
     useEffect(() => { 
       axios.get("http://localhost:3000/proveedores")
@@ -47,7 +52,10 @@ export default function EmailToProvider() {
         addressee: selectedEmails,
         message: message,
         type: "Proveedor",
-        date: actualDate
+        title: title,
+        date: actualDate,
+        hour: actualHour,
+
       })
       axios.post("http://localhost:3000/email", emailData)
           .then((res) => { 
@@ -92,19 +100,25 @@ export default function EmailToProvider() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 font-medium" style={{color:"#728EC3"}}>Email</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1 font-medium" style={{color:"#5C77A9"}}>Escriba un mensaje a su proveedor</ModalHeader>
             {noShowSucces ? 
               <ModalBody>
                  <div className="w-full flex flex-col ">
-                      <div className="w-full flex  gap-2">
+                      <div className="w-full items-center flex gap-2">
+                        <p style={{color:"#4F5562"}} className="font-medium text-sm">Proveedor</p>
                         <div className="relative w-full">
-                          <input
-                                type="text"
-                                className="w-full h-7 rounded-lg border border-zinc-200 focus:outline-none focus:ring-0"
-                                value={email}
-                                placeholder="Proveedor.."
-                                onChange={(e) => handleChange(e.target.value)}
-                              />
+                        <input
+                            type="text"
+                            className="w-full h-8 rounded-lg border border-none focus:outline-none focus:ring-0"
+                            value={email}
+                            style={{ backgroundColor: "#E7E9ED" }}
+                            placeholder={
+                              selectedEmails.length === 0
+                                ? "Seleccione uno o más Proveedores.."
+                                : selectedEmails.map((s) => s).join(", ") 
+                               }
+                            onChange={(e) => handleChange(e.target.value)}
+                          />
                               {filteredEmails.length > 0 && (
                                   <div className='options-container absolute z-10 bg-white border rounded-lg mt-1 w-46 items-center jusitfy-center' >
                                       <ul className="list-none p-2 mt-1 border border-zinc-200 rounded-md max-h-[100px] overflow-y-auto">
@@ -128,19 +142,33 @@ export default function EmailToProvider() {
                                 Agregar
                           </button>                    
                       </div>
-                      {selectedEmails.length !== 0 ? 
-                        <div className="flex flex-col justify-start ">
-                             {selectedEmails.map((s) =>  <p className="text-zinc-600 text-xs mt-2 ml-2">{s}</p>)}
+                      {selectedEmails.length >= 3 ? 
+                        <div className="flex gap-4 justify-start itmems-center"> 
+                            <p className="flex items-center text-xs cursor-pointer"  style={{color:"#5C77A9"}} onClick={() => setViewAllEmails(true)}>Ver todos</p>
+                            {viewAllEmails ? selectedEmails.map((s) => <p className="text-xs" style={{color:"#4F5562"}}>{s}</p> ) : null}
                         </div>
                         :
                         null
                       }
-                      <div className="w-full h-full mt-6">
-                        <textarea className="w-full h-full rounded-lg border border-zinc-200 focus:outline-none focus:ring-0" onChange={(e) => setMessage(e.target.value)}></textarea>
+                      <div className="flex gap-2 mt-6 items-center">
+                        <p style={{color:"#4F5562"}} className="font-medium text-sm">Titulo</p>
+                        <input type="text" className="w-full h-8 border border-none   text-black rounded-lg focus:outline-none focus:ring-0" style={{backgroundColor:"#E7E9ED"}} onChange={(e) => setTitle(e.target.value)}/>
+                      </div>
+                      <div className="w-full h-full mt-6 flex flex-col">
+                        <div className="flex justify-between">
+                          <div className="flex justify-start">
+                             <p style={{color:"#4F5562"}} className="font-medium text-sm">Mensaje</p>
+                          </div>
+                          <div className="flex items-center gap-2 justify-end">
+                            <img src={clip} className="h-3 w-3"/>
+                             <p style={{color:"#86898E"}} className="font-medium text-sm"> Añadir Archivo</p>
+                          </div>                       
+                        </div>
+                        <textarea className="w-full h-full rounded-lg border border-none focus:outline-none focus:ring-0 mt-2" style={{backgroundColor:"#E7E9ED"}} onChange={(e) => setMessage(e.target.value)}></textarea>
                       </div>
                  </div>
-                 <div className="flex items-center justify-end mt-4">
-                     <button className="text-sm font-bold text-white border border-none focus:outline-none  focus:ring-0" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar</button>
+                 <div className="flex items-center justify-center mt-4">
+                     <button className="text-sm font-bold text-white border border-none focus:outline-none  focus:ring-0" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar Mensaje ✔</button>
                  </div>
                
               </ModalBody> 

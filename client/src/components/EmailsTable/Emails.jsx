@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import DeleteProductModal from "../Modals/DeleteProductModal";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
+import EmailDetail from "../Modals/EmailDetail";
 
 export default function Emails() {
 
@@ -39,12 +40,12 @@ export default function Emails() {
             setData(filteredEmails)
 
                   const columnLabelsMap = {
-                      type: 'Tipo',
-                      message: 'Mensaje',
+                      title: "Titulo",
                       date: 'Fecha',
+                      hour: "Hora",
                     };
 
-                    const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id'  && propiedad !== 'addressee');
+                    const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id'  && propiedad !== 'addressee'  && propiedad !== 'type' && propiedad !== 'message');
                     const columnObjects = propiedades.map(propiedad => ({
                         key: propiedad,
                         label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
@@ -66,13 +67,31 @@ export default function Emails() {
                         console.log(emails);
                         return (
                           <p>
-                            {emails.length === 1 ? emails[0] : 
-                            emails.length === 2 ? [emails[0], " ; " ,emails[1]] :  
-                            emails.length >= 3 ? "Ver todos"  : null}
+                            {emails.slice(0, 1) + "...."}                      
                           </p>
                         );
                       },
-                    })         
+                    })     
+
+                    columnObjects.push({
+                    key: 'Abrir',
+                    label: 'Abrir',
+                    cellRenderer: (cell) => { 
+                    const filaActual = cell.row;
+                    const id = filaActual.original._id;
+                    const message = filaActual.original.message;
+                    const addressee = filaActual.original.addressee
+                    ;
+                    const producto = {
+                    id: id,
+                    message: message,
+                    addressee: addressee
+                    };
+                    return (
+                      <EmailDetail data={producto}/>
+                    );
+                  },
+                  })    
   
                    columnObjects.push({
                     key: 'Eliminar',
@@ -87,7 +106,17 @@ export default function Emails() {
                       <DeleteProductModal  producto={producto} type={"email"} showEmailsUpdated={showEmailsUpdated}/>
                     );
                   },
-                  })                
+                  })     
+
+                  columnObjects.sort((a, b) => {
+                    if (a.key === 'title') {
+                      return -1; 
+                    } else if (b.key === 'title') {
+                      return 1; 
+                    }
+                    return 0; 
+                  }); 
+
              setColumns(columnObjects);
          })
          .catch((err) => { 
@@ -114,21 +143,31 @@ export default function Emails() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 font-medium" styler={{color:"#728EC3"}}>Emails Enviados</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1 font-medium  border-b border-gray-300 h-12 ml-8 mr-8">
+                  <p className="font-medium text-md 2xl:text-lg" styler={{color:"#4F5562"}}>Listado de Emails Enviados</p>
+              </ModalHeader>         
               <ModalBody>
                   <div>
                   {userCtx.userId && userCtx.userId.length >= 10 ? (
                             <div>   
-                              <div className="flex h-14 justify-between items-start rounded-t-lg rounded-b-none w-full" style={{ backgroundColor: "#E6EFFF" }}>
-                                <div className="flex justify-start items-center mt-4 ml-4 gap-8">
-                                  <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: typeOfEmail === "Proveedor" ? "#728EC3" : "#A6BBE4" }} onClick={() => setTypeOfEmail("Proveedor")}>Proveedores</a>  
-                                  <a className="tab text-white hover:text-white rounded-xl" style={{ backgroundColor: typeOfEmail === "Cliente" ? "#728EC3" : "#A6BBE4" }} onClick={() => setTypeOfEmail("Cliente")}>Clientes</a>                    
+                              <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full" >
+                                <div className="flex justify-start items-center ml-6 gap-8 border-b border-gray-200 w-full">
+                                  <p 
+                                    className={typeOfEmail === "Proveedor" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                    onClick={() => setTypeOfEmail("Proveedor")}>
+                                    Proveedores
+                                  </p>  
+                                  <p 
+                                      className={typeOfEmail === "Cliente" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                      onClick={() => setTypeOfEmail("Cliente")}>
+                                      Clientes
+                                  </p>                    
                                 </div>                                          
                               </div>                 
                               <Table aria-label="Example table with dynamic content" className="w-max-w max-h-[400px] 2xl:max-[600px] overflow-y-auto flex items-center text-center justify-center mt-4">
                                 <TableHeader columns={columns}>
                                   {(column) => (
-                                    <TableColumn key={column.key} className="text-xs text-center items-center justify-center gap-6">
+                                    <TableColumn key={column.key} className="text-xs text-center items-center justify-center gap-6" style={{color:"#4F5562", backgroundColor:"white"}}>
                                       {column.label}
                                     </TableColumn>
                                   )}
@@ -137,7 +176,7 @@ export default function Emails() {
                                   {(item) => (
                                     <TableRow key={item._id}>
                                       {columns.map(column => (
-                                        <TableCell align="center" key={column.key} className={`text-center text-black dark:text-black`}>
+                                        <TableCell align="center" key={column.key} className={`items-center text-center text-black dark:text-black`} style={{ verticalAlign: 'left' }}>
                                           {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
                                         </TableCell>
                                       ))}

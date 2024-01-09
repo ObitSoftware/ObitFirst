@@ -9,7 +9,7 @@ export default function SearchClient ({type}) {
 
   const { isOpen, onOpen, onClose } = useDisclosure("");
   const [names, setNames] = useState([])
-  const [selectedClientId, setSelectedClientId] = useState("")
+  const [clientId, setClientId] = useState("")
   const [allClients, setAllClients] = useState([])
   const [filteredNames, setFilteredNames] = useState("")
   const [inputValue, setInputValue] = useState("")
@@ -46,19 +46,15 @@ export default function SearchClient ({type}) {
       setFilteredNames("")
       setInputValue(e)
       const searchId = allClients.filter((cc) => cc.nombre === inputValue)
-      setSelectedClientId(searchId.map((cc) => cc._id))
+      setClientId(searchId.map((cc) => cc._id))
     }
 
     const goTo = () => { 
-      navigate(`/profile/${selectedClientId}`)
+      navigate(`/profile/${clientId}`)
+      onClose()
     }
 
 
-
-
-
-  
-  
     return (
       <>
       {type === "white" ?  <small className="text-black font-medium" onClick={() => onOpen()}>Buscar Cliente</small> : <small className="text-white font-medium" onClick={() => onOpen()}>Buscar Cliente</small>}
@@ -98,7 +94,7 @@ export default function SearchClient ({type}) {
               
                 
                 <ModalFooter className="flex justify-end items-end">
-                  {selectedClientId.length === 0 || inputValue.length === 0 ? 
+                  {clientId.length === 0 || inputValue.length === 0 ? 
                    <button className="text-sm text-white" disabled style={{backgroundColor:"#728EC3"}} onClick={() => console.log("ashdioask")}>Buscar</button> : 
                    <button className="text-sm text-white" style={{backgroundColor:"#728EC3"}} onClick={() => goTo()}>Buscar</button>
                    }

@@ -3,7 +3,7 @@ import Email from '../models/emailModel.js';
 
 export const sendEmailToProvider = async (req, res) => { 
     try {
-        const { addressee, message, type, date } = req.body;
+        const { addressee, message, type, date, hour, title } = req.body;
         console.log(req.body);
 
         const newEmailToBeSaved = new Email(req.body);
@@ -19,17 +19,15 @@ export const sendEmailToProvider = async (req, res) => {
           }
          });
            
-        const mailOptions = {
+         const mailOptions = {
           from: 'obitsoftware@gmail.com', 
           to: addressee, 
-          subject: 'Asunto del correo',
+          subject: title, 
           text: message 
         };
     
         await transporter.sendMail(mailOptions);
-
-     
-        
+      
         res.status(200).json({ mensaje: 'Correo electrónico enviado y almacenado con éxito', savedEmail });
     } catch (error) {
         console.error(error);

@@ -11,6 +11,16 @@ export const getAllClients = async (req, res) => {
     }
   };
 
+  export const getClientData = async (req, res) => {
+    const {clientId} = req.params
+    try {
+      const cliente = await Cliente.find({_id: clientId});
+      res.status(200).json(cliente);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
 export const saveNewClient = async (req, res) => { 
     try {
         const nuevoCliente = await Cliente.create(req.body);

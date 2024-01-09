@@ -167,12 +167,15 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
 
 
   
-   
 
 
   return (
     <>
-     <small onClick={onOpen} className="text-center text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small>
+      {type === "email" ?
+          <small onClick={onOpen} className="text-center text-background font-bold cursor-pointer" style={{color:"#1C64F2"}}>Eliminar</small> 
+      :
+          <small onClick={onOpen} className="text-center text-background font-bold cursor-pointer" style={{color:"#60BCFF"}}>Eliminar</small> 
+      }
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-white text-black">
         <ModalContent>
           {(onClose) => (
@@ -187,7 +190,7 @@ export default function DeleteProductModal ({type, producto, showProvidersUpdate
                   {type === "venta" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta venta? </small> : null}
                   {type === "compras" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar esta Compra?</small> : null}
                   {type === "users" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar este Usuario?</small> : null}
-                  {type === "email" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el correo Electronico? {emailId}</small> : null}
+                  {type === "email" ?  <small className='text-lg mt-3'>¿Está seguro de eliminar el correo Electronico?</small> : null}
                   <div className='flex items-center justify-center mt-6 gap-6'>
 
                       {type === "productos" || type === "proveedores" || type === "clientes" || type === "users"  || type === "email"? 

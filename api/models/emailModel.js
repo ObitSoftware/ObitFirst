@@ -4,6 +4,9 @@ const emailSchema = new mongoose.Schema({
   type: {
     type: String,
   },
+  title: { 
+    type: String
+  },
   message:{ 
    type: String
   },
@@ -11,6 +14,9 @@ const emailSchema = new mongoose.Schema({
     type: [String]
   },
   date: { 
+    type: String
+  },
+  hour: { 
     type: String
   },
 });

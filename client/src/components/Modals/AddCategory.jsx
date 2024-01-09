@@ -46,13 +46,12 @@ export default function AddCategory ({type}) {
     <ModalContent>
       {(onClose) => (
         <>
-          <ModalHeader className="flex flex-col items-start justify-start text-center gap-1" style={{ color: "#728EC3" }}>
+          <ModalHeader className="flex flex-col items-start justify-start text-center gap-1 border border-b-gray-300 h-12" style={{ color: "#728EC3" }}>
             Añadir Categoria
           </ModalHeader>
-           
                 <ModalBody>
-                  <div className="flex items-center gap-4"> 
-                    <p className="text-sm text-black font-medium">Nombre de la Categoria:</p>
+                  <div className="flex items-center gap-4 mt-6"> 
+                    <p className="text-sm ">Nombre de la Categoria:</p>
                     <input 
                         type='text' 
                         className='h-8 rounded-lg  border border-none focus:outline-none focus:ring-0 w-40' 
@@ -68,8 +67,8 @@ export default function AddCategory ({type}) {
                     <p className="font-bold text-sm mt-8 mb-6"  style={{color:"#728EC3"}}>{textMessageError}</p>
                 </div>
                 :
-                <ModalFooter className="flex justify-end items-end">
-                        <Button className="text-sm text-white" style={{backgroundColor:"#728EC3"}} onClick={() => addNewCategory()}>Añadir Categoria</Button>
+                <ModalFooter className="flex justify-center items-center">
+                        <Button className="text-sm rounded-2xl text-white font-medium" style={{backgroundColor:"#728EC3"}} onClick={() => addNewCategory()}>Añadir Categoria ✔</Button>
                     </ModalFooter>
                 }
 

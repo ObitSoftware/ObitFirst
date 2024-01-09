@@ -229,20 +229,31 @@ const DashboardProviders = () => {
                                             <div className='flex flex-col items-center justify-center'>
                                                 <div className='flex flex-col items-center justify-between mt-2'>
                                                     {totalInvertedByProvider.filter((t) => t.nombre[0] === providerSelected).map((total) => ( 
-                                                        <p className='font-medium text-xs 2xl:text-sm' style={{color:"#568CCB"}}>Inversion: {formatePrice(total.monto)}</p>
+                                                      <div className='flex flex-col justify-center'>
+                                                        <p className='font-medium text-xs 2xl:text-sm' style={{color:"#6E7177"}}>Inversion: </p>
+                                                        <p style={{color:"#74C4FF"}} className='font-bold text-md'>{formatePrice(total.monto)}</p>
+                                                      </div>
+                                                    
                                                       ))}
 
                                                       {topFiveProvidersNetGain.filter((t) => t.nombre === providerSelected).map((prov) => ( 
-                                                        <p className='font-medium text-xs 2xl:text-sm' style={{color:"#568CCB"}}>Ganancia: {formatePrice(prov.gananciaNeta)} </p>
+                                                        <div className='flex flex-col justify-center'>
+                                                            <p className='font-medium text-xs 2xl:text-sm' style={{color:"#6E7177"}}>Ganancia: </p>
+                                                            <p style={{color:"#74C4FF"}} className='font-bold text-md'>{formatePrice(prov.gananciaNeta)} </p>
+                                                      </div>
+                                                      
                                                       ))}                                         
                                                   </div>
-                                                  <div className='flex justify-center items-center '>
-                                                    <p  style={{color:"#568CCB"}} className='font-bold text-xs 2xl:text-sm'>
-                                                      Estadistica:
-                                                      {(((topFiveProvidersNetGain.find((t) => t.nombre === providerSelected)?.gananciaNeta || 0) -
-                                                        (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 0)) /
-                                                        (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 1) * 100).toFixed(2)} %
-                                                    </p>
+                                                  <div className='flex justify-center items-center '> 
+                                                    <div className='flex flex-col items-center justify-center'>
+                                                      <p  style={{color:"#6E7177"}} className='font-bold text-xs 2xl:text-sm'> Estadistica:</p>
+                                                          <div style={{borderColor: "#5FF087", borderStyle: "solid", borderWidth: "1px"}} className='rounded-xl mt-2'>
+                                                             <p style={{color:"#34AA55"}} className='font-bold m-2'>  {(((topFiveProvidersNetGain.find((t) => t.nombre === providerSelected)?.gananciaNeta || 0) -
+                                                                (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 0)) /
+                                                                (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 1) * 100).toFixed(2)} %
+                                                             </p>
+                                                         </div>
+                                                    </div>                                          
                                                   </div>
                                             </div>                                       
                                         }

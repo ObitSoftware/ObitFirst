@@ -96,24 +96,36 @@ const AddClientModal = ({ type, colorSelected, updateList, refresh }) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col items-start justify-start text-center gap-1" style={{ color: "#728EC3" }}>
-                Crear Cliente
+              <ModalHeader className="flex flex-col items-start justify-start text-center gap-1  border border-b-gray-300 h-12 font-medium" style={{ color: "#5C77A9" }}>
+                Crear Nuevo Cliente
               </ModalHeader>
                
-              <ModalBody>
-                  <div className='flex flex-col items-center justify-center text-center'>
-                  <div className='flex flex-col  items-center justify-center'>
-                     <input placeholder='Nombre' className='w-72 text-sm mt-2 rounded-lg border border-none' value={name}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setName(e.target.value)}/>
-                     <input placeholder='DNI' className='w-72 text-sm mt-6 rounded-lg border border-none'  value={dni}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setDni(e.target.value)}/>
-                     <input placeholder='Telefono' className='w-72 text-sm mt-4 rounded-lg border border-none'  value={telephone}  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setTelephone(e.target.value)}/>
-                     <input placeholder='Email' className='w-72 text-sm mt-4 rounded-lg border border-none'  value={email}  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setEmail(e.target.value)}/>
-                </div>
+              <ModalBody className='w-96'>
+                  <div className='flex flex-col items-center '>
+                      <div className='flex flex-col  items-start justify-start'> 
+                          <div className='flex gap-4  justify-start  text-sm items-center mt-2'>
+                              <p className='text-sm' style={{color:"#4F5562"}}>Nombre y Apellido</p>
+                              <input  className='w-36 h-8 text-sm mt-2 rounded-lg border border-none' value={name}  style={{backgroundColor:"#E6EEFF"}} onChange={(e) => setName(e.target.value)}/>
+                          </div>
+                          <div className='flex gap-4  justify-start  text-sm items-center mt-4'>
+                              <p className='text-sm' style={{color:"#4F5562"}}>Numero Telefonico</p>
+                              <input className='w-36 h-8 text-sm  rounded-lg border border-none'  value={telephone}  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setTelephone(e.target.value)}/>
+                          </div>
+                          <div className='flex gap-4  justify-start  text-sm items-center mt-4'>
+                              <p className='text-sm' style={{color:"#4F5562"}}>DNI</p>
+                              <input  className='w-36 h-8 text-sm  rounded-lg border border-none ml-2'  value={email}  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setEmail(e.target.value)}/>
+                          </div>
+                          <div className='flex gap-4  justify-start  text-sm items-center mt-4'>
+                              <p className='text-sm' style={{color:"#4F5562"}}>Email</p>
+                              <input  className='w-36 h-8 text-sm  rounded-lg border border-none'  value={email}  style={{backgroundColor:"#E6EEFF"}}  onChange={(e) => setEmail(e.target.value)}/>
+                          </div>                    
+                      </div>
 
                  {succesMessage ?    
                       <p className='mt-12 font-bold' style={{ color: "#728EC3" }}>Cliente añadido con exito</p>
                       : 
-                     <div className='flex justify-end w-full m-6'>
-                        <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => createNewUser()}>Añadir Nuevo Cliente </Button>
+                     <div className='flex justify-center w-full m-6'>
+                        <Button style={{backgroundColor:"#728EC3"}} className='text-white font-bold' onClick={() => createNewUser()}>Añadir Nuevo Cliente ✔</Button>
                     </div>
                   } 
 

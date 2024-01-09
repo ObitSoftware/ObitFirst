@@ -24,6 +24,7 @@ import EmailToProvider from '../Modals/EmailToProvider';
 import emailIcon from "../../img/emailIcon.png"
 import Emails from '../EmailsTable/Emails';
 import EmailToClients from '../Modals/EmailToClients';
+import SearchClient from '../Modals/SearchClient';
 
 function getItem(label, key, icon, children) {
   return {
@@ -64,7 +65,7 @@ const SidebarComponent = () => {
 
   const items = [
       getItem( <p style={{ color: collapsed ? '#FFFFFF' : '#17202A', fontWeight: 'bold' }}   onMouseOver={() => setSelectedItem("Inicio")}  onMouseLeave={() => setSelectedItem("")}> Inicio</p>,'1', (
-         <Link to= "/tables">
+         <Link to={userCtx.userId !== null ? "/tables" : "/"}>
            {selectedItem === "Inicio" ?
               <img src={casaAzul} style={{ width: '20px', height: '20px', marginRight: '5px' }}  />
                :
@@ -88,16 +89,16 @@ const SidebarComponent = () => {
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold',}}>Estadisticas</p>, 'sub2', (
         <img src={estadistics} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
-        getItem(<Link to="/productosDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
-        getItem(<Link to="/proveedoresDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Proveedores</p></Link>, '10'),
-        getItem(<Link to="/comprasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Compras</p></Link>, '11'),
-        getItem(<Link to="/ventasDashboard"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ventas</p></Link>, '12'),
+        getItem(<Link to={userCtx.userId !== null ? "/productosDashboard" : "/"}><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Productos</p></Link>, '9'),
+        getItem(<Link to={userCtx.userId !== null ? "/proveedoresDashboard" : "/"}><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Proveedores</p></Link>, '10'),
+        getItem(<Link to={userCtx.userId !== null ? "/comprasDashboard" : "/"}><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Compras</p></Link>, '11'),
+        getItem(<Link to={userCtx.userId !== null ? "/ventasDashboard" : "/"}><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ventas</p></Link>, '12'),
       ]),
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Tesoreria</p>, 'sub 3', (
         <img src={tesoreria} alt="Inicio" style={{ width: '20px', height: '20px' }} />
       ), [
-        getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Mensuales</p></Link>, "19"),
+        getItem(<Link to={userCtx.userId !== null ? "/prueba" : "/"}><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Mensuales</p></Link>, "19"),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Anuales</p></Link>, '20'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Gastos Proveedores</p></Link>, '21'),
         getItem(<Link to="/prueba"><p style={{ color: collapsed ? '#17202A' : '#FFFFFF'}}>Ingresos Anuales</p></Link>, '22'),
@@ -112,7 +113,8 @@ const SidebarComponent = () => {
         getItem(collapsed ? <AddCategory type="white" /> : <AddCategory type="sideBar"/>, "19"),
         getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
         getItem(<EmailToProvider/>, 21),
-        getItem(<EmailToClients/>, 22)
+        getItem(<EmailToClients/>, 22),
+        getItem(collapsed ? <SearchClient type={"white"}/> : <SearchClient /> , 23)
       ]),
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Emails</p>, 'sub 5', (

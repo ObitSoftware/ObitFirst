@@ -33,7 +33,7 @@ const Inicio = ({updateBackgroundColor}) => {
       navigate(`${route}`)
       setTimeout(() => { 
         window.location.reload()
-      }, 50)
+      }, 10)
     }
 
    

@@ -46,9 +46,10 @@ export const consultarTodosProveedores = async (req, res) => {
 
 export const consultarProveedor = async (req, res) => {
   const { proveedorId } = req.params;
-
+  console.log(proveedorId)
+  console.log("recibi a")
   try {
-    const proveedor = await Proveedor.findById(proveedorId);
+    const proveedor = await Proveedor.findById({_id: proveedorId});
 
     if (!proveedor) {
       return res.status(404).json({ error: 'Proveedor no encontrado' });

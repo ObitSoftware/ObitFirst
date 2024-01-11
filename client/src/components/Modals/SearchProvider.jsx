@@ -5,24 +5,24 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 
-export default function SearchClient ({type}) {
+export default function SearchProvider ({type}) {
 
   const { isOpen, onOpen, onClose } = useDisclosure("");
   const [names, setNames] = useState([])
-  const [clientId, setClientId] = useState("")
-  const [allClients, setAllClients] = useState([])
+  const [providerId, setProviderId] = useState("")
+  const [allProviders, setAllProviders] = useState([])
   const [filteredNames, setFilteredNames] = useState("")
   const [showOptions, setShowOptions] = useState(true)
   const [inputValue, setInputValue] = useState("")
   const navigate = useNavigate()
 
     useEffect(() => { 
-        axios.get("http://localhost:3000/clientes")
+        axios.get("http://localhost:3000/proveedores")
             .then((res) => { 
-            const allClients = res.data
-            const nameOfClients = allClients.map((client) => client.nombre)
-            setNames(nameOfClients)
-            setAllClients(allClients)
+            const allProviders = res.data
+            const nameOfProviders = allProviders.map((prov) => prov.nombre)
+            setNames(nameOfProviders)
+            setAllProviders(allProviders)
             })
             .catch((err) => console.log(err))
     }, [])
@@ -36,7 +36,7 @@ export default function SearchClient ({type}) {
         setFilteredNames([]);
         return;
         }
-        const onlyNames = allClients.map((cc) => cc.nombre)
+        const onlyNames = allProviders.map((cc) => cc.nombre)
         const filtered = onlyNames.filter((em) =>
         em.toLowerCase().includes(inputValue.toLowerCase())
         );
@@ -46,30 +46,30 @@ export default function SearchClient ({type}) {
     const handleClick = (e) => { 
       setFilteredNames("")
       setInputValue(e)
-      const searchId = allClients.filter((cc) => cc.nombre === inputValue)
-      setClientId(searchId.map((cc) => cc._id))
+      const searchId = allProviders.filter((cc) => cc.nombre === inputValue)
+      setProviderId(searchId.map((cc) => cc._id))
     }
 
     const goTo = () => { 
-      navigate(`/profile/${clientId}`)
+      navigate(`/providerProfile/${providerId}`)
       onClose()
     }
 
 
     return (
       <>
-      {type === "white" ?  <small className="text-black font-medium" onClick={() => onOpen()}>Buscar Cliente</small> : <small className="text-white font-medium" onClick={() => onOpen()}>Buscar Cliente</small>}
+      {type === "white" ?  <small className="text-black font-medium" onClick={() => onOpen()}>Buscar Proveedor</small> : <small className="text-white font-medium" onClick={() => onOpen()}>Buscar Proveedor</small>}
         <Modal isOpen={isOpen} onClose={onClose} className='w-96 bg-white text-black'>
     <ModalContent>
       {(onClose) => (
         <>
           <ModalHeader className="flex flex-col items-start justify-start text-center gap-1" style={{ color: "#728EC3" }}>
-             Buscar Cliente
+             Buscar Proveedor
           </ModalHeader>
            
                 <ModalBody>
                   <div className="flex items-center gap-4"> 
-                    <p className="text-sm text-black font-medium">Nombre del cliente:</p>
+                    <p className="text-sm text-black font-medium">Nombre del Proveedor:</p>
                     <div className="relative w-full">
                         <input 
                             type='text' 
@@ -95,7 +95,7 @@ export default function SearchClient ({type}) {
               
                 
                 <ModalFooter className="flex justify-end items-end">
-                  {clientId.length === 0 || inputValue.length === 0 ? 
+                  {providerId.length === 0 || inputValue.length === 0 ? 
                    <button className="text-sm text-white" disabled style={{backgroundColor:"#728EC3"}} onClick={() => console.log("ashdioask")}>Buscar</button> : 
                    <button className="text-sm text-white" style={{backgroundColor:"#728EC3"}} onClick={() => goTo()}>Buscar</button>
                    }

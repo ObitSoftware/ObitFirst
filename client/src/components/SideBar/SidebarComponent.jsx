@@ -25,6 +25,7 @@ import emailIcon from "../../img/emailIcon.png"
 import Emails from '../EmailsTable/Emails';
 import EmailToClients from '../Modals/EmailToClients';
 import SearchClient from '../Modals/SearchClient';
+import SearchProvider from '../Modals/SearchProvider';
 
 function getItem(label, key, icon, children) {
   return {
@@ -114,7 +115,8 @@ const SidebarComponent = () => {
         getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
         getItem(<EmailToProvider/>, 21),
         getItem(<EmailToClients/>, 22),
-        getItem(collapsed ? <SearchClient type={"white"}/> : <SearchClient /> , 23)
+        getItem(collapsed ? <SearchClient type={"white"}/> : <SearchClient /> , 23),
+        getItem(collapsed ? <SearchProvider type={"white"}/> : <SearchClient /> , 24)
       ]),
 
       getItem(<p style={{color:"#FFFFFF", fontWeight: 'bold'}}>Emails</p>, 'sub 5', (

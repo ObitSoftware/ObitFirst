@@ -19,6 +19,7 @@ import DashboardProviders from './components/DashboardProviders/DashboardProvide
 import Inicio from './components/Inicio/Inicio';
 import bgInicio from "./img/bgInicio.png"
 import Profile from './components/Profile/Profile';
+import ProviderProfile from './components/Profile/ProviderProfile';
 
 function App() {
   const location = useLocation();
@@ -70,6 +71,7 @@ function App() {
         <Route path="clientData" element={<ClientsTable />} />
         <Route path="usersData" element={<UsersTable />} />
         <Route path="profile/:clientId" element={<Profile />} />
+        <Route path="providerProfile/:providerId" element={<ProviderProfile />} />
 
       </Routes>
     </UserProvider>

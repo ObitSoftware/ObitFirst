@@ -2,11 +2,16 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import obtenerHoraExacta from '../../functions/actualHour'
+import obtenerFechaActual from '../../functions/actualDate'
 
 
 const ProviderProfile = () => {
 
     const {providerId} = useParams()
+    const [actualDate, setActualDate] = useState(obtenerFechaActual())
+    const [theHour, setTheHour] = useState(obtenerHoraExacta())
+    const [messageForNote, setMessageForNote] = useState("")
     const [providerData, setProviderData] = useState([])
     const [providerEmail, setProviderEmail] = useState("")
     const [providerName, setProviderName] = useState("")
@@ -16,6 +21,8 @@ const ProviderProfile = () => {
     const [purchasesToProvider, setPurchasesToProvider] = useState([])
     const [totalAmountInvertedOnProvider, setTotalAmountInvertedOnProvider] = useState("")
     const [allActions, setAllActions] = useState([])    
+    const [providerNotes, setProviderNotes] = useState([])
+
 
     useEffect(() => { 
         axios.get(`http://localhost:3000/proveedores/${providerId}`)
@@ -38,7 +45,16 @@ const ProviderProfile = () => {
          setAllEmails(res.data)
         })
         .catch((err) => console.log(err))
+
+        axios.get("http://localhost:3000/getNotes")
+           .then((res) => { 
+            console.log(res.data)
+            const dataNotes = res.data
+            setProviderNotes(dataNotes.filter((not) => not.addresseeId === providerId))
+           })
+          .catch((err) => console.log(err))
       }, [providerId])
+
 
       useEffect(() => { 
         setProviderEmail(providerData.email)  
@@ -89,15 +105,28 @@ const ProviderProfile = () => {
            console.log(allActions)
       }, [allActions])
 
+      const createNote = () => { 
+        const noteData = ({
+         date: actualDate,
+         hour: theHour,
+         message: messageForNote,
+         addresseeId: providerId,
+         resolved: false
+        })
+        axios.post("http://localhost:3000/newNote", noteData)
+             .then((res) => console.log(res.data))
+             .catch((err) => console.log(err))
+      }
+
  
 
 
   return (
-    <div className='flex'>
-      
-       
-           {providerData.length !== 0 ?
-           <div>
+    <div className='flex flex-col gap-4 items-center mt-24 '> 
+
+       <div className='flex gap-6 items-center'>
+              {providerData.length !== 0 ?
+                    <div>
                  <h2>Provedor Seleccionado: </h2>
                     <div className='flex flex-col'>
                         <p>{providerData.nombre}</p> 
@@ -124,26 +153,59 @@ const ProviderProfile = () => {
               </div>
              :
              <p>No hay emails enviados.......</p>
+
+             
              }
 
-
-             {purchasesToProvider.length !== 0 ? 
-              <div className='flex flex-col items-center mt-6'>
-                 <p className='font-bold text-zinc-600'>Compras realizadas al proveedor</p>
-                 {purchasesToProvider.map((provEmails) => ( 
-                    <div className='flex flex-col items-center mt-2 border'>
-                        <p>Fecha de compra: {provEmails.fechaCompra}</p>
-                        <p>Productos Comprados: {provEmails.productosComprados.filter((prod) => prod.proveedor[0] === providerName).map((p) => p.nombreProducto)}</p>
-                        <p>Cantidad comprada: {provEmails.productosComprados.filter((prod) => prod.proveedor[0] === providerName).map((p) => p.cantidad)}</p>
-                        <p>Monto gastado: {provEmails.productosComprados.filter((prod) => prod.proveedor[0] === providerName).map((p) => p.total)}</p>
-                    </div>
+{providerNotes.length !== 0 ?
+              <div className='border'>
+                 <h5 className='text-md font-medium text-black'>Notas creadas para este proveedor</h5>
+                 {providerNotes.map((not) => ( 
+                   <div className='flex flex-col border'>
+                      <p>Fecha: {not.date} </p>
+                      <p>Hora: {not.hour} </p>
+                      <p>Mensaje:{not.message} </p>
+                   </div>
                  ))}
-              </div>
-              :
-              <p>Esperando compras realizadas.......</p>
-             }
+              </div> : <p>No tienes notas creadas para este proveedor</p>}
+       </div>
+
+       <div className='flex gap-6 items-center '>
+          {purchasesToProvider.length !== 0 ? 
+                <div className='flex flex-col items-center mt-6'>
+                  <p className='font-bold text-zinc-600'>Compras realizadas al proveedor</p>
+                  {purchasesToProvider.map((provEmails) => ( 
+                      <div className='flex flex-col items-center mt-2 border'>
+                          <p>Fecha de compra: {provEmails.fechaCompra}</p>
+                          <p>Productos Comprados: {provEmails.productosComprados.filter((prod) => prod.proveedor[0] === providerName).map((p) => p.nombreProducto)}</p>
+                          <p>Cantidad comprada: {provEmails.productosComprados.filter((prod) => prod.proveedor[0] === providerName).map((p) => p.cantidad)}</p>
+                          <p>Monto gastado: {provEmails.productosComprados.filter((prod) => prod.proveedor[0] === providerName).map((p) => p.total)}</p>
+                      </div>
+                  ))}
+                </div>
+                :
+                <p>Esperando compras realizadas.......</p>
+              }
 
              {totalAmountInvertedOnProvider.length !== 0 ?  <p className='font-bold text-zinc-600'>El monto total invertido en este proveedor es: {totalAmountInvertedOnProvider}</p> : <p>Esperando total...</p>}  
+
+             <div className='flex flex-col items-center justify-center'>
+                <h5 className='text-md font-medium text-black'>Crear Nota</h5>
+                <textarea className='rounded-lg bg-gray-200 text-black' onChange={(e) => setMessageForNote(e.target.value)}/>
+                <button className='bg-blue-400 text-white mt-4' onClick={() => createNote()}>Enviar</button>
+             </div>
+       </div>
+
+       
+      
+      
+       
+      
+
+         
+
+
+          
 
            
         
@@ -152,3 +214,8 @@ const ProviderProfile = () => {
 }
 
 export default ProviderProfile
+
+
+/* 
+{date: '12/01/2024', hour: '10:23', message: 'lala', addresseeId: '65746a0756c57e525547cfe1', resolved: false, …}
+*/

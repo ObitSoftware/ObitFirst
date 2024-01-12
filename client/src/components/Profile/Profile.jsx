@@ -2,10 +2,15 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import obtenerHoraExacta from '../../functions/actualHour'
+import obtenerFechaActual from '../../functions/actualDate'
 
 const Profile = () => {
 
     const {clientId} = useParams()
+    const [actualDate, setActualDate] = useState(obtenerFechaActual())
+    const [theHour, setTheHour] = useState(obtenerHoraExacta())
+    const [messageForNote, setMessageForNote] = useState("")
     const [userData, setUserData] = useState([])
     const [clientName, setClientName] = useState([])
     const [allPurchases, setAllPurchases] = useState([])
@@ -14,6 +19,7 @@ const Profile = () => {
     const [clientEmails, setClientEmails] = useState([])
     const [clientAmountSpentOnPurchases, setClientAmountSpentOnPurchases] = useState("")
     const [wait, setWait] = useState(false)
+    const [userNotes, setUserNotes] = useState([])
 
     useEffect(() => { 
             axios.get(`http://localhost:3000/clientes/${clientId}`)
@@ -35,6 +41,14 @@ const Profile = () => {
              setAllEmails(res.data)
             })
            .catch((err) => console.log(err))
+
+           axios.get("http://localhost:3000/getNotes")
+           .then((res) => { 
+            console.log(res.data)
+            const dataNotes = res.data
+            setUserNotes(dataNotes.filter((not) => not.addresseeId === clientId))
+           })
+          .catch((err) => console.log(err))
     }, [])
 
     useEffect(() => { 
@@ -48,6 +62,25 @@ const Profile = () => {
            setWait(true)
         }, 2500)
       }, [userData, allPurchases, allEmails])
+
+      
+    useEffect(() => { 
+      console.log("NOTAS ---->", userNotes)
+     }, [userNotes])
+
+
+      const createNote = () => { 
+         const noteData = ({
+          date: actualDate,
+          hour: theHour,
+          message: messageForNote,
+          addresseeId: clientId,
+          resolved: false
+         })
+         axios.post("http://localhost:3000/newNote", noteData)
+              .then((res) => console.log(res.data))
+              .catch((err) => console.log(err))
+       }
 
   
 
@@ -109,6 +142,25 @@ const Profile = () => {
             :
             <p>Esperando datos de compras...</p>
             }   
+
+            <div className='flex flex-col items-center justify-center'>
+                <h5 className='text-md font-medium text-black'>Crear Nota</h5>
+                <textarea className='rounded-lg bg-gray-200 text-black' onChange={(e) => setMessageForNote(e.target.value)}/>
+                <button className='bg-blue-400 text-white mt-4' onClick={() => createNote()}>Enviar</button>
+             </div>
+
+
+             {userNotes.length !== 0 ?
+             <div className='border'>
+                <h5 className='text-md font-medium text-black'>Notas creadas para este usuario</h5>
+                {userNotes.map((not) => ( 
+                  <div className='flex flex-col border'>
+                     <p>Fecha: {not.date} </p>
+                     <p>Hora: {not.hour} </p>
+                     <p>Mensaje:{not.message} </p>
+                  </div>
+                ))}
+             </div> : <p>No tienes notas creadas para este usuario</p>}
 
           </div>
     </div>

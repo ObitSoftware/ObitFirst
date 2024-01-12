@@ -247,7 +247,7 @@ const DashboardProviders = () => {
                                                   <div className='flex justify-center items-center '> 
                                                     <div className='flex flex-col items-center justify-center'>
                                                       <p  style={{color:"#6E7177"}} className='font-bold text-xs 2xl:text-sm'> Estadistica:</p>
-                                                          <div style={{borderColor: "#5FF087", borderStyle: "solid", borderWidth: "1px"}} className='rounded-xl mt-2'>
+                                                          <div style={{borderColor: "#5FF087", borderStyle: "solid", borderWidth: "1px"}} className='rounded-xl mt-2 '>
                                                              <p style={{color:"#34AA55"}} className='font-bold m-2'>  {(((topFiveProvidersNetGain.find((t) => t.nombre === providerSelected)?.gananciaNeta || 0) -
                                                                 (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 0)) /
                                                                 (totalInvertedByProvider.find((t) => t.nombre[0] === providerSelected)?.monto || 1) * 100).toFixed(2)} %

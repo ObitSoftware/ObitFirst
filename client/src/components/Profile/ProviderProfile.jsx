@@ -15,8 +15,7 @@ const ProviderProfile = () => {
     const [emailsToProvider, setEmailsToProvider] = useState([])
     const [purchasesToProvider, setPurchasesToProvider] = useState([])
     const [totalAmountInvertedOnProvider, setTotalAmountInvertedOnProvider] = useState("")
-
-
+    const [allActions, setAllActions] = useState([])    
 
     useEffect(() => { 
         axios.get(`http://localhost:3000/proveedores/${providerId}`)
@@ -48,15 +47,49 @@ const ProviderProfile = () => {
 
       useEffect(() => { 
         const searchEmails = allEmails.filter((em) => em.addressee.some((eme) => eme === providerEmail))
+        console.log("aca!",searchEmails)
         const searchPurchasesToProvider = allPurchases.filter((em) => em.productosComprados.some((eme) => eme.proveedor[0] === providerName))
         const totalAmount = searchPurchasesToProvider.map((se) => se.productosComprados.filter((prod) => prod.proveedor[0] === providerName).map((p) => p.total)).flat()
         const getTotalAmount = totalAmount.reduce((acc, el) => acc + el, 0)
         setEmailsToProvider(searchEmails)
         setPurchasesToProvider(searchPurchasesToProvider)
         setTotalAmountInvertedOnProvider(getTotalAmount)
+        setAllActions([searchEmails, searchPurchasesToProvider])
       }, [providerEmail, providerName])
-     
 
+      useEffect(() => {
+        if (Array.isArray(allActions) && allActions.length >= 2) {
+            const currentDate = new Date();
+            const convertToDate = (dateString) => {
+            const [day, month, year] = dateString.split('/');
+            return new Date(`${year}-${month}-${day}`);
+          };
+    
+          const ultimaCompra = allActions[1].reduce((ultima, compra) => {
+            const fechaCompra = convertToDate(compra.fechaCompra);
+            return fechaCompra > convertToDate(ultima.fechaCompra) ? compra : ultima;
+          }, allActions[1][0]);
+      
+          const ultimoEmail = allActions[0].reduce((ultimo, email) => {
+            const fechaEmail = convertToDate(email.date);
+            return fechaEmail > convertToDate(ultimo.date) ? email : ultimo;
+          }, allActions[0][0]);
+      
+          const resultados = {
+            compras: ultimaCompra,
+            emails: ultimoEmail,
+          };
+          setAllActions(resultados)
+        } else {
+          console.log("allActions no tiene el formato esperado.", allActions);
+        }
+      }, [allActions]);
+
+      useEffect(() => { 
+           console.log(allActions)
+      }, [allActions])
+
+ 
 
 
   return (
@@ -111,6 +144,8 @@ const ProviderProfile = () => {
              }
 
              {totalAmountInvertedOnProvider.length !== 0 ?  <p className='font-bold text-zinc-600'>El monto total invertido en este proveedor es: {totalAmountInvertedOnProvider}</p> : <p>Esperando total...</p>}  
+
+           
         
     </div>
   )

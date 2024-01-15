@@ -121,7 +121,7 @@ const Profile = () => {
             {wait ? 
              <div className='flex flex-col mt-8'>
                 <p>Monto total gastado por el usuario: {clientAmountSpentOnPurchases}</p>
-                <p className='mt-2'>Monto total gastado por el usuario: {clientPurchases.length}</p>
+                <p className='mt-2'>Cantidad total de compras realizadas: {clientPurchases.length}</p>
              </div> 
              :
               null

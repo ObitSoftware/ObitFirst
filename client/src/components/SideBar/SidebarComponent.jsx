@@ -26,6 +26,7 @@ import Emails from '../EmailsTable/Emails';
 import EmailToClients from '../Modals/EmailToClients';
 import SearchClient from '../Modals/SearchClient';
 import SearchProvider from '../Modals/SearchProvider';
+import Cash from '../Modals/Cash';
 
 function getItem(label, key, icon, children) {
   return {
@@ -113,6 +114,7 @@ const SidebarComponent = () => {
       ), [
         getItem(collapsed ? <AddCategory type="white" /> : <AddCategory type="sideBar"/>, "19"),
         getItem(collapsed ? <AddClientModal type="sideBar" colorSelected="white"/> : <AddClientModal type="sideBar"/>, '20'),
+        getItem(collapsed ? <Cash type="white" /> : <Cash type="sideBar"/>, "19"),,
         getItem(<EmailToProvider/>, 21),
         getItem(<EmailToClients/>, 22),
         getItem(collapsed ? <SearchClient type={"white"}/> : <SearchClient /> , 23),

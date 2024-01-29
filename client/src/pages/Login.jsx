@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import obitLogoSmall from "../img/obitLogoSmall.png"
 import eye from "../img/eye.png"
+import { formatePrice } from '../functions/formatPrice';
+
 
 
 const Login = () => { 
@@ -60,6 +62,7 @@ const Login = () => {
                 userCtx.updateUserName(res.data.name)
                 userCtx.updateUserRol(res.data.role)
                 userCtx.updateUserEmail(res.data.email)
+                userCtx.updateUserCashRegister(formatePrice(res.data.cashRegister))
                 setTimeout(() => {
                     navigate("/main")
                 }, 2000);

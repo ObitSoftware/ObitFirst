@@ -10,7 +10,9 @@ import React, { createContext, useState, useEffect } from 'react';
         userEmail: null,
         updateUserEmail: () => {},
         userRol: null,
-        updateUserRol: () => {}
+        updateUserRol: () => {},
+        userCashRegister: null,
+        updateUserCashRegister: () => {}
     });
 
 
@@ -35,6 +37,11 @@ import React, { createContext, useState, useEffect } from 'react';
         const storedUserRol = sessionStorage.getItem("userRol")
         return storedUserRol !== null ? storedUserRol : null
         })
+     
+    const [userCashRegister, setUserCashRegister] = useState(() => { 
+        const storedUserCashRegister = sessionStorage.getItem("userCashRegister")
+        return storedUserCashRegister !== null ? storedUserCashRegister : null
+    })    
 
     const updateUser = (id) => {                   
         setUserId(id)
@@ -52,9 +59,14 @@ import React, { createContext, useState, useEffect } from 'react';
     }
 
     const updateUserRol = (x) => { 
-        setUserRol(x)
-        sessionStorage.setItem("userRol", x)
-        }
+    setUserRol(x)
+    sessionStorage.setItem("userRol", x)
+    }
+
+    const updateUserCashRegister = (x) => { 
+    setUserCashRegister(x)
+    sessionStorage.setItem("userCashRegister", x)
+    }
 
 
     useEffect(() => {
@@ -65,10 +77,11 @@ import React, { createContext, useState, useEffect } from 'react';
             setUserName(event.newValue);
         } else if (event.key === "userEmail") { 
             setUserEmail(event.newValue)
-        }else if (event.key === "userRol") { 
+        } else if (event.key === "userRol") { 
             setUserRol(event.newValue)
+        }  else if (event.key === "userCashRegister") { 
+            setUserCashRegister(event.newValue)
         }
-
         };
         window.addEventListener('storage', handleStorageChange); 
         return () => {
@@ -80,11 +93,12 @@ import React, { createContext, useState, useEffect } from 'react';
         console.log(userName)
         console.log(userId)
         console.log(userRol)
-    }, [userName, userId, userRol])
+        console.log(userCashRegister)
+    }, [userName, userId, userRol, userCashRegister])
 
     return (
-        <UserContext.Provider value={{ userId, updateUser,  userName, updateUserName, userEmail, updateUserEmail, userRol, updateUserRol}}>
-        {children}
+        <UserContext.Provider value={{ userId, updateUser,  userName, updateUserName, userEmail, updateUserEmail, userRol, updateUserRol, userCashRegister, updateUserCashRegister}}>
+         {children}
         </UserContext.Provider>
     );
 };

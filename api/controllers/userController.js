@@ -50,13 +50,14 @@ export const login = async (req, res) => {
         bcrypt.compare(password, hashedPassword)
               .then((samePassword) => { 
                    if(samePassword) { 
-                    const {_id, username, password, role, email} = checkUser
+                    const {_id, username, password, role, email, cashRegister} = checkUser
                     res.json({
                         id: _id,
                         name: username,
                         password: password,
                         role: role,
-                        email: email                   
+                        email: email,
+                        cashRegister: cashRegister                    
                     })
                    } else { 
                     res.json({message: "La contraseña es incorrecta"})

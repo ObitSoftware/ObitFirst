@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
   email: { 
     type: String, 
     required: true
+  },
+  cashRegister: { 
+    type: Number,
+    required: true
   }
 });
 

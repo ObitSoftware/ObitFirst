@@ -7,7 +7,8 @@ import  {
     updateUser,
     deleteUser,
     getUserById,
-    login
+    login,
+
 } from '../controllers/userController.js'
 
 

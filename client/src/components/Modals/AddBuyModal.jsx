@@ -5,12 +5,15 @@ import axios from 'axios';
 import obtenerFechaActual from '../../functions/actualDate.js';
 import { v4 as uuidv4 } from 'uuid';
 import AddProductModal from './AddProductModal';
-import {Textarea} from "@nextui-org/react";
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext'
 import Arrow from "../../img/arrow.png"
 
 
 const AddBuyModal = ({updateList}) => {
+
   const randomId = uuidv4();
+  const userCtx = useContext(UserContext)
   const [productExist, setProductExist] = useState(false);
   const [productsAvailable, setProductsAvailable] = useState([]);
   const [productId, setProductId] = useState('');
@@ -205,9 +208,10 @@ const AddBuyModal = ({updateList}) => {
           total: productosComprados.reduce((total, producto) => total + parseFloat(producto.total), 0) + parseFloat(productoActual.total),
           productosComprados: [...productosComprados, productoActual],
         };
+
+        const totalToRest = productosComprados.reduce((total, producto) => total + parseFloat(producto.total), 0) + parseFloat(productoActual.total)
       
-        axios
-          .post('http://localhost:3000/compras', newBuyToBeSaved)
+        axios.post('http://localhost:3000/compras', newBuyToBeSaved)
           .then((res) => {
             console.log(res.data);
             setSuccesMessage(true);
@@ -235,6 +239,13 @@ const AddBuyModal = ({updateList}) => {
           .catch((err) => {
             console.log(err);
           });
+
+          axios.put(`http://localhost:3000/deductCash/${userCtx.userId}`, { totalToRest })
+               .then((res) => {
+                console.log("Ejecutando funcion que resta dinero de la caja")
+                console.log(res.data)
+               })
+               .catch((err) => console.log(err))
       }
     };
 

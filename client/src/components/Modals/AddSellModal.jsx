@@ -6,11 +6,14 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import obtenerFechaActual from "../../functions/actualDate.js"
 import AddClientModal from "../Modals/AddClientModal"
-
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext'
 
 const AddSellModal = ({updateList}) => {
 
     const actualDate = obtenerFechaActual()
+    const userCtx = useContext(UserContext)
+
     const [productsAvailable, setProductsAvailable] = useState([])
     const [clientsAvailable, setClientsAvailable] = useState([])
     const [productId, setProductId] = useState("")
@@ -193,6 +196,8 @@ const AddSellModal = ({updateList}) => {
             gananciaNeta: calcularGananciaNeta(productSelectedData.precio, productSelectedData.precioCompra, quantity),
             fechaCreacion: actualDate
           })
+          const amount = dataOfSell.total
+          const amountAsNumber = parseFloat(amount);
           axios.post("http://localhost:3000/venta", dataOfSell)
                .then((res) => { 
                 setSuccesMessage(true)
@@ -212,6 +217,13 @@ const AddSellModal = ({updateList}) => {
                .catch((err) => { 
                 console.log(err)
                })
+
+               axios.put(`http://localhost:3000/increaseCash/${userCtx.userId}`, { amount: amountAsNumber })
+               .then((res) => {
+                console.log("Ejecutando funcion que aumenta dinero de la caja")
+                console.log(res.data)
+               })
+               .catch((err) => console.log(err))     
         }
       }
 

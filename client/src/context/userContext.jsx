@@ -11,8 +11,7 @@ import React, { createContext, useState, useEffect } from 'react';
         updateUserEmail: () => {},
         userRol: null,
         updateUserRol: () => {},
-        userCashRegister: null,
-        updateUserCashRegister: () => {}
+       
     });
 
 
@@ -38,10 +37,7 @@ import React, { createContext, useState, useEffect } from 'react';
         return storedUserRol !== null ? storedUserRol : null
         })
      
-    const [userCashRegister, setUserCashRegister] = useState(() => { 
-        const storedUserCashRegister = sessionStorage.getItem("userCashRegister")
-        return storedUserCashRegister !== null ? storedUserCashRegister : null
-    })    
+    
 
     const updateUser = (id) => {                   
         setUserId(id)
@@ -63,10 +59,7 @@ import React, { createContext, useState, useEffect } from 'react';
     sessionStorage.setItem("userRol", x)
     }
 
-    const updateUserCashRegister = (x) => { 
-    setUserCashRegister(x)
-    sessionStorage.setItem("userCashRegister", x)
-    }
+   
 
 
     useEffect(() => {
@@ -79,9 +72,7 @@ import React, { createContext, useState, useEffect } from 'react';
             setUserEmail(event.newValue)
         } else if (event.key === "userRol") { 
             setUserRol(event.newValue)
-        }  else if (event.key === "userCashRegister") { 
-            setUserCashRegister(event.newValue)
-        }
+        }  
         };
         window.addEventListener('storage', handleStorageChange); 
         return () => {
@@ -93,11 +84,10 @@ import React, { createContext, useState, useEffect } from 'react';
         console.log(userName)
         console.log(userId)
         console.log(userRol)
-        console.log(userCashRegister)
-    }, [userName, userId, userRol, userCashRegister])
+    }, [userName, userId, userRol])
 
     return (
-        <UserContext.Provider value={{ userId, updateUser,  userName, updateUserName, userEmail, updateUserEmail, userRol, updateUserRol, userCashRegister, updateUserCashRegister}}>
+        <UserContext.Provider value={{ userId, updateUser,  userName, updateUserName, userEmail, updateUserEmail, userRol, updateUserRol}}>
          {children}
         </UserContext.Provider>
     );

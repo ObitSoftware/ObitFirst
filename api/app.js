@@ -11,6 +11,7 @@ import clientsRoutes from "./routes/clientsRoutes.js";
 import categorysRoutes from "./routes/categorysRoutes.js";
 import emailRoutes from "./routes/emailsRoutes.js";
 import notesRoutes from "./routes/notesRoutes.js";
+import cashRoutes from "./routes/cashRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,6 +35,8 @@ app.use('/compras', comprasRoutes);
 app.use(categorysRoutes);
 app.use(emailRoutes)
 app.use(notesRoutes)
+app.use(cashRoutes)
+
 
 
 app.get('/', (req, res) => {

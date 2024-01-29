@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Button, select } from '@nextui-org/react'
 import { PlusIcon } from '../icons/PlusIcon'
@@ -219,7 +218,7 @@ const AddSellModal = ({updateList}) => {
                })
 
                axios.put(`http://localhost:3000/increaseCash/${userCtx.userId}`, { amount: amountAsNumber })
-               .then((res) => {
+                .then((res) => {
                 console.log("Ejecutando funcion que aumenta dinero de la caja")
                 console.log(res.data)
                })

@@ -28,7 +28,7 @@ export const deductCash = async (req, res) => {
   
 export const increaseCash = async (req, res) => { 
     const { userId } = req.params;
-  const { amount } = req.body;
+    const { amount } = req.body;
 
   try {
     const user = await Cash.findOne({ userId: userId });
@@ -66,3 +66,24 @@ export const getAvailableCash = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener el usuario' });
   }
 }
+
+export const addNewMovement = async (req, res) => { 
+  const { userId } = req.params;
+  console.log(req.body)
+
+  try {
+    const user = await Cash.findOne({ userId: userId });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    user.lastMovements.push(req.body);
+    const updatedUser = await user.save();
+
+    res.json({ message: 'Usuario Modificado', updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};

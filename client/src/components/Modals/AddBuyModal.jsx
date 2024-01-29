@@ -14,6 +14,7 @@ const AddBuyModal = ({updateList}) => {
 
   const randomId = uuidv4();
   const userCtx = useContext(UserContext)
+  const [actualDate, setActualDate] = useState(obtenerFechaActual())
   const [productExist, setProductExist] = useState(false);
   const [productsAvailable, setProductsAvailable] = useState([]);
   const [productId, setProductId] = useState('');
@@ -214,21 +215,8 @@ const AddBuyModal = ({updateList}) => {
         axios.post('http://localhost:3000/compras', newBuyToBeSaved)
           .then((res) => {
             console.log(res.data);
-            setSuccesMessage(true);
-            setProductosComprados([])
-            setProductToBuyData({
-              proveedor: '',
-              productoId: '',
-              categoriaProducto: "",
-              precioProducto: '',
-              fechaPago: '',
-              observaciones: '',
-              cantidad: '',
-              total: '',
-              nombreProducto: '',
-            })
+            setSuccesMessage(true);       
             setInputValue("")
-          
             setTimeout(() => { 
               document.getElementById('my_modal_23').close();
               setSuccesMessage(false);
@@ -240,10 +228,36 @@ const AddBuyModal = ({updateList}) => {
             console.log(err);
           });
 
-          axios.put(`http://localhost:3000/deductCash/${userCtx.userId}`, { totalToRest })
+              axios.put(`http://localhost:3000/deductCash/${userCtx.userId}`, { totalToRest })
                .then((res) => {
                 console.log("Ejecutando funcion que resta dinero de la caja")
                 console.log(res.data)
+               })
+               .catch((err) => console.log(err))
+
+               const newMovementData = ({
+                type: "spent",
+                date: actualDate,
+                amount: totalToRest,
+                detail: newBuyToBeSaved
+               })
+
+               axios.post(`http://localhost:3000/addNewMovement/${userCtx.userId}`, newMovementData)
+               .then((res) => {
+                console.log("Ejecutando funcion que almacena movimiento")
+                console.log(res.data)
+                setProductosComprados([])
+                setProductToBuyData({
+                  proveedor: '',
+                  productoId: '',
+                  categoriaProducto: "",
+                  precioProducto: '',
+                  fechaPago: '',
+                  observaciones: '',
+                  cantidad: '',
+                  total: '',
+                  nombreProducto: '',
+                })
                })
                .catch((err) => console.log(err))
       }

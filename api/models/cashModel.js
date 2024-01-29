@@ -9,7 +9,9 @@ const cashSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  
+  lastMovements: {
+    type: Array
+  },
 });
 
 const Cash = mongoose.model('Cash', cashSchema);

@@ -14,7 +14,7 @@ export default function HistoricCashMovements() {
   const [size, setSize] = React.useState("5xl") 
   const [data, setData] = useState([])
   const [columns, setColumns] = useState([]);
-  const [typeOfEmail, setTypeOfEmail] = useState("Proveedor")
+  const [typeOfMovement, setTypeOfMovement] = useState("ManualEntry")
   const userCtx = useContext(UserContext)
 
   const showEmailsUpdated = () => {
@@ -30,7 +30,7 @@ export default function HistoricCashMovements() {
   };
 
   const getHistoric = () => {
-    axios.get(`http://localhost:3000/getAvailableCash/${userCtx.userId}`)
+      axios.get(`http://localhost:3000/getAvailableCash/${userCtx.userId}`)
          .then((res) => {
          console.log("HISTORICO", res.data.lastMovements)
         })
@@ -45,51 +45,34 @@ export default function HistoricCashMovements() {
 
 
   useEffect(() => { 
-    axios.get("http://localhost:3000/email")
+    axios.get(`http://localhost:3000/getAvailableCash/${userCtx.userId}`)
          .then((res) => { 
-            console.log("emailsss:", res.data)
-            const emails = res.data
-            const filteredEmails = emails.filter((em) => em.type === typeOfEmail)
-            console.log(filteredEmails)
-            setData(filteredEmails)
+            const historic = res.data.lastMovements
+            const filteredMovements = historic.filter((his) => his.type === typeOfMovement)
+            console.log("AAAAAAAAA", filteredMovements)
+            console.log("BBBBB", historic)
+            console.log(filteredMovements)
+            if(typeOfMovement === "All") { 
+                setData(historic)
+            }
+            setData(filteredMovements)
 
                   const columnLabelsMap = {
-                      title: "Titulo",
+                      amount: "Monto Total",
                       date: 'Fecha',
-                      hour: "Hora",
                     };
 
-                    const propiedades = Object.keys(res.data[0]).filter(propiedad => propiedad !== '__v' && propiedad !== '_id'  && propiedad !== 'addressee'  && propiedad !== 'type' && propiedad !== 'message');
+                    const propiedades = Object.keys(historic[0]).filter(propiedad => propiedad !== 'type' );
                     const columnObjects = propiedades.map(propiedad => ({
                         key: propiedad,
                         label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
                         allowsSorting: true
                       }));     
 
+            
                     columnObjects.push({
-                      key: 'Destinatario',
-                      label: 'Destinatario',
-                      cellRenderer: (cell) => { 
-                        const filaActual = cell.row;
-                        const id = filaActual.original._id;     
-                        const addressee = filaActual.original.addressee;           
-                        const getEmails = addressee.map((em) => em)
-                        const emails = getEmails
-                        const producto = {
-                          id: id,
-                        };
-                        console.log(emails);
-                        return (
-                          <p>
-                            {emails.slice(0, 1) + "...."}                      
-                          </p>
-                        );
-                      },
-                    })     
-
-                    columnObjects.push({
-                    key: 'Abrir',
-                    label: 'Abrir',
+                    key: 'Ver Detalle',
+                    label: 'Ver Detalle',
                     cellRenderer: (cell) => { 
                     const filaActual = cell.row;
                     const id = filaActual.original._id;
@@ -107,36 +90,12 @@ export default function HistoricCashMovements() {
                   },
                   })    
   
-                   columnObjects.push({
-                    key: 'Eliminar',
-                    label: 'Eliminar',
-                    cellRenderer: (cell) => { 
-                    const filaActual = cell.row;
-                    const id = filaActual.original._id;
-                    const producto = {
-                    id: id
-                    };
-                    return (
-                      <DeleteProductModal  producto={producto} type={"email"} showEmailsUpdated={showEmailsUpdated}/>
-                    );
-                  },
-                  })     
-
-                  columnObjects.sort((a, b) => {
-                    if (a.key === 'title') {
-                      return -1; 
-                    } else if (b.key === 'title') {
-                      return 1; 
-                    }
-                    return 0; 
-                  }); 
-
              setColumns(columnObjects);
          })
          .catch((err) => { 
             console.log(err)
          })
-  }, [typeOfEmail])
+  }, [typeOfMovement])
 
  
   const handleOpen = () => {
@@ -167,19 +126,24 @@ export default function HistoricCashMovements() {
                               <div className="flex justify-between items-start rounded-t-lg rounded-b-none w-full" >
                                 <div className="flex justify-start items-center ml-6 gap-8 border-b border-gray-200 w-full">
                                   <p 
-                                    className={typeOfEmail === "Proveedor" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                    onClick={() => setTypeOfEmail("Proveedor")}>
+                                    className={typeOfMovement === "ManualEntry" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                    onClick={() => setTypeOfMovement("ManualEntry")}>
                                     Ingresos Manuales
                                   </p>  
                                   <p 
-                                      className={typeOfEmail === "Cliente" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                      onClick={() => setTypeOfEmail("Cliente")}>
+                                      className={typeOfMovement === "Spent" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                      onClick={() => setTypeOfMovement("spent")}>
                                       Gastos
                                   </p>  
                                   <p 
-                                      className={typeOfEmail === "Cliente" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                      onClick={() => setTypeOfEmail("Cliente")}>
+                                      className={typeOfMovement === "Income" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                      onClick={() => setTypeOfMovement("Income")}>
                                       Ingresos de Ventas
+                                  </p>  
+                                  <p 
+                                      className={typeOfMovement === "All" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                      onClick={() => setTypeOfMovement("All")}>
+                                      Ver Todos
                                   </p>                   
                                 </div>                                          
                               </div>                 
@@ -193,7 +157,7 @@ export default function HistoricCashMovements() {
                                 </TableHeader>
                                 <TableBody items={data}>
                                   {(item) => (
-                                    <TableRow key={item._id}>
+                                    <TableRow key={item.amount}>
                                       {columns.map(column => (
                                         <TableCell align="center" key={column.key} className={`items-center text-center text-black dark:text-black`} style={{ verticalAlign: 'left' }}>
                                           {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
@@ -208,7 +172,7 @@ export default function HistoricCashMovements() {
                  </div>          
               </ModalBody>
               <ModalFooter>
-                <p className="font-medium text-black text-sm ">Cantidad de Emails: {data.length}</p>
+                <p className="font-medium text-black text-sm ">Cantidad de Movimientos: {data.length}</p>
               </ModalFooter>
             </>
           )}

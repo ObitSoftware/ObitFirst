@@ -56,7 +56,7 @@ export default function EmailDetail({data, type}) {
         ) : type === "historicMovementIncome" ? (
           <div className="flex flex-col items-center justify-center">
             <p>Fecha: {data.date}</p>
-            <p>Total Gastado: {data.amount}</p>
+            <p>Ingreso de Venta: {data.amount}</p>
           </div>
         ) : null}
       </>

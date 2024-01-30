@@ -31,74 +31,111 @@ export default function HistoricCashMovements() {
     axios.get(`http://localhost:3000/getAvailableCash/${userCtx.userId}`)
          .then((res) => { 
             const historic = res.data.lastMovements
-            if(typeOfMovement === "All") { 
-                setData(historic)
-                console.log("ALL RESPUESTA", historic)
-            } else { 
-              const filteredMovements = historic.filter((his) => his.type === typeOfMovement);
-              setData(filteredMovements);
-              console.log("type", filteredMovements)
+            if (typeOfMovement === "All") { 
+              setData(historic);
+              console.log("ALL RESPUESTA", historic);
+              const propiedades = Object.keys(historic[0]);
+            
+              const columnLabelsMap = {
+                amount: "Monto Total",
+                date: 'Fecha',
+                type: "Tipo de Movimiento"
+              };
+
+  
+            
+            
+              const typeTranslationMap = {
+                spent: "Compra a Proveedor",
+                ManualEntry: "Entrada Manual",
+                ManualSubtraction: "Resta Manual",
+                income: "Ingreso de Venta"
+                // Agrega más traducciones según sea necesario
+              };
+            
+              const columnObjects = propiedades.map(propiedad => ({
+                key: propiedad,
+                label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
+                allowsSorting: true,
+                contentRenderer: propiedad === "type"
+                  ? value => {
+                    const translatedValue = typeTranslationMap[value.toLowerCase()];
+                    return translatedValue || value;
+                  }
+                  : undefined
+              }));
+            
+              setColumns(columnObjects);
+
+                } else { 
+                  const filteredMovements = historic.filter((his) => his.type === typeOfMovement);
+                  setData(filteredMovements);
+
+                  const columnLabelsMap = {
+                    amount: "Monto Total",
+                    date: 'Fecha',
+                    type: "Tipo de Movimiento"
+              };
+
+              const propiedades = Object.keys(historic[0]).filter(propiedad => propiedad !== 'type' );
+              const columnObjects = propiedades.map(propiedad => ({
+                  key: propiedad,
+                  label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
+                  allowsSorting: true
+                }));     
+
+                {typeOfMovement === "spent" ?                     
+                    columnObjects.push({
+                      key: 'Ver Detalle',
+                      label: 'Ver Detalle',
+                      cellRenderer: (cell) => { 
+                      const filaActual = cell.row;
+                      const date = filaActual.original.date;
+                      const amount = filaActual.original.amount;
+                      const allDetail = filaActual.original.detail;
+                      ;
+                      const detail = {
+                        date: date,
+                        amount: amount,
+                        allDetail: allDetail
+                      };
+                      return (
+                        <EmailDetail type={"historicMovementSpent"} data={detail}/>
+                      );
+                    },
+                    }) 
+                : null}
+
+                {typeOfMovement === "income" ?                     
+                  columnObjects.push({
+                    key: 'Ver Detalle',
+                    label: 'Ver Detalle',
+                    cellRenderer: (cell) => { 
+                    const filaActual = cell.row;
+                    const date = filaActual.original.date;
+                    const amount = filaActual.original.amount;
+                    const allDetail = filaActual.original.detail;
+                    ;
+                    const detail = {
+                      date: date,
+                      amount: amount,
+                      allDetail: allDetail
+                    };
+                    return (
+                      <EmailDetail type={"historicMovementIncome"} data={detail}/>
+                    );
+                  },
+                  }) 
+            : null}
+      
+               
+
+             setColumns(columnObjects);
             }
 
-            const columnLabelsMap = {
-            amount: "Monto Total",
-            date: 'Fecha',
-            };
+           
 
-                    const propiedades = Object.keys(historic[0]).filter(propiedad => propiedad !== 'type' );
-                    const columnObjects = propiedades.map(propiedad => ({
-                        key: propiedad,
-                        label: columnLabelsMap[propiedad] || propiedad.charAt(0).toUpperCase() + propiedad.slice(1),
-                        allowsSorting: true
-                      }));     
-
-                      {typeOfMovement === "spent" ?                     
-                          columnObjects.push({
-                            key: 'Ver Detalle',
-                            label: 'Ver Detalle',
-                            cellRenderer: (cell) => { 
-                            const filaActual = cell.row;
-                            const date = filaActual.original.date;
-                            const amount = filaActual.original.amount;
-                            const allDetail = filaActual.original.detail;
-                            ;
-                            const detail = {
-                              date: date,
-                              amount: amount,
-                              allDetail: allDetail
-                            };
-                            return (
-                              <EmailDetail type={"historicMovementSpent"} data={detail}/>
-                            );
-                          },
-                          }) 
-                      : null}
-
-                      {typeOfMovement === "income" ?                     
-                        columnObjects.push({
-                          key: 'Ver Detalle',
-                          label: 'Ver Detalle',
-                          cellRenderer: (cell) => { 
-                          const filaActual = cell.row;
-                          const date = filaActual.original.date;
-                          const amount = filaActual.original.amount;
-                          const allDetail = filaActual.original.detail;
-                          ;
-                          const detail = {
-                            date: date,
-                            amount: amount,
-                            allDetail: allDetail
-                          };
-                          return (
-                            <EmailDetail type={"historicMovementIncome"} data={detail}/>
-                          );
-                        },
-                        }) 
-                  : null}
-            
-                     
-  
-             setColumns(columnObjects);
+                   
          })
          .catch((err) => { 
             console.log(err)
@@ -138,6 +175,11 @@ export default function HistoricCashMovements() {
                                     onClick={() => changeType("ManualEntry")}>
                                     Ingresos Manuales
                                   </p>  
+                                  <p 
+                                    className={typeOfMovement === "ManualSubtraction" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                    onClick={() => changeType("ManualSubtraction")}>
+                                    Restas Manuales
+                                  </p> 
                                   <p 
                                       className={typeOfMovement === "spent" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
                                       onClick={() => changeType("spent")}>

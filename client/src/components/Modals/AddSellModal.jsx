@@ -223,6 +223,20 @@ const AddSellModal = ({updateList}) => {
                 console.log(res.data)
                })
                .catch((err) => console.log(err))     
+
+               const newMovementData = ({
+                type: "income",
+                date: actualDate,
+                amount: amount,
+                detail: dataOfSell
+               })
+
+               axios.post(`http://localhost:3000/addNewMovement/${userCtx.userId}`, newMovementData)
+               .then((res) => {
+                  console.log("Ejecutando funcion que almacena movimiento")
+                  console.log(res.data)
+               })
+               .catch((err) => console.log(err))
         }
       }
 

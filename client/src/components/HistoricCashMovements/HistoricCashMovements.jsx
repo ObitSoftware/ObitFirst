@@ -7,6 +7,7 @@ import DeleteProductModal from "../Modals/DeleteProductModal";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import EmailDetail from "../Modals/EmailDetail";
+import { formatePrice } from "../../functions/formatPrice";
 
 export default function HistoricCashMovements() {
 
@@ -48,14 +49,15 @@ export default function HistoricCashMovements() {
     axios.get(`http://localhost:3000/getAvailableCash/${userCtx.userId}`)
          .then((res) => { 
             const historic = res.data.lastMovements
-            const filteredMovements = historic.filter((his) => his.type === typeOfMovement)
-            console.log("AAAAAAAAA", filteredMovements)
-            console.log("BBBBB", historic)
-            console.log(filteredMovements)
             if(typeOfMovement === "All") { 
                 setData(historic)
+                console.log("ALL RESPUESTA", historic)
+            } else { 
+              const filteredMovements = historic.filter((his) => his.type === typeOfMovement);
+              setData(filteredMovements);
+              console.log("type", filteredMovements)
             }
-            setData(filteredMovements)
+
 
                   const columnLabelsMap = {
                       amount: "Monto Total",
@@ -69,26 +71,51 @@ export default function HistoricCashMovements() {
                         allowsSorting: true
                       }));     
 
+                      {typeOfMovement === "spent" ?                     
+                          columnObjects.push({
+                            key: 'Ver Detalle',
+                            label: 'Ver Detalle',
+                            cellRenderer: (cell) => { 
+                            const filaActual = cell.row;
+                            const date = filaActual.original.date;
+                            const amount = filaActual.original.amount;
+                            const allDetail = filaActual.original.detail;
+                            ;
+                            const detail = {
+                              date: date,
+                              amount: amount,
+                              allDetail: allDetail
+                            };
+                            return (
+                              <EmailDetail type={"historicMovementSpent"} data={detail}/>
+                            );
+                          },
+                          }) 
+                      : null}
+
+                      {typeOfMovement === "income" ?                     
+                        columnObjects.push({
+                          key: 'Ver Detalle',
+                          label: 'Ver Detalle',
+                          cellRenderer: (cell) => { 
+                          const filaActual = cell.row;
+                          const date = filaActual.original.date;
+                          const amount = filaActual.original.amount;
+                          const allDetail = filaActual.original.detail;
+                          ;
+                          const detail = {
+                            date: date,
+                            amount: amount,
+                            allDetail: allDetail
+                          };
+                          return (
+                            <EmailDetail type={"historicMovementIncome"} data={detail}/>
+                          );
+                        },
+                        }) 
+                  : null}
             
-                    columnObjects.push({
-                    key: 'Ver Detalle',
-                    label: 'Ver Detalle',
-                    cellRenderer: (cell) => { 
-                    const filaActual = cell.row;
-                    const id = filaActual.original._id;
-                    const message = filaActual.original.message;
-                    const addressee = filaActual.original.addressee
-                    ;
-                    const producto = {
-                    id: id,
-                    message: message,
-                    addressee: addressee
-                    };
-                    return (
-                      <EmailDetail data={producto}/>
-                    );
-                  },
-                  })    
+                     
   
              setColumns(columnObjects);
          })
@@ -131,13 +158,13 @@ export default function HistoricCashMovements() {
                                     Ingresos Manuales
                                   </p>  
                                   <p 
-                                      className={typeOfMovement === "Spent" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                      className={typeOfMovement === "spent" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
                                       onClick={() => setTypeOfMovement("spent")}>
                                       Gastos
                                   </p>  
                                   <p 
-                                      className={typeOfMovement === "Income" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                      onClick={() => setTypeOfMovement("Income")}>
+                                      className={typeOfMovement === "income" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
+                                      onClick={() => setTypeOfMovement("income")}>
                                       Ingresos de Ventas
                                   </p>  
                                   <p 
@@ -160,7 +187,15 @@ export default function HistoricCashMovements() {
                                     <TableRow key={item.amount}>
                                       {columns.map(column => (
                                         <TableCell align="center" key={column.key} className={`items-center text-center text-black dark:text-black`} style={{ verticalAlign: 'left' }}>
-                                          {column.cellRenderer ? column.cellRenderer({ row: { original: item } }) : item[column.key]}
+                                         {column.cellRenderer ? (
+                                            column.cellRenderer({ row: { original: item } })
+                                          ) : (
+                                             (column.key === "amount") ? (
+                                                formatePrice(item[column.key])
+                                            ) : (
+                                              item[column.key]
+                                            )
+                                          )}
                                         </TableCell>
                                       ))}
                                     </TableRow>

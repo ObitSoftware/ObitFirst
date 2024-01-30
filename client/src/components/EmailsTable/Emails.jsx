@@ -88,7 +88,7 @@ export default function Emails() {
                     addressee: addressee
                     };
                     return (
-                      <EmailDetail data={producto}/>
+                      <EmailDetail type={"email"} data={producto}/>
                     );
                   },
                   })    
@@ -133,7 +133,6 @@ export default function Emails() {
     <>
       <div className="flex flex-wrap gap-3">
           <small className="font-medium text-black" onClick={() => handleOpen()}>Ver Emails</small>
-
       </div>
       <Modal 
         size={size} 

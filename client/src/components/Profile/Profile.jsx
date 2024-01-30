@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import obtenerHoraExacta from '../../functions/actualHour'
 import obtenerFechaActual from '../../functions/actualDate'
 import edit from "../../img/edit.png"
+import { formatePrice } from '../../functions/formatPrice'
 
 
 const Profile = () => {
@@ -124,67 +125,71 @@ const Profile = () => {
 
   return (
     <div>
-       <div className='flex flex-col w-full'>
+       <div className='flex flex-col ml-24 2xl:ml-2 w-[500px] xl:w-[1050px] 2xl:w-[1400px]'>
            <div className='flex justify-between gap-60 w-full'>
               <div className='flex justify-start'>
                {userData.map((us) => ( 
                   <div className='flex flex-col justify-start items-start'>
                      <p className='text-xl font-medium text-black'>{us.nombre}</p>       
-                     <p className='text-sm font-medium text-black mt-2'>Cliente</p>
+                     <p className='text-sm font-medium text-black mt-1'>Cliente</p>
                   </div>    
                ))}
               </div>
-              <div className='flex items-center gap-4'>
-                <button className='rounded-lg bg-blue-400 text-white font-bold text-sm'>Enviar Email</button>
-                <button className='rounded-lg bg-blue-400 text-white font-bold text-sm'>Crear Nota </button>
+              <div className='flex items-center text-center gap-4 mt-2'>
+                <button style={{backgroundColor:"#728EC3"}} className='rounded-xl items-center text-center h-7 2xl:h-9 text-white font-bold text-xs 2xl:text-sm'>Enviar Email</button>
+                <button style={{backgroundColor:"#728EC3"}} className='rounded-xl items-center text-center h-7 2xl:h-9 text-white font-bold text-xs 2xl:text-sm'>Crear Nota </button>
                 <img src={edit} className='w-6 h-6'/>
               </div>
            </div>
-           <div className='flex justify-between gap-60'>
-             <div className='flex flex-col bg-gray-200 w-96'>
-                  <div className='flex flex-col items-start justify-start'>
-                     <h5 className='font-bold text-md'>Estadisticas</h5>
-                     <p className='mt-4'>El usuario esta activo</p>
-                     <p className='mt-1'>El usuario esta activo</p>
+           <div className='flex justify-between w-auto'>
+             <div className='flex flex-col bg-white w-96'>
+                  <div className='flex flex-col items-start justify-start mt-2 '>
+                     <h5 className='font-bold text-md'  style={{color:"#728EC3"}}>Stats</h5>
+                     <p className='mt-1 text-sm'>El usuario esta activo</p>
+                     <p className='text-sm'>El usuario esta activo</p>
                   </div>
                   <div className='mt-6 flex flex-col items-start justify-start'>
-                     <h5 className='font-bold text-md'>Informacion Basica</h5>
+                     <h5 className='font-bold text-md' style={{color:"#728EC3"}}>Informacion Basica</h5>
                      {userData.map((us) => ( 
                         <div className='flex flex-col justify-start items-start'>
-                           <p className='text-sm font-medium'>Email: {us.email}</p>
-                           <p className='text-sm font-medium'>Telefono: {us.telefono}</p>
-                           <p className='text-sm font-medium'>Dni: {us.dni}</p>         
+                           <p className='text-sm font-medium'> 📤 Email: {us.email}</p>
+                           <p className='text-sm font-medium'> ☎️ Telefono: {us.telefono}</p>
+                           <p className='text-sm font-medium'> 💳 Dni: {us.dni}</p>         
                         </div>    
                      ))}
                   </div>
                   <div className='mt-6 flex flex-col items-start justify-start'>
-                     <h5 className='font-bold text-md'>Ultima Modificacion</h5>
-                     <p  className='text-sm'>Ayer a las 10:15pm</p>
+                     <h5 className='font-bold text-md'  style={{color:"#728EC3"}}>Ultima Modificacion</h5>
+                     <p  className='text-sm'> 🟢 Ayer a las 10:15pm</p>
                   </div>
 
                   <div className='mt-6 flex flex-col items-start justify-start'>
-                     <h5 className='font-bold text-md'>Detalles</h5>
-                     <p>Monto total gastado por el usuario: {clientAmountSpentOnPurchases}</p>
-                     <p className='mt-2'>Cantidad total de compras realizadas: {clientPurchases.length}</p>
+                     <h5 className='font-bold text-md'  style={{color:"#728EC3"}}>Detalles</h5>
+                     <p className='mt-3'>Monto total gastado por el usuario: {formatePrice(clientAmountSpentOnPurchases)}</p>
+                     <p className='mt-1'>Cantidad total de compras realizadas: {clientPurchases.length}</p>
                   </div>
              </div>          
              <div className='flex flex-col'>
-               <div className='flex gap-6  mt-2 w-full'>
-                  <button  className={`rounded-lg items-center text-center h-8 text-xs w-auto ${showActivitie ? 'text-blue-600' : 'text-black' }  font-bold`}  onClick={() => showJustActivitie()}>Ultimos Movimientos </button>
-                  <button className={`rounded-lg items-center text-center h-8 text-xs w-auto ${showNotes ? 'text-blue-600' : 'text-black' }  font-bold`} onClick={() => showJustNotes()}> Notas </button>
-                  <button  className={`rounded-lg items-center text-center h-8 text-xs w-auto ${showEmails ? 'text-blue-600' : 'text-black' }  font-bold`}   onClick={() => showJustEmails()}>Emails </button>
-                  <button  className={`rounded-lg items-center text-center h-8 text-xs w-auto ${showPurchases ? 'text-blue-600' : 'text-black' }  font-bold`}   onClick={() => showJustPurchases()}>Compras </button>
+               <div className='flex gap-12 2xl:gap-24 mt-2 w-full bg-bg-white-200 mr-2'>
+                  <p  className={`rounded-lg bg-bg-white-200 items-center text-center h-8 cursor-pointer text-xs w-auto ${showActivitie ? 'text-blue-600' : 'text-black' }  font-bold`}  onClick={() => showJustActivitie()}>Ultimos Movimientos </p>
+                  <p className={`rounded-lg bg-bg-white-200 items-center text-center h-8 cursor-pointer text-xs w-auto ${showNotes ? 'text-blue-600' : 'text-black' }  font-bold`} onClick={() => showJustNotes()}> Notas </p>
+                  <p  className={`rounded-lg bg-bg-white-200 items-center text-center h-8 cursor-pointer text-xs w-auto ${showEmails ? 'text-blue-600' : 'text-black' }  font-bold`}   onClick={() => showJustEmails()}>Emails </p>
+                  <p  className={`rounded-lg bg-bg-white-200 items-center text-center h-8 cursor-pointer text-xs w-auto ${showPurchases ? 'text-blue-600' : 'text-black' }  font-bold`}   onClick={() => showJustPurchases()}>Compras </p>
                </div>
-               <div className='mt-6 bg-gray-300 h-full w-full'>
+               <div className='mt-6 bg-white h-full w-full'>
                {showNotes === true ? 
                      <div>
                         {userNotes.length !== 0 ?
                            <div className=''>
                            {userNotes.map((not) => ( 
-                              <div className='flex flex-col '>
-                                 <p>Fecha: {not.date} </p>
-                                 <p>Hora: {not.hour} </p>
-                                 <p>Mensaje: {not.message} </p>
+                              <div className='flex flex-col justify-start border-b'> 
+                                 <div className='flex justify-start items-center'>
+                                   <p className='mt-4'>📋</p> 
+                                   <p className='text-sm ml-4'>Fecha: {not.date} - Hora: {not.hour} </p>
+                                 </div>
+                                 <div className='flex flex-col justify-start text-start ml-9'>
+                                    <p className='text-sm'>Mensaje: {not.message} </p>
+                                 </div>                       
                               </div>
                            ))}
                            </div> : <p>No tienes notas creadas para este usuario</p>}
@@ -194,14 +199,19 @@ const Profile = () => {
                      }
 
                      {showPurchases === true ? 
-                     <div>
+                     <div className=' max-h-[400px] overflow-y-auto'>
                         {clientPurchases.map((cl) => ( 
-                           <div className='mt-6 '>
-                           <p>Producto Comprado: {cl.nombreProducto}</p>
-                           <p>Cantidad Comprada: {cl.cantidad}</p>
-                           <p>Fecha de Compra: {cl.fechaCreacion}</p>
-                           <p>Proveedor Producto: {cl.proveedorProducto}</p>
-                           <p>Total Gastado: {cl.total}</p>
+                           <div className='mt-6 border'>
+                              <div className='flex justify-start ml-2'>
+                                  🛒
+                              </div>
+                              <div className='flex flex-col justify-start ml-2'>
+                                 <p>Producto Comprado: {cl.nombreProducto}</p>
+                                 <p>Cantidad Comprada: {cl.cantidad}</p>
+                                 <p>Fecha de Compra: {cl.fechaCreacion}</p>
+                                 <p>Proveedor Producto: {cl.proveedorProducto}</p>
+                                 <p>Total Gastado: {cl.total}</p>
+                              </div>
                            </div>
                         ))}
                      </div> : null

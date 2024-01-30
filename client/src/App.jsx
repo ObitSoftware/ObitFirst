@@ -31,7 +31,9 @@ function App() {
       location.pathname === '/ventasDashboard' ||
       location.pathname === '/comprasDashboard' ||
       location.pathname === '/productosDashboard' ||
-      location.pathname === '/proveedoresDashboard'
+      location.pathname === '/proveedoresDashboard' ||
+      location.pathname.startsWith('/profile/')
+
     ) {
       document.body.style.backgroundColor = '#E6F4FF';
     }  else if (location.pathname === '/main') {

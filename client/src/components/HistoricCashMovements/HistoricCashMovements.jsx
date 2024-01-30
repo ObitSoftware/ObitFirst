@@ -16,34 +16,16 @@ export default function HistoricCashMovements() {
   const [data, setData] = useState([])
   const [columns, setColumns] = useState([]);
   const [typeOfMovement, setTypeOfMovement] = useState("ManualEntry")
+  const [load, setLoad] = useState(false)
   const userCtx = useContext(UserContext)
 
-  const showEmailsUpdated = () => {
-    axios.get("http://localhost:3000/email")
-         .then((res) => {
-          const allData = res.data
-          setData(allData)
-          setTypeOfEmail("Proveedor")
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  };
-
-  const getHistoric = () => {
-      axios.get(`http://localhost:3000/getAvailableCash/${userCtx.userId}`)
-         .then((res) => {
-         console.log("HISTORICO", res.data.lastMovements)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  };
-
-  useEffect(() => { 
-    getHistoric()
-  })
-
+  const changeType = (item) => { 
+    setTypeOfMovement(item)
+    setLoad(true)
+    setTimeout(() => { 
+      setLoad(false)
+    }, 600)
+  }
 
   useEffect(() => { 
     axios.get(`http://localhost:3000/getAvailableCash/${userCtx.userId}`)
@@ -58,11 +40,10 @@ export default function HistoricCashMovements() {
               console.log("type", filteredMovements)
             }
 
-
-                  const columnLabelsMap = {
-                      amount: "Monto Total",
-                      date: 'Fecha',
-                    };
+            const columnLabelsMap = {
+            amount: "Monto Total",
+            date: 'Fecha',
+            };
 
                     const propiedades = Object.keys(historic[0]).filter(propiedad => propiedad !== 'type' );
                     const columnObjects = propiedades.map(propiedad => ({
@@ -154,26 +135,27 @@ export default function HistoricCashMovements() {
                                 <div className="flex justify-start items-center ml-6 gap-8 border-b border-gray-200 w-full">
                                   <p 
                                     className={typeOfMovement === "ManualEntry" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                    onClick={() => setTypeOfMovement("ManualEntry")}>
+                                    onClick={() => changeType("ManualEntry")}>
                                     Ingresos Manuales
                                   </p>  
                                   <p 
                                       className={typeOfMovement === "spent" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                      onClick={() => setTypeOfMovement("spent")}>
+                                      onClick={() => changeType("spent")}>
                                       Gastos
                                   </p>  
                                   <p 
                                       className={typeOfMovement === "income" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                      onClick={() => setTypeOfMovement("income")}>
+                                      onClick={() => changeType("income")}>
                                       Ingresos de Ventas
                                   </p>  
                                   <p 
                                       className={typeOfMovement === "All" ? "text-sm m-1 font-medium text-blue-600 cursor-pointer" : "text-sm m-1 text-black cursor-pointer"}
-                                      onClick={() => setTypeOfMovement("All")}>
+                                      onClick={() => changeType("All")}>
                                       Ver Todos
                                   </p>                   
                                 </div>                                          
                               </div>                 
+                              {load !== true ? 
                               <Table aria-label="Example table with dynamic content" className="w-max-w max-h-[400px] 2xl:max-[600px] overflow-y-auto flex items-center text-center justify-center mt-4">
                                 <TableHeader columns={columns}>
                                   {(column) => (
@@ -201,7 +183,12 @@ export default function HistoricCashMovements() {
                                     </TableRow>
                                   )}
                                 </TableBody>
-                              </Table> 
+                              </Table>
+                               :
+                               <div className="flex items-center justify-center mt-6"> 
+                                <p className="font-bold text-zinc-500 text-md">Cargando..</p>
+                               </div> 
+                               }
                             </div>
                           ) : null}
                  </div>          

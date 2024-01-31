@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import EmailDetail from "../Modals/EmailDetail";
 import { formatePrice } from "../../functions/formatPrice";
+import {Spinner} from "@nextui-org/react";
+
 
 export default function HistoricCashMovements() {
 
@@ -41,10 +43,7 @@ export default function HistoricCashMovements() {
                 date: 'Fecha',
                 type: "Tipo de Movimiento"
               };
-
-  
-            
-            
+                        
               const typeTranslationMap = {
                 spent: "Compra a Proveedor",
                 ManualEntry: "Entrada Manual",
@@ -228,7 +227,7 @@ export default function HistoricCashMovements() {
                               </Table>
                                :
                                <div className="flex items-center justify-center mt-6"> 
-                                <p className="font-bold text-zinc-500 text-md">Cargando..</p>
+                                      <Spinner size="md" />
                                </div> 
                                }
                             </div>

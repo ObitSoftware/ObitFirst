@@ -4,6 +4,8 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import obtenerFechaActual from "../../functions/actualDate";
 import obtenerHoraExacta from "../../functions/actualHour";
 import clip from "../../img/clip.png"
+import {Spinner} from "@nextui-org/react";
+
 
 export default function EmailToProvider() {
 
@@ -14,10 +16,12 @@ export default function EmailToProvider() {
   const [message, setMessage] = useState("") 
   const [title, setTitle] = useState("") 
   const [noShowSucces, setNoShowSucces] = useState(true)
+  const [invalidEmail, setInvalidEmail] = useState(false)
   const [actualDate, setActualDate] = useState(obtenerFechaActual())
   const [actualHour, setActualHour] = useState(obtenerHoraExacta())
   const [providersEmail, setProvidersEmail] = useState([])
   const [filteredEmails, setFilteredEmails] = useState([])
+  const [showSpinner, setShowSpinner] = useState(false)
   const [viewAllEmails, setViewAllEmails] = useState(false)
 
     useEffect(() => { 
@@ -48,27 +52,33 @@ export default function EmailToProvider() {
     }
 
     const sendMyEmail = () => { 
-      const emailData = ({ 
-        addressee: selectedEmails,
-        message: message,
-        type: "Proveedor",
-        title: title,
-        date: actualDate,
-        hour: actualHour,
 
-      })
-      axios.post("http://localhost:3000/email", emailData)
+        setNoShowSucces(false)
+        setShowSpinner(true)
+        const emailData = ({ 
+          addressee: selectedEmails,
+          message: message,
+          type: "Proveedor",
+          title: title,
+          date: actualDate,
+          hour: actualHour,
+        })
+        axios.post("http://localhost:3000/email", emailData)
           .then((res) => { 
               console.log(res.data)
               if(res.data.mensaje === 'Correo electrónico enviado y almacenado con éxito') { 
-                setNoShowSucces(false)
+                setShowSpinner(false)
               }
               setTimeout(() => { 
                 onClose()
                 setNoShowSucces(true)
+                setSelectedEmails([])
               }, 4500)
           })
           .catch((err) => console.log(err))
+      
+     
+      
     }
 
     const addNewEmail = (newEmail) => {
@@ -84,8 +94,28 @@ export default function EmailToProvider() {
     };
 
     const handleItemClick = (email) => {
-      setEmail(email)
-      addNewEmail(email)
+      if (!email.includes('@')) {
+        setInvalidEmail(true)
+        setTimeout(() => { 
+          setSelectedEmails([])
+          setEmail("")
+          setTitle("")
+          setMessage("")
+          setInvalidEmail(false)
+        }, 1500)
+       } else if (email.length === 0) { 
+        setInvalidEmail(true)
+        setTimeout(() => { 
+          setSelectedEmails([])
+          setEmail("")
+          setTitle("")
+          setMessage("")
+          setInvalidEmail(false)
+        }, 1500)
+       } else { 
+        setEmail(email)
+        addNewEmail(email)
+       }
     };
 
 
@@ -109,7 +139,7 @@ export default function EmailToProvider() {
                         <div className="relative w-full">
                         <input
                             type="text"
-                            className="w-full h-8 rounded-lg border border-none focus:outline-none focus:ring-0"
+                            className="w-full text-xs h-8 rounded-lg border border-none focus:outline-none focus:ring-0"
                             value={email}
                             style={{ backgroundColor: "#E7E9ED" }}
                             placeholder={
@@ -168,13 +198,16 @@ export default function EmailToProvider() {
                       </div>
                  </div>
                  <div className="flex items-center justify-center mt-4">
-                     <button className="text-sm font-bold text-white border border-none focus:outline-none  focus:ring-0" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar Mensaje ✔</button>
+                   {invalidEmail ?
+                      <p className="text-sm font-bold"  style={{color:"#728EC3"}}>Debes ingresar correos electronicos Validos</p> :
+                      <button className="text-sm font-bold text-white border border-none focus:outline-none  focus:ring-0" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar Mensaje ✔</button>
+                    }
                  </div>
                
               </ModalBody> 
               :
               <div className="flex items-center justify-center m-8">
-                <p style={{color:"#728EC3"}} className="text-md font-bold">Correo electronico enviado con exito a: {email}</p>
+                {showSpinner ?  <Spinner size="md" /> : <p style={{color:"#728EC3"}} className="text-md font-bold">Correo electronico enviado con exito a: {selectedEmails.map((s) => s).join(", ")}</p>}
               </div>
               }
             </>

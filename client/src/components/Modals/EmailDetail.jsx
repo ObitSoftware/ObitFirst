@@ -20,19 +20,20 @@ export default function EmailDetail({data, type}) {
       <ModalHeader className="flex flex-col gap-1">Detalle del Email</ModalHeader>
     )}
 
-    <ModalBody>
+    <ModalBody className="w-auto">
       <>
         {type === "email" ? (
-          <div className="flex flex-col items-center justify-start m-8">
-            <div className="flex gap-4">
-              <p className="text-sm font-medium">Destinatarios: </p>
-              {data.addressee.map((d) => (
-                <p className="text-xs font-medium text-zinc-500">{d}</p>
-              ))}
+          <div className="flex flex-col items-start justify-start ">
+            <div className="flex flex-col ">
+                <p className="text-sm font-medium">Destinatarios: </p>
+                {data.addressee.map((d) => (
+                  <p className="text-xs font-medium text-zinc-500 ml-2 mt-1">{d}</p>
+                ))}      
             </div>
-            <div className="flex gap-4">
-              <p className="text-sm font-medium">Mensaje Enviado</p>
-              <p className="text-sm text-black">{data.message}</p>
+            <hr />
+            <div className="flex flex-col mt-2 border-t border-t-gray-300 w-full">
+              <p className="text-sm font-medium mt-2">Mensaje Enviado: </p>
+              <p className="text-sm text-zinc-500 ml-2 mt-1">{data.message}</p>
             </div>
           </div>
         ) : type === "historicMovementSpent" ? (

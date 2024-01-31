@@ -91,35 +91,35 @@ const Profile = () => {
        }
 
   
-   const showJustEmails = () => { 
-      setShowActivitie(false)
-      setShowEmails(true)
-      setShowPurchases(false)
-      setShowNotes(false)
-   }
+      const showJustEmails = () => { 
+         setShowActivitie(false)
+         setShowEmails(true)
+         setShowPurchases(false)
+         setShowNotes(false)
+      }
 
-     
-   const showJustNotes = () => { 
-      setShowActivitie(false)
-      setShowEmails(false)
-      setShowPurchases(false)
-      setShowNotes(true)
-   }
+      
+      const showJustNotes = () => { 
+         setShowActivitie(false)
+         setShowEmails(false)
+         setShowPurchases(false)
+         setShowNotes(true)
+      }
 
-     
-   const showJustPurchases = () => { 
-      setShowActivitie(false)
-      setShowEmails(false)
-      setShowPurchases(true)
-      setShowNotes(false)
-   }
+      
+      const showJustPurchases = () => { 
+         setShowActivitie(false)
+         setShowEmails(false)
+         setShowPurchases(true)
+         setShowNotes(false)
+      }
 
-   const showJustActivitie = () => { 
-      setShowActivitie(true)
-      setShowEmails(false)
-      setShowPurchases(false)
-      setShowNotes(false)
-   }
+      const showJustActivitie = () => { 
+         setShowActivitie(true)
+         setShowEmails(false)
+         setShowPurchases(false)
+         setShowNotes(false)
+      }
 
 
 
@@ -192,7 +192,7 @@ const Profile = () => {
                                  </div>                       
                               </div>
                            ))}
-                           </div> : <p>No tienes notas creadas para este usuario</p>}
+                           </div> :   <p className='font-medium text-black mt-12'>No tienes notas creadas para este usuario</p>}
                      </div>
                      :
                      null                    
@@ -215,21 +215,23 @@ const Profile = () => {
                            </div>
                         ))}
                      </div> : null
-                     }
-
-                     
-                  {showEmails === true ? 
-                     <div>
-                         {clientEmails.map((cl) => ( 
-                           <div className='mt-6 border'>
-                              <p>Fecha: {cl.date}</p>
-                              <p>Hora: {cl.hour}</p>
-                              <p>Mensaje: {cl.message}</p>
-                              <p>Asunto: {cl.title}</p>              
-                           </div>
-                        ))}
-                     </div> : null
-                     }
+                     }                                     
+                  {showEmails === true ? (
+                  <div>
+                     {clientEmails.length !== 0 ? (
+                        clientEmails.map((cl) => (
+                        <div className='mt-6 border' key={cl.id}>
+                           <p>Fecha: {cl.date}</p>
+                           <p>Hora: {cl.hour}</p>
+                           <p>Mensaje: {cl.message}</p>
+                           <p>Asunto: {cl.title}</p>
+                        </div>
+                        ))
+                     ) : ( 
+                        <p className='font-medium text-black mt-12'>No has enviado emails a este cliente</p>
+                     )}
+                  </div>
+                  ) : null}
                </div>
              </div>
            </div>
@@ -239,6 +241,8 @@ const Profile = () => {
 }
 
 export default Profile
+
+
 
 /*import React from 'react'
 import { useParams } from 'react-router-dom'

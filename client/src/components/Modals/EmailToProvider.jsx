@@ -200,7 +200,7 @@ export default function EmailToProvider() {
                  <div className="flex items-center justify-center mt-4">
                    {invalidEmail ?
                       <p className="text-sm font-bold"  style={{color:"#728EC3"}}>Debes ingresar correos electronicos Validos</p> :
-                      <button className="text-sm font-bold text-white border border-none focus:outline-none  focus:ring-0" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar Mensaje ✔</button>
+                      <button className="text-sm font-bold text-white border border-none mb-4 focus:outline-none  focus:ring-0" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar Mensaje ✔</button>
                     }
                  </div>
                

@@ -130,11 +130,12 @@ export default function EmailToProvider() {
         <ModalContent>
           {(onClose) => (
             <>
-          <ModalHeader className="flex flex-col gap-1 font-medium" style={{color:"#5C77A9"}}>Escriba un mensaje a su Cliente</ModalHeader>            {noShowSucces ? 
+          <ModalHeader className="flex flex-col gap-1 font-medium" style={{color:"#5C77A9"}}>Escriba un mensaje a su Cliente</ModalHeader>         
+             {noShowSucces ? 
               <ModalBody>
                  <div className="w-full flex flex-col ">
                       <div className="w-full items-center flex gap-2">
-                        <p style={{color:"#4F5562"}} className="font-medium text-sm">Proveedor</p>
+                        <p style={{color:"#4F5562"}} className="font-medium text-sm">Clientes</p>
                         <div className="relative w-full">
                         <input
                             type="text"
@@ -199,7 +200,7 @@ export default function EmailToProvider() {
                  <div className="flex items-center justify-center mt-4">
                    {invalidEmail ?
                       <p className="text-sm font-bold"  style={{color:"#728EC3"}}>Debes ingresar correos electronicos Validos</p> :
-                      <button className="text-sm font-bold text-white border border-none focus:outline-none  focus:ring-0" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar Mensaje ✔</button>
+                      <button className="text-sm font-bold text-white border border-none focus:outline-none  focus:ring-0 mb-4" style={{backgroundColor:"#728EC3"}} onClick={() => sendMyEmail()}>Enviar Mensaje ✔</button>
                     }
                  </div>
                

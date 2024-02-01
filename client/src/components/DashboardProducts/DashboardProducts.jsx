@@ -191,8 +191,8 @@ const DashboardProducts = () => {
                             </Dropdown>
                            </div>
                            <div className='flex items-center justify-center'>
-                                  {quantityProductsOfCategory.length !== 0 ? (
-                                    <div className='flex flex-col mt-2 2xl:mt-4 '>
+                                  {quantityProductsOfCategory !== 0 ? (
+                                    <div className='flex flex-col mt-2 2xl:mt-4'>
                                       {categorySelected === "" ? (                                      
                                             quantityProductsOfCategory.map((p) => (
                                               <div key={p.categoria} className='flex items-center justify-between w-full'>
